@@ -3,961 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Vortex Project — Blueprints</title>
+    <title>The Vortex Project</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@200;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;500&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background: #060b08;
-            height: 100vh;
-            width: 100vw;
+            background: #080a08;
             overflow: hidden;
             font-family: 'JetBrains Mono', monospace;
-            color: rgba(180, 220, 180, 0.6);
-        }
-
-        /* ─── GRID OVERLAY ─── */
-        #grid {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw;
             height: 100vh;
-            z-index: 0;
-            pointer-events: none;
-            background-image:
-                linear-gradient(rgba(100, 160, 100, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(100, 160, 100, 0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
-        }
-
-        /* ─── SCHEMATIC DECORATIONS ─── */
-        #scanline {
-            position: fixed;
-            top: 0; left: 0;
             width: 100vw;
-            height: 2px;
-            z-index: 0;
-            background: linear-gradient(90deg, transparent, rgba(140, 200, 140, 0.08), transparent);
-            animation: scan 8s linear infinite;
-            pointer-events: none;
         }
 
-        @keyframes scan {
-            0% { top: -2px; }
-            100% { top: 100vh; }
-        }
-
-        #corner-tl, #corner-tr, #corner-bl, #corner-br {
-            position: fixed;
-            width: 30px;
-            height: 30px;
-            z-index: 0;
-            pointer-events: none;
-            border-color: rgba(140, 200, 140, 0.1);
-            border-style: solid;
-            border-width: 0;
-        }
-        #corner-tl { top: 16px; left: 16px; border-top-width: 1px; border-left-width: 1px; }
-        #corner-tr { top: 16px; right: 16px; border-top-width: 1px; border-right-width: 1px; }
-        #corner-bl { bottom: 16px; left: 16px; border-bottom-width: 1px; border-left-width: 1px; }
-        #corner-br { bottom: 16px; right: 16px; border-bottom-width: 1px; border-right-width: 1px; }
-
-        #status-bar {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.5rem;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: rgba(140, 180, 140, 0.08);
-            pointer-events: none;
-            z-index: 1;
-            font-weight: 200;
-        }
-
-        /* ─── CANVAS (ambient particles) ─── */
         canvas {
             display: block;
             position: fixed;
             top: 0; left: 0;
             width: 100vw;
             height: 100vh;
-            z-index: 0;
         }
 
-        /* ─── SCHEMATIC VIEWER ─── */
-        #viewer {
+        #overlay {
             position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(163, 201, 163, 0.15);
             pointer-events: none;
+            font-weight: 300;
+            text-align: center;
+            line-height: 1.8;
         }
 
-        .blueprint {
-            pointer-events: auto;
-            width: 640px;
-            max-width: 92vw;
-            max-height: 85vh;
-            background: rgba(8, 16, 10, 0.92);
-            border: 1px solid rgba(140, 200, 140, 0.12);
-            border-radius: 4px;
-            padding: 0;
-            position: relative;
-            opacity: 0;
-            transform: scale(0.97);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-            box-shadow: 0 0 80px rgba(0,0,0,0.7), 0 0 120px rgba(60, 120, 60, 0.03);
-            display: flex;
-            flex-direction: column;
+        #overlay span {
+            display: block;
         }
 
-        .blueprint.visible {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        /* ─── HEADER BAR ─── */
-        .bp-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 20px;
-            border-bottom: 1px solid rgba(140, 200, 140, 0.08);
-            font-size: 0.6rem;
-            letter-spacing: 0.08em;
-            color: rgba(140, 200, 140, 0.35);
-            text-transform: uppercase;
-        }
-
-        .bp-header .bp-id {
-            color: rgba(140, 200, 140, 0.5);
-        }
-
-        .bp-header .bp-status {
-            color: rgba(140, 200, 140, 0.25);
-        }
-
-        /* ─── SCHEMATIC VIEW ─── */
-        .bp-schematic {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            background: rgba(10, 20, 12, 0.6);
-            border-bottom: 1px solid rgba(140, 200, 140, 0.06);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .bp-schematic canvas {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-
-        .bp-schematic .placeholder-schematic {
-            position: absolute;
-            z-index: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgba(140, 200, 140, 0.06);
-            font-size: 3rem;
-            font-weight: 200;
-            letter-spacing: 0.2em;
-        }
-
-        /* ─── SPECS GRID ─── */
-        .bp-specs {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0;
-            border-bottom: 1px solid rgba(140, 200, 140, 0.06);
-        }
-
-        .bp-spec {
-            padding: 10px 20px;
-            border-right: 1px solid rgba(140, 200, 140, 0.04);
-            border-bottom: 1px solid rgba(140, 200, 140, 0.04);
-        }
-
-        .bp-spec:nth-child(2n) { border-right: none; }
-        .bp-spec:nth-last-child(-n+2) { border-bottom: none; }
-
-        .bp-spec .label {
-            font-size: 0.52rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: rgba(140, 200, 140, 0.25);
-            margin-bottom: 2px;
-        }
-
-        .bp-spec .value {
-            font-size: 0.7rem;
-            color: rgba(180, 220, 180, 0.7);
-            font-weight: 400;
-        }
-
-        .bp-spec .value a {
-            color: rgba(140, 200, 140, 0.6);
-            text-decoration: none;
-        }
-        .bp-spec .value a:hover {
-            color: rgba(140, 200, 140, 0.9);
-        }
-
-        /* ─── DESCRIPTION ─── */
-        .bp-desc {
-            padding: 14px 20px;
-            font-size: 0.68rem;
-            line-height: 1.6;
-            color: rgba(180, 210, 180, 0.5);
-            border-bottom: 1px solid rgba(140, 200, 140, 0.06);
-        }
-
-        /* ─── ACTION BAR ─── */
-        .bp-actions {
-            display: flex;
-            gap: 8px;
-            padding: 12px 20px;
-            flex-wrap: wrap;
-        }
-
-        .bp-actions a {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.6rem;
-            padding: 6px 14px;
-            border-radius: 2px;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            background: rgba(140, 200, 140, 0.04);
-            border: 1px solid rgba(140, 200, 140, 0.1);
-            color: rgba(140, 200, 140, 0.5);
-            transition: all 0.2s;
-        }
-
-        .bp-actions a:hover {
-            background: rgba(140, 200, 140, 0.08);
-            border-color: rgba(140, 200, 140, 0.2);
-            color: rgba(180, 220, 180, 0.8);
-        }
-
-        .bp-actions a.primary {
-            background: rgba(140, 200, 140, 0.1);
-            border-color: rgba(140, 200, 140, 0.2);
-            color: rgba(160, 220, 160, 0.7);
-        }
-
-        .bp-actions a.primary:hover {
-            background: rgba(140, 200, 140, 0.16);
-            color: rgba(180, 230, 180, 0.9);
-        }
-
-        /* ─── NAV ─── */
-        .bp-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px 14px;
-            border-top: 1px solid rgba(140, 200, 140, 0.06);
-        }
-
-        .bp-nav button {
-            font-family: 'JetBrains Mono', monospace;
+        #coords {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
             font-size: 0.55rem;
-            padding: 5px 12px;
-            border-radius: 2px;
-            border: 1px solid rgba(140, 200, 140, 0.08);
-            background: transparent;
-            color: rgba(140, 200, 140, 0.3);
-            cursor: pointer;
-            transition: all 0.2s;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        .bp-nav button:hover {
-            background: rgba(140, 200, 140, 0.06);
-            color: rgba(140, 200, 140, 0.6);
-        }
-
-        .bp-nav button:disabled {
-            opacity: 0.15;
-            cursor: default;
-        }
-
-        .bp-nav .bp-counter {
-            font-size: 0.5rem;
-            color: rgba(140, 200, 140, 0.15);
             letter-spacing: 0.15em;
+            color: rgba(163, 201, 163, 0.1);
+            pointer-events: none;
+            font-weight: 300;
+            text-align: right;
+            line-height: 1.6;
         }
 
         @media (max-width: 600px) {
-            .bp-specs { grid-template-columns: 1fr; }
-            .bp-spec:nth-child(2n) { border-right: 1px solid rgba(140,200,140,0.04); }
-            .bp-spec:nth-last-child(-n+2) { border-bottom: 1px solid rgba(140,200,140,0.04); }
-            .bp-spec:last-child { border-bottom: none; }
+            #coords { display: none; }
+            #overlay { bottom: 24px; font-size: 0.5rem; }
         }
     </style>
 </head>
 <body>
-
-    <div id="grid"></div>
-    <div id="scanline"></div>
-    <div id="corner-tl"></div>
-    <div id="corner-tr"></div>
-    <div id="corner-bl"></div>
-    <div id="corner-br"></div>
-    <div id="status-bar">the vortex project · schematic library</div>
-
     <canvas id="c"></canvas>
-
-    <div id="viewer">
-        <div class="blueprint" id="bp">
-            <div class="bp-header">
-                <span class="bp-id" id="bp-id">VPR-001</span>
-                <span class="bp-status" id="bp-status">open source · hardware</span>
-            </div>
-            <div class="bp-schematic" id="bp-schematic">
-                <canvas id="schematic-canvas"></canvas>
-                <div class="placeholder-schematic">◈</div>
-            </div>
-            <div class="bp-specs" id="bp-specs"></div>
-            <div class="bp-desc" id="bp-desc"></div>
-            <div class="bp-actions" id="bp-actions"></div>
-            <div class="bp-nav">
-                <button id="prevBtn">← prev</button>
-                <span class="bp-counter" id="counter"></span>
-                <button id="nextBtn">next →</button>
-            </div>
-        </div>
-    </div>
-
+    <div id="overlay"><span>the vortex project</span><span>pine hollow · sevierville tn</span></div>
+    <div id="coords">35.856548<br>−83.374437</div>
     <script>
-        // ─── AMBIENT CANVAS ───
-        const c = document.getElementById('c');
-        const ctx = c.getContext('2d');
-        let W, H;
-        function resize() { W = c.width = window.innerWidth; H = c.height = window.innerHeight; }
+        const canvas = document.getElementById('c');
+        const ctx = canvas.getContext('2d');
+
+        let w, h;
+        function resize() {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+        }
         resize();
         window.addEventListener('resize', resize);
 
-        const pts = [];
-        for (let i = 0; i < 35; i++) {
-            pts.push({
-                x: Math.random() * W, y: Math.random() * H,
-                vx: (Math.random() - 0.5) * 0.04,
-                vy: (Math.random() - 0.5) * 0.04,
-                phase: Math.random() * Math.PI * 2,
-                sz: Math.random() * 1.2 + 0.2,
-                ax: Math.random() * W, ay: Math.random() * H,
-                pull: Math.random() * 0.001 + 0.0002
+        // --- field of particles ---
+        const COUNT = 180;
+        const particles = [];
+        const MAX_DIST = 180;
+
+        for (let i = 0; i < COUNT; i++) {
+            particles.push({
+                x: Math.random() * w,
+                y: Math.random() * h,
+                vx: (Math.random() - 0.5) * 0.3,
+                vy: (Math.random() - 0.5) * 0.3,
+                r: Math.random() * 1.5 + 0.3,
+                phase: Math.random() * Math.PI * 2
             });
         }
 
-        function drawAmbient() {
-            ctx.fillStyle = '#060b08';
-            ctx.fillRect(0, 0, W, H);
+        // --- pulse points (birds) ---
+        const pulses = [];
+        function addPulse(x, y) {
+            pulses.push({ x, y, life: 1.0, max: 1.0 });
+        }
 
-            for (const p of pts) {
-                p.x += p.vx; p.y += p.vy;
-                p.vx += (p.ax - p.x) * p.pull;
-                p.vy += (p.ay - p.y) * p.pull;
-                p.vx += (Math.random() - 0.5) * 0.003;
-                p.vy += (Math.random() - 0.5) * 0.003;
-                p.vx *= 0.995; p.vy *= 0.995;
-                if (p.x < -40) p.x = W + 40; if (p.x > W + 40) p.x = -40;
-                if (p.y < -40) p.y = H + 40; if (p.y > H + 40) p.y = -40;
+        // simulate a bird detection every few seconds
+        function randomPulse() {
+            const x = Math.random() * w;
+            const y = Math.random() * h;
+            addPulse(x, y);
+        }
+
+        // initial burst
+        for (let i = 0; i < 5; i++) setTimeout(randomPulse, i * 600);
+        setInterval(randomPulse, 4000 + Math.random() * 6000);
+
+        // --- colors ---
+        const colors = [
+            [163, 201, 163],  // pale green
+            [122, 184, 184],  // teal
+            [212, 167, 106],  // warm amber
+            [90, 138, 90],    // deep green
+            [180, 160, 140],  // mushroom
+        ];
+
+        function lerpColor(c1, c2, t) {
+            return [
+                c1[0] + (c2[0] - c1[0]) * t,
+                c1[1] + (c2[1] - c1[1]) * t,
+                c1[2] + (c2[2] - c1[2]) * t,
+            ];
+        }
+
+        // fetch real bird data from GitHub
+        let birdData = { recent: [], stats: null };
+        let dataLoaded = false;
+        fetch('https://raw.githubusercontent.com/vortexpjeff/pine-hollow-dashboard/main/data/latest.json', { signal: AbortSignal.timeout(5000) })
+            .then(r => r.json())
+            .then(d => { birdData = d; dataLoaded = true; })
+            .catch(() => {});
+
+        let frame = 0;
+        function draw() {
+            frame++;
+            ctx.fillStyle = 'rgba(8, 10, 8, 0.12)';
+            ctx.fillRect(0, 0, w, h);
+
+            // update particles
+            for (let p of particles) {
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x < 0) p.x = w;
+                if (p.x > w) p.x = 0;
+                if (p.y < 0) p.y = h;
+                if (p.y > h) p.y = 0;
+
+                // slight wandering
+                p.vx += (Math.random() - 0.5) * 0.02;
+                p.vy += (Math.random() - 0.5) * 0.02;
+                p.vx *= 0.99;
+                p.vy *= 0.99;
             }
 
-            for (let i = 0; i < pts.length; i++) {
-                for (let j = i + 1; j < pts.length; j++) {
-                    const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y;
-                    const d = Math.sqrt(dx * dx + dy * dy);
-                    if (d < 120) {
-                        const t = 1 - d / 120;
-                        ctx.strokeStyle = `rgba(120,180,120,${t * t * 0.04})`;
-                        ctx.lineWidth = 0.3;
+            // draw edges between nearby particles
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < MAX_DIST) {
+                        const alpha = (1 - dist / MAX_DIST) * 0.12;
+                        // pick color based on distance rhythm
+                        const ci = Math.floor((i + j + frame * 0.002) % colors.length);
+                        const c = colors[ci];
+                        ctx.strokeStyle = `rgba(${c[0]},${c[1]},${c[2]},${alpha})`;
+                        ctx.lineWidth = 0.4;
                         ctx.beginPath();
-                        ctx.moveTo(pts[i].x, pts[i].y);
-                        ctx.lineTo(pts[j].x, pts[j].y);
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
                         ctx.stroke();
                     }
                 }
             }
 
-            for (const p of pts) {
-                const pulse = 0.5 + 0.5 * Math.sin(Date.now() * 0.001 * 0.8 + p.phase);
-                ctx.fillStyle = `rgba(140,200,140,${0.08 + 0.2 * pulse})`;
+            // draw particles
+            for (let p of particles) {
+                const flicker = 0.5 + 0.5 * Math.sin(frame * 0.02 + p.phase);
+                const c = colors[Math.floor((p.phase + frame * 0.001) % colors.length)];
+                ctx.fillStyle = `rgba(${c[0]},${c[1]},${c[2]},${0.3 + 0.5 * flicker})`;
                 ctx.beginPath();
-                ctx.arc(p.x, p.y, p.sz * (0.5 + pulse), 0, Math.PI * 2);
+                ctx.arc(p.x, p.y, p.r * (0.5 + flicker), 0, Math.PI * 2);
                 ctx.fill();
             }
 
-            requestAnimationFrame(drawAmbient);
-        }
-        drawAmbient();
+            // draw pulses
+            for (let i = pulses.length - 1; i >= 0; i--) {
+                const p = pulses[i];
+                p.life -= 0.008;
+                if (p.life <= 0) { pulses.splice(i, 1); continue; }
 
-        // ─── SCHEMATIC CANVAS (generative drawing) ───
-        const sc = document.getElementById('schematic-canvas');
-        const sctx = sc.getContext('2d');
-
-        function resizeSchematic() {
-            const rect = document.getElementById('bp-schematic').getBoundingClientRect();
-            sc.width = rect.width || 640;
-            sc.height = rect.height || 360;
-        }
-        resizeSchematic();
-        window.addEventListener('resize', resizeSchematic);
-
-        function drawSchematic(style) {
-            const w = sc.width, h = sc.height;
-            sctx.clearRect(0, 0, w, h);
-
-            const cx = w / 2, cy = h / 2;
-
-            // Grid
-            sctx.strokeStyle = 'rgba(140,200,140,0.04)';
-            sctx.lineWidth = 0.5;
-            for (let x = 0; x < w; x += 20) {
-                sctx.beginPath(); sctx.moveTo(x, 0); sctx.lineTo(x, h); sctx.stroke();
-            }
-            for (let y = 0; y < h; y += 20) {
-                sctx.beginPath(); sctx.moveTo(0, y); sctx.lineTo(w, y); sctx.stroke();
-            }
-
-            // Style-specific drawing
-            if (style === 'farmbot' || style === 'robotics' || style === 'CNC') {
-                drawCNCSchematic(sctx, w, h, cx, cy);
-            } else if (style === 'energy' || style === 'solar') {
-                drawSolarSchematic(sctx, w, h, cx, cy);
-            } else if (style === 'building' || style === 'architecture') {
-                drawArchSchematic(sctx, w, h, cx, cy);
-            } else if (style === 'electronics' || style === 'IoT' || style === 'circuit') {
-                drawCircuitSchematic(sctx, w, h, cx, cy);
-            } else if (style === 'machinery' || style === 'industrial' || style === 'fabrication') {
-                drawMachineSchematic(sctx, w, h, cx, cy);
-            } else if (style === 'bioacoustics' || style === 'birds' || style === 'audio') {
-                drawBioSchematic(sctx, w, h, cx, cy);
-            } else {
-                drawGenericSchematic(sctx, w, h, cx, cy);
-            }
-        }
-
-        function drawCNCSchematic(ctx, w, h, cx, cy) {
-            // Gantry / CNC gantry lines
-            ctx.strokeStyle = 'rgba(140,200,140,0.3)';
-            ctx.lineWidth = 0.6;
-            // Rails
-            ctx.strokeRect(cx - 100, cy - 60, 200, 120);
-            // Gantry
-            ctx.beginPath();
-            ctx.moveTo(cx - 100, cy - 30);
-            ctx.lineTo(cx + 100, cy - 30);
-            ctx.stroke();
-            // Tool head
-            ctx.fillStyle = 'rgba(140,200,140,0.15)';
-            ctx.fillRect(cx - 8, cy - 10, 16, 20);
-            // Lines
-            ctx.strokeStyle = 'rgba(140,200,140,0.15)';
-            ctx.lineWidth = 0.3;
-            for (let i = -90; i <= 90; i += 15) {
+                const r = (1 - p.life) * 120;
+                const alpha = p.life * 0.4;
+                const c = lerpColor([163, 201, 163], [122, 184, 184], 1 - p.life);
+                ctx.strokeStyle = `rgba(${c[0]},${c[1]},${c[2]},${alpha})`;
+                ctx.lineWidth = 0.8;
                 ctx.beginPath();
-                ctx.moveTo(cx + i, cy - 60);
-                ctx.lineTo(cx + i, cy + 60);
+                ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
                 ctx.stroke();
             }
-            // Corner dimension marks
-            ctx.strokeStyle = 'rgba(140,200,140,0.1)';
-            ctx.lineWidth = 0.3;
-            ctx.beginPath();
-            ctx.moveTo(cx - 100, cy + 60); ctx.lineTo(cx - 100, cy + 75);
-            ctx.moveTo(cx + 100, cy + 60); ctx.lineTo(cx + 100, cy + 75);
-            ctx.moveTo(cx - 100, cy + 75); ctx.lineTo(cx + 100, cy + 75);
-            ctx.stroke();
-            // Dimension text
-            ctx.fillStyle = 'rgba(140,200,140,0.12)';
-            ctx.font = '8px JetBrains Mono';
-            ctx.fillText('200mm', cx - 16, cy + 72);
-        }
 
-        function drawSolarSchematic(ctx, w, h, cx, cy) {
-            // Sun + collector
-            ctx.strokeStyle = 'rgba(212,167,106,0.2)';
-            ctx.lineWidth = 0.5;
-            // Sun
-            ctx.beginPath();
-            ctx.arc(cx, cy - 40, 18, 0, Math.PI * 2);
-            ctx.stroke();
-            // Rays
-            ctx.strokeStyle = 'rgba(212,167,106,0.1)';
-            for (let a = 0; a < 8; a++) {
-                const angle = a * Math.PI / 4;
-                ctx.beginPath();
-                ctx.moveTo(cx + Math.cos(angle) * 22, cy - 40 + Math.sin(angle) * 22);
-                ctx.lineTo(cx + Math.cos(angle) * 30, cy - 40 + Math.sin(angle) * 30);
-                ctx.stroke();
+            // if we have bird data, spawn pulses from real detections
+            if (dataLoaded && frame % 120 === 0 && birdData.recent && birdData.recent.length > 0) {
+                const d = birdData.recent[Math.floor(Math.random() * birdData.recent.length)];
+                if (d && d.confidence) {
+                    const x = w * (0.1 + Math.random() * 0.8);
+                    const y = h * (0.1 + Math.random() * 0.8);
+                    addPulse(x, y);
+                }
             }
-            // Collector
-            ctx.strokeStyle = 'rgba(140,200,140,0.25)';
-            ctx.lineWidth = 0.6;
-            ctx.strokeRect(cx - 50, cy + 10, 100, 30);
-            // Angle lines
-            ctx.strokeStyle = 'rgba(140,200,140,0.1)';
-            ctx.lineWidth = 0.3;
-            ctx.beginPath();
-            ctx.moveTo(cx - 50, cy + 40); ctx.lineTo(cx - 50, cy + 55);
-            ctx.moveTo(cx + 50, cy + 40); ctx.lineTo(cx + 50, cy + 55);
-            ctx.moveTo(cx - 50, cy + 55); ctx.lineTo(cx + 50, cy + 55);
-            ctx.stroke();
-            // Tilt indicator
-            ctx.beginPath();
-            ctx.moveTo(cx - 50, cy + 40);
-            ctx.lineTo(cx - 80, cy + 60);
-            ctx.lineTo(cx - 80, cy + 55);
-            ctx.stroke();
-            ctx.fillStyle = 'rgba(140,200,140,0.08)';
-            ctx.font = '7px JetBrains Mono';
-            ctx.fillText('tilt 45°', cx - 85, cy + 52);
+
+            requestAnimationFrame(draw);
         }
 
-        function drawArchSchematic(ctx, w, h, cx, cy) {
-            // Floor plan
-            ctx.strokeStyle = 'rgba(140,200,140,0.25)';
-            ctx.lineWidth = 0.6;
-            ctx.strokeRect(cx - 80, cy - 50, 160, 100);
-            // Walls
-            ctx.strokeStyle = 'rgba(140,200,140,0.1)';
-            ctx.lineWidth = 0.3;
-            ctx.strokeRect(cx + 10, cy - 50, 70, 45);
-            ctx.strokeRect(cx - 80, cy - 10, 50, 60);
-            // Windows
-            ctx.strokeStyle = 'rgba(212,167,106,0.15)';
-            ctx.setLineDash([3, 3]);
-            ctx.strokeRect(cx - 70, cy - 42, 20, 4);
-            ctx.strokeRect(cx + 20, cy - 42, 20, 4);
-            ctx.setLineDash([]);
-            // Dimension
-            ctx.strokeStyle = 'rgba(140,200,140,0.08)';
-            ctx.lineWidth = 0.3;
-            ctx.beginPath();
-            ctx.moveTo(cx - 80, cy + 50); ctx.lineTo(cx - 80, cy + 65);
-            ctx.moveTo(cx + 80, cy + 50); ctx.lineTo(cx + 80, cy + 65);
-            ctx.moveTo(cx - 80, cy + 65); ctx.lineTo(cx + 80, cy + 65);
-            ctx.stroke();
-            ctx.fillStyle = 'rgba(140,200,140,0.08)';
-            ctx.font = '7px JetBrains Mono';
-            ctx.fillText('16m', cx - 8, cy + 63);
-        }
-
-        function drawCircuitSchematic(ctx, w, h, cx, cy) {
-            ctx.strokeStyle = 'rgba(140,200,140,0.2)';
-            ctx.lineWidth = 0.4;
-            // Nodes
-            const nodes = [
-                {x: cx - 60, y: cy - 30},
-                {x: cx - 20, y: cy - 40},
-                {x: cx + 30, y: cy - 20},
-                {x: cx + 60, y: cy - 10},
-                {x: cx - 40, y: cy + 30},
-                {x: cx + 10, y: cy + 25},
-                {x: cx + 50, y: cy + 35},
-            ];
-            // Edges
-            const edges = [[0,1],[1,2],[2,3],[1,4],[4,5],[2,5],[5,6]];
-            for (const [a,b] of edges) {
-                ctx.beginPath();
-                ctx.moveTo(nodes[a].x, nodes[a].y);
-                ctx.lineTo(nodes[b].x, nodes[b].y);
-                ctx.stroke();
-            }
-            // Nodes
-            ctx.fillStyle = 'rgba(140,200,140,0.2)';
-            for (const n of nodes) {
-                ctx.beginPath();
-                ctx.arc(n.x, n.y, 2.5, 0, Math.PI * 2);
-                ctx.fill();
-            }
-            // Chip outline
-            ctx.strokeStyle = 'rgba(140,200,140,0.12)';
-            ctx.lineWidth = 0.4;
-            ctx.strokeRect(cx - 60, cy - 10, 120, 20);
-            ctx.fillStyle = 'rgba(140,200,140,0.04)';
-            ctx.fillRect(cx - 60, cy - 10, 120, 20);
-            // Pin markers
-            ctx.strokeStyle = 'rgba(140,200,140,0.08)';
-            ctx.lineWidth = 0.3;
-            for (let i = 0; i < 6; i++) {
-                ctx.beginPath();
-                ctx.moveTo(cx - 50 + i * 20, cy - 10);
-                ctx.lineTo(cx - 50 + i * 20, cy - 4);
-                ctx.stroke();
-            }
-        }
-
-        function drawMachineSchematic(ctx, w, h, cx, cy) {
-            // 3D-ish machine frame
-            ctx.strokeStyle = 'rgba(140,200,140,0.2)';
-            ctx.lineWidth = 0.5;
-            // Front face
-            ctx.strokeRect(cx - 70, cy - 40, 140, 80);
-            // Depth lines
-            ctx.beginPath();
-            ctx.moveTo(cx + 70, cy - 40); ctx.lineTo(cx + 85, cy - 50);
-            ctx.moveTo(cx + 70, cy + 40); ctx.lineTo(cx + 85, cy + 30);
-            ctx.moveTo(cx - 70, cy + 40); ctx.lineTo(cx - 55, cy + 50);
-            ctx.stroke();
-            // Rear face
-            ctx.strokeRect(cx - 55, cy - 50, 140, 80);
-            // Cross bracing
-            ctx.strokeStyle = 'rgba(140,200,140,0.06)';
-            ctx.lineWidth = 0.3;
-            ctx.beginPath();
-            ctx.moveTo(cx - 70, cy - 40); ctx.lineTo(cx - 55, cy - 50);
-            ctx.moveTo(cx - 70, cy + 40); ctx.lineTo(cx - 55, cy + 50);
-            ctx.moveTo(cx + 70, cy - 40); ctx.lineTo(cx + 85, cy - 50);
-            ctx.moveTo(cx + 70, cy + 40); ctx.lineTo(cx + 85, cy + 30);
-            ctx.stroke();
-            // Labels
-            ctx.fillStyle = 'rgba(140,200,140,0.06)';
-            ctx.font = '6px JetBrains Mono';
-            ctx.fillText('ISOMETRIC VIEW', cx - 28, cy - 55);
-        }
-
-        function drawBioSchematic(ctx, w, h, cx, cy) {
-            // Waveform
-            ctx.strokeStyle = 'rgba(140,200,140,0.2)';
-            ctx.lineWidth = 0.6;
-            ctx.beginPath();
-            ctx.moveTo(cx - 100, cy + 20);
-            for (let x = -100; x <= 100; x += 2) {
-                const y = Math.sin(x * 0.06) * 40 + Math.sin(x * 0.015) * 20;
-                ctx.lineTo(cx + x, cy - y);
-            }
-            ctx.stroke();
-            // Second wave (fainter)
-            ctx.strokeStyle = 'rgba(140,200,140,0.08)';
-            ctx.lineWidth = 0.3;
-            ctx.beginPath();
-            ctx.moveTo(cx - 100, cy + 20);
-            for (let x = -100; x <= 100; x += 2) {
-                const y = Math.sin(x * 0.03 + 1) * 25 + Math.cos(x * 0.04) * 15;
-                ctx.lineTo(cx + x, cy - y - 30);
-            }
-            ctx.stroke();
-            // Spec markers
-            ctx.strokeStyle = 'rgba(212,167,106,0.1)';
-            ctx.lineWidth = 0.3;
-            for (let x = -80; x <= 80; x += 20) {
-                ctx.beginPath();
-                ctx.moveTo(cx + x, cy + 25);
-                ctx.lineTo(cx + x, cy + 30);
-                ctx.stroke();
-            }
-            ctx.fillStyle = 'rgba(140,200,140,0.06)';
-            ctx.font = '6px JetBrains Mono';
-            ctx.fillText('SPECTROGRAM', cx - 28, cy + 40);
-        }
-
-        function drawGenericSchematic(ctx, w, h, cx, cy) {
-            // Abstract technical
-            ctx.strokeStyle = 'rgba(140,200,140,0.15)';
-            ctx.lineWidth = 0.4;
-            ctx.beginPath();
-            ctx.arc(cx, cy - 10, 50, 0, Math.PI * 2);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.arc(cx, cy - 10, 30, 0, Math.PI * 1.5);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(cx - 70, cy + 30);
-            ctx.lineTo(cx, cy - 60);
-            ctx.lineTo(cx + 70, cy + 30);
-            ctx.closePath();
-            ctx.stroke();
-            ctx.fillStyle = 'rgba(140,200,140,0.03)';
-            ctx.fill();
-        }
-
-        // ─── PROJECT DATA (curated blueprints) ───
-        const blueprints = [
-            {
-                id: 'AGR-001',
-                name: 'FarmBot Genesis v1.8',
-                type: 'CNC Farming Platform',
-                tags: ['agriculture', 'robotics', 'CNC', 'hardware'],
-                desc: 'Open source precision agriculture robot. Seeds, waters, and weeds autonomously over a 1.5m × 3m bed. All CAD files, BOM, and firmware published on GitHub. Runs on Raspberry Pi + Arduino. Full assembly documentation included.',
-                specs: [
-                    {label: 'Type', value: 'Open Hardware'},
-                    {label: 'Status', value: 'Shipping'},
-                    {label: 'Bed Size', value: '1.5m × 3m (XL: 3m × 6m)'},
-                    {label: 'Power', value: '12V DC / Solar'},
-                    {label: 'MCU', value: 'Raspberry Pi + Arduino'},
-                    {label: 'License', value: 'CC-BY-SA / MIT'},
-                ],
-                actions: [
-                    {label: '↗ website', url: 'https://farm.bot', primary: false},
-                    {label: '↗ github', url: 'https://github.com/FarmBot', primary: false},
-                ],
-                style: 'farmbot'
-            },
-            {
-                id: 'OSE-002',
-                name: 'Open Source Ecology — GVCS',
-                type: 'Global Village Construction Set',
-                tags: ['machinery', 'industrial', 'fabrication', 'blueprints'],
-                desc: '50 open source industrial machines for building civilization from scratch. Includes tractor, brick press, wind turbine, solar concentrator, 3D printer, CNC torch table, sawmill. Full CAD, BOM, and build instructions free.',
-                specs: [
-                    {label: 'Type', value: 'Open Hardware'},
-                    {label: 'Status', value: 'Active Development'},
-                    {label: 'Machines', value: '50+ blueprints'},
-                    {label: 'License', value: 'CC-BY-SA / OSE'},
-                    {label: 'Cost', value: '10-20% of commercial'},
-                    {label: 'Community', value: 'Global contributor network'},
-                ],
-                actions: [
-                    {label: '↗ website', url: 'https://www.opensourceecology.org', primary: false},
-                ],
-                style: 'machinery'
-            },
-            {
-                id: 'BIO-003',
-                name: 'BirdNET-Pi',
-                type: 'Bioacoustic Monitoring Station',
-                tags: ['birds', 'bioacoustics', 'Pi', 'audio', '24-7'],
-                desc: 'Turnkey 24/7 bird sound classification on a Raspberry Pi. Runs BirdNET TFLite model continuously. Web UI with SQLite detection database, clip extraction, species stats. Deployed at Pine Hollow — proven in the field.',
-                specs: [
-                    {label: 'Type', value: 'Software Appliance'},
-                    {label: 'Status', value: 'Production (active use)'},
-                    {label: 'Hardware', value: 'Raspberry Pi 4 (2GB+)'},
-                    {label: 'Species', value: '6,522 (BirdNET)'},
-                    {label: 'Power', value: '~5W / USB or solar'},
-                    {label: 'Storage', value: '32GB SD + USB drive'},
-                ],
-                actions: [
-                    {label: '↗ github', url: 'https://github.com/mcguirepr89/BirdNET-Pi', primary: false},
-                    {label: '↘ dashboard', url: 'https://vortexpjeff.github.io/pine-hollow-dashboard/', primary: false},
-                ],
-                style: 'bioacoustics'
-            },
-            {
-                id: 'AI-004',
-                name: 'llama.cpp',
-                type: 'Local LLM Inference Engine',
-                tags: ['inference', 'LLM', 'local', 'AI', 'quantization'],
-                desc: 'Run large language models entirely on consumer hardware. No cloud, no API costs, no data leaving your machine. CUDA, Metal, Vulkan, CPU backends. Supports all major open models. Used daily at Pine Hollow running Gemma 4 26B on RTX 4090.',
-                specs: [
-                    {label: 'Type', value: 'Open Source Software'},
-                    {label: 'Status', value: 'Mature / Active'},
-                    {label: 'Backends', value: 'CUDA / Metal / Vulkan / CPU'},
-                    {label: 'Models', value: 'All GGUF format models'},
-                    {label: 'Quantization', value: 'Q4–Q8, IQ, K-quants'},
-                    {label: 'API', value: 'OpenAI-compatible server'},
-                ],
-                actions: [
-                    {label: '↗ github', url: 'https://github.com/ggml-org/llama.cpp', primary: false},
-                ],
-                style: 'electronics'
-            },
-            {
-                id: 'ENG-005',
-                name: 'Low-Tech Solar Electric Oven',
-                type: 'Solar Cooking Appliance',
-                tags: ['solar', 'energy', 'cooking', 'heating', 'DIY'],
-                desc: 'Energy-efficient electric cooking appliance powered by a small solar panel. Integrated heat storage keeps it usable after sunset. Full construction guide with materials list, wiring diagram, and measured performance data. Runs on 12V DC.',
-                specs: [
-                    {label: 'Type', value: 'Build Guide'},
-                    {label: 'Status', value: 'Published'},
-                    {label: 'Power', value: '12V DC / 100W solar panel'},
-                    {label: 'Heat Storage', value: 'Phase-change material'},
-                    {label: 'Cook Temp', value: '180°C (350°F)'},
-                    {label: 'Cost', value: '~$60 in materials'},
-                ],
-                actions: [
-                    {label: '↗ article', url: 'https://solar.lowtechmagazine.com/2025/10/how-to-build-a-solar-powered-electric-oven/', primary: false},
-                ],
-                style: 'solar'
-            },
-            {
-                id: 'IOT-006',
-                name: 'MySensors Wireless Sensor Network',
-                type: 'Open IoT Framework',
-                tags: ['IoT', 'sensors', 'wireless', 'mesh', 'esp8266'],
-                desc: 'DIY wireless sensor network for homestead monitoring. Soil moisture, temperature, humidity, light, water flow, weather. Arduino/ESP32 based. Mesh topology using NRF24L01 or RFM69 radios. Runs for months on batteries.',
-                specs: [
-                    {label: 'Type', value: 'Open Source Framework'},
-                    {label: 'Status', value: 'Active / Mature'},
-                    {label: 'Radio', value: 'NRF24L01 / RFM69 / LoRa'},
-                    {label: 'Range', value: '~100m (mesh: unlimited)'},
-                    {label: 'MCU', value: 'Arduino / ESP8266 / ESP32'},
-                    {label: 'Power', value: '2× AA (6–24 months)'},
-                ],
-                actions: [
-                    {label: '↗ website', url: 'https://mysensors.org', primary: false},
-                    {label: '↗ github', url: 'https://github.com/mysensors', primary: false},
-                ],
-                style: 'circuit'
-            },
-            {
-                id: 'ARC-007',
-                name: 'Starter Home — OSE Builder Crash Course',
-                type: 'Modular House Blueprints',
-                tags: ['building', 'architecture', 'housing', 'solar', 'plans'],
-                desc: 'Open source 800 sq ft starter home. 2 bed, 2 bath, built from modular wall units. Includes 6kW rooftop solar, heat pump, thermal battery, and geothermal cooling. Designed for 90%+ off-grid energy. Blueprints in FreeCAD format.',
-                specs: [
-                    {label: 'Type', value: 'Architectural Plans'},
-                    {label: 'Status', value: 'Built (prototype)'},
-                    {label: 'Size', value: '800 sq ft (expandable)'},
-                    {label: 'Energy', value: '6kW solar + thermal battery'},
-                    {label: 'Cost', value: '~$25–50k materials'},
-                    {label: 'Format', value: 'FreeCAD + PDF'},
-                ],
-                actions: [
-                    {label: '↗ OSE website', url: 'https://www.opensourceecology.org', primary: false},
-                ],
-                style: 'building'
-            },
-            {
-                id: 'AI-008',
-                name: 'Whisper + faster-whisper STT',
-                type: 'Local Speech-to-Text Engine',
-                tags: ['AI', 'speech', 'STT', 'local', 'Pi', 'realtime'],
-                desc: 'Real-time speech recognition running entirely locally. No cloud, no API costs. Uses OpenAI Whisper models optimized with CTranslate2. Runs on Pi 4 (tiny.en) or desktop (small/medium). Powers the HermesPi voice loop at Pine Hollow.',
-                specs: [
-                    {label: 'Type', value: 'Open Source Software'},
-                    {label: 'Status', value: 'Mature / Active'},
-                    {label: 'Hardware', value: 'Pi 4 (tiny) / Desktop (all)'},
-                    {label: 'RAM', value: '~1.5GB (tiny.en on Pi)'},
-                    {label: 'Languages', value: '99+ (multilingual models)'},
-                    {label: 'License', value: 'MIT'},
-                ],
-                actions: [
-                    {label: '↗ github', url: 'https://github.com/SYSTRAN/faster-whisper', primary: false},
-                ],
-                style: 'electronics'
-            },
-            {
-                id: 'AGR-009',
-                name: 'FarmOS',
-                type: 'Farm Management System',
-                tags: ['software', 'farm-management', 'data', 'tracking', 'open-source'],
-                desc: 'Self-hosted farm management platform. Track plantings, harvests, inputs, livestock, tools, and labor. API for IoT sensor integration. Map-based interface. Used by farms and research orgs worldwide. Drupal-based, extensible.',
-                specs: [
-                    {label: 'Type', value: 'Open Source Software'},
-                    {label: 'Status', value: 'Mature / Active'},
-                    {label: 'Platform', value: 'PHP/Drupal'},
-                    {label: 'Database', value: 'MySQL/PostgreSQL'},
-                    {label: 'API', value: 'REST + JSON'},
-                    {label: 'License', value: 'GPLv2'},
-                ],
-                actions: [
-                    {label: '↗ website', url: 'https://farmos.org', primary: false},
-                ],
-                style: 'generic'
-            },
-            {
-                id: 'HW-010',
-                name: 'MNT Reform Laptop',
-                type: 'Open Source Modular Computer',
-                tags: ['hardware', 'laptop', 'repairable', 'open-hardware', 'modular'],
-                desc: 'Fully open source laptop. Modular design — every component is replaceable or upgradeable. No soldered RAM, no glued battery. ARM or RISC-V mainboard. All CAD and PCB files published. Designed for right to repair and true ownership.',
-                specs: [
-                    {label: 'Type', value: 'Open Hardware'},
-                    {label: 'Status', value: 'Production'},
-                    {label: 'CPU', value: 'i.MX8M (ARM) / RISC-V'},
-                    {label: 'RAM', value: '4–8GB (SO-DIMM)'},
-                    {label: 'Display', value: '12.5" 1920×1200'},
-                    {label: 'License', value: 'CC-BY-SA / GPL'},
-                ],
-                actions: [
-                    {label: '↗ website', url: 'https://mntre.com/reform2.html', primary: false},
-                    {label: '↗ github', url: 'https://github.com/mntre', primary: false},
-                ],
-                style: 'electronics'
-            },
-        ];
-
-        // ─── CARD CONTROL ───
-        let idx = 0;
-        const bp = document.getElementById('bp');
-        const idEl = document.getElementById('bp-id');
-        const statusEl = document.getElementById('bp-status');
-        const descEl = document.getElementById('bp-desc');
-        const specsEl = document.getElementById('bp-specs');
-        const actionsEl = document.getElementById('bp-actions');
-        const counterEl = document.getElementById('counter');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-
-        function showBlueprint(i) {
-            idx = i;
-            const bpData = blueprints[idx];
-
-            bp.classList.remove('visible');
-            setTimeout(() => {
-                idEl.textContent = `${bpData.id} · ${bpData.name}`;
-                statusEl.textContent = bpData.type;
-                descEl.textContent = bpData.desc;
-
-                // Specs
-                specsEl.innerHTML = '';
-                bpData.specs.forEach(s => {
-                    const div = document.createElement('div');
-                    div.className = 'bp-spec';
-                    div.innerHTML = `<div class="label">${s.label}</div><div class="value">${s.value}</div>`;
-                    specsEl.appendChild(div);
-                });
-
-                // Actions
-                actionsEl.innerHTML = '';
-                bpData.actions.forEach(a => {
-                    const el = document.createElement('a');
-                    el.href = a.url;
-                    el.textContent = a.label;
-                    el.target = '_blank';
-                    if (a.primary) el.className = 'primary';
-                    actionsEl.appendChild(el);
-                });
-
-                counterEl.textContent = `${idx + 1} / ${blueprints.length}`;
-                prevBtn.disabled = idx === 0;
-                nextBtn.disabled = idx === blueprints.length - 1;
-
-                // Draw schematic
-                resizeSchematic();
-                drawSchematic(bpData.style);
-
-                bp.classList.add('visible');
-            }, 150);
-        }
-
-        prevBtn.addEventListener('click', () => { if (idx > 0) showBlueprint(idx - 1); });
-        nextBtn.addEventListener('click', () => { if (idx < blueprints.length - 1) showBlueprint(idx + 1); });
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft' && idx > 0) showBlueprint(idx - 1);
-            if (e.key === 'ArrowRight' && idx < blueprints.length - 1) showBlueprint(idx + 1);
-        });
-
-        // ─── INIT ───
-        window.addEventListener('resize', () => {
-            resizeSchematic();
-            if (blueprints[idx]) drawSchematic(blueprints[idx].style);
-        });
-
-        showBlueprint(0);
+        draw();
     </script>
 </body>
 </html>
