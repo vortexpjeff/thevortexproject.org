@@ -1,371 +1,252 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>The Vortex Project</title>
-<style>
-  :root{
-    --bg:#020203;
-    --bg2:#050507;
-    --ink:#0f1114;
-    --gold:#e2c56f;
-    --amber:#c99a39;
-    --teal:#6ee7d2;
-    --green:#87d58a;
-    --violet:#8a70ff;
-    --white:#f6f2e8;
-  }
-  *{box-sizing:border-box}
-  html,body{width:100%;height:100%;margin:0;overflow:hidden;background:radial-gradient(circle at 50% 50%, #0b0f13 0%, #020203 45%, #000 100%)}
-  body{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
-  canvas{position:fixed;inset:0;width:100vw;height:100vh;display:block;z-index:0}
-  #scene{position:fixed;inset:0;display:grid;place-items:center;z-index:1;pointer-events:none;isolation:isolate}
-  #fieldGlow{
-    position:absolute;inset:-10%;
-    background:
-      radial-gradient(circle at 50% 50%, rgba(226,197,111,.08) 0 10%, rgba(110,231,210,.05) 17%, transparent 28%),
-      radial-gradient(circle at 50% 50%, rgba(138,112,255,.04) 0 8%, transparent 18%);
-    filter:blur(18px);
-    mix-blend-mode:screen;
-    animation:fieldPulse 14s ease-in-out infinite;
-  }
-  @keyframes fieldPulse{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.03);opacity:.95}}
-  #sigilWrap{position:absolute;width:min(88vw,88vh);height:min(88vw,88vh);max-width:1300px;max-height:1300px}
-  .orbiting{position:absolute;inset:0;transform-origin:50% 50%;mix-blend-mode:screen}
-  .layer-spin{animation:spin 86s linear infinite}
-  .layer-spin.rev{animation-direction:reverse}
-  .layer-spin.slow{animation-duration:132s}
-  .layer-spin.fast{animation-duration:54s}
-  @keyframes spin{to{transform:rotate(360deg)}}
-
-  .ring,.ring2,.ring3,.ring4,.ring5,.ring6{
-    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-    border-radius:50%;
-    pointer-events:none;
-  }
-  .ring{border:1.5px solid rgba(226,197,111,.22);box-shadow:0 0 28px rgba(226,197,111,.03), inset 0 0 24px rgba(110,231,210,.02)}
-  .ring2{border:1px dashed rgba(110,231,210,.13)}
-  .ring3{border:1px dotted rgba(138,112,255,.11)}
-  .ring4{border:1px solid rgba(135,213,138,.10)}
-  .ring5{border:1px double rgba(246,242,232,.08)}
-  .ring6{border:1px solid rgba(226,197,111,.08)}
-
-  .eyeBand,.haloBand,.spokeBand,.sigilBand,.spiralBand,.particleBand{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen}
-
-  .coreEye{
-    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-    width:min(18vw,18vh);height:min(18vw,18vh);max-width:250px;max-height:250px;border-radius:50%;
-    background:radial-gradient(circle at 50% 50%, rgba(255,250,228,.98) 0 8%, rgba(226,197,111,.86) 16%, rgba(110,231,210,.26) 34%, rgba(0,0,0,0) 72%);
-    filter:drop-shadow(0 0 24px rgba(226,197,111,.12));
-    animation:breath 8s ease-in-out infinite;
-  }
-  @keyframes breath{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.92}50%{transform:translate(-50%,-50%) scale(1.05);opacity:1}}
-  .lid{position:absolute;left:50%;top:50%;width:64%;height:42%;transform:translate(-50%,-50%);border-radius:50%/60% 60% 40% 40%;border:1.5px solid rgba(246,242,232,.78);box-shadow:0 0 14px rgba(246,242,232,.04)}
-  .lid.top{clip-path:polygon(0 52%, 50% 0, 100% 52%, 100% 0, 0 0);border-bottom:none;animation:lidTop 11s ease-in-out infinite}
-  .lid.bottom{clip-path:polygon(0 48%, 50% 100%, 100% 48%, 100% 100%, 0 100%);border-top:none;opacity:.7;animation:lidBottom 11s ease-in-out infinite}
-  @keyframes lidTop{0%,100%{transform:translate(-50%,-50%) translateY(-1px)}50%{transform:translate(-50%,-50%) translateY(2px)}}
-  @keyframes lidBottom{0%,100%{transform:translate(-50%,-50%) translateY(1px)}50%{transform:translate(-50%,-50%) translateY(-2px)}}
-  .pupil{position:absolute;left:50%;top:50%;width:12%;height:12%;transform:translate(-50%,-50%);border-radius:50%;background:#0d0f12;box-shadow:0 0 0 2px rgba(0,0,0,.35), 0 0 24px rgba(110,231,210,.14);animation:pulse 6.5s ease-in-out infinite}
-  .pupil:after{content:"";position:absolute;left:25%;top:24%;width:26%;height:26%;border-radius:50%;background:rgba(255,250,228,.95)}
-  @keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.08)}}
-
-  .faceArc{
-    position:absolute;left:50%;top:50%;width:34%;height:22%;transform:translate(-50%,-46%);
-    border-radius:50%;border:1px solid rgba(246,242,232,.16);border-bottom:none;opacity:.7;
-  }
-  .cheekArc.left,.cheekArc.right{
-    position:absolute;top:50%;width:10%;height:18%;border-radius:50%;border:1px solid rgba(226,197,111,.16);opacity:.55
-  }
-  .cheekArc.left{left:39%;transform:translate(-50%,-8%) rotate(25deg);border-right:none;border-top:none}
-  .cheekArc.right{left:61%;transform:translate(-50%,-8%) rotate(-25deg);border-left:none;border-top:none}
-
-  .spiralGroup{
-    position:absolute;left:50%;top:50%;width:100%;height:100%;transform:translate(-50%,-50%);
-    filter:drop-shadow(0 0 10px rgba(226,197,111,.05));
-  }
-  svg{width:100%;height:100%;overflow:visible}
-  .spiralPath{fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:.72}
-  .spiralPath.gold{stroke:rgba(226,197,111,.48);stroke-width:1.6}
-  .spiralPath.teal{stroke:rgba(110,231,210,.34);stroke-width:1.2}
-  .spiralPath.violet{stroke:rgba(138,112,255,.22);stroke-width:1}
-  .spiralPath.green{stroke:rgba(135,213,138,.25);stroke-width:1.1}
-  .spiralHalo{fill:none;stroke:rgba(226,197,111,.15);stroke-width:1.2;stroke-dasharray:6 14}
-  .spiralHalo2{fill:none;stroke:rgba(110,231,210,.10);stroke-width:1;stroke-dasharray:2 12}
-  .spiralHalo3{fill:none;stroke:rgba(138,112,255,.08);stroke-width:.9;stroke-dasharray:1 16}
-
-  .sigils{position:absolute;inset:0;animation:spin 160s linear infinite;opacity:.75}
-  .glyph{fill:none;stroke-linecap:round;stroke-linejoin:round}
-  .glyph.gold{stroke:rgba(226,197,111,.38);stroke-width:1.4}
-  .glyph.teal{stroke:rgba(110,231,210,.22);stroke-width:1.1}
-  .glyph.green{stroke:rgba(135,213,138,.18);stroke-width:1}
-
-  .orbitBeads{position:absolute;inset:0;animation:spin 62s linear infinite reverse;opacity:.9}
-  .bead{position:absolute;left:50%;top:50%;width:6px;height:6px;border-radius:50%;transform-origin:0 0;background:radial-gradient(circle, rgba(255,250,228,1) 0 20%, rgba(226,197,111,.95) 35%, rgba(0,0,0,0) 100%);box-shadow:0 0 10px rgba(226,197,111,.15)}
-  .bead.teal{background:radial-gradient(circle, rgba(255,250,228,1) 0 18%, rgba(110,231,210,.95) 35%, rgba(0,0,0,0) 100%)}
-  .bead.green{background:radial-gradient(circle, rgba(255,250,228,1) 0 18%, rgba(135,213,138,.95) 35%, rgba(0,0,0,0) 100%)}
-  .bead.violet{background:radial-gradient(circle, rgba(255,250,228,1) 0 18%, rgba(138,112,255,.95) 35%, rgba(0,0,0,0) 100%)}
-
-  #label{
-    position:fixed;left:50%;bottom:18px;transform:translateX(-50%);
-    color:rgba(246,242,232,.22);font-size:9px;letter-spacing:.42em;text-transform:uppercase;white-space:nowrap;pointer-events:none;z-index:3;
-  }
-  @media(max-width:700px){
-    #sigilWrap{width:120vw;height:120vw}
-    #label{font-size:7px;letter-spacing:.25em}
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Vortex Project</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@250;400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #070907;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        canvas {
+            display: block;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw;
+            height: 100vh;
+        }
+        #label {
+            position: fixed;
+            bottom: 36px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.55rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: rgba(140, 180, 140, 0.12);
+            pointer-events: none;
+            font-weight: 250;
+            text-align: center;
+            line-height: 1.6;
+            transition: opacity 1s;
+        }
+        #coords {
+            position: fixed;
+            bottom: 36px;
+            right: 36px;
+            font-size: 0.5rem;
+            letter-spacing: 0.15em;
+            color: rgba(140, 180, 140, 0.08);
+            pointer-events: none;
+            font-weight: 250;
+            text-align: right;
+            line-height: 1.5;
+        }
+        @media (max-width: 600px) {
+            #coords { display: none; }
+            #label { font-size: 0.45rem; bottom: 20px; }
+        }
+    </style>
 </head>
 <body>
-<canvas id="field"></canvas>
-<div id="scene">
-  <div id="fieldGlow"></div>
-  <div id="sigilWrap">
-    <div class="ring"  style="width:82%;height:82%"></div>
-    <div class="ring2" style="width:68%;height:68%"></div>
-    <div class="ring3" style="width:52%;height:52%"></div>
-    <div class="ring4" style="width:38%;height:38%"></div>
-    <div class="ring5" style="width:24%;height:24%"></div>
-    <div class="ring6" style="width:14%;height:14%"></div>
+    <canvas id="c"></canvas>
+    <div id="label">the vortex project · pine hollow</div>
+    <div id="coords">35.856548<br>−83.374437</div>
+    <script>
+        const canvas = document.getElementById('c');
+        const ctx = canvas.getContext('2d');
+        let W, H;
 
-    <div class="eyeBand">
-      <div class="coreEye">
-        <div class="lid top"></div>
-        <div class="lid bottom"></div>
-        <div class="pupil"></div>
-        <div class="faceArc"></div>
-        <div class="cheekArc left"></div>
-        <div class="cheekArc right"></div>
-      </div>
-    </div>
+        function resize() {
+            W = canvas.width = window.innerWidth;
+            H = canvas.height = window.innerHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
 
-    <div class="haloBand orbiting layer-spin slow">
-      <div class="spiralGroup">
-        <svg viewBox="0 0 1000 1000" id="spirals"></svg>
-      </div>
-    </div>
+        // ─── living field ───
+        // nodes that drift slowly, connected by faint threads
+        // each node has a tiny bioluminescent pulse
 
-    <div class="spokeBand orbiting layer-spin fast">
-      <svg viewBox="0 0 1000 1000" id="spokes"></svg>
-    </div>
+        const NODES = 45;
+        const nodes = [];
 
-    <div class="sigilBand orbiting layer-spin rev">
-      <svg viewBox="0 0 1000 1000" id="sigils"></svg>
-    </div>
+        function rand(min, max) { return min + Math.random() * (max - min); }
 
-    <div class="orbitBeads orbiting layer-spin">
-      <div class="bead" style="transform:translate(-50%,-50%) rotate(0deg) translateY(-320px)"></div>
-      <div class="bead teal" style="transform:translate(-50%,-50%) rotate(42deg) translateY(-318px)"></div>
-      <div class="bead green" style="transform:translate(-50%,-50%) rotate(82deg) translateY(-310px)"></div>
-      <div class="bead violet" style="transform:translate(-50%,-50%) rotate(124deg) translateY(-314px)"></div>
-      <div class="bead" style="transform:translate(-50%,-50%) rotate(168deg) translateY(-320px)"></div>
-      <div class="bead teal" style="transform:translate(-50%,-50%) rotate(210deg) translateY(-316px)"></div>
-      <div class="bead green" style="transform:translate(-50%,-50%) rotate(252deg) translateY(-322px)"></div>
-      <div class="bead violet" style="transform:translate(-50%,-50%) rotate(292deg) translateY(-314px)"></div>
-      <div class="bead" style="transform:translate(-50%,-50%) rotate(334deg) translateY(-320px)"></div>
-    </div>
-  </div>
-</div>
-<audio id="vox" src="audio/vox.mp3" preload="auto"></audio>
-<div id="label">the vortex project · face to face</div>
+        for (let i = 0; i < NODES; i++) {
+            nodes.push({
+                x: rand(0, W),
+                y: rand(0, H),
+                vx: rand(-0.08, 0.08),
+                vy: rand(-0.08, 0.08),
+                phase: rand(0, Math.PI * 2),
+                size: rand(0.4, 1.8),
+                // anchor to a region so the field has structure
+                anchorX: rand(0, W),
+                anchorY: rand(0, H),
+                pull: rand(0.0005, 0.002)
+            });
+        }
 
-<script>
-(() => {
-  const field = document.getElementById('field');
-  const fctx = field.getContext('2d');
-  const W = () => field.width = Math.floor(innerWidth * devicePixelRatio);
-  const H = () => field.height = Math.floor(innerHeight * devicePixelRatio);
-  let w, h, cx, cy, dpr = Math.min(devicePixelRatio || 1, 2);
-  let t = 0;
+        // ─── rings (detection events) ───
+        const rings = [];
+        function addRing(x, y, intensity) {
+            rings.push({ x, y, intensity, life: 1.0 });
+        }
 
-  function resize(){
-    dpr = Math.min(devicePixelRatio || 1, 2);
-    w = field.width = Math.floor(innerWidth * dpr);
-    h = field.height = Math.floor(innerHeight * dpr);
-    field.style.width = innerWidth + 'px';
-    field.style.height = innerHeight + 'px';
-    cx = w/2; cy = h/2;
-    buildSVG();
-  }
+        // random detection simulation
+        let tick = 0;
+        function simulateDetection() {
+            const x = rand(W * 0.1, W * 0.9);
+            const y = rand(H * 0.1, H * 0.9);
+            const intensity = rand(0.3, 1.0);
+            addRing(x, y, intensity);
+        }
 
-  function spiralPts(cx, cy, startR, endR, turns, angleOffset, numPoints, squash=1){
-    const pts=[];
-    for(let i=0;i<=numPoints;i++){
-      const u=i/numPoints;
-      const r=startR+(endR-startR)*u;
-      const theta=turns*2*Math.PI*u + angleOffset;
-      pts.push([cx + r*Math.cos(theta), cy + r*Math.sin(theta)*squash, u]);
-    }
-    return pts;
-  }
+        // initial burst
+        for (let i = 0; i < 4; i++) setTimeout(simulateDetection, i * 800);
+        setInterval(() => simulateDetection(), 4000 + rand(0, 4000));
 
-  function pathFromPts(pts){
-    return pts.map((p,i)=>`${i?'L':'M'}${p[0].toFixed(2)},${p[1].toFixed(2)}`).join(' ');
-  }
+        // ─── try to fetch real bird data ───
+        let birdData = null;
+        fetch('https://raw.githubusercontent.com/vortexpjeff/pine-hollow-dashboard/main/data/latest.json', { signal: AbortSignal.timeout(4000) })
+            .then(r => r.json())
+            .then(d => { birdData = d; })
+            .catch(() => {});
 
-  function line(cx, cy, a, len, squash=1){
-    const x = cx + Math.cos(a) * len;
-    const y = cy + Math.sin(a) * len * squash;
-    return `M${cx},${cy} L${x.toFixed(2)},${y.toFixed(2)}`;
-  }
+        // ─── draw ───
+        function draw() {
+            tick++;
 
-  function create(tag, attrs){
-    const e = document.createElementNS('http://www.w3.org/2000/svg', tag);
-    for(const [k,v] of Object.entries(attrs)) e.setAttribute(k,v);
-    return e;
-  }
+            // clear fully — no accumulation
+            ctx.fillStyle = '#070907';
+            ctx.fillRect(0, 0, W, H);
 
-  function buildSVG(){
-    const spirals = document.getElementById('spirals');
-    const spokes = document.getElementById('spokes');
-    const sigils = document.getElementById('sigils');
-    spirals.innerHTML=''; spokes.innerHTML=''; sigils.innerHTML='';
+            // ── update nodes ──
+            for (const n of nodes) {
+                // drift
+                n.x += n.vx;
+                n.y += n.vy;
 
-    const s = 1000;
-    const C = 500;
-    const SQ = 0.68;
+                // gentle pull toward anchor
+                const dx = n.anchorX - n.x;
+                const dy = n.anchorY - n.y;
+                n.vx += dx * n.pull;
+                n.vy += dy * n.pull;
 
-    // Major concentric sacred circles
-    [72,118,162,236,308,360].forEach((r,i)=>{
-      spirals.appendChild(create('circle',{
-        cx:C,cy:C,r,
-        class:i%3===0?'spiralHalo':i%3===1?'spiralHalo2':'spiralHalo3'
-      }));
-    });
+                // wander
+                n.vx += rand(-0.005, 0.005);
+                n.vy += rand(-0.005, 0.005);
 
-    // Perfect logarithmic spirals — mathematically generated, mirrored.
-    const spiralSpecs = [
-      {turns:4.35, start:24, end:448, offset:-0.72, cls:'gold', squash:.72},
-      {turns:4.35, start:24, end:448, offset:Math.PI-0.72, cls:'teal', squash:.72},
-      {turns:3.55, start:40, end:382, offset:1.55, cls:'green', squash:.68},
-      {turns:3.55, start:40, end:382, offset:Math.PI+1.55, cls:'violet', squash:.68},
-      {turns:2.55, start:58, end:304, offset:.22, cls:'gold', squash:.76},
-      {turns:2.55, start:58, end:304, offset:Math.PI+.22, cls:'teal', squash:.76},
-    ];
-    spiralSpecs.forEach((sp, idx) => {
-      const pts = spiralPts(C,C,sp.start,sp.end,sp.turns,sp.offset,560,sp.squash);
-      spirals.appendChild(create('path', { d: pathFromPts(pts), class:`spiralPath ${sp.cls}` }));
-    });
+                // damping
+                n.vx *= 0.995;
+                n.vy *= 0.995;
 
-    // Counter-spiral crown around the face.
-    const crown = spiralPts(C, C, 58, 220, -2.6, -0.2, 260, .83);
-    spirals.appendChild(create('path', { d: pathFromPts(crown), class:'spiralPath gold', 'stroke-dasharray':'1 13' }));
+                // wrap edges gently
+                const margin = 60;
+                if (n.x < -margin) n.x = W + margin;
+                if (n.x > W + margin) n.x = -margin;
+                if (n.y < -margin) n.y = H + margin;
+                if (n.y > H + margin) n.y = -margin;
+            }
 
-    // Sacred geometry spokes: 72 rays / 24 / 12 / 6.
-    const rays = [72,24,12,6];
-    rays.forEach((n, layer)=>{
-      for(let i=0;i<n;i++){
-        const a=(Math.PI*2*i/n) + (layer%2?Math.PI/n/2:0);
-        const len=[428,318,228,148][layer];
-        const opacity=[.10,.08,.08,.12][layer];
-        spokes.appendChild(create('path',{
-          d: line(C,C,a,len,0.72),
-          stroke: layer===0?'rgba(226,197,111,.12)':layer===1?'rgba(110,231,210,.10)':layer===2?'rgba(135,213,138,.10)':'rgba(246,242,232,.10)',
-          'stroke-width': layer===0?1.4:1,
-          'stroke-linecap':'round',
-          opacity
-        }));
-      }
-    });
+            // ── draw threads between close nodes ──
+            const maxDist = 140;
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const dx = nodes[i].x - nodes[j].x;
+                    const dy = nodes[i].y - nodes[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < maxDist) {
+                        const t = 1 - dist / maxDist;
+                        const alpha = t * t * 0.08;
+                        const phase = (nodes[i].phase + nodes[j].phase + tick * 0.003) % 1;
+                        const r = 140 + Math.sin(phase * Math.PI * 2) * 30;
+                        const g = 180 + Math.sin(phase * Math.PI * 2 + 0.5) * 20;
+                        const b = 140 + Math.sin(phase * Math.PI * 2 + 1.0) * 20;
+                        ctx.strokeStyle = `rgba(${r|0},${g|0},${b|0},${alpha})`;
+                        ctx.lineWidth = 0.3 + t * 0.3;
+                        ctx.beginPath();
+                        ctx.moveTo(nodes[i].x, nodes[i].y);
+                        ctx.lineTo(nodes[j].x, nodes[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
 
-    // Hexagram / octagram / inner rings.
-    const hex = [];
-    for(let i=0;i<6;i++){
-      const a = -Math.PI/2 + i*Math.PI*2/6;
-      const r = i%2===0 ? 266 : 112;
-      hex.push([C + Math.cos(a)*r, C + Math.sin(a)*r*SQ]);
-    }
-    const pathHex = `M${hex[0][0].toFixed(2)},${hex[0][1].toFixed(2)} ` + hex.slice(1).map(p=>`L${p[0].toFixed(2)},${p[1].toFixed(2)}`).join(' ') + ' Z';
-    sigils.appendChild(create('path',{d:pathHex,class:'glyph gold'}));
-    const hex2=[];
-    for(let i=0;i<8;i++){
-      const a = -Math.PI/8 + i*Math.PI*2/8;
-      const r = i%2===0 ? 344 : 160;
-      hex2.push([C + Math.cos(a)*r, C + Math.sin(a)*r*SQ]);
-    }
-    const pathOct = `M${hex2[0][0].toFixed(2)},${hex2[0][1].toFixed(2)} ` + hex2.slice(1).map(p=>`L${p[0].toFixed(2)},${p[1].toFixed(2)}`).join(' ') + ' Z';
-    sigils.appendChild(create('path',{d:pathOct,class:'glyph teal','stroke-dasharray':'10 12'}));
+            // ── draw nodes ──
+            for (const n of nodes) {
+                const pulse = 0.6 + 0.4 * Math.sin(tick * 0.015 + n.phase);
+                const alpha = 0.2 + 0.5 * pulse;
+                const r = 140 + Math.sin(n.phase + tick * 0.005) * 40;
+                const g = 180 + Math.cos(n.phase * 0.7 + tick * 0.004) * 25;
+                const b = 140 + Math.sin(n.phase * 1.3 + tick * 0.006) * 30;
+                const sz = n.size * pulse;
 
-    // Outer sigil marks.
-    const marks = 24;
-    for(let i=0;i<marks;i++){
-      const a=-Math.PI/2 + i*Math.PI*2/marks;
-      const r1=372, r2=404;
-      const x1=C+Math.cos(a)*r1, y1=C+Math.sin(a)*r1*SQ;
-      const x2=C+Math.cos(a+0.05)*r2, y2=C+Math.sin(a+0.05)*r2*SQ;
-      sigils.appendChild(create('path', { d:`M${x1.toFixed(2)},${y1.toFixed(2)} L${x2.toFixed(2)},${y2.toFixed(2)}`, class: i%3===0?'glyph gold':i%3===1?'glyph green':'glyph teal', opacity:.45 }));
-    }
+                ctx.fillStyle = `rgba(${r|0},${g|0},${b|0},${alpha})`;
+                ctx.beginPath();
+                ctx.arc(n.x, n.y, sz, 0, Math.PI * 2);
+                ctx.fill();
 
-    // Tiny satellites around the central face.
-    const sat = 12;
-    for(let i=0;i<sat;i++){
-      const a = i*Math.PI*2/sat + (i%2 ? 0.09 : -0.03);
-      const r = 206 + (i%3)*16;
-      const x = C + Math.cos(a)*r;
-      const y = C + Math.sin(a)*r*SQ;
-      sigils.appendChild(create('circle', { cx:x, cy:y, r: i%4===0?6:4.5, fill: i%3===0?'rgba(226,197,111,.5)':i%3===1?'rgba(110,231,210,.42)':'rgba(135,213,138,.34)' }));
-    }
-  }
+                // tiny glow
+                if (pulse > 0.8) {
+                    ctx.fillStyle = `rgba(${r|0},${g|0},${b|0},${alpha * 0.15})`;
+                    ctx.beginPath();
+                    ctx.arc(n.x, n.y, sz * 3, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
 
-  function drawField(){
-    fctx.clearRect(0,0,w,h);
-    // Black field with faint ionized dust and slow rings in the distance.
-    const bg = fctx.createRadialGradient(cx,cy,0,cx,cy,Math.max(w,h)*.64);
-    bg.addColorStop(0,'rgba(14,18,22,1)');
-    bg.addColorStop(.24,'rgba(6,7,10,1)');
-    bg.addColorStop(1,'rgba(0,0,0,1)');
-    fctx.fillStyle = bg;
-    fctx.fillRect(0,0,w,h);
+            // ── draw rings ──
+            for (let i = rings.length - 1; i >= 0; i--) {
+                const r = rings[i];
+                r.life -= 0.012;
+                if (r.life <= 0) { rings.splice(i, 1); continue; }
 
-    // Faint particulate field that never dominates.
-    const n = Math.floor(220 + Math.min(w,h)/10);
-    for(let i=0;i<n;i++){
-      const a = i*0.618 + t*0.00008;
-      const rr = (Math.sin(i*12.9898 + t*0.0006)*0.5+0.5) * Math.min(w,h)*0.48;
-      const x = cx + Math.cos(a + i)*rr;
-      const y = cy + Math.sin(a + i)*rr*0.68;
-      const hue = i%3===0 ? [226,197,111] : i%3===1 ? [110,231,210] : [135,213,138];
-      fctx.fillStyle = `rgba(${hue[0]},${hue[1]},${hue[2]},${0.04 + (i%7)*0.004})`;
-      fctx.beginPath();
-      fctx.arc(x,y,(i%5===0?1.8:1)*dpr,0,Math.PI*2);
-      fctx.fill();
-    }
+                const radius = (1 - r.life) * 100 * r.intensity;
+                const alpha = r.life * r.life * 0.3;
 
-    // Concentric shimmer circles around center to make the field feel ancient and immense.
-    fctx.save();
-    fctx.translate(cx,cy);
-    fctx.scale(1,0.72);
-    for(let i=0;i<7;i++){
-      const r = Math.min(w,h) * (0.04 + i*0.06);
-      fctx.strokeStyle = i%3===0 ? 'rgba(226,197,111,.05)' : i%3===1 ? 'rgba(110,231,210,.04)' : 'rgba(135,213,138,.035)';
-      fctx.lineWidth = 0.8*dpr;
-      fctx.setLineDash(i%2 ? [4*dpr,10*dpr] : [1*dpr,14*dpr]);
-      fctx.beginPath();
-      fctx.arc(0,0,r,0,Math.PI*2);
-      fctx.stroke();
-    }
-    fctx.restore();
-  }
+                const rCol = 160 + Math.sin(r.intensity * 10 + tick * 0.01) * 30;
+                const gCol = 190 + Math.cos(r.intensity * 8 + tick * 0.008) * 20;
+                const bCol = 150;
 
-  function loop(){
-    t += 1;
-    drawField();
-    requestAnimationFrame(loop);
-  }
+                ctx.strokeStyle = `rgba(${rCol|0},${gCol|0},${bCol|0},${alpha})`;
+                ctx.lineWidth = 0.6 + r.life * 0.8;
+                ctx.beginPath();
+                ctx.arc(r.x, r.y, radius, 0, Math.PI * 2);
+                ctx.stroke();
 
-  addEventListener('resize', resize, {passive:true});
-  resize();
-  loop();
+                // inner glow
+                if (r.life > 0.7) {
+                    const inner = (r.life - 0.7) / 0.3;
+                    ctx.fillStyle = `rgba(${rCol|0},${gCol|0},${bCol|0},${inner * 0.06})`;
+                    ctx.beginPath();
+                    ctx.arc(r.x, r.y, 4 * r.intensity, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
 
-  // click-to-play voice
-  const vox = document.getElementById('vox');
-  let voxReady = false;
-  const playOnce = () => {
-    if (!voxReady) { vox.volume = 0.55; voxReady = true; }
-    if (vox.paused) { vox.play().catch(()=>{}); }
-  };
-  document.addEventListener('pointerdown', playOnce, {once:true, passive:true});
-  document.addEventListener('keydown', playOnce, {once:true, passive:true});
-</script>
+            // try to spawn from bird data every ~2s
+            if (tick % 120 === 0 && birdData && birdData.recent && birdData.recent.length) {
+                const d = birdData.recent[Math.floor(Math.random() * birdData.recent.length)];
+                if (d && d.confidence) {
+                    const x = rand(W * 0.15, W * 0.85);
+                    const y = rand(H * 0.15, H * 0.85);
+                    addRing(x, y, d.confidence / 100);
+                }
+            }
+
+            requestAnimationFrame(draw);
+        }
+
+        draw();
+    </script>
 </body>
 </html>
