@@ -6,11 +6,13 @@
 <title>The Vortex Project</title>
 <style>
   :root{
-    --bg:#020604;
-    --green:#8cff9f;
-    --teal:#62ffd6;
-    --gold:#ffd36a;
-    --deep:#05110b;
+    --bg0:#f4efe3;
+    --bg1:#d9cfb2;
+    --ink:#1f2a22;
+    --gold:#d7b45d;
+    --amber:#b07c2d;
+    --green:#5a8b6b;
+    --white:#fffdf8;
   }
 
   *{box-sizing:border-box}
@@ -19,11 +21,12 @@
     width:100%;
     height:100%;
     overflow:hidden;
-    background:var(--bg);
+    background:
+      radial-gradient(circle at 50% 48%, rgba(241,233,212,.62) 0 10%, rgba(222,212,184,.46) 18%, rgba(193,181,150,.20) 34%, rgba(96,90,78,.10) 64%, rgba(17,22,18,.10) 100%),
+      linear-gradient(180deg,#d6c9ab,#b9ac8b);
   }
 
   body{
-    cursor:crosshair;
     font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   }
 
@@ -35,456 +38,322 @@
     display:block;
   }
 
-  #veil{
+  #frame{
     position:fixed;
     inset:0;
     pointer-events:none;
     background:
-      radial-gradient(circle at 50% 50%, transparent 0 18%, rgba(7,26,12,.10) 32%, rgba(0,0,0,.78) 100%),
-      radial-gradient(circle at 50% 45%, rgba(80,255,130,.055), transparent 36%),
-      linear-gradient(180deg, rgba(6,16,9,.15), rgba(0,0,0,.42));
-    mix-blend-mode:screen;
+      radial-gradient(circle at 50% 50%, transparent 0 28%, rgba(255,255,255,.04) 46%, rgba(34,49,39,.10) 74%, rgba(15,18,15,.22) 100%),
+      linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,0) 18%, rgba(255,255,255,0) 82%, rgba(35,47,39,.04));
+    mix-blend-mode:multiply;
   }
 
-  #grain{
+  #dust{
     position:fixed;
-    inset:-50%;
+    inset:-20%;
     pointer-events:none;
-    opacity:.075;
+    opacity:.12;
     background-image:
-      repeating-radial-gradient(circle at 17% 29%, rgba(255,255,255,.9) 0 1px, transparent 1px 3px),
-      repeating-linear-gradient(13deg, rgba(140,255,160,.18) 0 1px, transparent 1px 9px);
-    animation:grain 12s steps(6) infinite;
-    mix-blend-mode:overlay;
+      radial-gradient(circle at 20% 18%, rgba(255,255,255,.9) 0 1px, transparent 1.7px),
+      radial-gradient(circle at 73% 26%, rgba(215,180,93,.9) 0 1px, transparent 1.7px),
+      radial-gradient(circle at 61% 76%, rgba(90,139,107,.85) 0 1px, transparent 1.7px),
+      radial-gradient(circle at 38% 68%, rgba(255,255,255,.75) 0 1px, transparent 1.7px);
+    background-size: 260px 260px, 300px 300px, 340px 340px, 220px 220px;
+    animation:dust 26s linear infinite;
   }
 
-  @keyframes grain{
-    0%{transform:translate3d(0,0,0) rotate(0deg)}
-    20%{transform:translate3d(-2%,1%,0) rotate(.25deg)}
-    40%{transform:translate3d(1%,-2%,0) rotate(-.2deg)}
-    60%{transform:translate3d(2%,2%,0) rotate(.1deg)}
-    80%{transform:translate3d(-1%,-1%,0) rotate(-.15deg)}
-    100%{transform:translate3d(0,0,0) rotate(0deg)}
+  @keyframes dust{
+    from{transform:translate3d(0,0,0)}
+    to{transform:translate3d(-4%,3%,0)}
   }
 
   #sigil{
     position:fixed;
     inset:0;
-    pointer-events:none;
     display:grid;
     place-items:center;
-    opacity:.72;
+    pointer-events:none;
+  }
+
+  .halo,
+  .eye-ring,
+  .ring{
+    position:absolute;
+    border-radius:50%;
     mix-blend-mode:screen;
   }
 
-  .ring{
-    position:absolute;
-    width:min(68vw,68vh);
-    height:min(68vw,68vh);
-    border-radius:50%;
-    border:1px solid rgba(128,255,150,.12);
-    box-shadow:
-      0 0 48px rgba(70,255,130,.05),
-      inset 0 0 70px rgba(70,255,130,.035);
-    transform:scaleY(.58) rotate(0deg);
-    animation:spin 58s linear infinite;
+  .halo{
+    width:min(26vw,26vh);
+    height:min(26vw,26vh);
+    border:1px solid rgba(215,180,93,.16);
+    box-shadow:0 0 18px rgba(215,180,93,.05), inset 0 0 10px rgba(255,253,248,.10);
+    animation:halo 9s ease-in-out infinite;
   }
-  .ring:nth-child(2){width:min(54vw,54vh);height:min(54vw,54vh);border-style:dashed;border-color:rgba(98,255,214,.16);animation-duration:42s;animation-direction:reverse}
-  .ring:nth-child(3){width:min(39vw,39vh);height:min(39vw,39vh);border-color:rgba(255,211,106,.14);animation-duration:31s}
-  .ring:nth-child(4){width:min(24vw,24vh);height:min(24vw,24vh);border-style:dotted;border-color:rgba(128,255,150,.20);animation-duration:23s;animation-direction:reverse}
+  .eye-ring{
+    width:min(7vw,7vh);
+    height:min(7vw,7vh);
+    border:1px solid rgba(31,42,34,.38);
+    opacity:.42;
+  }
+  .ring.r1{width:min(40vw,40vh);height:min(40vw,40vh);border:1px solid rgba(90,139,107,.10);animation:spin 44s linear infinite}
+  .ring.r2{width:min(50vw,50vh);height:min(50vw,50vh);border:1px dashed rgba(215,180,93,.09);animation:spin 69s linear infinite reverse}
+  .ring.r3{width:min(18vw,18vh);height:min(18vw,18vh);border:1px dotted rgba(31,42,34,.08);animation:spin 36s linear infinite reverse}
 
-  @keyframes spin{to{transform:scaleY(.58) rotate(360deg)}}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes halo{
+    0%,100%{transform:scale(1);opacity:.65}
+    50%{transform:scale(1.03);opacity:.92}
+  }
+
+  #figure{
+    position:absolute;
+    width:min(58vw,58vh);
+    height:min(58vw,58vh);
+    max-width:850px;
+    max-height:850px;
+    display:block;
+    overflow:visible;
+    filter:drop-shadow(0 0 10px rgba(215,180,93,.08));
+  }
 
   #label{
     position:fixed;
     left:50%;
-    bottom:28px;
+    bottom:24px;
     transform:translateX(-50%);
-    pointer-events:none;
-    color:rgba(140,200,150,.10);
-    letter-spacing:.38em;
+    letter-spacing:.28em;
     text-transform:uppercase;
     font-size:10px;
-    font-weight:300;
+    color:rgba(31,42,34,.22);
+    pointer-events:none;
     white-space:nowrap;
   }
 
   @media(max-width:700px){
-    #label{font-size:8px;bottom:18px;letter-spacing:.25em}
-    .ring{width:min(86vw,86vh);height:min(86vw,86vh)}
-    .ring:nth-child(2){width:min(68vw,68vh);height:min(68vw,68vh)}
-    .ring:nth-child(3){width:min(50vw,50vh);height:min(50vw,50vh)}
-    .ring:nth-child(4){width:min(32vw,32vh);height:min(32vw,32vh)}
+    #label{font-size:8px;bottom:18px;letter-spacing:.18em}
+    #figure{width:92vw;height:92vw}
+  }
+
+  .wings, .wings2, .wings3, .core, .pulse{
+    transform-origin:50% 50%;
+  }
+
+  .pulse{
+    animation:pulse 6s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{transform:scale(1);opacity:.92}
+    50%{transform:scale(1.02);opacity:1}
+  }
+
+  .wing-sway{
+    animation:sway 9s ease-in-out infinite;
+    transform-origin:50% 50%;
+  }
+  .wing-sway.right{animation-direction:reverse}
+  @keyframes sway{
+    0%,100%{transform:rotate(-.6deg) translateY(0)}
+    50%{transform:rotate(.8deg) translateY(-2px)}
+  }
+
+  .ember{
+    animation:ember 5.5s ease-in-out infinite;
+    transform-origin:center;
+  }
+  @keyframes ember{
+    0%,100%{transform:translateY(0) scale(.9);opacity:.25}
+    50%{transform:translateY(-5px) scale(1.08);opacity:.65}
   }
 </style>
 </head>
 <body>
-<canvas id="vortex"></canvas>
-<div id="sigil" aria-hidden="true">
-  <div class="ring"></div>
-  <div class="ring"></div>
-  <div class="ring"></div>
-  <div class="ring"></div>
+<canvas id="field"></canvas>
+<div id="sigil">
+  <div class="ring r1"></div>
+  <div class="ring r2"></div>
+  <div class="ring r3"></div>
+  <div class="halo"></div>
+  <svg id="figure" viewBox="0 0 1000 1000" aria-hidden="true">
+    <defs>
+      <linearGradient id="goldLine" x1="0" x2="1">
+        <stop offset="0%" stop-color="#7d5f26" stop-opacity=".55"/>
+        <stop offset="45%" stop-color="#d7b45d" stop-opacity=".95"/>
+        <stop offset="100%" stop-color="#fff8dd" stop-opacity=".95"/>
+      </linearGradient>
+      <radialGradient id="coreGlow">
+        <stop offset="0%" stop-color="#fffef8" stop-opacity="1"/>
+        <stop offset="35%" stop-color="#f4d67d" stop-opacity=".95"/>
+        <stop offset="70%" stop-color="#5a8b6b" stop-opacity=".48"/>
+        <stop offset="100%" stop-color="#5a8b6b" stop-opacity="0"/>
+      </radialGradient>
+      <filter id="soft"><feGaussianBlur stdDeviation="2.8"/></filter>
+    </defs>
+
+    <!-- wing arches -->
+    <g class="wing-sway left" opacity=".82">
+      <path d="M360 580 C220 520, 150 420, 188 312 C218 228, 296 196, 372 214 C266 278, 228 356, 246 434 C263 506, 314 546, 360 580 Z" fill="rgba(255,253,248,.06)" stroke="url(#goldLine)" stroke-width="1.8"/>
+      <path d="M348 566 C250 508, 188 432, 212 340 C231 271, 286 238, 348 236 C284 296, 262 361, 274 420 C286 476, 318 520, 348 566 Z" fill="none" stroke="rgba(90,139,107,.34)" stroke-width="1.1"/>
+      <path d="M356 540 C280 488, 248 430, 260 372 C272 316, 306 286, 352 274" fill="none" stroke="rgba(215,180,93,.26)" stroke-width="1"/>
+      <path d="M345 508 C300 462, 286 417, 292 382 C298 348, 314 322, 344 302" fill="none" stroke="rgba(31,42,34,.32)" stroke-width=".9"/>
+    </g>
+
+    <g class="wing-sway right" opacity=".82">
+      <path d="M640 580 C780 520, 850 420, 812 312 C782 228, 704 196, 628 214 C734 278, 772 356, 754 434 C737 506, 686 546, 640 580 Z" fill="rgba(255,253,248,.06)" stroke="url(#goldLine)" stroke-width="1.8"/>
+      <path d="M652 566 C750 508, 812 432, 788 340 C769 271, 714 238, 652 236 C716 296, 738 361, 726 420 C714 476, 682 520, 652 566 Z" fill="none" stroke="rgba(90,139,107,.34)" stroke-width="1.1"/>
+      <path d="M644 540 C720 488, 752 430, 740 372 C728 316, 694 286, 648 274" fill="none" stroke="rgba(215,180,93,.26)" stroke-width="1"/>
+      <path d="M655 508 C700 462, 714 417, 708 382 C702 348, 686 322, 656 302" fill="none" stroke="rgba(31,42,34,.32)" stroke-width=".9"/>
+    </g>
+
+    <!-- central throne-eye -->
+    <g class="core pulse">
+      <ellipse cx="500" cy="510" rx="110" ry="66" fill="url(#coreGlow)" opacity=".50"/>
+      <ellipse cx="500" cy="510" rx="58" ry="38" fill="rgba(255,253,248,.72)" stroke="rgba(215,180,93,.72)" stroke-width="1.8"/>
+      <ellipse cx="500" cy="510" rx="31" ry="18" fill="none" stroke="rgba(31,42,34,.58)" stroke-width="1.8"/>
+      <path d="M468 510 Q500 485 532 510 Q500 535 468 510 Z" fill="rgba(31,42,34,.72)"/>
+      <circle cx="500" cy="510" r="8" fill="#fffdf8"/>
+      <circle cx="500" cy="510" r="3.2" fill="#1f2a22"/>
+      <path d="M445 510 Q500 472 555 510" fill="none" stroke="rgba(255,248,221,.72)" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M445 510 Q500 548 555 510" fill="none" stroke="rgba(90,139,107,.34)" stroke-width="1.6" stroke-linecap="round"/>
+    </g>
+
+    <!-- listening rings / eyes -->
+    <g opacity=".85">
+      <ellipse cx="500" cy="510" rx="170" ry="100" fill="none" stroke="rgba(215,180,93,.45)" stroke-width="1.2"/>
+      <ellipse cx="500" cy="510" rx="240" ry="142" fill="none" stroke="rgba(90,139,107,.28)" stroke-width="1.1" stroke-dasharray="7 10"/>
+      <ellipse cx="500" cy="510" rx="318" ry="188" fill="none" stroke="rgba(31,42,34,.18)" stroke-width="1" stroke-dasharray="2 14"/>
+    </g>
+
+    <!-- eyes in rings -->
+    <g opacity=".72">
+      <g class="ember"><circle cx="350" cy="490" r="4.5" fill="#d7b45d"/><circle cx="650" cy="490" r="4.5" fill="#d7b45d"/></g>
+      <g class="ember" style="animation-delay:-1s"><circle cx="394" cy="406" r="4" fill="#5a8b6b"/><circle cx="606" cy="406" r="4" fill="#5a8b6b"/></g>
+      <g class="ember" style="animation-delay:-2s"><circle cx="305" cy="560" r="3.8" fill="#fffdf8"/><circle cx="695" cy="560" r="3.8" fill="#fffdf8"/></g>
+      <g class="ember" style="animation-delay:-3s"><circle cx="500" cy="350" r="4.2" fill="#d7b45d"/><circle cx="500" cy="670" r="4.2" fill="#d7b45d"/></g>
+    </g>
+
+    <!-- small seraph bars -->
+    <g opacity=".88">
+      <path d="M500 305 L500 245" stroke="rgba(255,253,248,.86)" stroke-width="3" stroke-linecap="round"/>
+      <path d="M500 755 L500 695" stroke="rgba(255,253,248,.86)" stroke-width="3" stroke-linecap="round"/>
+      <path d="M500 245 C520 232, 545 232, 558 250" fill="none" stroke="rgba(215,180,93,.65)" stroke-width="2" stroke-linecap="round"/>
+      <path d="M500 245 C480 232, 455 232, 442 250" fill="none" stroke="rgba(215,180,93,.65)" stroke-width="2" stroke-linecap="round"/>
+    </g>
+
+    <!-- perimeter embers -->
+    <g opacity=".55">
+      <g class="ember" style="animation-delay:-.4s"><circle cx="500" cy="150" r="5" fill="#fffdf8"/></g>
+      <g class="ember" style="animation-delay:-1.3s"><circle cx="735" cy="230" r="4.2" fill="#d7b45d"/></g>
+      <g class="ember" style="animation-delay:-2.1s"><circle cx="830" cy="520" r="5" fill="#5a8b6b"/></g>
+      <g class="ember" style="animation-delay:-2.8s"><circle cx="275" cy="250" r="4.5" fill="#5a8b6b"/></g>
+      <g class="ember" style="animation-delay:-3.5s"><circle cx="170" cy="520" r="4.8" fill="#fffdf8"/></g>
+      <g class="ember" style="animation-delay:-4.2s"><circle cx="500" cy="860" r="5" fill="#d7b45d"/></g>
+    </g>
+  </svg>
 </div>
-<div id="veil"></div>
-<div id="grain"></div>
-<div id="label">the vortex project · pine hollow</div>
+<div id="frame"></div>
+<div id="dust"></div>
+<div id="label">the vortex project · the listening angel</div>
 
 <script>
 (() => {
-  const canvas = document.getElementById('vortex');
-  const ctx = canvas.getContext('2d', { alpha:false });
-
-  let w=0,h=0,dpr=1,cx=0,cy=0,scale=1;
-  let t=0;
+  const canvas = document.getElementById('field');
+  const ctx = canvas.getContext('2d');
+  let w=0,h=0,dpr=1,cx=0,cy=0;
+  const motes=[];
+  const rays=[];
   const mouse={x:0,y:0,active:false};
 
-  const arms=[];
-  const motes=[];
-  const stars=[];
-  const sparks=[];
-  const glyphs=[];
+  function rand(a,b){return a+Math.random()*(b-a)}
 
   function resize(){
     dpr = Math.min(window.devicePixelRatio || 1, 2);
-    w = Math.floor(innerWidth*dpr);
-    h = Math.floor(innerHeight*dpr);
-    canvas.width=w;
-    canvas.height=h;
-    cx=w/2;
-    cy=h/2;
-    scale=Math.min(w,h);
-    rebuild();
+    w = canvas.width = Math.floor(innerWidth*dpr);
+    h = canvas.height = Math.floor(innerHeight*dpr);
+    canvas.style.width = innerWidth+'px';
+    canvas.style.height = innerHeight+'px';
+    cx = w/2; cy = h/2;
+    build();
   }
 
-  function rand(a,b){return a+Math.random()*(b-a)}
-  function pick(a){return a[(Math.random()*a.length)|0]}
-
-  function rebuild(){
-    arms.length=0; motes.length=0; stars.length=0; sparks.length=0; glyphs.length=0;
-
-    const palette=[
-      [140,255,159],
-      [98,255,214],
-      [255,211,106],
-      [112,200,255],
-      [195,255,138]
-    ];
-
-    for(let a=0;a<9;a++){
-      const family=palette[a%palette.length];
-      const dots=[];
-      const count=220;
-      for(let i=0;i<count;i++){
-        const q=i/(count-1);
-        const turns=3.35 + a*.025;
-        const theta=a*Math.PI*2/9 + q*Math.PI*2*turns;
-        const radius=(Math.pow(q,1.36)*scale*.42) + scale*.012;
-        dots.push({q,theta,radius});
-      }
-      arms.push({dots,color:family,spin:rand(.06,.13)*(a%2?1:-1),phase:rand(0,Math.PI*2),width:rand(.7,1.9)});
-    }
-
-    const moteCount=Math.floor(420 + scale/3.5);
-    for(let i=0;i<moteCount;i++){
-      const r=Math.pow(Math.random(),.72)*scale*.64;
+  function build(){
+    motes.length=0; rays.length=0;
+    const count = Math.max(90, Math.floor((innerWidth*innerHeight)/17000));
+    for(let i=0;i<count;i++){
       const a=Math.random()*Math.PI*2;
-      motes.push({
-        r,a,
-        z:rand(.2,1),
-        vr:rand(-.045,.026)*scale/900,
-        va:rand(.0008,.0026)*(Math.random()<.5?-1:1),
-        size:rand(.45,2.2)*dpr,
-        life:Math.random(),
-        color:pick(palette),
-        drift:rand(.4,1.8)
-      });
+      const r=Math.pow(Math.random(),.65)*Math.min(w,h)*.44;
+      motes.push({a,r,sp:rand(.002,.006),sz:rand(.45,1.8)*dpr,ph:rand(0,Math.PI*2),c:Math.random()<.55?[215,180,93]:Math.random()<.5?[90,139,107]:[255,253,248]});
     }
-
-    for(let i=0;i<260;i++){
-      stars.push({
-        x:Math.random()*w,
-        y:Math.random()*h,
-        size:rand(.25,1.6)*dpr,
-        tw:rand(.18,.82),
-        phase:rand(0,Math.PI*2),
-        color:pick(palette)
-      });
+    for(let i=0;i<18;i++){
+      rays.push({a:i*Math.PI*2/18, len:rand(.12,.38)*Math.min(w,h), sw:rand(.5,1.2)*dpr, c:i%3===0?[215,180,93]:i%3===1?[90,139,107]:[31,42,34]});
     }
-
-    for(let i=0;i<42;i++){
-      glyphs.push({
-        a:i*Math.PI*2/42,
-        r:scale*rand(.205,.38),
-        phase:rand(0,Math.PI*2),
-        size:rand(4,10)*dpr,
-        color:pick(palette)
-      });
-    }
-  }
-
-  function resetMote(m){
-    m.r=Math.pow(Math.random(),.62)*scale*.58;
-    m.a=Math.random()*Math.PI*2;
-    m.z=rand(.2,1);
-    m.vr=rand(-.055,.02)*scale/900;
-    m.va=rand(.0008,.0028)*(Math.random()<.5?-1:1);
-    m.life=0;
-  }
-
-  function emitSpark(){
-    if(sparks.length>160) return;
-    const a=Math.random()*Math.PI*2;
-    sparks.push({
-      x:cx+Math.cos(a)*scale*rand(.02,.08),
-      y:cy+Math.sin(a)*scale*rand(.02,.08)*.68,
-      vx:Math.cos(a)*rand(.18,1.2)*dpr,
-      vy:Math.sin(a)*rand(.18,1.2)*dpr*.68,
-      life:1,
-      size:rand(1,3.5)*dpr,
-      color:pick([[140,255,159],[98,255,214],[255,211,106]])
-    });
   }
 
   function bg(){
-    const g=ctx.createRadialGradient(cx,cy,0,cx,cy,Math.max(w,h)*.72);
-    g.addColorStop(0,'rgb(5,18,10)');
-    g.addColorStop(.20,'rgb(2,9,6)');
-    g.addColorStop(.62,'rgb(1,5,4)');
-    g.addColorStop(1,'rgb(0,0,0)');
-    ctx.fillStyle=g;
+    const g = ctx.createRadialGradient(cx,cy,0,cx,cy,Math.max(w,h)*.72);
+    g.addColorStop(0,'rgba(255,253,248,1)');
+    g.addColorStop(.18,'rgba(244,231,193,1)');
+    g.addColorStop(.52,'rgba(218,206,176,1)');
+    g.addColorStop(1,'rgba(230,224,203,1)');
+    ctx.fillStyle = g;
     ctx.fillRect(0,0,w,h);
-  }
 
-  function drawStars(){
-    for(const s of stars){
-      const pulse=.35+.65*Math.sin(t*s.tw+s.phase)**2;
-      const [r,g,b]=s.color;
-      ctx.fillStyle=`rgba(${r},${g},${b},${.08+.35*pulse})`;
-      ctx.beginPath();
-      ctx.arc(s.x,s.y,s.size*(.55+pulse),0,Math.PI*2);
-      ctx.fill();
-    }
-  }
-
-  function drawSpiralArms(){
+    // faint soft rays around the angel
     ctx.save();
     ctx.translate(cx,cy);
-    ctx.scale(1,.68);
-    ctx.globalCompositeOperation='lighter';
-
-    for(const arm of arms){
-      const [r,g,b]=arm.color;
-      const rot=t*arm.spin+arm.phase;
-      for(const p of arm.dots){
-        const theta=p.theta+rot + Math.sin(t*.45+p.q*11+arm.phase)*.025;
-        const breathing=1+Math.sin(t*.7+p.q*7+arm.phase)*.018;
-        const rr=p.radius*breathing;
-        const x=Math.cos(theta)*rr;
-        const y=Math.sin(theta)*rr;
-        const fade=Math.sin(p.q*Math.PI);
-        const towardCore=1-p.q;
-        const sz=(arm.width + fade*2.7 + towardCore*1.2)*dpr;
-        const alpha=.018 + fade*.19 + towardCore*.045;
-        ctx.fillStyle=`rgba(${r},${g},${b},${alpha})`;
-        ctx.beginPath();
-        ctx.arc(x,y,sz,0,Math.PI*2);
-        ctx.fill();
-      }
-    }
-    ctx.restore();
-  }
-
-  function drawThreads(){
-    ctx.save();
-    ctx.translate(cx,cy);
-    ctx.scale(1,.68);
-    ctx.globalCompositeOperation='screen';
-    ctx.lineWidth=.5*dpr;
-
-    for(let k=0;k<18;k++){
-      const hueColor = k%3===0 ? [255,211,106] : k%3===1 ? [98,255,214] : [140,255,159];
-      const [r,g,b]=hueColor;
-      ctx.strokeStyle=`rgba(${r},${g},${b},${.055})`;
+    ctx.globalCompositeOperation='multiply';
+    for(const r of rays){
+      const pulse = .5 + .5*Math.sin(performance.now()*0.001 + r.a*2);
+      const x = Math.cos(r.a) * r.len;
+      const y = Math.sin(r.a) * r.len * .72;
+      ctx.strokeStyle = `rgba(${r.c[0]},${r.c[1]},${r.c[2]},${.028 + pulse*.02})`;
+      ctx.lineWidth = r.sw;
       ctx.beginPath();
-      const phase=t*(k%2?-0.045:.052)+k*.37;
-      for(let i=0;i<180;i++){
-        const q=i/179;
-        const rr=(Math.pow(q,1.18)*scale*.46)+scale*.018;
-        const th=phase+k*Math.PI*2/18+q*Math.PI*2*(2.1+Math.sin(k)*.28);
-        const x=Math.cos(th)*rr;
-        const y=Math.sin(th)*rr;
-        if(i===0)ctx.moveTo(x,y); else ctx.lineTo(x,y);
-      }
+      ctx.moveTo(0,0);
+      ctx.lineTo(x,y);
       ctx.stroke();
     }
     ctx.restore();
   }
 
-  function drawMotes(){
-    ctx.globalCompositeOperation='lighter';
+  function drawMotes(t){
+    ctx.save();
+    ctx.globalCompositeOperation='multiply';
     for(const m of motes){
-      m.life+=.0025*m.drift;
-      m.r+=m.vr*scale*.006;
-      m.a+=m.va + Math.sin(t*.2+m.r*.01)*.0008;
-
+      m.a += m.sp * (m.c[1] > 150 ? 1 : -1);
+      m.r += Math.sin(t*.0007 + m.ph) * .03 * dpr;
+      const x = cx + Math.cos(m.a)*m.r;
+      const y = cy + Math.sin(m.a)*m.r*.72;
+      const life = .35 + .65*Math.sin(t*.0012 + m.ph)*Math.sin(t*.0008 + m.a*2);
+      const [r,g,b]=m.c;
+      ctx.fillStyle = `rgba(${r},${g},${b},${.06 + life*.18})`;
+      ctx.beginPath();
+      ctx.arc(x,y,m.sz*(.7 + life*.5),0,Math.PI*2);
+      ctx.fill();
       if(mouse.active){
-        const mx=(mouse.x*dpr-cx);
-        const my=(mouse.y*dpr-cy)/.68;
-        const ma=Math.atan2(my,mx);
-        const mr=Math.hypot(mx,my);
-        const diff=Math.atan2(Math.sin(ma-m.a),Math.cos(ma-m.a));
-        m.a+=diff*.0007;
-        m.r+=(mr-m.r)*.00025;
+        const dx = x - mouse.x*dpr;
+        const dy = y - mouse.y*dpr;
+        const d = Math.hypot(dx,dy);
+        if(d < 180*dpr){
+          ctx.fillStyle = `rgba(${r},${g},${b},${Math.max(0,.14 - d/(180*dpr)*.14)})`;
+          ctx.beginPath();
+          ctx.arc(x,y,m.sz*1.7,0,Math.PI*2);
+          ctx.fill();
+        }
       }
-
-      if(m.life>=1 || m.r<scale*.006 || m.r>scale*.72) resetMote(m);
-      const breath=Math.sin(m.life*Math.PI);
-      const x=cx+Math.cos(m.a+t*m.va*20)*m.r;
-      const y=cy+Math.sin(m.a+t*m.va*20)*m.r*.68;
-      const [r,g,b]=m.color;
-      ctx.fillStyle=`rgba(${r},${g},${b},${.08+.34*breath*m.z})`;
-      ctx.beginPath();
-      ctx.arc(x,y,m.size*(.6+breath*1.25)*m.z,0,Math.PI*2);
-      ctx.fill();
-    }
-  }
-
-  function drawRings(){
-    ctx.save();
-    ctx.translate(cx,cy);
-    ctx.scale(1,.68);
-    ctx.globalCompositeOperation='screen';
-
-    const ringCount=15;
-    for(let i=0;i<ringCount;i++){
-      const q=(i+1)/ringCount;
-      const r=scale*(.035+q*.43);
-      const pulse=Math.sin(t*(.45+i*.035)+i*.72)*.5+.5;
-      ctx.lineWidth=(.55+i*.035)*dpr;
-      const color=i%3===0?'140,255,159':i%3===1?'98,255,214':'255,211,106';
-      ctx.strokeStyle=`rgba(${color},${.04+q*.07+pulse*.018})`;
-      ctx.setLineDash(i%2?[5*dpr,10*dpr]:i%3?[2*dpr,12*dpr]:[]);
-      ctx.lineDashOffset=t*22*(i%2?-1:1);
-      ctx.beginPath();
-      ctx.ellipse(0,0,r,r,0,0,Math.PI*2);
-      ctx.stroke();
-    }
-    ctx.setLineDash([]);
-    ctx.restore();
-  }
-
-  function drawGlyphs(){
-    ctx.save();
-    ctx.translate(cx,cy);
-    ctx.scale(1,.68);
-    ctx.globalCompositeOperation='screen';
-    ctx.lineWidth=.8*dpr;
-    for(let i=0;i<glyphs.length;i++){
-      const g=glyphs[i];
-      const a=g.a+t*(i%2?.035:-.025);
-      const x=Math.cos(a)*g.r;
-      const y=Math.sin(a)*g.r;
-      const [r,gg,b]=g.color;
-      const alpha=.08+.09*Math.sin(t+g.phase)**2;
-      ctx.strokeStyle=`rgba(${r},${gg},${b},${alpha})`;
-      ctx.beginPath();
-      const s=g.size;
-      if(i%4===0){
-        ctx.moveTo(x-s,y);ctx.lineTo(x+s,y);ctx.moveTo(x,y-s);ctx.lineTo(x,y+s);
-      }else if(i%4===1){
-        ctx.rect(x-s*.55,y-s*.55,s*1.1,s*1.1);
-      }else if(i%4===2){
-        ctx.arc(x,y,s*.75,0,Math.PI*2);
-      }else{
-        ctx.moveTo(x,y-s);ctx.lineTo(x+s*.8,y+s*.55);ctx.lineTo(x-s*.8,y+s*.55);ctx.closePath();
-      }
-      ctx.stroke();
     }
     ctx.restore();
   }
 
-  function drawSparks(){
-    if(Math.random()<.45) emitSpark();
-    ctx.globalCompositeOperation='lighter';
-    for(let i=sparks.length-1;i>=0;i--){
-      const s=sparks[i];
-      s.x+=s.vx;
-      s.y+=s.vy;
-      s.vx*=.993;
-      s.vy*=.993;
-      s.life-=.012;
-      if(s.life<=0){sparks.splice(i,1);continue;}
-      const [r,g,b]=s.color;
-      ctx.fillStyle=`rgba(${r},${g},${b},${s.life*.42})`;
-      ctx.beginPath();
-      ctx.arc(s.x,s.y,s.size*s.life,0,Math.PI*2);
-      ctx.fill();
-    }
-  }
-
-  function drawCore(){
-    ctx.save();
-    ctx.translate(cx,cy);
-    ctx.globalCompositeOperation='lighter';
-
-    const pulse=.5+.5*Math.sin(t*1.7);
-    const pulse2=.5+.5*Math.sin(t*2.9+1.8);
-
-    const outer=ctx.createRadialGradient(0,0,0,0,0,scale*.18);
-    outer.addColorStop(0,`rgba(255,240,180,${.44+.20*pulse})`);
-    outer.addColorStop(.10,`rgba(140,255,159,${.32+.18*pulse2})`);
-    outer.addColorStop(.35,'rgba(98,255,214,.16)');
-    outer.addColorStop(1,'rgba(98,255,214,0)');
-    ctx.fillStyle=outer;
-    ctx.beginPath();
-    ctx.arc(0,0,scale*.18,0,Math.PI*2);
-    ctx.fill();
-
-    ctx.strokeStyle=`rgba(255,211,106,${.22+.16*pulse})`;
-    ctx.lineWidth=1.2*dpr;
-    ctx.beginPath();
-    for(let i=0;i<18;i++){
-      const a=i*Math.PI*2/18+t*.6;
-      const r1=scale*(.032+.01*pulse);
-      const r2=scale*(.105+.018*Math.sin(t+i));
-      ctx.moveTo(Math.cos(a)*r1,Math.sin(a)*r1*.68);
-      ctx.lineTo(Math.cos(a)*r2,Math.sin(a)*r2*.68);
-    }
-    ctx.stroke();
-
-    const inner=ctx.createRadialGradient(0,0,0,0,0,scale*.035);
-    inner.addColorStop(0,'rgba(255,255,230,.98)');
-    inner.addColorStop(.22,'rgba(255,211,106,.84)');
-    inner.addColorStop(.55,'rgba(140,255,159,.55)');
-    inner.addColorStop(1,'rgba(98,255,214,0)');
-    ctx.fillStyle=inner;
-    ctx.beginPath();
-    ctx.arc(0,0,scale*(.032+.006*pulse2),0,Math.PI*2);
-    ctx.fill();
-
-    ctx.restore();
-  }
-
-  function frame(){
-    t+=.016;
+  function frame(t=0){
     bg();
-    drawStars();
-    drawThreads();
-    drawSpiralArms();
-    drawRings();
-    drawGlyphs();
-    drawMotes();
-    drawSparks();
-    drawCore();
+    drawMotes(t);
     requestAnimationFrame(frame);
   }
 
   addEventListener('resize', resize, {passive:true});
-  addEventListener('pointermove', e=>{mouse.x=e.clientX;mouse.y=e.clientY;mouse.active=true},{passive:true});
-  addEventListener('pointerleave', ()=>{mouse.active=false},{passive:true});
-  addEventListener('pointerdown', e=>{mouse.x=e.clientX;mouse.y=e.clientY;mouse.active=true; for(let i=0;i<50;i++) emitSpark();},{passive:true});
-
+  addEventListener('pointermove', e => { mouse.x=e.clientX; mouse.y=e.clientY; mouse.active=true; }, {passive:true});
+  addEventListener('pointerleave', () => { mouse.active=false; }, {passive:true});
   resize();
   frame();
 })();
