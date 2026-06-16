@@ -1,252 +1,493 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Vortex Project</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@250;400&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background: #070907;
-            overflow: hidden;
-            height: 100vh;
-            width: 100vw;
-            font-family: 'JetBrains Mono', monospace;
-        }
-        canvas {
-            display: block;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw;
-            height: 100vh;
-        }
-        #label {
-            position: fixed;
-            bottom: 36px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.55rem;
-            letter-spacing: 0.35em;
-            text-transform: uppercase;
-            color: rgba(140, 180, 140, 0.12);
-            pointer-events: none;
-            font-weight: 250;
-            text-align: center;
-            line-height: 1.6;
-            transition: opacity 1s;
-        }
-        #coords {
-            position: fixed;
-            bottom: 36px;
-            right: 36px;
-            font-size: 0.5rem;
-            letter-spacing: 0.15em;
-            color: rgba(140, 180, 140, 0.08);
-            pointer-events: none;
-            font-weight: 250;
-            text-align: right;
-            line-height: 1.5;
-        }
-        @media (max-width: 600px) {
-            #coords { display: none; }
-            #label { font-size: 0.45rem; bottom: 20px; }
-        }
-    </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>The Vortex Project</title>
+<style>
+  :root{
+    --bg:#020604;
+    --green:#8cff9f;
+    --teal:#62ffd6;
+    --gold:#ffd36a;
+    --deep:#05110b;
+  }
+
+  *{box-sizing:border-box}
+  html,body{
+    margin:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:var(--bg);
+  }
+
+  body{
+    cursor:crosshair;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+
+  canvas{
+    position:fixed;
+    inset:0;
+    width:100vw;
+    height:100vh;
+    display:block;
+  }
+
+  #veil{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background:
+      radial-gradient(circle at 50% 50%, transparent 0 18%, rgba(7,26,12,.10) 32%, rgba(0,0,0,.78) 100%),
+      radial-gradient(circle at 50% 45%, rgba(80,255,130,.055), transparent 36%),
+      linear-gradient(180deg, rgba(6,16,9,.15), rgba(0,0,0,.42));
+    mix-blend-mode:screen;
+  }
+
+  #grain{
+    position:fixed;
+    inset:-50%;
+    pointer-events:none;
+    opacity:.075;
+    background-image:
+      repeating-radial-gradient(circle at 17% 29%, rgba(255,255,255,.9) 0 1px, transparent 1px 3px),
+      repeating-linear-gradient(13deg, rgba(140,255,160,.18) 0 1px, transparent 1px 9px);
+    animation:grain 12s steps(6) infinite;
+    mix-blend-mode:overlay;
+  }
+
+  @keyframes grain{
+    0%{transform:translate3d(0,0,0) rotate(0deg)}
+    20%{transform:translate3d(-2%,1%,0) rotate(.25deg)}
+    40%{transform:translate3d(1%,-2%,0) rotate(-.2deg)}
+    60%{transform:translate3d(2%,2%,0) rotate(.1deg)}
+    80%{transform:translate3d(-1%,-1%,0) rotate(-.15deg)}
+    100%{transform:translate3d(0,0,0) rotate(0deg)}
+  }
+
+  #sigil{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    display:grid;
+    place-items:center;
+    opacity:.72;
+    mix-blend-mode:screen;
+  }
+
+  .ring{
+    position:absolute;
+    width:min(68vw,68vh);
+    height:min(68vw,68vh);
+    border-radius:50%;
+    border:1px solid rgba(128,255,150,.12);
+    box-shadow:
+      0 0 48px rgba(70,255,130,.05),
+      inset 0 0 70px rgba(70,255,130,.035);
+    transform:scaleY(.58) rotate(0deg);
+    animation:spin 58s linear infinite;
+  }
+  .ring:nth-child(2){width:min(54vw,54vh);height:min(54vw,54vh);border-style:dashed;border-color:rgba(98,255,214,.16);animation-duration:42s;animation-direction:reverse}
+  .ring:nth-child(3){width:min(39vw,39vh);height:min(39vw,39vh);border-color:rgba(255,211,106,.14);animation-duration:31s}
+  .ring:nth-child(4){width:min(24vw,24vh);height:min(24vw,24vh);border-style:dotted;border-color:rgba(128,255,150,.20);animation-duration:23s;animation-direction:reverse}
+
+  @keyframes spin{to{transform:scaleY(.58) rotate(360deg)}}
+
+  #label{
+    position:fixed;
+    left:50%;
+    bottom:28px;
+    transform:translateX(-50%);
+    pointer-events:none;
+    color:rgba(140,200,150,.10);
+    letter-spacing:.38em;
+    text-transform:uppercase;
+    font-size:10px;
+    font-weight:300;
+    white-space:nowrap;
+  }
+
+  @media(max-width:700px){
+    #label{font-size:8px;bottom:18px;letter-spacing:.25em}
+    .ring{width:min(86vw,86vh);height:min(86vw,86vh)}
+    .ring:nth-child(2){width:min(68vw,68vh);height:min(68vw,68vh)}
+    .ring:nth-child(3){width:min(50vw,50vh);height:min(50vw,50vh)}
+    .ring:nth-child(4){width:min(32vw,32vh);height:min(32vw,32vh)}
+  }
+</style>
 </head>
 <body>
-    <canvas id="c"></canvas>
-    <div id="label">the vortex project · pine hollow</div>
-    <div id="coords">35.856548<br>−83.374437</div>
-    <script>
-        const canvas = document.getElementById('c');
-        const ctx = canvas.getContext('2d');
-        let W, H;
+<canvas id="vortex"></canvas>
+<div id="sigil" aria-hidden="true">
+  <div class="ring"></div>
+  <div class="ring"></div>
+  <div class="ring"></div>
+  <div class="ring"></div>
+</div>
+<div id="veil"></div>
+<div id="grain"></div>
+<div id="label">the vortex project · pine hollow</div>
 
-        function resize() {
-            W = canvas.width = window.innerWidth;
-            H = canvas.height = window.innerHeight;
-        }
-        resize();
-        window.addEventListener('resize', resize);
+<script>
+(() => {
+  const canvas = document.getElementById('vortex');
+  const ctx = canvas.getContext('2d', { alpha:false });
 
-        // ─── living field ───
-        // nodes that drift slowly, connected by faint threads
-        // each node has a tiny bioluminescent pulse
+  let w=0,h=0,dpr=1,cx=0,cy=0,scale=1;
+  let t=0;
+  const mouse={x:0,y:0,active:false};
 
-        const NODES = 45;
-        const nodes = [];
+  const arms=[];
+  const motes=[];
+  const stars=[];
+  const sparks=[];
+  const glyphs=[];
 
-        function rand(min, max) { return min + Math.random() * (max - min); }
+  function resize(){
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = Math.floor(innerWidth*dpr);
+    h = Math.floor(innerHeight*dpr);
+    canvas.width=w;
+    canvas.height=h;
+    cx=w/2;
+    cy=h/2;
+    scale=Math.min(w,h);
+    rebuild();
+  }
 
-        for (let i = 0; i < NODES; i++) {
-            nodes.push({
-                x: rand(0, W),
-                y: rand(0, H),
-                vx: rand(-0.08, 0.08),
-                vy: rand(-0.08, 0.08),
-                phase: rand(0, Math.PI * 2),
-                size: rand(0.4, 1.8),
-                // anchor to a region so the field has structure
-                anchorX: rand(0, W),
-                anchorY: rand(0, H),
-                pull: rand(0.0005, 0.002)
-            });
-        }
+  function rand(a,b){return a+Math.random()*(b-a)}
+  function pick(a){return a[(Math.random()*a.length)|0]}
 
-        // ─── rings (detection events) ───
-        const rings = [];
-        function addRing(x, y, intensity) {
-            rings.push({ x, y, intensity, life: 1.0 });
-        }
+  function rebuild(){
+    arms.length=0; motes.length=0; stars.length=0; sparks.length=0; glyphs.length=0;
 
-        // random detection simulation
-        let tick = 0;
-        function simulateDetection() {
-            const x = rand(W * 0.1, W * 0.9);
-            const y = rand(H * 0.1, H * 0.9);
-            const intensity = rand(0.3, 1.0);
-            addRing(x, y, intensity);
-        }
+    const palette=[
+      [140,255,159],
+      [98,255,214],
+      [255,211,106],
+      [112,200,255],
+      [195,255,138]
+    ];
 
-        // initial burst
-        for (let i = 0; i < 4; i++) setTimeout(simulateDetection, i * 800);
-        setInterval(() => simulateDetection(), 4000 + rand(0, 4000));
+    for(let a=0;a<9;a++){
+      const family=palette[a%palette.length];
+      const dots=[];
+      const count=220;
+      for(let i=0;i<count;i++){
+        const q=i/(count-1);
+        const turns=3.35 + a*.025;
+        const theta=a*Math.PI*2/9 + q*Math.PI*2*turns;
+        const radius=(Math.pow(q,1.36)*scale*.42) + scale*.012;
+        dots.push({q,theta,radius});
+      }
+      arms.push({dots,color:family,spin:rand(.06,.13)*(a%2?1:-1),phase:rand(0,Math.PI*2),width:rand(.7,1.9)});
+    }
 
-        // ─── try to fetch real bird data ───
-        let birdData = null;
-        fetch('https://raw.githubusercontent.com/vortexpjeff/pine-hollow-dashboard/main/data/latest.json', { signal: AbortSignal.timeout(4000) })
-            .then(r => r.json())
-            .then(d => { birdData = d; })
-            .catch(() => {});
+    const moteCount=Math.floor(420 + scale/3.5);
+    for(let i=0;i<moteCount;i++){
+      const r=Math.pow(Math.random(),.72)*scale*.64;
+      const a=Math.random()*Math.PI*2;
+      motes.push({
+        r,a,
+        z:rand(.2,1),
+        vr:rand(-.045,.026)*scale/900,
+        va:rand(.0008,.0026)*(Math.random()<.5?-1:1),
+        size:rand(.45,2.2)*dpr,
+        life:Math.random(),
+        color:pick(palette),
+        drift:rand(.4,1.8)
+      });
+    }
 
-        // ─── draw ───
-        function draw() {
-            tick++;
+    for(let i=0;i<260;i++){
+      stars.push({
+        x:Math.random()*w,
+        y:Math.random()*h,
+        size:rand(.25,1.6)*dpr,
+        tw:rand(.18,.82),
+        phase:rand(0,Math.PI*2),
+        color:pick(palette)
+      });
+    }
 
-            // clear fully — no accumulation
-            ctx.fillStyle = '#070907';
-            ctx.fillRect(0, 0, W, H);
+    for(let i=0;i<42;i++){
+      glyphs.push({
+        a:i*Math.PI*2/42,
+        r:scale*rand(.205,.38),
+        phase:rand(0,Math.PI*2),
+        size:rand(4,10)*dpr,
+        color:pick(palette)
+      });
+    }
+  }
 
-            // ── update nodes ──
-            for (const n of nodes) {
-                // drift
-                n.x += n.vx;
-                n.y += n.vy;
+  function resetMote(m){
+    m.r=Math.pow(Math.random(),.62)*scale*.58;
+    m.a=Math.random()*Math.PI*2;
+    m.z=rand(.2,1);
+    m.vr=rand(-.055,.02)*scale/900;
+    m.va=rand(.0008,.0028)*(Math.random()<.5?-1:1);
+    m.life=0;
+  }
 
-                // gentle pull toward anchor
-                const dx = n.anchorX - n.x;
-                const dy = n.anchorY - n.y;
-                n.vx += dx * n.pull;
-                n.vy += dy * n.pull;
+  function emitSpark(){
+    if(sparks.length>160) return;
+    const a=Math.random()*Math.PI*2;
+    sparks.push({
+      x:cx+Math.cos(a)*scale*rand(.02,.08),
+      y:cy+Math.sin(a)*scale*rand(.02,.08)*.68,
+      vx:Math.cos(a)*rand(.18,1.2)*dpr,
+      vy:Math.sin(a)*rand(.18,1.2)*dpr*.68,
+      life:1,
+      size:rand(1,3.5)*dpr,
+      color:pick([[140,255,159],[98,255,214],[255,211,106]])
+    });
+  }
 
-                // wander
-                n.vx += rand(-0.005, 0.005);
-                n.vy += rand(-0.005, 0.005);
+  function bg(){
+    const g=ctx.createRadialGradient(cx,cy,0,cx,cy,Math.max(w,h)*.72);
+    g.addColorStop(0,'rgb(5,18,10)');
+    g.addColorStop(.20,'rgb(2,9,6)');
+    g.addColorStop(.62,'rgb(1,5,4)');
+    g.addColorStop(1,'rgb(0,0,0)');
+    ctx.fillStyle=g;
+    ctx.fillRect(0,0,w,h);
+  }
 
-                // damping
-                n.vx *= 0.995;
-                n.vy *= 0.995;
+  function drawStars(){
+    for(const s of stars){
+      const pulse=.35+.65*Math.sin(t*s.tw+s.phase)**2;
+      const [r,g,b]=s.color;
+      ctx.fillStyle=`rgba(${r},${g},${b},${.08+.35*pulse})`;
+      ctx.beginPath();
+      ctx.arc(s.x,s.y,s.size*(.55+pulse),0,Math.PI*2);
+      ctx.fill();
+    }
+  }
 
-                // wrap edges gently
-                const margin = 60;
-                if (n.x < -margin) n.x = W + margin;
-                if (n.x > W + margin) n.x = -margin;
-                if (n.y < -margin) n.y = H + margin;
-                if (n.y > H + margin) n.y = -margin;
-            }
+  function drawSpiralArms(){
+    ctx.save();
+    ctx.translate(cx,cy);
+    ctx.scale(1,.68);
+    ctx.globalCompositeOperation='lighter';
 
-            // ── draw threads between close nodes ──
-            const maxDist = 140;
-            for (let i = 0; i < nodes.length; i++) {
-                for (let j = i + 1; j < nodes.length; j++) {
-                    const dx = nodes[i].x - nodes[j].x;
-                    const dy = nodes[i].y - nodes[j].y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < maxDist) {
-                        const t = 1 - dist / maxDist;
-                        const alpha = t * t * 0.08;
-                        const phase = (nodes[i].phase + nodes[j].phase + tick * 0.003) % 1;
-                        const r = 140 + Math.sin(phase * Math.PI * 2) * 30;
-                        const g = 180 + Math.sin(phase * Math.PI * 2 + 0.5) * 20;
-                        const b = 140 + Math.sin(phase * Math.PI * 2 + 1.0) * 20;
-                        ctx.strokeStyle = `rgba(${r|0},${g|0},${b|0},${alpha})`;
-                        ctx.lineWidth = 0.3 + t * 0.3;
-                        ctx.beginPath();
-                        ctx.moveTo(nodes[i].x, nodes[i].y);
-                        ctx.lineTo(nodes[j].x, nodes[j].y);
-                        ctx.stroke();
-                    }
-                }
-            }
+    for(const arm of arms){
+      const [r,g,b]=arm.color;
+      const rot=t*arm.spin+arm.phase;
+      for(const p of arm.dots){
+        const theta=p.theta+rot + Math.sin(t*.45+p.q*11+arm.phase)*.025;
+        const breathing=1+Math.sin(t*.7+p.q*7+arm.phase)*.018;
+        const rr=p.radius*breathing;
+        const x=Math.cos(theta)*rr;
+        const y=Math.sin(theta)*rr;
+        const fade=Math.sin(p.q*Math.PI);
+        const towardCore=1-p.q;
+        const sz=(arm.width + fade*2.7 + towardCore*1.2)*dpr;
+        const alpha=.018 + fade*.19 + towardCore*.045;
+        ctx.fillStyle=`rgba(${r},${g},${b},${alpha})`;
+        ctx.beginPath();
+        ctx.arc(x,y,sz,0,Math.PI*2);
+        ctx.fill();
+      }
+    }
+    ctx.restore();
+  }
 
-            // ── draw nodes ──
-            for (const n of nodes) {
-                const pulse = 0.6 + 0.4 * Math.sin(tick * 0.015 + n.phase);
-                const alpha = 0.2 + 0.5 * pulse;
-                const r = 140 + Math.sin(n.phase + tick * 0.005) * 40;
-                const g = 180 + Math.cos(n.phase * 0.7 + tick * 0.004) * 25;
-                const b = 140 + Math.sin(n.phase * 1.3 + tick * 0.006) * 30;
-                const sz = n.size * pulse;
+  function drawThreads(){
+    ctx.save();
+    ctx.translate(cx,cy);
+    ctx.scale(1,.68);
+    ctx.globalCompositeOperation='screen';
+    ctx.lineWidth=.5*dpr;
 
-                ctx.fillStyle = `rgba(${r|0},${g|0},${b|0},${alpha})`;
-                ctx.beginPath();
-                ctx.arc(n.x, n.y, sz, 0, Math.PI * 2);
-                ctx.fill();
+    for(let k=0;k<18;k++){
+      const hueColor = k%3===0 ? [255,211,106] : k%3===1 ? [98,255,214] : [140,255,159];
+      const [r,g,b]=hueColor;
+      ctx.strokeStyle=`rgba(${r},${g},${b},${.055})`;
+      ctx.beginPath();
+      const phase=t*(k%2?-0.045:.052)+k*.37;
+      for(let i=0;i<180;i++){
+        const q=i/179;
+        const rr=(Math.pow(q,1.18)*scale*.46)+scale*.018;
+        const th=phase+k*Math.PI*2/18+q*Math.PI*2*(2.1+Math.sin(k)*.28);
+        const x=Math.cos(th)*rr;
+        const y=Math.sin(th)*rr;
+        if(i===0)ctx.moveTo(x,y); else ctx.lineTo(x,y);
+      }
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
 
-                // tiny glow
-                if (pulse > 0.8) {
-                    ctx.fillStyle = `rgba(${r|0},${g|0},${b|0},${alpha * 0.15})`;
-                    ctx.beginPath();
-                    ctx.arc(n.x, n.y, sz * 3, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            }
+  function drawMotes(){
+    ctx.globalCompositeOperation='lighter';
+    for(const m of motes){
+      m.life+=.0025*m.drift;
+      m.r+=m.vr*scale*.006;
+      m.a+=m.va + Math.sin(t*.2+m.r*.01)*.0008;
 
-            // ── draw rings ──
-            for (let i = rings.length - 1; i >= 0; i--) {
-                const r = rings[i];
-                r.life -= 0.012;
-                if (r.life <= 0) { rings.splice(i, 1); continue; }
+      if(mouse.active){
+        const mx=(mouse.x*dpr-cx);
+        const my=(mouse.y*dpr-cy)/.68;
+        const ma=Math.atan2(my,mx);
+        const mr=Math.hypot(mx,my);
+        const diff=Math.atan2(Math.sin(ma-m.a),Math.cos(ma-m.a));
+        m.a+=diff*.0007;
+        m.r+=(mr-m.r)*.00025;
+      }
 
-                const radius = (1 - r.life) * 100 * r.intensity;
-                const alpha = r.life * r.life * 0.3;
+      if(m.life>=1 || m.r<scale*.006 || m.r>scale*.72) resetMote(m);
+      const breath=Math.sin(m.life*Math.PI);
+      const x=cx+Math.cos(m.a+t*m.va*20)*m.r;
+      const y=cy+Math.sin(m.a+t*m.va*20)*m.r*.68;
+      const [r,g,b]=m.color;
+      ctx.fillStyle=`rgba(${r},${g},${b},${.08+.34*breath*m.z})`;
+      ctx.beginPath();
+      ctx.arc(x,y,m.size*(.6+breath*1.25)*m.z,0,Math.PI*2);
+      ctx.fill();
+    }
+  }
 
-                const rCol = 160 + Math.sin(r.intensity * 10 + tick * 0.01) * 30;
-                const gCol = 190 + Math.cos(r.intensity * 8 + tick * 0.008) * 20;
-                const bCol = 150;
+  function drawRings(){
+    ctx.save();
+    ctx.translate(cx,cy);
+    ctx.scale(1,.68);
+    ctx.globalCompositeOperation='screen';
 
-                ctx.strokeStyle = `rgba(${rCol|0},${gCol|0},${bCol|0},${alpha})`;
-                ctx.lineWidth = 0.6 + r.life * 0.8;
-                ctx.beginPath();
-                ctx.arc(r.x, r.y, radius, 0, Math.PI * 2);
-                ctx.stroke();
+    const ringCount=15;
+    for(let i=0;i<ringCount;i++){
+      const q=(i+1)/ringCount;
+      const r=scale*(.035+q*.43);
+      const pulse=Math.sin(t*(.45+i*.035)+i*.72)*.5+.5;
+      ctx.lineWidth=(.55+i*.035)*dpr;
+      const color=i%3===0?'140,255,159':i%3===1?'98,255,214':'255,211,106';
+      ctx.strokeStyle=`rgba(${color},${.04+q*.07+pulse*.018})`;
+      ctx.setLineDash(i%2?[5*dpr,10*dpr]:i%3?[2*dpr,12*dpr]:[]);
+      ctx.lineDashOffset=t*22*(i%2?-1:1);
+      ctx.beginPath();
+      ctx.ellipse(0,0,r,r,0,0,Math.PI*2);
+      ctx.stroke();
+    }
+    ctx.setLineDash([]);
+    ctx.restore();
+  }
 
-                // inner glow
-                if (r.life > 0.7) {
-                    const inner = (r.life - 0.7) / 0.3;
-                    ctx.fillStyle = `rgba(${rCol|0},${gCol|0},${bCol|0},${inner * 0.06})`;
-                    ctx.beginPath();
-                    ctx.arc(r.x, r.y, 4 * r.intensity, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            }
+  function drawGlyphs(){
+    ctx.save();
+    ctx.translate(cx,cy);
+    ctx.scale(1,.68);
+    ctx.globalCompositeOperation='screen';
+    ctx.lineWidth=.8*dpr;
+    for(let i=0;i<glyphs.length;i++){
+      const g=glyphs[i];
+      const a=g.a+t*(i%2?.035:-.025);
+      const x=Math.cos(a)*g.r;
+      const y=Math.sin(a)*g.r;
+      const [r,gg,b]=g.color;
+      const alpha=.08+.09*Math.sin(t+g.phase)**2;
+      ctx.strokeStyle=`rgba(${r},${gg},${b},${alpha})`;
+      ctx.beginPath();
+      const s=g.size;
+      if(i%4===0){
+        ctx.moveTo(x-s,y);ctx.lineTo(x+s,y);ctx.moveTo(x,y-s);ctx.lineTo(x,y+s);
+      }else if(i%4===1){
+        ctx.rect(x-s*.55,y-s*.55,s*1.1,s*1.1);
+      }else if(i%4===2){
+        ctx.arc(x,y,s*.75,0,Math.PI*2);
+      }else{
+        ctx.moveTo(x,y-s);ctx.lineTo(x+s*.8,y+s*.55);ctx.lineTo(x-s*.8,y+s*.55);ctx.closePath();
+      }
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
 
-            // try to spawn from bird data every ~2s
-            if (tick % 120 === 0 && birdData && birdData.recent && birdData.recent.length) {
-                const d = birdData.recent[Math.floor(Math.random() * birdData.recent.length)];
-                if (d && d.confidence) {
-                    const x = rand(W * 0.15, W * 0.85);
-                    const y = rand(H * 0.15, H * 0.85);
-                    addRing(x, y, d.confidence / 100);
-                }
-            }
+  function drawSparks(){
+    if(Math.random()<.45) emitSpark();
+    ctx.globalCompositeOperation='lighter';
+    for(let i=sparks.length-1;i>=0;i--){
+      const s=sparks[i];
+      s.x+=s.vx;
+      s.y+=s.vy;
+      s.vx*=.993;
+      s.vy*=.993;
+      s.life-=.012;
+      if(s.life<=0){sparks.splice(i,1);continue;}
+      const [r,g,b]=s.color;
+      ctx.fillStyle=`rgba(${r},${g},${b},${s.life*.42})`;
+      ctx.beginPath();
+      ctx.arc(s.x,s.y,s.size*s.life,0,Math.PI*2);
+      ctx.fill();
+    }
+  }
 
-            requestAnimationFrame(draw);
-        }
+  function drawCore(){
+    ctx.save();
+    ctx.translate(cx,cy);
+    ctx.globalCompositeOperation='lighter';
 
-        draw();
-    </script>
+    const pulse=.5+.5*Math.sin(t*1.7);
+    const pulse2=.5+.5*Math.sin(t*2.9+1.8);
+
+    const outer=ctx.createRadialGradient(0,0,0,0,0,scale*.18);
+    outer.addColorStop(0,`rgba(255,240,180,${.44+.20*pulse})`);
+    outer.addColorStop(.10,`rgba(140,255,159,${.32+.18*pulse2})`);
+    outer.addColorStop(.35,'rgba(98,255,214,.16)');
+    outer.addColorStop(1,'rgba(98,255,214,0)');
+    ctx.fillStyle=outer;
+    ctx.beginPath();
+    ctx.arc(0,0,scale*.18,0,Math.PI*2);
+    ctx.fill();
+
+    ctx.strokeStyle=`rgba(255,211,106,${.22+.16*pulse})`;
+    ctx.lineWidth=1.2*dpr;
+    ctx.beginPath();
+    for(let i=0;i<18;i++){
+      const a=i*Math.PI*2/18+t*.6;
+      const r1=scale*(.032+.01*pulse);
+      const r2=scale*(.105+.018*Math.sin(t+i));
+      ctx.moveTo(Math.cos(a)*r1,Math.sin(a)*r1*.68);
+      ctx.lineTo(Math.cos(a)*r2,Math.sin(a)*r2*.68);
+    }
+    ctx.stroke();
+
+    const inner=ctx.createRadialGradient(0,0,0,0,0,scale*.035);
+    inner.addColorStop(0,'rgba(255,255,230,.98)');
+    inner.addColorStop(.22,'rgba(255,211,106,.84)');
+    inner.addColorStop(.55,'rgba(140,255,159,.55)');
+    inner.addColorStop(1,'rgba(98,255,214,0)');
+    ctx.fillStyle=inner;
+    ctx.beginPath();
+    ctx.arc(0,0,scale*(.032+.006*pulse2),0,Math.PI*2);
+    ctx.fill();
+
+    ctx.restore();
+  }
+
+  function frame(){
+    t+=.016;
+    bg();
+    drawStars();
+    drawThreads();
+    drawSpiralArms();
+    drawRings();
+    drawGlyphs();
+    drawMotes();
+    drawSparks();
+    drawCore();
+    requestAnimationFrame(frame);
+  }
+
+  addEventListener('resize', resize, {passive:true});
+  addEventListener('pointermove', e=>{mouse.x=e.clientX;mouse.y=e.clientY;mouse.active=true},{passive:true});
+  addEventListener('pointerleave', ()=>{mouse.active=false},{passive:true});
+  addEventListener('pointerdown', e=>{mouse.x=e.clientX;mouse.y=e.clientY;mouse.active=true; for(let i=0;i<50;i++) emitSpark();},{passive:true});
+
+  resize();
+  frame();
+})();
+</script>
 </body>
 </html>
