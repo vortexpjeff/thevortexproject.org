@@ -166,6 +166,7 @@
     </div>
   </div>
 </div>
+<audio id="vox" src="audio/vox.mp3" preload="auto"></audio>
 <div id="label">the vortex project · face to face</div>
 
 <script>
@@ -355,7 +356,16 @@
   addEventListener('resize', resize, {passive:true});
   resize();
   loop();
-})();
+
+  // click-to-play voice
+  const vox = document.getElementById('vox');
+  let voxReady = false;
+  const playOnce = () => {
+    if (!voxReady) { vox.volume = 0.55; voxReady = true; }
+    if (vox.paused) { vox.play().catch(()=>{}); }
+  };
+  document.addEventListener('pointerdown', playOnce, {once:true, passive:true});
+  document.addEventListener('keydown', playOnce, {once:true, passive:true});
 </script>
 </body>
 </html>
