@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Vortex Project — Pine Hollow</title>
+    <meta name="description" content="A solarpunk commonwealth on a billion-year-old mountain in Sevierville, Tennessee. Bioacoustics, edge AI, generative art, and building with the land.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f0f0f;
+            --surface: #191919;
+            --border: #2a2a2a;
+            --text: #d4d4d4;
+            --muted: #888;
+            --accent: #a3c9a3;
+            --warm: #d4a76a;
+            --cyan: #7ab8b8;
+            --font: 'Inter', -apple-system, sans-serif;
+            --mono: 'JetBrains Mono', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font);
+            font-weight: 300;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* --- header --- */
+        header {
+            padding: 80px 0 60px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        header h1 {
+            font-size: 2rem;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        header .sub {
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        header .coords {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 16px;
+        }
+
+        /* --- sections --- */
+        section {
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        section:last-of-type {
+            border-bottom: none;
+        }
+
+        h2 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #fff;
+            margin-bottom: 20px;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+        }
+
+        p {
+            margin-bottom: 16px;
+            font-size: 0.95rem;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 24px 0;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .stat-card .num {
+            font-family: var(--mono);
+            font-size: 1.8rem;
+            color: var(--accent);
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        .stat-card .label {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        .data-line {
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            color: var(--muted);
+            padding: 6px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .data-line:last-child {
+            border-bottom: none;
+        }
+
+        .data-line .species {
+            color: var(--text);
+        }
+
+        .data-line .conf {
+            color: var(--warm);
+        }
+
+        .data-line .time {
+            color: var(--muted);
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .video-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .video-card .thumb {
+            aspect-ratio: 16 / 9;
+            background: var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+
+        .video-card .info {
+            padding: 16px 20px;
+        }
+
+        .video-card .info h3 {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .video-card .info p {
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin: 0;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            font-family: var(--mono);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            margin: 2px;
+        }
+
+        .tag.bird { border-color: #5a8a5a; color: var(--accent); }
+        .tag.dev { border-color: #5a7a8a; color: var(--cyan); }
+        .tag.art { border-color: #8a7a5a; color: var(--warm); }
+
+        .archive-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .archive-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .archive-item .placeholder {
+            aspect-ratio: 1;
+            background: var(--border);
+            border-radius: 4px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            font-size: 0.8rem;
+        }
+
+        .archive-item .name {
+            font-size: 0.85rem;
+            color: #fff;
+        }
+
+        .archive-item .date {
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+
+        .support-links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .support-link {
+            display: inline-block;
+            padding: 10px 24px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: var(--text);
+            transition: all 0.2s;
+        }
+
+        .support-link:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        /* --- footer --- */
+        footer {
+            padding: 40px 0 60px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.8rem;
+        }
+
+        footer a {
+            color: var(--muted);
+        }
+
+        footer a:hover {
+            color: var(--text);
+        }
+
+        .footer-line {
+            margin: 4px 0;
+        }
+
+        @media (max-width: 600px) {
+            header { padding: 48px 0 36px; }
+            header h1 { font-size: 1.5rem; }
+            section { padding: 36px 0; }
+            .stat-grid { grid-template-columns: 1fr; }
+            .archive-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <header>
+            <h1>The Vortex Project</h1>
+            <div class="sub">A solarpunk commonwealth on a billion-year-old mountain</div>
+            <div class="coords">35.856548, -83.374437 · 1,063 ft · Whilite Creek · Sevierville, TN</div>
+        </header>
+
+        <!-- About -->
+        <section>
+            <h2>What this is</h2>
+            <p>
+                The Vortex Project is a long-term experiment in living with a place — not just on it.
+                Pine Hollow is a narrow Appalachian hollow with steep wooded slopes, a creek draining
+                south-southwest toward the Smokies, and a billion years of geology underfoot.
+            </p>
+            <p>
+                We're building a low-cost edge bioacoustics station for continuous biodiversity monitoring,
+                combining BirdNET-Pi, custom insect classifiers, local storage, and human review
+                to create reviewed acoustic datasets from field recordings. The system runs 24/7.
+                The data accumulates on its own schedule. The cicadas sing when they sing.
+            </p>
+            <p>
+                This is not a smart home. It's a commonwealth: human, animal, machine, land.
+                Every part has its own voice and its own edges. The project is the relationship,
+                not the outcome.
+            </p>
+        </section>
+
+        <!-- Live Data -->
+        <section>
+            <h2>Listening</h2>
+            <p>
+                A BirdNET-Pi on the porch listens continuously, detecting birds by sound
+                and logging every identification. Here's what the hollow sounded like recently:
+            </p>
+            <div id="recent-detections">
+                <div class="data-line"><span class="species">Loading...</span></div>
+            </div>
+            <p style="margin-top:16px;font-size:0.82rem;color:var(--muted)">
+                <span id="today-stats">—</span>
+            </p>
+            <p style="margin-top:8px;">
+                <a href="https://vortexpjeff.github.io/pine-hollow-dashboard/" target="_blank">Full dashboard →</a>
+            </p>
+        </section>
+
+        <!-- Archive / Generative -->
+        <section>
+            <h2>Archive</h2>
+            <p>
+                Every detection is a data point. Some of them become something else —
+                generative visuals driven by the soundscape, editions tied to the
+                hour they were recorded, the confidence value, the species.
+            </p>
+            <div class="archive-grid">
+                <div class="archive-item">
+                    <div class="placeholder">◈</div>
+                    <div class="name">Hooded Warbler · 2026-06-14</div>
+                    <div class="date">Confidence 97% · 07:23 ET</div>
+                </div>
+                <div class="archive-item">
+                    <div class="placeholder">◈</div>
+                    <div class="name">Louisiana Waterthrush · 2026-06-14</div>
+                    <div class="date">Confidence 99% · 06:51 ET</div>
+                </div>
+                <div class="archive-item">
+                    <div class="placeholder">◈</div>
+                    <div class="name">Carolina Wren · 2026-06-13</div>
+                    <div class="date">Confidence 94% · 17:12 ET</div>
+                </div>
+                <div class="archive-item">
+                    <div class="placeholder">◈</div>
+                    <div class="name">Red-eyed Vireo · 2026-06-13</div>
+                    <div class="date">Confidence 88% · 15:40 ET</div>
+                </div>
+            </div>
+            <p style="font-size:0.82rem;color:var(--muted)">
+                The archive is live generative — each piece rendered from the detection data itself.
+            </p>
+        </section>
+
+        <!-- Build / Videos -->
+        <section>
+            <h2>Build log</h2>
+            <p>
+                Everything here is documented — the BirdNET setup, the agent architecture,
+                the classifier training, the permaculture, the failures. If you're trying
+                to build your own version, these notes are for you.
+            </p>
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="thumb">▷ coming soon</div>
+                    <div class="info">
+                        <h3>Setting up BirdNET-Pi in an Appalachian hollow</h3>
+                        <p>Hardware, mic placement, detection thresholds, and what the first week taught us.</p>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <div class="thumb">▷ coming soon</div>
+                    <div class="info">
+                        <h3>InsectNet — training a custom classifier at the edge</h3>
+                        <p>From field recordings to a working sidecar model on a Raspberry Pi.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Support -->
+        <section>
+            <h2>Support the hollow</h2>
+            <p>
+                The Vortex Project runs on gift economy and mutual exchange. If the work
+                here has value to you — the data, the documentation, the art, the code —
+                there are ways to help sustain it. Server costs, hardware, and time all
+                add up. Nothing here is behind a paywall.
+            </p>
+            <div class="support-links">
+                <a href="#" class="support-link">ko-fi</a>
+                <a href="#" class="support-link">Tezos / objkt.com</a>
+                <a href="#" class="support-link">GitHub</a>
+                <a href="mailto:hello@thevortexproject.org" class="support-link">Email</a>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-line">The Vortex Project · Pine Hollow · Sevierville, TN</div>
+            <div class="footer-line">
+                <a href="https://github.com/vortexpjeff">GitHub</a>
+                · <a href="https://objkt.com/profile/vortexpjeff">objkt</a>
+                · <a href="mailto:hello@thevortexproject.org">hello@thevortexproject.org</a>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        // Fetch recent bird detections from the BirdNET API via GitHub Pages dashboard data
+        // Falls back gracefully if the data source isn't available
+        async function loadDetections() {
+            const container = document.getElementById('recent-detections');
+            const statsEl = document.getElementById('today-stats');
+
+            // Try to fetch from the dashboard's latest data
+            const dataUrl = 'https://raw.githubusercontent.com/vortexpjeff/pine-hollow-dashboard/main/data/latest.json';
+
+            try {
+                const resp = await fetch(dataUrl, { signal: AbortSignal.timeout(5000) });
+                if (!resp.ok) throw new Error('not found');
+                const data = await resp.json();
+
+                // Render recent detections
+                container.innerHTML = '';
+                (data.recent || []).slice(0, 8).forEach(d => {
+                    const div = document.createElement('div');
+                    div.className = 'data-line';
+                    div.innerHTML = `<span class="time">${d.time}</span> · <span class="species">${d.species}</span> <span class="conf">${d.confidence}%</span>`;
+                    container.appendChild(div);
+                });
+
+                // Stats
+                if (data.stats) {
+                    statsEl.textContent = `${data.stats.today_detections} detections · ${data.stats.today_species} species today`;
+                }
+            } catch {
+                container.innerHTML = '<div class="data-line"><span class="species">Live data loads when the site is served from the hollow network</span></div>';
+                statsEl.textContent = '—';
+            }
+        }
+
+        loadDetections();
+    </script>
+
+</body>
+</html>
