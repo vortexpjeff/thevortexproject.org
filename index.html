@@ -3,205 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="The Vortex Project — solarpunk citizen science, edge AI, open-source ecology, and bioacoustic listening from Pine Hollow, Tennessee.">
   <title>The Vortex Project</title>
   <style>
-    :root{
-      --bg:#030705;
-      --panel:rgba(4,18,13,.62);
-      --panel2:rgba(6,30,22,.36);
-      --green:#79ff9e;
-      --mint:#9fffc0;
-      --teal:#47f5d1;
-      --gold:#ffd56a;
-      --violet:#b58cff;
-      --rust:#df8a4c;
-      --dim:rgba(209,255,222,.66);
-      --line:rgba(139,255,185,.22);
-      --hotx:50vw;
-      --hoty:50vh;
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth;background:var(--bg)}
-    body{
-      min-height:100vh;
-      background:
-        radial-gradient(circle at var(--hotx) var(--hoty), rgba(120,255,158,.13), transparent 18rem),
-        radial-gradient(circle at 78% 15%, rgba(181,140,255,.12), transparent 25rem),
-        radial-gradient(circle at 14% 80%, rgba(255,213,106,.09), transparent 24rem),
-        linear-gradient(180deg,#020503 0%,#05120d 42%,#020403 100%);
-      color:#eaffef;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      overflow-x:hidden;
-      cursor:crosshair;
-    }
-    body::before{
-      content:"";position:fixed;inset:0;z-index:5;pointer-events:none;opacity:.28;
-      background:
-        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
-      background-size:42px 42px;
-      mask-image:radial-gradient(circle at 50% 45%, black 0 58%, transparent 88%);
-    }
-    body::after{
-      content:"";position:fixed;inset:0;z-index:9;pointer-events:none;
-      background:radial-gradient(ellipse at center, transparent 0 42%, rgba(0,0,0,.48) 100%);
-    }
-    a{color:inherit;text-decoration:none}
-    canvas#field{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;display:block}
+    :root{--bg:#030705;--green:#79ff9e;--gold:#ffd56a;--teal:#47f5d1}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:var(--bg);overflow:hidden;height:100vh;width:100vw;cursor:crosshair}
+    canvas#field{display:block;position:fixed;inset:0;width:100vw;height:100vh;z-index:0}
     #aurora{position:fixed;inset:-10%;z-index:1;pointer-events:none;mix-blend-mode:screen;filter:blur(12px);opacity:.82}
     .aurora-band{position:absolute;width:72vw;height:28vh;border-radius:50%;opacity:.22;animation:swim 16s ease-in-out infinite alternate;transform-origin:center}
     .aurora-band:nth-child(1){left:-9%;top:10%;background:radial-gradient(ellipse,rgba(71,245,209,.55),transparent 65%);animation-duration:21s}
     .aurora-band:nth-child(2){right:-8%;top:30%;background:radial-gradient(ellipse,rgba(121,255,158,.44),transparent 65%);animation-duration:17s;animation-delay:-6s}
     .aurora-band:nth-child(3){left:15%;bottom:0;background:radial-gradient(ellipse,rgba(255,213,106,.32),transparent 70%);animation-duration:25s;animation-delay:-11s}
     @keyframes swim{0%{transform:translate3d(-2%,0,0) rotate(-8deg) scale(1)}100%{transform:translate3d(5%,6%,0) rotate(10deg) scale(1.16)}}
-
-    .frame{position:relative;z-index:2;min-height:100vh;padding:clamp(18px,3vw,42px)}
-    .topbar{position:fixed;z-index:20;left:clamp(18px,3vw,42px);right:clamp(18px,3vw,42px);top:clamp(14px,2vw,26px);display:flex;align-items:center;justify-content:space-between;gap:20px;pointer-events:none}
-    .brand,.nav{pointer-events:auto;backdrop-filter:blur(18px) saturate(1.25);background:rgba(1,8,5,.34);border:1px solid rgba(142,255,185,.18);box-shadow:0 0 40px rgba(71,245,209,.08), inset 0 0 20px rgba(121,255,158,.03)}
-    .brand{display:flex;align-items:center;gap:12px;border-radius:999px;padding:9px 14px 9px 10px;color:rgba(234,255,239,.88);letter-spacing:.16em;text-transform:uppercase;font-size:11px}
-    .brand-mark{width:28px;height:28px;border-radius:50%;position:relative;background:radial-gradient(circle,#fff 0 8%,var(--gold) 9% 17%,var(--green) 18% 38%,transparent 39%);box-shadow:0 0 24px rgba(121,255,158,.45);animation:coreBreath 3.5s ease-in-out infinite}
-    .brand-mark::before,.brand-mark::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:1px solid rgba(121,255,158,.34);animation:spin 12s linear infinite}.brand-mark::after{inset:-12px;border-style:dashed;border-color:rgba(255,213,106,.3);animation-duration:19s;animation-direction:reverse}
-    .nav{display:flex;gap:8px;border-radius:999px;padding:7px}
-    .nav a,.signal-button{border:1px solid transparent;border-radius:999px;padding:8px 12px;color:rgba(224,255,232,.68);font-size:11px;letter-spacing:.12em;text-transform:uppercase;transition:.25s ease;background:transparent;font:inherit;cursor:pointer}
-    .nav a:hover,.signal-button:hover{color:#fff;border-color:rgba(121,255,158,.35);background:rgba(121,255,158,.08);box-shadow:0 0 22px rgba(121,255,158,.12)}
-    .signal-button.active{color:var(--gold);border-color:rgba(255,213,106,.36);background:rgba(255,213,106,.08)}
-
-    .hero{min-height:100vh;display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,500px);gap:clamp(28px,6vw,82px);align-items:center;padding-top:84px;max-width:1320px;margin:0 auto;position:relative}
-    .hero-copy{position:relative;z-index:3}.eyebrow{display:inline-flex;align-items:center;gap:9px;color:var(--gold);font-size:12px;letter-spacing:.24em;text-transform:uppercase;margin-bottom:22px;text-shadow:0 0 14px rgba(255,213,106,.22)}
-    .eyebrow::before{content:"";width:54px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
-    h1{font-size:clamp(52px,9vw,132px);line-height:.86;letter-spacing:-.08em;text-transform:uppercase;text-wrap:balance;text-shadow:0 0 42px rgba(121,255,158,.12)}
-    h1 span{display:block;background:linear-gradient(90deg,#fff 0%,#d9ffe1 22%,var(--teal) 48%,var(--gold) 75%,#fff 100%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sheen 7s ease-in-out infinite}
-    @keyframes sheen{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-    .subhead{max-width:720px;margin:28px 0 28px;color:rgba(230,255,236,.76);font-size:clamp(16px,1.7vw,22px);line-height:1.65;text-shadow:0 0 25px rgba(0,0,0,.8)}
-    .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}.cta{position:relative;overflow:hidden;border:1px solid rgba(121,255,158,.3);border-radius:999px;padding:14px 18px;background:rgba(7,34,23,.34);color:#effff2;font-size:12px;letter-spacing:.18em;text-transform:uppercase;backdrop-filter:blur(14px);transition:.3s ease}.cta.primary{background:linear-gradient(90deg,rgba(121,255,158,.18),rgba(71,245,209,.12));box-shadow:0 0 30px rgba(121,255,158,.15)}.cta:hover{transform:translateY(-2px);border-color:rgba(255,213,106,.55);box-shadow:0 0 36px rgba(255,213,106,.14)}.cta::after{content:"";position:absolute;inset:0;transform:translateX(-120%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.16),transparent);transition:.7s}.cta:hover::after{transform:translateX(120%)}
-    .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;max-width:660px;margin-top:34px}.stat{border:1px solid rgba(121,255,158,.16);background:rgba(0,10,6,.34);border-radius:18px;padding:14px;backdrop-filter:blur(12px)}.stat b{display:block;color:#fff;font-size:18px;letter-spacing:-.04em}.stat small{display:block;margin-top:6px;color:rgba(214,255,224,.55);font-size:10px;line-height:1.45;text-transform:uppercase;letter-spacing:.14em}
-
-    .engine-wrap{position:relative;min-height:620px;display:grid;place-items:center;perspective:1000px}.engine{position:relative;width:min(72vw,520px);aspect-ratio:1;border-radius:50%;transform-style:preserve-3d;animation:tilt 9s ease-in-out infinite;filter:drop-shadow(0 0 32px rgba(71,245,209,.16))}.engine.reactive{animation-duration:4s}
-    @keyframes tilt{0%,100%{transform:rotateX(58deg) rotateZ(-10deg)}50%{transform:rotateX(64deg) rotateZ(7deg)}}
-    .ring{position:absolute;inset:var(--inset);border-radius:50%;border:var(--w,1px) var(--style,solid) hsla(var(--h),95%,70%,var(--a));box-shadow:0 0 24px hsla(var(--h),95%,62%,calc(var(--a)*.36)), inset 0 0 18px hsla(var(--h),95%,62%,calc(var(--a)*.16));animation:spin var(--dur) linear infinite;animation-direction:var(--dir,normal)}
-    @keyframes spin{to{transform:rotate(360deg)}}
-    .spokes,.beacons,.orbit,.petals,.sigils{position:absolute;inset:0;border-radius:50%;animation:spin var(--dur,28s) linear infinite;animation-direction:var(--dir,normal)}
-    .spoke{position:absolute;left:50%;top:50%;width:2px;height:45%;transform-origin:50% 0;background:linear-gradient(180deg,hsla(var(--h),100%,72%,.52),transparent 76%);filter:drop-shadow(0 0 8px hsla(var(--h),100%,70%,.45))}.spoke:nth-child(4n){width:3px;background:linear-gradient(180deg,rgba(255,213,106,.64),transparent 72%)}
-    .petal{position:absolute;left:50%;top:50%;width:18px;height:46%;transform-origin:50% 0;border-radius:999px 999px 20px 20px;background:linear-gradient(180deg,rgba(121,255,158,.2),rgba(71,245,209,.04) 45%,transparent);border:1px solid rgba(121,255,158,.1);filter:blur(.1px);animation:petalPulse var(--d,4s) ease-in-out infinite;animation-delay:var(--delay,0s)}
-    @keyframes petalPulse{0%,100%{opacity:.18;scale:.76 1}50%{opacity:.56;scale:1.1 1.03}}
-    .beacon{position:absolute;left:50%;top:50%;width:7px;height:7px;margin:-3.5px;border-radius:50%;background:radial-gradient(circle,#fff,var(--c) 42%,transparent 72%);box-shadow:0 0 18px var(--c);transform:rotate(var(--angle)) translateX(var(--rad));animation:twinkle var(--d) ease-in-out infinite;animation-delay:var(--delay)}
-    @keyframes twinkle{0%,100%{opacity:.3;scale:.72}50%{opacity:1;scale:1.25}}
-    .orb{position:absolute;left:50%;top:50%;width:var(--s);height:var(--s);margin:calc(var(--s)/-2);border-radius:50%;background:radial-gradient(circle,#fff 0 12%,var(--c) 24%,transparent 74%);box-shadow:0 0 28px var(--c);transform:rotate(var(--angle)) translateX(var(--rad));animation:orbPulse var(--d) ease-in-out infinite;animation-delay:var(--delay)}
-    @keyframes orbPulse{0%,100%{filter:saturate(.8);opacity:.62;scale:.8}50%{filter:saturate(1.6);opacity:1;scale:1.18}}
-    .core{position:absolute;left:50%;top:50%;width:22%;height:22%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,#fff 0 8%,var(--gold) 9% 20%,var(--green) 21% 45%,rgba(71,245,209,.22) 46% 70%,transparent 72%);box-shadow:0 0 34px rgba(255,213,106,.66),0 0 82px rgba(121,255,158,.36),0 0 150px rgba(71,245,209,.2);animation:coreBreath 2.8s ease-in-out infinite;z-index:3}.core::before{content:"";position:absolute;inset:28%;border-radius:50%;background:#050a06;box-shadow:inset 0 0 14px rgba(255,255,255,.36)}.core::after{content:"";position:absolute;left:50%;top:50%;width:58%;height:18%;border-radius:50%;transform:translate(-50%,-50%);background:linear-gradient(90deg,transparent,#fff,transparent);box-shadow:0 0 18px #fff;animation:blink 5.5s ease-in-out infinite}
-    @keyframes blink{0%,88%,100%{scale:1 1}92%,94%{scale:1 .08}}
-    @keyframes coreBreath{0%,100%{scale:1;filter:hue-rotate(0deg)}50%{scale:1.12;filter:hue-rotate(24deg)}}
-    .pulse-ring{position:absolute;left:50%;top:50%;width:20px;height:20px;margin:-10px;border-radius:50%;border:1px solid rgba(121,255,158,.48);animation:ping var(--d,5s) ease-out infinite;animation-delay:var(--delay,0s)}
-    @keyframes ping{0%{opacity:.8;transform:scale(.5)}100%{opacity:0;transform:scale(18)}}
-    .sigil{position:absolute;left:50%;top:50%;width:12px;height:12px;margin:-6px;color:rgba(255,213,106,.68);font-size:12px;text-shadow:0 0 12px rgba(255,213,106,.45);transform:rotate(var(--angle)) translateX(var(--rad)) rotate(calc(-1 * var(--angle)))}
-
-    section{position:relative;z-index:3;max-width:1180px;margin:0 auto;padding:110px clamp(0px,2vw,18px)}
-    .section-kicker{color:var(--teal);font-size:12px;letter-spacing:.24em;text-transform:uppercase;margin-bottom:16px}.section-title{font-size:clamp(34px,5vw,72px);line-height:1;letter-spacing:-.06em;text-wrap:balance}.section-text{max-width:760px;margin-top:22px;color:rgba(228,255,235,.74);font-size:17px;line-height:1.75}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:34px}.card{position:relative;overflow:hidden;min-height:210px;border-radius:28px;border:1px solid rgba(121,255,158,.17);background:linear-gradient(145deg,rgba(7,34,23,.58),rgba(2,8,5,.46));padding:24px;backdrop-filter:blur(16px);box-shadow:inset 0 0 36px rgba(121,255,158,.04);transition:.35s ease}.card:hover{transform:translateY(-6px);border-color:rgba(255,213,106,.38);box-shadow:0 22px 70px rgba(0,0,0,.24),0 0 42px rgba(121,255,158,.1)}.card::before{content:"";position:absolute;inset:auto -20% -40% -20%;height:70%;background:radial-gradient(ellipse,rgba(121,255,158,.16),transparent 65%);transition:.35s}.card:hover::before{transform:translateY(-18%);opacity:1}.card h3{position:relative;color:#fff;font-size:18px;letter-spacing:-.02em;margin-bottom:12px}.card p{position:relative;color:rgba(223,255,231,.68);font-size:13px;line-height:1.7}.card .tag{position:absolute;right:20px;top:18px;color:rgba(255,213,106,.55);font-size:11px;letter-spacing:.16em;text-transform:uppercase}
-    .live-panel{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin-top:34px}.console,.map-panel{border:1px solid rgba(121,255,158,.18);border-radius:30px;background:rgba(0,8,5,.5);backdrop-filter:blur(18px);overflow:hidden}.console-head{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid rgba(121,255,158,.12);padding:14px 18px;color:rgba(218,255,226,.58);font-size:11px;letter-spacing:.16em;text-transform:uppercase}.console-body{padding:18px;min-height:280px}.logline{display:grid;grid-template-columns:88px 1fr auto;gap:12px;padding:10px 0;border-bottom:1px solid rgba(121,255,158,.08);color:rgba(232,255,237,.72);font-size:12px}.logline:last-child{border-bottom:0}.logline b{color:var(--gold);font-weight:400}.logline em{font-style:normal;color:var(--teal)}.map-panel{position:relative;min-height:330px;padding:22px}.topo{position:absolute;inset:0;opacity:.45}.map-copy{position:relative;z-index:1;max-width:340px}.map-copy h3{font-size:24px;letter-spacing:-.04em;margin-bottom:14px}.map-copy p{font-size:13px;line-height:1.75;color:rgba(223,255,231,.68)}.coords{position:absolute;right:22px;bottom:22px;color:rgba(255,213,106,.58);font-size:12px;line-height:1.6;text-align:right;letter-spacing:.12em}.footer{position:relative;z-index:3;display:flex;justify-content:space-between;gap:20px;max-width:1180px;margin:0 auto;padding:34px clamp(18px,3vw,42px) 42px;color:rgba(224,255,232,.42);font-size:11px;letter-spacing:.14em;text-transform:uppercase;border-top:1px solid rgba(121,255,158,.12)}
-    .ripple{position:fixed;z-index:4;border-radius:50%;pointer-events:none;border:1px solid rgba(255,213,106,.48);box-shadow:0 0 28px rgba(255,213,106,.24);animation:ripple 1.3s ease-out forwards;mix-blend-mode:screen}.spark{position:fixed;z-index:4;width:5px;height:5px;border-radius:50%;pointer-events:none;background:var(--green);box-shadow:0 0 18px var(--green);animation:spark .9s ease-out forwards;mix-blend-mode:screen}@keyframes ripple{0%{width:0;height:0;opacity:1;transform:translate(-50%,-50%) scale(.2)}100%{width:360px;height:360px;opacity:0;transform:translate(-50%,-50%) scale(1)}}@keyframes spark{to{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.1)}}
-    @media (max-width:980px){.hero{grid-template-columns:1fr;gap:18px;padding-top:120px}.engine-wrap{min-height:480px;order:-1}.engine{width:min(82vw,430px)}.grid,.live-panel{grid-template-columns:1fr}.topbar{position:absolute}.nav{display:none}.stats{grid-template-columns:1fr}.footer{flex-direction:column}.logline{grid-template-columns:70px 1fr}}
-    @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}canvas#field{display:none}}
+    .ripple{position:fixed;z-index:4;border-radius:50%;pointer-events:none;border:1px solid rgba(255,213,106,.48);box-shadow:0 0 28px rgba(255,213,106,.24);animation:ripple 1.3s ease-out forwards;mix-blend-mode:screen}
+    .spark{position:fixed;z-index:4;width:5px;height:5px;border-radius:50%;pointer-events:none;background:var(--green);box-shadow:0 0 18px var(--green);animation:spark .9s ease-out forwards;mix-blend-mode:screen}
+    @keyframes ripple{0%{width:0;height:0;opacity:1;transform:translate(-50%,-50%) scale(.2)}100%{width:360px;height:360px;opacity:0;transform:translate(-50%,-50%) scale(1)}}
+    @keyframes spark{to{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.1)}}
+    @media (prefers-reduced-motion:reduce){canvas#field{display:none}#aurora{display:none}}
   </style>
 </head>
 <body>
   <canvas id="field" aria-hidden="true"></canvas>
   <div id="aurora" aria-hidden="true"><div class="aurora-band"></div><div class="aurora-band"></div><div class="aurora-band"></div></div>
-  <div class="topbar">
-    <a class="brand" href="#top" aria-label="The Vortex Project home"><span class="brand-mark"></span><span>The Vortex Project</span></a>
-    <nav class="nav" aria-label="Page sections"><a href="#commonwealth">Commonwealth</a><a href="#systems">Systems</a><a href="#live">Live Signals</a><button class="signal-button" id="signalButton" type="button">Pulse</button></nav>
-  </div>
-
-  <main id="top" class="frame">
-    <section class="hero" aria-labelledby="title">
-      <div class="hero-copy">
-        <div class="eyebrow">Pine Hollow · Sevierville TN · 1,063 ft</div>
-        <h1 id="title"><span>Solarpunk</span><span>commonwealth</span></h1>
-        <p class="subhead">A living edge-AI field station on a billion-year-old mountain: BirdNET listening, flock and garden infrastructure, open-source tools, generative art, and citizen science built from what is already here.</p>
-        <div class="cta-row">
-          <a class="cta primary" href="#live">Enter the signal field</a>
-          <a class="cta" href="library/open-source-library.md">Open source library</a>
-          <a class="cta" href="https://github.com/vortexpjeff/thevortexproject.org">GitHub</a>
-        </div>
-        <div class="stats" aria-label="Project facts">
-          <div class="stat"><b>35.856548</b><small>north latitude</small></div>
-          <div class="stat"><b>−83.374437</b><small>west longitude</small></div>
-          <div class="stat"><b>BirdNET + holo</b><small>two-layer attention</small></div>
-        </div>
-      </div>
-
-      <div class="engine-wrap" aria-hidden="true">
-        <div class="engine" id="engine">
-          <div class="petals" id="petals"></div>
-          <div class="spokes" id="spokes" style="--dur:38s"></div>
-          <div class="spokes" id="counterSpokes" style="--dur:24s;--dir:reverse"></div>
-          <div class="beacons" id="beacons" style="--dur:52s"></div>
-          <div class="orbit" id="orbitA" style="--dur:18s"></div>
-          <div class="orbit" id="orbitB" style="--dur:29s;--dir:reverse"></div>
-          <div class="sigils" id="sigils" style="--dur:44s;--dir:reverse"></div>
-          <div class="core"></div>
-        </div>
-      </div>
-    </section>
-
-    <section id="commonwealth">
-      <div class="section-kicker">not a smart home</div>
-      <h2 class="section-title">A commonwealth where land, animal, machine, and human each keep their own edge.</h2>
-      <p class="section-text">The fence keeps the coop honest. The microphones listen without interfering. The website shows the system instead of hiding it: what vocalized, what was built, what failed, what bloomed, what passed through the hollow before breakfast.</p>
-    </section>
-
-    <section id="systems">
-      <div class="section-kicker">working surfaces</div>
-      <h2 class="section-title">Infrastructure that can be opened, repaired, forked, and repurposed.</h2>
-      <div class="grid">
-        <article class="card"><span class="tag">listen</span><h3>Bioacoustic field node</h3><p>BirdNET-Pi and InsectNet turn the hollow into a daily sound ledger: Carolina chickadees, wrens, warblers, insects, rain, and whatever else announces itself.</p></article>
-        <article class="card"><span class="tag">build</span><h3>Scrappy solarpunk stack</h3><p>Pallets, Raspberry Pis, local models, GitHub Pages, hand-edited HTML, and small services that show what they are doing instead of pretending to be magic.</p></article>
-        <article class="card"><span class="tag">remember</span><h3>Holographic archive</h3><p>Observation becomes memory when it matters: species patterns, flock behavior, infrastructure lessons, soil and weather notes, and project decisions.</p></article>
-        <article class="card"><span class="tag">share</span><h3>Open-source library</h3><p>A growing shelf of tools and references for edge AI, mutual exchange, off-grid computing, bioacoustics, creative coding, and resilient systems.</p></article>
-        <article class="card"><span class="tag">grow</span><h3>Garden + flock loops</h3><p>Chickens, compost, wet ground, tomatoes, predators, shade, feed, repair, and the daily negotiations of an Appalachian hollow.</p></article>
-        <article class="card"><span class="tag">broadcast</span><h3>Visible machine ecology</h3><p>Generative visuals, Discord reports, field dispatches, voice loops, and dashboards make the relationship legible without flattening it into metrics.</p></article>
-      </div>
-    </section>
-
-    <section id="live">
-      <div class="section-kicker">reactive signal layer</div>
-      <h2 class="section-title">Move the pointer. Click anywhere. The page answers like a listening instrument.</h2>
-      <p class="section-text">The live BirdNET feed is still an open wire, so the landing page runs on simulated detections with a real-data hook ready. When the feed lands, these pulses can map to recent species, confidence, time, and frequency.</p>
-      <div class="live-panel">
-        <div class="console">
-          <div class="console-head"><span>field log</span><span id="status">synthetic pulse mode</span></div>
-          <div class="console-body" id="log"></div>
-        </div>
-        <div class="map-panel">
-          <svg class="topo" viewBox="0 0 600 420" preserveAspectRatio="none" aria-hidden="true">
-            <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#79ff9e" stop-opacity=".0"/><stop offset=".55" stop-color="#79ff9e" stop-opacity=".38"/><stop offset="1" stop-color="#ffd56a" stop-opacity=".12"/></linearGradient></defs>
-            <path d="M-30 340 C 80 280, 120 390, 240 330 S 420 250, 650 310" fill="none" stroke="url(#g)" stroke-width="2"/>
-            <path d="M-20 292 C 90 230, 168 340, 280 276 S 430 196, 640 258" fill="none" stroke="url(#g)" stroke-width="1.6"/>
-            <path d="M-10 244 C 100 188, 190 285, 302 226 S 458 148, 620 206" fill="none" stroke="url(#g)" stroke-width="1.3"/>
-            <path d="M0 198 C 112 142, 214 232, 330 176 S 470 104, 610 160" fill="none" stroke="url(#g)" stroke-width="1"/>
-            <path d="M20 152 C 128 104, 230 178, 348 130 S 482 68, 590 112" fill="none" stroke="url(#g)" stroke-width=".8"/>
-          </svg>
-          <div class="map-copy"><h3>Whilite Creek drains south-southwest toward the Smokies.</h3><p>The page is not pretending the feed is done. It is ready for it: a landing surface that can become a live instrument as the archive grows.</p></div>
-          <div class="coords">35.856548<br>−83.374437<br>1,063 FT</div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer"><span>The Vortex Project · Pine Hollow</span><span>edge AI · citizen science · gift economy baseline</span></footer>
-
   <script>
     const root = document.documentElement;
     const canvas = document.getElementById('field');
     const ctx = canvas.getContext('2d', { alpha: true });
-    const engine = document.getElementById('engine');
-    const logEl = document.getElementById('log');
-    const statusEl = document.getElementById('status');
-    const signalButton = document.getElementById('signalButton');
     let W = 0, H = 0, DPR = 1, tick = 0, last = performance.now();
-    const pointer = { x: innerWidth * .5, y: innerHeight * .5, tx: innerWidth * .5, ty: innerHeight * .5, down: false, energy: .35 };
+    const pointer = { x: innerWidth * .5, y: innerHeight * .5, tx: innerWidth * .5, ty: innerHeight * .5, energy: .35 };
     const motes = [], threads = [], ripples = [];
-    const species = ['Carolina Chickadee','Carolina Wren','Hooded Warbler','Eastern Towhee','Northern Cardinal','Tufted Titmouse','Wood Thrush','Red-eyed Vireo','American Crow','Eastern Phoebe'];
 
     function rand(a,b){ return a + Math.random() * (b-a); }
     function clamp(v,a,b){ return Math.max(a, Math.min(b, v)); }
@@ -222,31 +52,12 @@
     }
     seedMotes(); addEventListener('resize', seedMotes);
 
-    function addLog(name, confidence){
-      const now = new Date();
-      const t = now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'});
-      const row = document.createElement('div'); row.className = 'logline';
-      row.innerHTML = `<b>${t}</b><span>${name}</span><em>${Math.round(clamp(confidence, 1, 99))}%</em>`;
-      logEl.prepend(row);
-      while(logEl.children.length > 8) logEl.lastChild.remove();
-    }
-    function pulse(x = rand(innerWidth*.15, innerWidth*.85), y = rand(innerHeight*.15, innerHeight*.85), strength = rand(.45,1), label){
-      ripples.push({x,y,life:1,strength,h:rand(98,168)});
-      pointer.energy = clamp(pointer.energy + strength * .35, .15, 2.4);
-      createRippleDom(x,y); sparkBurst(x,y,Math.floor(8 + strength*18));
-      addLog(label || species[Math.floor(rand(0,species.length))], 55 + strength*42);
-      engine.classList.add('reactive'); signalButton.classList.add('active');
-      clearTimeout(pulse._t); pulse._t = setTimeout(()=>{engine.classList.remove('reactive'); signalButton.classList.remove('active')}, 900);
-    }
-
     function createRippleDom(x,y){ const r=document.createElement('div'); r.className='ripple'; r.style.left=x+'px'; r.style.top=y+'px'; document.body.appendChild(r); setTimeout(()=>r.remove(),1350); }
     function sparkBurst(x,y,n){ for(let i=0;i<n;i++){ const s=document.createElement('div'); s.className='spark'; s.style.left=x+'px'; s.style.top=y+'px'; const a=rand(0,Math.PI*2), d=rand(40,180); s.style.setProperty('--dx', Math.cos(a)*d+'px'); s.style.setProperty('--dy', Math.sin(a)*d+'px'); s.style.background = i%4===0 ? 'var(--gold)' : (i%3===0 ? 'var(--teal)' : 'var(--green)'); document.body.appendChild(s); setTimeout(()=>s.remove(),920); } }
 
     addEventListener('pointermove', e=>{ pointer.tx=e.clientX; pointer.ty=e.clientY; root.style.setProperty('--hotx', e.clientX+'px'); root.style.setProperty('--hoty', e.clientY+'px'); });
-    addEventListener('pointerdown', e=>{ pointer.down=true; pulse(e.clientX,e.clientY,1.15,'manual field pulse'); });
-    addEventListener('pointerup', ()=> pointer.down=false);
-    signalButton.addEventListener('pointerdown', e=>e.stopPropagation());
-    signalButton.addEventListener('click', e=>{ e.preventDefault(); e.stopPropagation(); pulse(innerWidth*.5, innerHeight*.48, 1.25, 'operator signal'); });
+    addEventListener('pointerdown', e=>{ createRippleDom(e.clientX,e.clientY); sparkBurst(e.clientX,e.clientY,Math.floor(8+Math.random()*18)); pointer.energy=clamp(pointer.energy+.35,.15,2.4); });
+    addEventListener('pointerup', ()=>{});
 
     function draw(now){
       const dt = Math.min(32, now-last); last = now; tick += dt * .001;
@@ -282,46 +93,9 @@
         const r=m.r*(1+pulse*.8+near*2.2); const alpha=.14 + pulse*.22 + near*.38;
         ctx.fillStyle=`hsla(${m.h+near*35},100%,70%,${alpha})`; ctx.beginPath(); ctx.arc(m.x,m.y,r,0,Math.PI*2); ctx.fill();
       }
-
-      for(let i=ripples.length-1;i>=0;i--){
-        const r=ripples[i]; r.life -= dt*.00055; if(r.life<=0){ripples.splice(i,1); continue;}
-        const rad=(1-r.life)*360*r.strength; const a=r.life*r.life*.34;
-        ctx.strokeStyle=`hsla(${r.h},100%,70%,${a})`; ctx.lineWidth=1.2 + r.life*2.4; ctx.beginPath(); ctx.arc(r.x,r.y,rad,0,Math.PI*2); ctx.stroke();
-        ctx.strokeStyle=`hsla(45,100%,70%,${a*.5})`; ctx.lineWidth=.8; ctx.beginPath(); ctx.arc(r.x,r.y,rad*.62,0,Math.PI*2); ctx.stroke();
-      }
       requestAnimationFrame(draw);
     }
     requestAnimationFrame(draw);
-
-    function buildEngine(){
-      const rings = [
-        [3,2,'solid',132,.28,'34s','normal'],[10,1,'dashed',48,.24,'48s','reverse'],[17,1,'solid',165,.18,'29s','normal'],[24,2,'dotted',112,.2,'40s','reverse'],[31,1,'double',54,.22,'56s','normal'],[38,1,'dashed',148,.18,'23s','reverse'],[45,1,'solid',92,.16,'64s','normal']
-      ];
-      rings.forEach(([inset,w,style,h,a,dur,dir])=>{ const el=document.createElement('div'); el.className='ring'; el.style.cssText=`--inset:${inset}%;--w:${w}px;--style:${style};--h:${h};--a:${a};--dur:${dur};--dir:${dir}`; engine.prepend(el); });
-      const spokes=document.getElementById('spokes'), csp=document.getElementById('counterSpokes'), petals=document.getElementById('petals'), beacons=document.getElementById('beacons'), oa=document.getElementById('orbitA'), ob=document.getElementById('orbitB'), sig=document.getElementById('sigils');
-      for(let i=0;i<48;i++){ const s=document.createElement('div'); s.className='spoke'; s.style.cssText=`--h:${i%5===0?48:132};transform:rotate(${i*7.5}deg)`; spokes.appendChild(s); }
-      for(let i=0;i<32;i++){ const s=document.createElement('div'); s.className='spoke'; s.style.cssText=`--h:${i%4===0?165:104};height:36%;opacity:.55;transform:rotate(${i*11.25+5.6}deg)`; csp.appendChild(s); }
-      for(let i=0;i<24;i++){ const p=document.createElement('div'); p.className='petal'; p.style.cssText=`transform:rotate(${i*15}deg) translateY(-1%);--d:${3+Math.random()*3}s;--delay:${-Math.random()*5}s`; petals.appendChild(p); }
-      for(let i=0;i<36;i++){ const b=document.createElement('div'); b.className='beacon'; const col=i%4===0?'#ffd56a':(i%3===0?'#47f5d1':'#79ff9e'); b.style.cssText=`--angle:${i*10}deg;--rad:48%;--c:${col};--d:${1.6+Math.random()*3.4}s;--delay:${-Math.random()*4}s`; beacons.appendChild(b); }
-      for(let i=0;i<11;i++){ const o=document.createElement('div'); o.className='orb'; const col=i%3===0?'#ffd56a':(i%3===1?'#47f5d1':'#79ff9e'); o.style.cssText=`--angle:${i*32.7}deg;--rad:${30+Math.random()*7}%;--s:${7+Math.random()*9}px;--c:${col};--d:${2+Math.random()*4}s;--delay:${-Math.random()*5}s`; oa.appendChild(o); }
-      for(let i=0;i<8;i++){ const o=document.createElement('div'); o.className='orb'; const col=i%2?'#b58cff':'#df8a4c'; o.style.cssText=`--angle:${i*45+18}deg;--rad:${18+Math.random()*6}%;--s:${5+Math.random()*7}px;--c:${col};--d:${1.8+Math.random()*3.8}s;--delay:${-Math.random()*5}s`; ob.appendChild(o); }
-      ['✶','⌬','◌','✧','△','◈','✺','◎','✦','◇','✷','⬡'].forEach((char,i)=>{ const e=document.createElement('div'); e.className='sigil'; e.textContent=char; e.style.cssText=`--angle:${i*30}deg;--rad:40%`; sig.appendChild(e); });
-      for(let i=0;i<5;i++){ const pr=document.createElement('div'); pr.className='pulse-ring'; pr.style.cssText=`--d:${4+i*1.1}s;--delay:${-i*1.2}s`; engine.appendChild(pr); }
-    }
-    buildEngine();
-
-    // Best-effort hook for future live BirdNET data. The page works without it.
-    fetch('https://raw.githubusercontent.com/vortexpjeff/pine-hollow-dashboard/main/data/latest.json', { signal: AbortSignal.timeout(3500) })
-      .then(r => r.ok ? r.json() : null)
-      .then(d => {
-        if(!d) return;
-        statusEl.textContent = 'live data hook detected';
-        const recent = Array.isArray(d.recent) ? d.recent.slice(0,5) : [];
-        recent.forEach((item, i) => setTimeout(()=>pulse(rand(innerWidth*.2,innerWidth*.8),rand(innerHeight*.2,innerHeight*.8),clamp((item.confidence||70)/100,.35,1.2),item.common_name || item.species || 'BirdNET detection'), 700+i*500));
-      }).catch(()=>{});
-
-    setTimeout(()=>pulse(innerWidth*.72, innerHeight*.38, .75, 'field initialized'), 850);
-    setInterval(()=>pulse(rand(innerWidth*.18,innerWidth*.82), rand(innerHeight*.18,innerHeight*.82), rand(.38,.95)), 5200);
   </script>
 </body>
 </html>
