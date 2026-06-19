@@ -1,11 +1,9 @@
 {
   "specVersion": "1.0",
-  "updatedAt": "2026-06-19T01:54:00Z",
   "host": {
     "displayName": "The Vortex Project \u2014 Pine Hollow Research Station",
     "identifier": "did:web:thevortexproject.org",
-    "description": "A solarpunk citizen-science research station in Sevierville, TN. Three-domain observational science: ground vegetation/acoustics (Solaris), sky/atmosphere/space (ObserverBot), and cross-domain archive (Archivator). Published via ARD for agentic discovery and research collaboration.",
-    "contact": "solaris.thevortexproject@gmail.com"
+    "documentationUrl": "https://www.thevortexproject.org"
   },
   "entries": [
     {
@@ -13,7 +11,7 @@
       "displayName": "Solaris \u2014 Ground & Acoustic Agent",
       "type": "application/x-ai-agent+json",
       "url": "discord://pine-hollow",
-      "description": "Ground-truth agent for Pine Hollow. Satellite vegetation analysis via Google Earth Engine: NDVI time series (Sentinel-2, 10m), above-ground biomass (ESA CCI + ML/GEDI), canopy cover (Hansen GFC), land cover classification (NLCD, Dynamic World), forest disturbance detection, terrain analysis (elevation/slope/aspect from 3DEP), surface water mapping (JRC), land surface temperature (MODIS), precipitation context (CHIRPS/PRISM), and canopy height (ETH Global). Retrieves bird species detection summaries from BirdNET-Pi (24-hour and historical). Tracks phenology events for key tree species. Monitors homestead infrastructure including pond recovery, swale restoration, and garden conditions. Can answer weather and climate questions as they relate to vegetation and land change.",
+      "description": "Ground-truth agent for Pine Hollow. Satellite vegetation analysis via Google Earth Engine: NDVI time series (Sentinel-2, 10m), above-ground biomass (ESA CCI + ML/GEDI), canopy cover (Hansen GFC), land cover classification (NLCD, Dynamic World), forest disturbance detection, terrain analysis (elevation/slope/aspect from 3DEP), surface water mapping (JRC), land surface temperature (MODIS), precipitation context (CHIRPS/PRISM), and canopy height (ETH Global). Retrieves bird species detection summaries from BirdNET-Pi (24-hour and historical). Tracks phenology events for key tree species. Monitors homestead infrastructure including pond recovery, swale restoration, and garden conditions. Can answer weather and climate questions as they relate to vegetation and land change. Contact: solaris.thevortexproject@gmail.com.",
       "tags": [
         "vegetation",
         "earth-engine",
@@ -85,12 +83,15 @@
         "how does canopy cover correlate with bird activity this season",
         "show me the biomass anomaly trend for the hollow"
       ],
-      "updatedAt": "2026-06-19T01:54:00Z",
-      "status": {
-        "earthEngine": true,
-        "birdnet": false,
-        "hermespi": false,
-        "notes": "Earth Engine authenticated"
+      "updatedAt": "2026-06-19T02:11:12Z",
+      "metadata": {
+        "status": {
+          "earthEngine": true,
+          "birdnet": false,
+          "hermespi": false,
+          "notes": "Earth Engine authenticated"
+        },
+        "contact": "solaris.thevortexproject@gmail.com"
       }
     },
     {
@@ -154,10 +155,12 @@
         "what's the current solar wind speed",
         "are there any CMEs headed toward Earth"
       ],
-      "updatedAt": "2026-06-19T01:54:00Z",
-      "status": {
-        "gatewayRunning": true,
-        "notes": "Gateway running"
+      "updatedAt": "2026-06-19T02:11:12Z",
+      "metadata": {
+        "status": {
+          "gatewayRunning": true,
+          "notes": "Gateway running"
+        }
       }
     },
     {
@@ -188,10 +191,12 @@
         "find me all entries about whip-poor-will this year",
         "what's the longest-running observation thread in the archive"
       ],
-      "updatedAt": "2026-06-19T01:54:00Z",
-      "status": {
-        "gatewayRunning": true,
-        "notes": "Gateway running"
+      "updatedAt": "2026-06-19T02:11:12Z",
+      "metadata": {
+        "status": {
+          "gatewayRunning": true,
+          "notes": "Gateway running"
+        }
       }
     }
   ]
