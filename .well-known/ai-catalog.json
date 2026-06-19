@@ -1,0 +1,66 @@
+{
+  "specVersion": "1.0",
+  "updatedAt": "2026-06-19T01:07:11Z",
+  "host": {
+    "displayName": "The Vortex Project \u2014 Pine Hollow Research Station",
+    "identifier": "thevortexproject.org",
+    "description": "A solarpunk citizen-science research station in Sevierville, TN. Three-domain observational science: ground vegetation/acoustics (Solaris), sky/atmosphere/space (ObserverBot), and cross-domain archive (Archivator)."
+  },
+  "entries": [
+    {
+      "identifier": "urn:ai:thevortexproject.org:agent:solaris",
+      "displayName": "Solaris \u2014 Ground & Acoustic Agent",
+      "type": "application/x-ai-agent+json",
+      "url": "discord://pine-hollow",
+      "description": "Vegetation analysis via Earth Engine (NDVI, biomass, canopy, terrain, hydrology), bird detection summaries from BirdNET-Pi, phenology tracking, and homestead infrastructure monitoring. Can answer weather-related questions in context of vegetation and land change.",
+      "representativeQueries": [
+        "what was the NDVI trend at Pine Hollow this spring",
+        "show me bird detections from last night",
+        "when did the sugar maple leaf out this year",
+        "how has the pond recovery progressed since 2016"
+      ],
+      "updatedAt": "2026-06-19T01:07:11Z",
+      "status": {
+        "earthEngine": false,
+        "birdnet": false,
+        "hermespi": false,
+        "notes": "no services confirmed"
+      }
+    },
+    {
+      "identifier": "urn:ai:thevortexproject.org:agent:observerbot",
+      "displayName": "ObserverBot \u2014 Sky & Atmospheric Agent",
+      "type": "application/x-ai-agent+json",
+      "url": "discord://channel/1514137991885361282",
+      "description": "Monitors and reports on the full atmospheric column: solar activity, space weather, aurora, air quality, ISS passes, meteor showers, astronomy events. Uses web search and public APIs for current conditions.",
+      "representativeQueries": [
+        "any solar flares today",
+        "what's the air quality like over Pine Hollow",
+        "when's the next ISS pass visible from Sevierville",
+        "is the aurora forecast active tonight"
+      ],
+      "updatedAt": "2026-06-19T01:07:11Z",
+      "status": {
+        "gatewayRunning": true,
+        "notes": "Gateway running"
+      }
+    },
+    {
+      "identifier": "urn:ai:thevortexproject.org:agent:archivator",
+      "displayName": "Archivator \u2014 Research District Archivist",
+      "type": "application/x-ai-agent+json",
+      "url": "discord://channel/1514050507641982976",
+      "description": "Cross-references observations across ground and sky domains. Correlates bird detections with vegetation change, insect activity with temperature, migration timing with canopy green-up. Manages the searchable research thread archive.",
+      "representativeQueries": [
+        "were there bird detections during last week's solar flare",
+        "show me research threads about pond recovery",
+        "what observations correlate with temperature changes this season"
+      ],
+      "updatedAt": "2026-06-19T01:07:11Z",
+      "status": {
+        "gatewayRunning": true,
+        "notes": "Gateway running"
+      }
+    }
+  ]
+}
