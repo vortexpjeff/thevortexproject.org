@@ -1,10 +1,10 @@
 {
   "specVersion": "1.0",
-  "updatedAt": "2026-06-19T01:22:02Z",
+  "updatedAt": "2026-06-19T01:32:05Z",
   "host": {
     "displayName": "The Vortex Project \u2014 Pine Hollow Research Station",
-    "identifier": "thevortexproject.org",
-    "description": "A solarpunk citizen-science research station in Sevierville, TN. Three-domain observational science: ground vegetation/acoustics (Solaris), sky/atmosphere/space (ObserverBot), and cross-domain archive (Archivator).",
+    "identifier": "did:web:thevortexproject.org",
+    "description": "A solarpunk citizen-science research station in Sevierville, TN. Three-domain observational science: ground vegetation/acoustics (Solaris), sky/atmosphere/space (ObserverBot), and cross-domain archive (Archivator). Published via ARD for agentic discovery and research collaboration.",
     "contact": "solaris.thevortexproject@gmail.com"
   },
   "entries": [
@@ -13,14 +13,41 @@
       "displayName": "Solaris \u2014 Ground & Acoustic Agent",
       "type": "application/x-ai-agent+json",
       "url": "discord://pine-hollow",
-      "description": "Vegetation analysis via Earth Engine (NDVI, biomass, canopy, terrain, hydrology), bird detection summaries from BirdNET-Pi, phenology tracking, and homestead infrastructure monitoring. Can answer weather-related questions in context of vegetation and land change.",
+      "description": "Ground-truth agent for Pine Hollow. Analyzes vegetation via Google Earth Engine (NDVI, biomass, canopy cover, terrain analysis, hydrology). Retrieves bird species detection summaries from BirdNET-Pi (24-hour and historical). Tracks phenology events for key tree species. Monitors homestead infrastructure including pond recovery, swale restoration, and garden conditions. Can answer weather and climate questions as they relate to vegetation and land change.",
+      "tags": [
+        "vegetation",
+        "earth-engine",
+        "ndvi",
+        "biomass",
+        "canopy",
+        "birds",
+        "acoustic",
+        "bioacoustics",
+        "birdnet",
+        "phenology",
+        "climate",
+        "environmental-monitoring",
+        "infrastructure",
+        "landsat",
+        "sentinel",
+        "remote-sensing"
+      ],
+      "capabilities": [
+        "VegetationAnalysis",
+        "BirdDetectionRetrieval",
+        "PhenologyTracking",
+        "InfrastructureMonitoring"
+      ],
       "representativeQueries": [
         "what was the NDVI trend at Pine Hollow this spring",
         "show me bird detections from last night",
         "when did the sugar maple leaf out this year",
-        "how has the pond recovery progressed since 2016"
+        "how has the pond recovery progressed since 2016",
+        "what species were detected in the past 24 hours",
+        "how does canopy cover correlate with bird activity this season",
+        "show me the biomass anomaly trend for the hollow"
       ],
-      "updatedAt": "2026-06-19T01:22:02Z",
+      "updatedAt": "2026-06-19T01:32:05Z",
       "status": {
         "earthEngine": true,
         "birdnet": false,
@@ -33,14 +60,37 @@
       "displayName": "ObserverBot \u2014 Sky & Atmospheric Agent",
       "type": "application/x-ai-agent+json",
       "url": "discord://channel/1514137991885361282",
-      "description": "Monitors and reports on the full atmospheric column: solar activity, space weather, aurora, air quality, ISS passes, meteor showers, astronomy events. Uses web search and public APIs for current conditions.",
+      "description": "Sky and atmospheric monitoring agent for Pine Hollow. Monitors solar activity (flares, sunspots, CMEs), space weather conditions, aurora forecasts, atmospheric conditions (air quality, particulates, cloud cover), ISS transit predictions, meteor shower forecasts, and notable astronomy events. Uses live web search and public data APIs.",
+      "tags": [
+        "solar",
+        "space-weather",
+        "aurora",
+        "atmosphere",
+        "air-quality",
+        "astronomy",
+        "iss",
+        "meteors",
+        "satellites",
+        "lunar",
+        "deep-sky",
+        "environmental-monitoring"
+      ],
+      "capabilities": [
+        "SolarActivityMonitoring",
+        "AtmosphericConditionsReporting",
+        "AstronomyEventForecasting",
+        "SpaceWeatherTracking"
+      ],
       "representativeQueries": [
         "any solar flares today",
         "what's the air quality like over Pine Hollow",
         "when's the next ISS pass visible from Sevierville",
-        "is the aurora forecast active tonight"
+        "is the aurora forecast active tonight",
+        "what meteor showers are coming up this month",
+        "what's the current solar wind speed",
+        "are there any CMEs headed toward Earth"
       ],
-      "updatedAt": "2026-06-19T01:22:02Z",
+      "updatedAt": "2026-06-19T01:32:05Z",
       "status": {
         "gatewayRunning": true,
         "notes": "Gateway running"
@@ -51,13 +101,30 @@
       "displayName": "Archivator \u2014 Research District Archivist",
       "type": "application/x-ai-agent+json",
       "url": "discord://channel/1514050507641982976",
-      "description": "Cross-references observations across ground and sky domains. Correlates bird detections with vegetation change, insect activity with temperature, migration timing with canopy green-up. Manages the searchable research thread archive.",
+      "description": "Cross-reference and archiving agent. Correlates observations across ground and sky domains: bird activity with vegetation change, insect patterns with temperature, migration timing with canopy green-up. Maintains a searchable archive of research threads, observation summaries, and multi-domain correlation queries. Designed for longitudinal citizen-science analysis.",
+      "tags": [
+        "archive",
+        "cross-reference",
+        "correlation",
+        "research",
+        "documentation",
+        "data-archive",
+        "longitudinal",
+        "citizen-science"
+      ],
+      "capabilities": [
+        "CrossDomainCorrelation",
+        "ResearchArchiveSearch",
+        "ObservationDocumentation"
+      ],
       "representativeQueries": [
         "were there bird detections during last week's solar flare",
         "show me research threads about pond recovery",
-        "what observations correlate with temperature changes this season"
+        "what observations correlate with temperature changes this season",
+        "find me all entries about whip-poor-will this year",
+        "what's the longest-running observation thread in the archive"
       ],
-      "updatedAt": "2026-06-19T01:22:02Z",
+      "updatedAt": "2026-06-19T01:32:05Z",
       "status": {
         "gatewayRunning": true,
         "notes": "Gateway running"
