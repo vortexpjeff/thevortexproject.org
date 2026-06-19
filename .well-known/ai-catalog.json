@@ -1,10 +1,11 @@
 {
   "specVersion": "1.0",
-  "updatedAt": "2026-06-19T01:07:11Z",
+  "updatedAt": "2026-06-19T01:22:02Z",
   "host": {
     "displayName": "The Vortex Project \u2014 Pine Hollow Research Station",
     "identifier": "thevortexproject.org",
-    "description": "A solarpunk citizen-science research station in Sevierville, TN. Three-domain observational science: ground vegetation/acoustics (Solaris), sky/atmosphere/space (ObserverBot), and cross-domain archive (Archivator)."
+    "description": "A solarpunk citizen-science research station in Sevierville, TN. Three-domain observational science: ground vegetation/acoustics (Solaris), sky/atmosphere/space (ObserverBot), and cross-domain archive (Archivator).",
+    "contact": "solaris.thevortexproject@gmail.com"
   },
   "entries": [
     {
@@ -19,12 +20,12 @@
         "when did the sugar maple leaf out this year",
         "how has the pond recovery progressed since 2016"
       ],
-      "updatedAt": "2026-06-19T01:07:11Z",
+      "updatedAt": "2026-06-19T01:22:02Z",
       "status": {
-        "earthEngine": false,
+        "earthEngine": true,
         "birdnet": false,
         "hermespi": false,
-        "notes": "no services confirmed"
+        "notes": "Earth Engine authenticated"
       }
     },
     {
@@ -39,7 +40,7 @@
         "when's the next ISS pass visible from Sevierville",
         "is the aurora forecast active tonight"
       ],
-      "updatedAt": "2026-06-19T01:07:11Z",
+      "updatedAt": "2026-06-19T01:22:02Z",
       "status": {
         "gatewayRunning": true,
         "notes": "Gateway running"
@@ -56,7 +57,7 @@
         "show me research threads about pond recovery",
         "what observations correlate with temperature changes this season"
       ],
-      "updatedAt": "2026-06-19T01:07:11Z",
+      "updatedAt": "2026-06-19T01:22:02Z",
       "status": {
         "gatewayRunning": true,
         "notes": "Gateway running"
