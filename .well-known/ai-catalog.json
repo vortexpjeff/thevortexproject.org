@@ -1,6 +1,6 @@
 {
   "specVersion": "1.0",
-  "updatedAt": "2026-06-19T01:36:39Z",
+  "updatedAt": "2026-06-19T01:46:07Z",
   "host": {
     "displayName": "The Vortex Project \u2014 Pine Hollow Research Station",
     "identifier": "did:web:thevortexproject.org",
@@ -66,7 +66,7 @@
         "how does canopy cover correlate with bird activity this season",
         "show me the biomass anomaly trend for the hollow"
       ],
-      "updatedAt": "2026-06-19T01:36:39Z",
+      "updatedAt": "2026-06-19T01:46:07Z",
       "status": {
         "earthEngine": true,
         "birdnet": false,
@@ -79,7 +79,7 @@
       "displayName": "ObserverBot \u2014 Sky & Atmospheric Agent",
       "type": "application/x-ai-agent+json",
       "url": "discord://channel/1514137991885361282",
-      "description": "Sky and atmospheric monitoring agent for Pine Hollow. Uses web search and public data sources to fetch and report on: solar activity from NOAA SWPC (flares, sunspots, CMEs, solar wind), space weather conditions, aurora forecasts (NOAA OVATION), atmospheric conditions including air quality and particulate levels, ISS transit predictions and satellite passes (Heavens-Above/NASA), meteor shower forecasts (AMS/IMO), lunar phases, and notable astronomy events. Can answer current-condition and forecast questions across the full atmospheric column.",
+      "description": "Dedicated sky monitoring agent with 20 integrated data endpoints organized into six layers. Solar: 10 NOAA SWPC endpoints (solar wind magnetic field and plasma, planetary K-index and 72h forecast, GOES proton flux, F10.7 solar cycle, OVATION aurora, sunspot regions, GLOTEC TEC) plus 4 NASA DONKI endpoints (CME, flares, geomagnetic storms) \u2014 key: dedicated NASA API key. Weather: 3 Open-Meteo endpoints (forecast, air quality, geocoding) plus 2 NWS endpoints (grid point lookup, zone alerts). Satellites: TLE API for ISS and Tiangong passes + local ephem library for orbital predictions. Planetary: local PyEphem library for planetary positions, alt/az/magnitude, rise/set, moon phase and illumination. Astronomy: 7 additional endpoints available on demand (NASA Exoplanet Archive TAP, JPL Horizons, USGS Earthquakes, Open Notify ISS position, Open Notify people in space, NASA APOD, arXiv API). All powered by a dedicated observatory-feeds skill on the Atlas profile.",
       "tags": [
         "solar",
         "space-weather",
@@ -91,21 +91,40 @@
         "meteors",
         "satellites",
         "lunar",
-        "deep-sky",
+        "planetary",
         "noaa",
+        "swpc",
         "nasa",
-        "environmental-monitoring",
-        "web-search"
+        "donki",
+        "open-meteo",
+        "nws",
+        "tle",
+        "ephem",
+        "pyephem",
+        "neowise",
+        "exoplanet",
+        "horizons",
+        "earthquake",
+        "environmental-monitoring"
       ],
       "capabilities": [
-        "SolarActivityMonitoring",
-        "AtmosphericConditionsReporting",
-        "AstronomyEventForecasting",
-        "SpaceWeatherTracking",
-        "AuroraForecastReporting",
-        "ISSTransitPrediction",
-        "MeteorShowerForecasting",
-        "AirQualityReporting"
+        "RealTimeSolarWindMonitoring",
+        "SolarFlareAndCMEDetection",
+        "KpIndexForecasting",
+        "AuroraProbabilityMapping",
+        "GOESProtonFluxTracking",
+        "SunspotRegionMonitoring",
+        "IonosphericTECMapping",
+        "WeatherForecasting",
+        "AirQualityReporting",
+        "SevereWeatherAlerting",
+        "SatellitePassPrediction",
+        "PlanetaryPositionEphemeris",
+        "MoonPhaseTracking",
+        "NEOCloseApproachDetection",
+        "ExoplanetArchiveQuery",
+        "JPLHorizonsQuery",
+        "EarthquakeFeedMonitoring"
       ],
       "representativeQueries": [
         "any solar flares today",
@@ -116,7 +135,7 @@
         "what's the current solar wind speed",
         "are there any CMEs headed toward Earth"
       ],
-      "updatedAt": "2026-06-19T01:36:39Z",
+      "updatedAt": "2026-06-19T01:46:07Z",
       "status": {
         "gatewayRunning": true,
         "notes": "Gateway running"
@@ -150,7 +169,7 @@
         "find me all entries about whip-poor-will this year",
         "what's the longest-running observation thread in the archive"
       ],
-      "updatedAt": "2026-06-19T01:36:39Z",
+      "updatedAt": "2026-06-19T01:46:07Z",
       "status": {
         "gatewayRunning": true,
         "notes": "Gateway running"
