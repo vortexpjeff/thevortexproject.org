@@ -1,6 +1,6 @@
 {
   "specVersion": "1.0",
-  "updatedAt": "2026-06-19T01:32:05Z",
+  "updatedAt": "2026-06-19T01:36:39Z",
   "host": {
     "displayName": "The Vortex Project \u2014 Pine Hollow Research Station",
     "identifier": "did:web:thevortexproject.org",
@@ -13,13 +13,16 @@
       "displayName": "Solaris \u2014 Ground & Acoustic Agent",
       "type": "application/x-ai-agent+json",
       "url": "discord://pine-hollow",
-      "description": "Ground-truth agent for Pine Hollow. Analyzes vegetation via Google Earth Engine (NDVI, biomass, canopy cover, terrain analysis, hydrology). Retrieves bird species detection summaries from BirdNET-Pi (24-hour and historical). Tracks phenology events for key tree species. Monitors homestead infrastructure including pond recovery, swale restoration, and garden conditions. Can answer weather and climate questions as they relate to vegetation and land change.",
+      "description": "Ground-truth agent for Pine Hollow. Satellite vegetation analysis via Google Earth Engine: NDVI time series (Sentinel-2, 10m), above-ground biomass (ESA CCI + ML/GEDI), canopy cover (Hansen GFC), land cover classification (NLCD, Dynamic World), forest disturbance detection, terrain analysis (elevation/slope/aspect from 3DEP), surface water mapping (JRC), land surface temperature (MODIS), precipitation context (CHIRPS/PRISM), and canopy height (ETH Global). Retrieves bird species detection summaries from BirdNET-Pi (24-hour and historical). Tracks phenology events for key tree species. Monitors homestead infrastructure including pond recovery, swale restoration, and garden conditions. Can answer weather and climate questions as they relate to vegetation and land change.",
       "tags": [
         "vegetation",
         "earth-engine",
         "ndvi",
         "biomass",
         "canopy",
+        "land-cover",
+        "forestry",
+        "terrain",
         "birds",
         "acoustic",
         "bioacoustics",
@@ -30,10 +33,26 @@
         "infrastructure",
         "landsat",
         "sentinel",
-        "remote-sensing"
+        "remote-sensing",
+        "geospatial",
+        "hydrology",
+        "elevation",
+        "surface-water",
+        "land-surface-temperature",
+        "precipitation",
+        "canopy-height"
       ],
       "capabilities": [
         "VegetationAnalysis",
+        "BiomassEstimation",
+        "NDVITimeSeries",
+        "LandCoverClassification",
+        "ForestDisturbanceDetection",
+        "TerrainAnalysis",
+        "SurfaceWaterMapping",
+        "LandSurfaceTemperature",
+        "PrecipitationAnalysis",
+        "CanopyHeightEstimation",
         "BirdDetectionRetrieval",
         "PhenologyTracking",
         "InfrastructureMonitoring"
@@ -47,7 +66,7 @@
         "how does canopy cover correlate with bird activity this season",
         "show me the biomass anomaly trend for the hollow"
       ],
-      "updatedAt": "2026-06-19T01:32:05Z",
+      "updatedAt": "2026-06-19T01:36:39Z",
       "status": {
         "earthEngine": true,
         "birdnet": false,
@@ -60,7 +79,7 @@
       "displayName": "ObserverBot \u2014 Sky & Atmospheric Agent",
       "type": "application/x-ai-agent+json",
       "url": "discord://channel/1514137991885361282",
-      "description": "Sky and atmospheric monitoring agent for Pine Hollow. Monitors solar activity (flares, sunspots, CMEs), space weather conditions, aurora forecasts, atmospheric conditions (air quality, particulates, cloud cover), ISS transit predictions, meteor shower forecasts, and notable astronomy events. Uses live web search and public data APIs.",
+      "description": "Sky and atmospheric monitoring agent for Pine Hollow. Uses web search and public data sources to fetch and report on: solar activity from NOAA SWPC (flares, sunspots, CMEs, solar wind), space weather conditions, aurora forecasts (NOAA OVATION), atmospheric conditions including air quality and particulate levels, ISS transit predictions and satellite passes (Heavens-Above/NASA), meteor shower forecasts (AMS/IMO), lunar phases, and notable astronomy events. Can answer current-condition and forecast questions across the full atmospheric column.",
       "tags": [
         "solar",
         "space-weather",
@@ -73,13 +92,20 @@
         "satellites",
         "lunar",
         "deep-sky",
-        "environmental-monitoring"
+        "noaa",
+        "nasa",
+        "environmental-monitoring",
+        "web-search"
       ],
       "capabilities": [
         "SolarActivityMonitoring",
         "AtmosphericConditionsReporting",
         "AstronomyEventForecasting",
-        "SpaceWeatherTracking"
+        "SpaceWeatherTracking",
+        "AuroraForecastReporting",
+        "ISSTransitPrediction",
+        "MeteorShowerForecasting",
+        "AirQualityReporting"
       ],
       "representativeQueries": [
         "any solar flares today",
@@ -90,7 +116,7 @@
         "what's the current solar wind speed",
         "are there any CMEs headed toward Earth"
       ],
-      "updatedAt": "2026-06-19T01:32:05Z",
+      "updatedAt": "2026-06-19T01:36:39Z",
       "status": {
         "gatewayRunning": true,
         "notes": "Gateway running"
@@ -124,7 +150,7 @@
         "find me all entries about whip-poor-will this year",
         "what's the longest-running observation thread in the archive"
       ],
-      "updatedAt": "2026-06-19T01:32:05Z",
+      "updatedAt": "2026-06-19T01:36:39Z",
       "status": {
         "gatewayRunning": true,
         "notes": "Gateway running"
