@@ -211,7 +211,7 @@ function render(d) {
   // KP FORECAST
   if (kf.length) {
     let kfHtml = '<table class="forecast-table"><tr><th></th>';
-    for (let i = 0; i < 8; i++) kfHtml += `<th>${i*3:02d}</th>`;
+    for (let i = 0; i < 8; i++) kfHtml += `<th>${String(i*3).padStart(2,'0')}</th>`;
     kfHtml += '<th>max</th></tr>';
     for (const row of kf) {
       kfHtml += `<tr><td style="color:var(--gold)">${row.date}</td>`;
@@ -284,7 +284,7 @@ function render(d) {
   if (alerts.length) {
     let aHtml = '';
     for (const a of alerts) aHtml += `<div class="bird-row"><span>${a.event} (${a.severity})</span><span>${a.expires?.substring(0,16)||''}</span></div>`;
-    cards.push(`<div class="card full"><h2>⚠ Alerts · ${a.severity||'NWS'}</h2>${aHtml}</div>`);
+    cards.push(`<div class="card full"><h2>⚠ Active Alerts · NWS</h2>${aHtml}</div>`);
   }
 
   // BIRDS
