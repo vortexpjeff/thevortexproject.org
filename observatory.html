@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Skyspace · The Vortex Project</title>
+  <style>
+    :root{--bg:#030705;--green:#79ff9e;--gold:#ffd56a;--teal:#47f5d1;--red:#ff6b6b;--surface:rgba(5,15,10,.85)}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:var(--bg);color:#c8d6c0;font-family:system-ui,-apple-system,sans-serif;min-height:100vh;line-height:1.5}
+    canvas#bg{position:fixed;inset:0;z-index:0;opacity:.35}
+    header,nav,main{position:relative;z-index:2}
+    header{padding:2rem 1.5rem 0;text-align:center}
+    header h1{color:var(--green);font-size:clamp(1.5rem,4vw,2.5rem);font-weight:300;letter-spacing:.05em}
+    header .sub{color:var(--teal);font-size:.85rem;margin-top:.3rem;opacity:.8}
+    header .ts{color:var(--gold);font-size:.7rem;margin-top:.25rem;opacity:.6}
+    nav{display:flex;gap:1rem;justify-content:center;padding:1rem;flex-wrap:wrap}
+    nav a,nav button{color:var(--gold);background:none;border:1px solid rgba(121,255,158,.18);padding:.4rem 1rem;border-radius:2rem;font-size:.75rem;cursor:pointer;text-decoration:none;transition:.2s}
+    nav a:hover,nav button:hover{background:rgba(121,255,158,.08);border-color:var(--green)}
+    nav a.active{background:rgba(121,255,158,.12);border-color:var(--green);color:var(--green)}
+    .status-bar{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;padding:.5rem 1rem;font-size:.7rem;color:var(--green);opacity:.75}
+    .status-bar span{display:flex;align-items:center;gap:.3rem}
+    .status-bar .warn{color:var(--gold)}
+    .status-bar .alert{color:var(--red)}
+
+    main{max-width:900px;margin:0 auto;padding:1rem 1rem 3rem;display:grid;grid-template-columns:1fr;gap:1rem}
+    @media(min-width:700px){main{grid-template-columns:1fr 1fr}}
+    
+    .card{border:1px solid rgba(121,255,158,.1);border-radius:.75rem;padding:1.2rem;background:var(--surface);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:border-color .3s}
+    .card:hover{border-color:rgba(121,255,158,.25)}
+    .card.sun{border-left:2px solid #fff;grid-column:1/-1}
+    .card.full{grid-column:1/-1}
+    .card h2{font-size:.75rem;text-transform:uppercase;letter-spacing:.12em;margin-bottom:.8rem;font-weight:600}
+    .card.sun h2{color:#fff}
+    .card.sw h2{color:var(--gold)}
+    .card.mg h2{color:var(--gold)}
+    .card.io h2{color:var(--teal)}
+    .card.sf h2{color:var(--green)}
+    .card.bd h2{color:var(--green)}
+
+    .metric{display:flex;justify-content:space-between;align-items:baseline;padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.04)}
+    .metric:last-child{border-bottom:none}
+    .metric .label{font-size:.7rem;color:rgba(200,214,192,.6)}
+    .metric .val{font-size:.95rem;font-weight:500;font-variant-numeric:tabular-nums}
+    .metric .val.highlight{color:var(--green)}
+    .metric .val.warn{color:var(--gold)}
+    .metric .val.danger{color:var(--red)}
+
+    .tag{display:inline-block;font-size:.65rem;padding:.15rem .5rem;border-radius:1rem;margin:.15rem}
+    .tag.green{background:rgba(121,255,158,.15);color:var(--green)}
+    .tag.gold{background:rgba(255,213,106,.15);color:var(--gold)}
+    .tag.red{background:rgba(255,107,107,.15);color:var(--red)}
+    .tag.white{background:rgba(255,255,255,.1);color:#fff}
+
+    .forecast-table{width:100%;font-size:.65rem;border-collapse:collapse;margin-top:.5rem}
+    .forecast-table th{color:var(--gold);font-weight:400;padding:.2rem .3rem;text-align:center}
+    .forecast-table td{text-align:center;padding:.15rem .2rem;font-variant-numeric:tabular-nums}
+    .forecast-table td.k0{color:rgba(121,255,158,.6)}
+    .forecast-table td.k1{color:var(--green)}
+    .forecast-table td.k2{color:var(--gold)}
+    .forecast-table td.k3{color:var(--red)}
+
+    .img-card{grid-column:1/-1;display:flex;gap:1rem;flex-wrap:wrap;justify-content:center}
+    .img-card img{max-width:100%;height:auto;max-height:300px;border-radius:.5rem;border:1px solid rgba(255,255,255,.06)}
+    .img-label{font-size:.65rem;text-align:center;color:rgba(200,214,192,.5);margin-top:.3rem}
+
+    .birds{border-top:1px solid rgba(121,255,158,.15);margin-top:.5rem;padding-top:.5rem}
+    .bird-row{display:flex;justify-content:space-between;font-size:.7rem;padding:.15rem 0}
+
+    a.back{display:block;text-align:center;margin-top:2rem;color:var(--teal);font-size:.7rem;text-decoration:none;opacity:.6}
+    a.back:hover{opacity:1}
+
+    .loading{text-align:center;padding:3rem;color:var(--teal);opacity:.6;font-size:.85rem}
+    .error{text-align:center;padding:3rem;color:var(--red);opacity:.7;font-size:.85rem}
+
+    footer{text-align:center;padding:2rem;font-size:.65rem;color:rgba(200,214,192,.3)}
+    footer a{color:rgba(200,214,192,.4)}
+  </style>
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+
+<header>
+  <h1>SKYSPACE CHART</h1>
+  <div class="sub">Pine Hollow · 35.86°N 83.37°W · 324m</div>
+  <div class="ts" id="ts">loading…</div>
+</header>
+<div class="status-bar" id="status"></div>
+<nav>
+  <a href="index.html">← Field</a>
+  <button onclick="scrollToSection('sun')">☉ Sun</button>
+  <button onclick="scrollToSection('earth')">🌍 Earth</button>
+  <button onclick="scrollToSection('imagery')">📷 Images</button>
+</nav>
+
+<main id="content">
+  <div class="loading">loading observatory data…</div>
+</main>
+
+<footer>
+  Data: NOAA SWPC, NASA, Open-Meteo, NWS, BirdNET-Pi · Updated ~30min<br>
+  <a href="https://www.thevortexproject.org">thevortexproject.org</a> · solarpunk commonwealth
+</footer>
+
+<script>
+// ── Background canvas (light version of index field) ──────────────────
+const bg = document.getElementById('bg');
+const bctx = bg.getContext('2d',{alpha:true});
+let motes=[],W,H;
+function resizeBg(){W=bg.width=innerWidth;H=bg.height=innerHeight;motes=[];for(let i=0;i<60;i++)motes.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.2,r:.3+Math.random()*1.2})}
+resizeBg();addEventListener('resize',resizeBg);
+function drawBg(){bctx.clearRect(0,0,W,H);bctx.fillStyle='rgba(2,7,4,.4)';bctx.fillRect(0,0,W,H);bctx.globalCompositeOperation='lighter';
+for(const m of motes){m.x+=m.vx;m.y+=m.vy;if(m.x<0)m.x=W;if(m.x>W)m.x=0;if(m.y<0)m.y=H;if(m.y>H)m.y=0;
+bctx.fillStyle=`hsla(128,100%,70%,${.08+m.r*.03})`;bctx.beginPath();bctx.arc(m.x,m.y,m.r,0,Math.PI*2);bctx.fill()}
+bctx.globalCompositeOperation='source-over';requestAnimationFrame(drawBg)}drawBg();
+
+// ── Data loading ──────────────────────────────────────────────────────
+const CACHE_KEY = 'vortex_observatory';
+let data = null;
+
+function statusBar(d) {
+  const s = document.getElementById('status');
+  if (!s) return;
+  const parts = [];
+  const kp = d.magnetosphere?.kp_now;
+  if (kp != null) {
+    if (kp >= 5) parts.push(`<span class="alert">⚡ Kp ${kp} — STORM</span>`);
+    else if (kp >= 4) parts.push(`<span class="warn">🌩 Kp ${kp} — active</span>`);
+    else parts.push(`<span>🌤 Kp ${kp} — quiet</span>`);
+  }
+  const bz = d.solar_wind?.bz_nt;
+  if (bz != null) {
+    parts.push(`<span>Bz ${bz>0?'+':''}${bz.toFixed(1)} nT ${bz<0?'↘':'↗'}</span>`);
+  }
+  const flare = d.sun?.xray_class;
+  if (flare && flare !== 'A') {
+    parts.push(`<span class="${flare==='X'||flare==='M'?'alert':'warn'}">☀ ${flare}-class flare</span>`);
+  }
+  if (d.birds?.species_count) {
+    parts.push(`<span>🐦 ${d.birds.species_count} species</span>`);
+  }
+  s.innerHTML = parts.join('');
+}
+
+function render(d) {
+  const m = document.getElementById('content');
+  document.getElementById('ts').textContent = `Updated ${d.updated} UTC`;
+  statusBar(d);
+
+  const sf = d.surface || {};
+  const aq = d.air_quality || {};
+  const io = d.ionosphere || {};
+  const mg = d.magnetosphere || {};
+  const sw = d.solar_wind || {};
+  const sun = d.sun || {};
+  const kf = d.kp_forecast || [];
+  const neo = d.neo || {};
+  const iss = d.iss_pass || {};
+  const birds = d.birds || {};
+  const alerts = d.alerts || [];
+  const img = d.imagery || {};
+
+  function mrow(label, val, cls='') {
+    if (val == null || val === '') return '';
+    return `<div class="metric"><span class="label">${label}</span><span class="val ${cls}">${val}</span></div>`;
+  }
+
+  function icls(f, thresholds) {
+    for (const [t, c] of thresholds) if (typeof f === 'number' && f >= t) return c;
+    return '';
+  }
+
+  const cards = [];
+
+  // SUN card
+  let sunHtml = '';
+  sunHtml += mrow('X-ray class', sun.xray_class, icls(sun.xray_class, [['X','danger'],['M','warn'],['C','highlight']]));
+  if (sun.xray_peak_class) sunHtml += mrow('Peak class today', sun.xray_peak_class + (sun.latest_flare ? ` (${sun.latest_flare})` : ''));
+  sunHtml += mrow('F10.7 flux', sun.f107 != null ? `${sun.f107} sfu` : null);
+  sunHtml += mrow('Active regions', sun.active_regions);
+  if (sun.proton_flux_pfu != null) sunHtml += mrow('Proton flux >10MeV', `${sun.proton_flux_pfu} pfu`, sun.sep_warning ? 'danger' : 'highlight');
+  if (sun.regions?.length) {
+    sunHtml += '<div style="margin-top:.5rem">';
+    for (const r of sun.regions) {
+      sunHtml += `<span class="tag ${r.class.includes('X')||r.class.includes('M')?'red':r.class.includes('C')?'gold':'green'}">R${r.num} ${r.class} (${r.spots})</span>`;
+    }
+    sunHtml += '</div>';
+  }
+  cards.push(`<div class="card sun" id="sun"><h2>☉ Sun · 150M km</h2>${sunHtml}</div>`);
+
+  // SOLAR WIND
+  let swHtml = '';
+  swHtml += mrow('Speed', sw.speed_kms != null ? `${sw.speed_kms} km/s` : null);
+  swHtml += mrow('Density', sw.density != null ? `${sw.density} p/cc` : null);
+  swHtml += mrow('Bz (GSE)', sw.bz_nt != null ? `${sw.bz_nt} nT` : null, sw.bz_flag?.includes('southward') ? (sw.bz_nt < -5 ? 'danger' : 'warn') : 'highlight');
+  swHtml += mrow('Bt total', sw.bt_nt != null ? `${sw.bt_nt} nT` : null);
+  swHtml += mrow('Temp', sw.temp_k != null ? `${(sw.temp_k/1000).toFixed(0)}k K` : null);
+  if (sw.bz_flag) swHtml += `<div style="margin-top:.3rem"><span class="tag ${sw.bz_flag.includes('strong')?'red':'gold'}">${sw.bz_flag}</span></div>`;
+  swHtml += mrow('Last reading', sw.time);
+  cards.push(`<div class="card sw"><h2>⚡ Solar Wind · 1.5M km</h2>${swHtml}</div>`);
+
+  // MAGNETOSPHERE
+  let mgHtml = '';
+  mgHtml += mrow('Kp current', mg.kp_now != null ? mg.kp_now.toFixed(2) : null, icls(mg.kp_now, [[5,'danger'],[4,'warn'],[3,'highlight']]));
+  if (mg.kp_1m != null) mgHtml += mrow('Kp 1-min', mg.kp_1m.toFixed(1));
+  mgHtml += mrow('Kp 24h range', mg.kp_24h_min != null ? `${mg.kp_24h_min}–${mg.kp_24h_max} (mean ${mg.kp_24h_mean})` : null);
+  mgHtml += mrow('Dst', mg.dst_nt != null ? `${mg.dst_nt} nT` : null, mg.dst_flag?.includes('storm') ? 'danger' : mg.dst_flag === 'quiet' ? 'highlight' : 'warn');
+  if (mg.dst_flag) mgHtml += `<div style="margin-top:.3rem"><span class="tag ${mg.dst_flag.includes('storm')?'red':'gold'}">${mg.dst_flag}</span></div>`;
+  cards.push(`<div class="card mg"><h2>🧲 Magnetosphere · 100k km</h2>${mgHtml}</div>`);
+
+  // KP FORECAST
+  if (kf.length) {
+    let kfHtml = '<table class="forecast-table"><tr><th></th>';
+    for (let i = 0; i < 8; i++) kfHtml += `<th>${i*3:02d}</th>`;
+    kfHtml += '<th>max</th></tr>';
+    for (const row of kf) {
+      kfHtml += `<tr><td style="color:var(--gold)">${row.date}</td>`;
+      for (const v of row.bins) {
+        const cls = v >= 5 ? 'k3' : v >= 4 ? 'k2' : v >= 3 ? 'k1' : 'k0';
+        kfHtml += `<td class="${cls}">${v.toFixed(1)}</td>`;
+      }
+      kfHtml += `<td style="color:var(--teal)">${row.max.toFixed(1)}</td></tr>`;
+    }
+    kfHtml += '</table>';
+    cards.push(`<div class="card full"><h2>📊 Kp Forecast · 3-day</h2>${kfHtml}</div>`);
+  }
+
+  // IONOSPHERE
+  let ioHtml = '';
+  ioHtml += mrow('TEC', io.tec != null ? `${io.tec.toFixed(1)} TECU` : null);
+  ioHtml += mrow('hmF2', io.hmf2_km != null ? `${io.hmf2_km.toFixed(0)} km` : null);
+  ioHtml += mrow('Anomaly', io.anomaly != null ? `${io.anomaly > 0 ? '+' : ''}${io.anomaly.toFixed(1)}` : null);
+  ioHtml += mrow('Grid point', io.grid_lat != null ? `${io.grid_lat}°N, ${io.grid_lon}°W` : null);
+  ioHtml += mrow('Quality', io.quality_flag === 0 ? 'Measured' : io.quality_flag === 5 ? 'Interpolated' : io.quality_flag === 1 ? 'Modeled' : null);
+  cards.push(`<div class="card io"><h2>📡 Ionosphere · 800 km</h2>${ioHtml}</div>`);
+
+  // SURFACE
+  let sfHtml = '';
+  sfHtml += mrow('Temperature', sf.temp_c != null ? `${sf.temp_c}°C` : null);
+  sfHtml += mrow('Feels like', sf.feels_c != null ? `${sf.feels_c}°C` : null);
+  sfHtml += mrow('Humidity', sf.humidity_pct != null ? `${sf.humidity_pct}%` : null);
+  sfHtml += mrow('Wind', sf.wind_kmh != null ? `${sf.wind_kmh} km/h` + (sf.wind_dir != null ? ` @ ${sf.wind_dir}°` : '') : null);
+  sfHtml += mrow('Pressure', sf.pressure_hpa != null ? `${sf.pressure_hpa} hPa` : null);
+  sfHtml += mrow('Cloud cover', sf.cloud_pct != null ? `${sf.cloud_pct}%` : null);
+  if (sf.today_max != null) sfHtml += mrow('Today', `${sf.today_min}° – ${sf.today_max}°C`);
+  if (sf.wind_hourly) {
+    sfHtml += '<div style="margin-top:.4rem;font-size:.65rem;color:rgba(200,214,192,.5)">Next hours:</div>';
+    for (const h of sf.wind_hourly) {
+      sfHtml += `<div class="bird-row"><span>${h.h}</span><span>${h.w} km/h ${h.g ? 'gust '+h.g : ''}</span></div>`;
+    }
+  }
+  cards.push(`<div class="card sf"><h2>🌡 Surface · Pine Hollow</h2>${sfHtml}</div>`);
+
+  // AIR QUALITY
+  if (aq.us_aqi != null) {
+    let aqHtml = '';
+    aqHtml += mrow('US AQI', aq.us_aqi, aq.us_aqi > 100 ? 'danger' : aq.us_aqi > 50 ? 'warn' : 'highlight');
+    aqHtml += mrow('PM2.5', aq.pm25 != null ? `${aq.pm25} µg/m³` : null);
+    aqHtml += mrow('PM10', aq.pm10 != null ? `${aq.pm10} µg/m³` : null);
+    aqHtml += mrow('Ozone', aq.ozone != null ? `${aq.ozone} µg/m³` : null);
+    cards.push(`<div class="card sf"><h2>💨 Air Quality</h2>${aqHtml}</div>`);
+  }
+
+  // NEO
+  if (neo.count > 0) {
+    let neoHtml = mrow('Close approaches today', neo.count);
+    if (neo.hazardous_count) neoHtml += mrow('Hazardous', neo.hazardous_count, 'danger');
+    for (const n of (neo.objects||[]).slice(0,5)) {
+      neoHtml += `<div class="bird-row"><span>${n.name}</span><span>${n.miss_ld} LD ${n.hazardous ? '⚠' : ''}</span></div>`;
+    }
+    cards.push(`<div class="card"><h2>☄ NEO Close Approaches</h2>${neoHtml}</div>`);
+  }
+
+  // ISS
+  if (iss.rise) {
+    cards.push(`<div class="card"><h2>🛰 ISS Next Pass</h2>
+      ${mrow('Rise', iss.rise?.replace('T',' ').substring(0,16))}
+      ${mrow('Max elevation', iss.max_elevation != null ? `${iss.max_elevation}°` : null)}
+      ${mrow('Duration', iss.duration_min != null ? `${iss.duration_min} min` : null)}
+    </div>`);
+  }
+
+  // ALERTS
+  if (alerts.length) {
+    let aHtml = '';
+    for (const a of alerts) aHtml += `<div class="bird-row"><span>${a.event} (${a.severity})</span><span>${a.expires?.substring(0,16)||''}</span></div>`;
+    cards.push(`<div class="card full"><h2>⚠ Alerts · ${a.severity||'NWS'}</h2>${aHtml}</div>`);
+  }
+
+  // BIRDS
+  if (birds.species_count) {
+    let bHtml = mrow('Detections (24h)', birds.detections_24h);
+    bHtml += mrow('Species', birds.species_count);
+    if (birds.top_species) {
+      bHtml += '<div class="birds">';
+      for (const s of birds.top_species) bHtml += `<div class="bird-row"><span>${s.name}</span><span>${s.count}</span></div>`;
+      bHtml += '</div>';
+    }
+    cards.push(`<div class="card full" id="earth"><h2>🐦 BirdNET · Pine Hollow</h2>${bHtml}</div>`);
+  }
+
+  // IMAGERY
+  if (img.epic || img.sdo_aia171) {
+    let imgHtml = '<div class="img-card">';
+    if (img.epic) imgHtml += `<div><img src="${img.epic}" alt="Earth from DSCOVR" loading="lazy" onerror="this.style.display='none'"><div class="img-label">Earth · DSCOVR EPIC</div></div>`;
+    if (img.sdo_aia171) imgHtml += `<div><img src="${img.sdo_aia171}" alt="Sun SDO AIA 171" loading="lazy" onerror="this.style.display='none'"><div class="img-label">Sun · SDO AIA 171Å</div></div>`;
+    imgHtml += '</div>';
+    cards.push(`<div class="full" id="imagery">${imgHtml}</div>`);
+  }
+
+  m.innerHTML = cards.join('\n');
+}
+
+// ── Load ──────────────────────────────────────────────────────────────
+async function load() {
+  // Try localStorage first (instant render)
+  try {
+    const cached = localStorage.getItem(CACHE_KEY);
+    if (cached) {
+      data = JSON.parse(cached);
+      render(data);
+    }
+  } catch(e) {}
+
+  // Fetch latest
+  try {
+    const resp = await fetch('/data/observatory.json', {
+      headers: (data ? {'If-None-Match': '"'+data.updated+'"'} : {}),
+      cache: 'no-cache'
+    });
+    if (resp.status === 304 && data) return; // unchanged
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    data = await resp.json();
+    localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+    render(data);
+  } catch(e) {
+    console.warn('fetch failed:', e.message);
+    if (!data) {
+      document.getElementById('content').innerHTML = '<div class="error">data unavailable — using last known</div>';
+    }
+  }
+}
+
+load();
+setInterval(load, 5 * 60 * 1000); // refresh every 5 min
+
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+</script>
+</body>
+</html>
