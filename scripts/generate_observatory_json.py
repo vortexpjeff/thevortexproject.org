@@ -193,6 +193,9 @@ if kp_fc:
 # ── 5. GOES X-ray + Proton Flux ──────────────────────────────────────
 print("→ GOES X-ray...")
 xrays = fetch("https://services.swpc.noaa.gov/json/goes/primary/xrays-1-day.json")
+if not xrays:
+    time.sleep(2)
+    xrays = fetch("https://services.swpc.noaa.gov/json/goes/primary/xrays-1-day.json")  # retry
 protons = fetch("https://services.swpc.noaa.gov/json/goes/primary/integral-protons-1-day.json")
 flares = fetch("https://services.swpc.noaa.gov/json/goes/primary/xray-flares-latest.json")
 
@@ -296,36 +299,41 @@ if neo:
     neo_data["hazardous_count"] = sum(1 for o in all_objs if o["hazardous"])
     neo_data["closest_ld"] = all_objs[0]["miss_ld"] if all_objs else None
 
-# ── 8. ISS Pass via ephem ──────────────────────────────────────────────
+# ── 8. ISS Pass via ephem (CelesTrak text) ────────────────────────────
 print("→ ISS pass...")
 try:
     import ephem
-    # Fetch TLE
-    tle_data = fetch("https://tle.ivanstanojevic.me/api/tle/25544", timeout=8)
     iss_pass = None
-    if tle_data:
-        iss = ephem.readtle(tle_data["name"], tle_data["line1"], tle_data["line2"])
-        obs = ephem.Observer()
-        obs.lat = str(LAT)
-        obs.lon = str(LON)
-        obs.elevation = 324
-        obs.date = datetime.datetime.utcnow()
-        try:
-            tr, azr, tt, mx_alt, azs, ts = obs.next_pass(iss)
-            if tr and tt and mx_alt is not None:
-                def d2dt(d):
-                    t = ephem.Date(d).tuple()
-                    return datetime.datetime(int(t[0]), int(t[1]), int(t[2]),
-                                             int(t[3]), int(t[4]), int(t[5]),
-                                             tzinfo=datetime.timezone.utc)
-                rise_dt = d2dt(tr)
-                iss_pass = {
-                    "rise": rise_dt.isoformat(),
-                    "max_elevation": round(float(mx_alt) * 180 / 3.14159, 0),
-                    "duration_min": round((tt - tr) * 24 * 60, 1),
-                }
-        except Exception:
-            iss_pass = None
+    # Fetch TLE from CelesTrak text format (stable)
+    tle_text = fetch_text("https://celestrak.org/NORAD/elements/gp.php?CATNR=25544&FORMAT=TLE", timeout=12)
+    if tle_text:
+        lines = tle_text.strip().split("\n")
+        if len(lines) >= 3:
+            name = lines[0].strip()
+            line1 = lines[1].strip()
+            line2 = lines[2].strip()
+            iss = ephem.readtle(name, line1, line2)
+            obs = ephem.Observer()
+            obs.lat = str(LAT)
+            obs.lon = str(LON)
+            obs.elevation = 324
+            obs.date = datetime.datetime.utcnow()
+            try:
+                tr, azr, tt, mx_alt, azs, ts = obs.next_pass(iss)
+                if tr and tt and mx_alt is not None:
+                    def d2dt(d):
+                        t = ephem.Date(d).tuple()
+                        return datetime.datetime(int(t[0]), int(t[1]), int(t[2]),
+                                                 int(t[3]), int(t[4]), int(t[5]),
+                                                 tzinfo=datetime.timezone.utc)
+                    rise_dt = d2dt(tr)
+                    iss_pass = {
+                        "rise": rise_dt.isoformat(),
+                        "max_elevation": round(float(mx_alt) * 180 / 3.14159, 0),
+                        "duration_min": round((tt - tr) * 24 * 60, 1),
+                    }
+            except Exception:
+                iss_pass = None
 except ImportError:
     iss_pass = None
 
@@ -340,11 +348,13 @@ if epic and len(epic) > 0:
 
 # ── 10. SDO AIA 171 via Helioviewer ────────────────────────────────────
 print("→ SDO image...")
-now_utc = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+now_utc = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 sdo = fetch(f"https://api.helioviewer.org/v2/getClosestImage/?sourceId=10&date={now_utc}", timeout=8)
 sdo_img = None
 if sdo:
-    sdo_img = sdo.get("url")
+    img_id = sdo.get("id")
+    if img_id:
+        sdo_img = f"https://api.helioviewer.org/v2/downloadImage/?id={img_id}&width=1024"
 
 # ── 11. NWS Alerts ─────────────────────────────────────────────────────
 print("→ NWS alerts...")
