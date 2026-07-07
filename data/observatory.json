@@ -1,0 +1,240 @@
+{
+  "updated": "2026-07-07T22:40:25Z",
+  "location": {
+    "lat": 35.86,
+    "lon": -83.37,
+    "name": "Pine Hollow, TN"
+  },
+  "surface": {
+    "temp_c": 29.9,
+    "humidity_pct": 58,
+    "wind_kmh": 10.8,
+    "wind_dir": 330,
+    "pressure_hpa": 1014.1,
+    "cloud_pct": 73,
+    "feels_c": 32.5,
+    "precip_mm": 0.0,
+    "weather_code": 2,
+    "today_max": 31.2,
+    "today_min": 21.4,
+    "sunrise": "2026-07-07T06:24",
+    "sunset": "2026-07-07T20:52",
+    "precip_sum_mm": 0.4,
+    "wind_hourly": [
+      {
+        "h": "18:00",
+        "w": 13.5,
+        "g": 18.7
+      },
+      {
+        "h": "19:00",
+        "w": 10.7,
+        "g": 14.4
+      },
+      {
+        "h": "20:00",
+        "w": 6.6,
+        "g": 8.6
+      },
+      {
+        "h": "21:00",
+        "w": 5.1,
+        "g": 9.0
+      },
+      {
+        "h": "22:00",
+        "w": 1.6,
+        "g": 5.0
+      },
+      {
+        "h": "23:00",
+        "w": 6.2,
+        "g": 9.4
+      }
+    ]
+  },
+  "air_quality": {
+    "us_aqi": 47,
+    "pm25": 7.8,
+    "pm10": 8.2,
+    "ozone": 104.0,
+    "no2": 1.4
+  },
+  "ionosphere": {
+    "tec": 24.801550052218204,
+    "hmf2_km": 295.0497306246407,
+    "anomaly": -2.0697062620067292,
+    "quality_flag": 5,
+    "grid_lat": 36.25,
+    "grid_lon": -82.5,
+    "time": "2026-07-07T22:05:00Z"
+  },
+  "magnetosphere": {
+    "kp_now": 1.33,
+    "kp_24h_min": 0.3,
+    "kp_24h_max": 1.7,
+    "kp_24h_mean": 1.0,
+    "kp_time": "2026-07-07T18:00:00",
+    "kp_1m": 2.0,
+    "dst_nt": -9.2,
+    "dst_flag": "quiet"
+  },
+  "solar_wind": {
+    "bt_nt": 6.92,
+    "bz_nt": 0.95,
+    "bz_gsm_nt": 1.0,
+    "time": "2026-07-06T22:39:00",
+    "bz_flag": "northward",
+    "speed_kms": 425.22,
+    "density": 0.56,
+    "temp_k": 32460.0
+  },
+  "sun": {
+    "latest_flare": "C1.0\u2192M4.0",
+    "flare_time": "2026-07-07T22:36:00Z",
+    "proton_flux_pfu": 0.3,
+    "sep_warning": false,
+    "f107": 142.0,
+    "active_regions": 0,
+    "regions": []
+  },
+  "kp_forecast": [
+    {
+      "date": "07-08",
+      "bins": [
+        1.33,
+        1.33,
+        1.33,
+        1.67,
+        1.33,
+        1.33,
+        1.67,
+        1.67
+      ],
+      "max": 1.67
+    },
+    {
+      "date": "07-09",
+      "bins": [
+        3.0,
+        3.67,
+        2.67,
+        2.67,
+        2.67,
+        2.0,
+        2.0,
+        2.67
+      ],
+      "max": 3.67
+    },
+    {
+      "date": "07-10",
+      "bins": [
+        3.67
+      ],
+      "max": 3.67
+    }
+  ],
+  "neo": {
+    "count": 4,
+    "objects": [
+      {
+        "name": "(2016 XR1)",
+        "miss_ld": 101.3,
+        "diameter_m": 85.1,
+        "hazardous": false
+      },
+      {
+        "name": "(2015 DC1)",
+        "miss_ld": 110.4,
+        "diameter_m": 65.2,
+        "hazardous": false
+      },
+      {
+        "name": "(2015 KG158)",
+        "miss_ld": 133.8,
+        "diameter_m": 13.0,
+        "hazardous": false
+      },
+      {
+        "name": "240320 (2003 HS42)",
+        "miss_ld": 190.1,
+        "diameter_m": 522.4,
+        "hazardous": false
+      }
+    ],
+    "hazardous_count": 0,
+    "closest_ld": 101.3
+  },
+  "iss_pass": null,
+  "alerts": [],
+  "birds": {
+    "detections_24h": 300,
+    "species_count": 13,
+    "top_species": [
+      {
+        "name": "Carolina Wren",
+        "count": 178
+      },
+      {
+        "name": "American Goldfinch",
+        "count": 54
+      },
+      {
+        "name": "Scarlet Tanager",
+        "count": 29
+      },
+      {
+        "name": "Red-shouldered Hawk",
+        "count": 15
+      },
+      {
+        "name": "Indigo Bunting",
+        "count": 10
+      },
+      {
+        "name": "American Crow",
+        "count": 3
+      },
+      {
+        "name": "Tufted Titmouse",
+        "count": 3
+      },
+      {
+        "name": "Louisiana Waterthrush",
+        "count": 2
+      }
+    ],
+    "recent": [
+      {
+        "species": "American Goldfinch",
+        "confidence": 83.5,
+        "time": "17:26:33"
+      },
+      {
+        "species": "Red-shouldered Hawk",
+        "confidence": 70.8,
+        "time": "17:28:27"
+      },
+      {
+        "species": "Red-shouldered Hawk",
+        "confidence": 89.8,
+        "time": "17:28:51"
+      },
+      {
+        "species": "American Goldfinch",
+        "confidence": 73.5,
+        "time": "17:41:36"
+      },
+      {
+        "species": "American Goldfinch",
+        "confidence": 78.3,
+        "time": "18:19:40"
+      }
+    ]
+  },
+  "imagery": {
+    "epic": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/05/png/epic_1b_20260705235908.png",
+    "sdo_aia171": null
+  }
+}
