@@ -1,20 +1,20 @@
 {
-  "updated": "2026-07-07T22:40:25Z",
+  "updated": "2026-07-07T22:53:51Z",
   "location": {
     "lat": 35.86,
     "lon": -83.37,
     "name": "Pine Hollow, TN"
   },
   "surface": {
-    "temp_c": 29.9,
-    "humidity_pct": 58,
-    "wind_kmh": 10.8,
-    "wind_dir": 330,
-    "pressure_hpa": 1014.1,
-    "cloud_pct": 73,
-    "feels_c": 32.5,
-    "precip_mm": 0.0,
-    "weather_code": 2,
+    "temp_c": 29.5,
+    "humidity_pct": 71,
+    "wind_kmh": 11.3,
+    "wind_dir": 292,
+    "pressure_hpa": 1014.5,
+    "cloud_pct": 92,
+    "feels_c": 33.7,
+    "precip_mm": 0.3,
+    "weather_code": 55,
     "today_max": 31.2,
     "today_min": 21.4,
     "sunrise": "2026-07-07T06:24",
@@ -54,21 +54,13 @@
     ]
   },
   "air_quality": {
-    "us_aqi": 47,
-    "pm25": 7.8,
-    "pm10": 8.2,
-    "ozone": 104.0,
-    "no2": 1.4
+    "us_aqi": 48,
+    "pm25": 2.3,
+    "pm10": 2.4,
+    "ozone": 110.0,
+    "no2": 1.1
   },
-  "ionosphere": {
-    "tec": 24.801550052218204,
-    "hmf2_km": 295.0497306246407,
-    "anomaly": -2.0697062620067292,
-    "quality_flag": 5,
-    "grid_lat": 36.25,
-    "grid_lon": -82.5,
-    "time": "2026-07-07T22:05:00Z"
-  },
+  "ionosphere": {},
   "magnetosphere": {
     "kp_now": 1.33,
     "kp_24h_min": 0.3,
@@ -76,23 +68,27 @@
     "kp_24h_mean": 1.0,
     "kp_time": "2026-07-07T18:00:00",
     "kp_1m": 2.0,
-    "dst_nt": -9.2,
+    "dst_nt": -10.5,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 6.92,
-    "bz_nt": 0.95,
-    "bz_gsm_nt": 1.0,
-    "time": "2026-07-06T22:39:00",
-    "bz_flag": "northward",
-    "speed_kms": 425.22,
-    "density": 0.56,
-    "temp_k": 32460.0
+    "bt_nt": 6.91,
+    "bz_nt": -1.22,
+    "bz_gsm_nt": -1.1,
+    "time": "2026-07-06T22:52:00",
+    "bz_flag": "mild southward",
+    "speed_kms": 424.3,
+    "density": 0.4,
+    "temp_k": 70899.0
   },
   "sun": {
-    "latest_flare": "C1.0\u2192M4.0",
-    "flare_time": "2026-07-07T22:36:00Z",
-    "proton_flux_pfu": 0.3,
+    "xray_flux": 1.7769e-06,
+    "xray_peak": 4.04696e-05,
+    "xray_class": "C",
+    "xray_peak_class": "M",
+    "latest_flare": "B7.8\u2192None",
+    "flare_time": "2026-07-07T22:50:00Z",
+    "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 142.0,
     "active_regions": 0,
@@ -166,7 +162,11 @@
     "hazardous_count": 0,
     "closest_ld": 101.3
   },
-  "iss_pass": null,
+  "iss_pass": {
+    "rise": "2026-07-08T00:40:17+00:00",
+    "max_elevation": 15.0,
+    "duration_min": 4.9
+  },
   "alerts": [],
   "birds": {
     "detections_24h": 300,
@@ -235,6 +235,6 @@
   },
   "imagery": {
     "epic": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/05/png/epic_1b_20260705235908.png",
-    "sdo_aia171": null
+    "sdo_aia171": "https://api.helioviewer.org/v2/downloadImage/?id=189694594&width=1024"
   }
 }
