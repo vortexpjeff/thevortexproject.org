@@ -1,16 +1,16 @@
 {
-  "updated": "2026-07-08T13:29:10Z",
+  "updated": "2026-07-08T13:59:31Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
-    "temp_c": 25.5,
-    "humidity_pct": 73,
-    "wind_kmh": 4.7,
-    "wind_dir": 279,
-    "pressure_hpa": 1017.3,
+    "temp_c": 26.4,
+    "humidity_pct": 69,
+    "wind_kmh": 5.4,
+    "wind_dir": 274,
+    "pressure_hpa": 1017.7,
     "cloud_pct": 0,
-    "feels_c": 28.8,
+    "feels_c": 29.6,
     "precip_mm": 0.0,
     "weather_code": 0,
     "today_max": 31.5,
@@ -59,9 +59,9 @@
     "no2": 3.2
   },
   "ionosphere": {
-    "tec": 15.897758820328873,
-    "hmf2_km": 271.46422442864036,
-    "anomaly": -5.8764012110398145
+    "tec": 17.406615694504467,
+    "hmf2_km": 271.19684051801767,
+    "anomaly": -5.235548478082968
   },
   "magnetosphere": {
     "kp_now": 3.0,
@@ -70,26 +70,26 @@
     "kp_24h_mean": 2.1,
     "kp_time": "2026-07-08T09:00:00",
     "kp_1m": 2.0,
-    "dst_nt": -31.9,
+    "dst_nt": -28.4,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 7.53,
-    "bz_nt": 1.04,
-    "bz_gsm_nt": 0.08,
-    "time": "2026-07-07T13:29:00",
+    "bt_nt": 7.51,
+    "bz_nt": 0.84,
+    "bz_gsm_nt": 0.04,
+    "time": "2026-07-07T13:59:00",
     "bz_flag": "northward",
-    "speed_kms": 423.38,
-    "density": 3.7,
-    "temp_k": 72839.0
+    "speed_kms": 422.99,
+    "density": 3.88,
+    "temp_k": 72125.0
   },
   "sun": {
-    "xray_flux": 8.015e-07,
+    "xray_flux": 8.806e-07,
     "xray_peak": 4.04696e-05,
     "xray_class": "B",
     "xray_peak_class": "M",
     "latest_flare": "B7.1\u2192C1.0",
-    "flare_time": "2026-07-08T13:26:00Z",
+    "flare_time": "2026-07-08T13:56:00Z",
     "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 144.0,
@@ -164,15 +164,19 @@
     "hazardous_count": 0,
     "closest_ld": 28.1
   },
-  "iss_pass": null,
+  "iss_pass": {
+    "rise": "2026-07-08T23:53:49+00:00",
+    "max_elevation": 8.0,
+    "duration_min": 4.2
+  },
   "alerts": [],
   "birds": {
     "detections_24h": 300,
-    "species_count": 14,
+    "species_count": 13,
     "top_species": [
       {
         "name": "Carolina Wren",
-        "count": 232
+        "count": 236
       },
       {
         "name": "American Goldfinch",
@@ -180,11 +184,11 @@
       },
       {
         "name": "Red-shouldered Hawk",
-        "count": 16
+        "count": 15
       },
       {
         "name": "Tufted Titmouse",
-        "count": 4
+        "count": 2
       },
       {
         "name": "Louisiana Waterthrush",
@@ -206,28 +210,28 @@
     "recent": [
       {
         "species": "Carolina Wren",
-        "confidence": 71.8,
-        "time": "09:28:32"
+        "confidence": 84.1,
+        "time": "09:58:59"
       },
       {
         "species": "Carolina Wren",
-        "confidence": 81.4,
-        "time": "09:28:35"
+        "confidence": 71.2,
+        "time": "09:59:05"
       },
       {
         "species": "Carolina Wren",
-        "confidence": 81.8,
-        "time": "09:28:41"
+        "confidence": 75.8,
+        "time": "09:59:14"
       },
       {
         "species": "Carolina Wren",
-        "confidence": 82.8,
-        "time": "09:28:44"
+        "confidence": 76.9,
+        "time": "09:59:20"
       },
       {
         "species": "Carolina Wren",
-        "confidence": 88.5,
-        "time": "09:28:47"
+        "confidence": 78.2,
+        "time": "09:59:23"
       }
     ]
   },
