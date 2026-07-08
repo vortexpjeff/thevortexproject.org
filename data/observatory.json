@@ -1,53 +1,53 @@
 {
-  "updated": "2026-07-08T12:28:22Z",
+  "updated": "2026-07-08T12:58:47Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
-    "temp_c": 23.6,
-    "humidity_pct": 85,
-    "wind_kmh": 3.6,
-    "wind_dir": 264,
-    "pressure_hpa": 1017.1,
-    "cloud_pct": 1,
-    "feels_c": 27.4,
+    "temp_c": 24.6,
+    "humidity_pct": 77,
+    "wind_kmh": 2.7,
+    "wind_dir": 293,
+    "pressure_hpa": 1016.9,
+    "cloud_pct": 0,
+    "feels_c": 28.3,
     "precip_mm": 0.0,
     "weather_code": 0,
-    "today_max": 31.7,
-    "today_min": 21.6,
+    "today_max": 31.9,
+    "today_min": 21.7,
     "sunrise": "2026-07-08T06:24",
     "sunset": "2026-07-08T20:52",
-    "precip_sum_mm": 6.0,
+    "precip_sum_mm": 16.7,
     "wind_hourly": [
       {
         "h": "08:00",
-        "w": 2.5,
-        "g": 10.1
+        "w": 2.3,
+        "g": 9.0
       },
       {
         "h": "09:00",
-        "w": 5.5,
-        "g": 16.9
+        "w": 3.9,
+        "g": 13.0
       },
       {
         "h": "10:00",
-        "w": 7.3,
-        "g": 15.1
+        "w": 5.9,
+        "g": 11.5
       },
       {
         "h": "11:00",
-        "w": 9.8,
-        "g": 14.4
+        "w": 8.0,
+        "g": 10.8
       },
       {
         "h": "12:00",
-        "w": 11.2,
-        "g": 15.1
+        "w": 8.8,
+        "g": 12.6
       },
       {
         "h": "13:00",
-        "w": 12.0,
-        "g": 16.2
+        "w": 10.3,
+        "g": 14.0
       }
     ]
   },
@@ -58,7 +58,11 @@
     "ozone": 30.0,
     "no2": 4.4
   },
-  "ionosphere": {},
+  "ionosphere": {
+    "tec": 14.668863959969679,
+    "hmf2_km": 275.3130292986044,
+    "anomaly": -5.949702741624618
+  },
   "magnetosphere": {
     "kp_now": 3.0,
     "kp_24h_min": 0.3,
@@ -70,22 +74,22 @@
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 7.71,
-    "bz_nt": 1.42,
-    "bz_gsm_nt": 0.46,
-    "time": "2026-07-07T12:28:00",
+    "bt_nt": 7.72,
+    "bz_nt": 0.23,
+    "bz_gsm_nt": -0.71,
+    "time": "2026-07-07T12:57:00",
     "bz_flag": "northward",
-    "speed_kms": 429.38,
-    "density": 4.04,
-    "temp_k": 54928.0
+    "speed_kms": 425.92,
+    "density": 3.9,
+    "temp_k": 61671.0
   },
   "sun": {
-    "xray_flux": 8.965e-07,
+    "xray_flux": 9.229e-07,
     "xray_peak": 4.04696e-05,
     "xray_class": "B",
     "xray_peak_class": "M",
     "latest_flare": "B7.1\u2192C1.0",
-    "flare_time": "2026-07-08T12:25:00Z",
+    "flare_time": "2026-07-08T12:55:00Z",
     "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 144.0,
@@ -202,28 +206,28 @@
     "recent": [
       {
         "species": "Carolina Wren",
-        "confidence": 75.8,
-        "time": "07:42:34"
+        "confidence": 72.1,
+        "time": "08:32:44"
       },
       {
         "species": "Carolina Wren",
-        "confidence": 89.1,
-        "time": "07:42:43"
+        "confidence": 80.7,
+        "time": "08:32:53"
       },
       {
         "species": "Carolina Wren",
-        "confidence": 72.3,
-        "time": "08:06:40"
+        "confidence": 74.7,
+        "time": "08:32:59"
       },
       {
         "species": "Carolina Wren",
-        "confidence": 71.5,
-        "time": "08:21:47"
+        "confidence": 72.7,
+        "time": "08:33:05"
       },
       {
         "species": "Carolina Wren",
-        "confidence": 85.3,
-        "time": "08:22:26"
+        "confidence": 82.5,
+        "time": "08:33:26"
       }
     ]
   },
