@@ -416,7 +416,7 @@ except Exception:
 # ── 13. Assemble ───────────────────────────────────────────────────────
 output = {
     "updated": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
-    "location": {"lat": LAT, "lon": LON, "name": "Pine Hollow, TN"},
+    "location": {"lat": LAT, "lon": LON, "name": "Observatory Station"},
     "surface": surface,
     "air_quality": aqi_data,
     "ionosphere": ionosphere,

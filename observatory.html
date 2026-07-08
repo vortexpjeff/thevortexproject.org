@@ -82,7 +82,7 @@
 
 <header>
   <h1>SKYSPACE CHART</h1>
-  <div class="sub">Pine Hollow · 35.86°N 83.37°W · 324m</div>
+  <div class="sub">Skyspace Chart · Live Observatory Data</div>
   <div class="ts" id="ts">loading…</div>
 </header>
 <div class="status-bar" id="status"></div>
@@ -249,7 +249,7 @@ function render(d) {
       sfHtml += `<div class="bird-row"><span>${h.h}</span><span>${h.w} km/h ${h.g ? 'gust '+h.g : ''}</span></div>`;
     }
   }
-  cards.push(`<div class="card sf"><h2>🌡 Surface · Pine Hollow</h2>${sfHtml}</div>`);
+  cards.push(`<div class="card sf"><h2>🌡 Surface Conditions</h2>${sfHtml}</div>`);
 
   // AIR QUALITY
   if (aq.us_aqi != null) {
@@ -296,7 +296,7 @@ function render(d) {
       for (const s of birds.top_species) bHtml += `<div class="bird-row"><span>${s.name}</span><span>${s.count}</span></div>`;
       bHtml += '</div>';
     }
-    cards.push(`<div class="card full" id="earth"><h2>🐦 BirdNET · Pine Hollow</h2>${bHtml}</div>`);
+    cards.push(`<div class="card full" id="earth"><h2>🐦 Acoustic Monitoring</h2>${bHtml}</div>`);
   }
 
   // IMAGERY
