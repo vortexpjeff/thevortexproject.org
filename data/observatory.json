@@ -1,18 +1,18 @@
 {
-  "updated": "2026-07-08T02:18:44Z",
+  "updated": "2026-07-08T02:48:55Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
-    "temp_c": 25.8,
-    "humidity_pct": 75,
-    "wind_kmh": 3.2,
-    "wind_dir": 90,
-    "pressure_hpa": 1015.4,
-    "cloud_pct": 25,
-    "feels_c": 29.7,
+    "temp_c": 25.3,
+    "humidity_pct": 77,
+    "wind_kmh": 0.4,
+    "wind_dir": 180,
+    "pressure_hpa": 1016.3,
+    "cloud_pct": 7,
+    "feels_c": 29.6,
     "precip_mm": 0.0,
-    "weather_code": 1,
+    "weather_code": 0,
     "today_max": 31.2,
     "today_min": 21.4,
     "sunrise": "2026-07-07T06:24",
@@ -28,9 +28,9 @@
     "no2": 11.7
   },
   "ionosphere": {
-    "tec": 22.134078798584973,
-    "hmf2_km": 322.75158879597245,
-    "anomaly": -0.686307749449945
+    "tec": 22.927092979266842,
+    "hmf2_km": 331.45279163760927,
+    "anomaly": 1.5994747614024725
   },
   "magnetosphere": {
     "kp_now": 2.0,
@@ -38,27 +38,27 @@
     "kp_24h_max": 2.0,
     "kp_24h_mean": 1.0,
     "kp_time": "2026-07-07T21:00:00",
-    "kp_1m": 2.0,
-    "dst_nt": -24.1,
+    "kp_1m": 3.0,
+    "dst_nt": -27.0,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 6.35,
-    "bz_nt": 2.41,
-    "bz_gsm_nt": 2.39,
-    "time": "2026-07-07T02:16:00",
+    "bt_nt": 6.71,
+    "bz_nt": 2.06,
+    "bz_gsm_nt": 2.04,
+    "time": "2026-07-07T02:47:00",
     "bz_flag": "northward",
-    "speed_kms": 408.94,
-    "density": 0.94,
-    "temp_k": 40742.0
+    "speed_kms": 419.63,
+    "density": 1.0,
+    "temp_k": 58084.0
   },
   "sun": {
-    "xray_flux": 6.135e-07,
+    "xray_flux": 5.932e-07,
     "xray_peak": 4.04696e-05,
     "xray_class": "B",
     "xray_peak_class": "M",
     "latest_flare": "B7.8\u2192C1.8",
-    "flare_time": "2026-07-08T02:15:00Z",
+    "flare_time": "2026-07-08T02:46:00Z",
     "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 144.0,
@@ -133,7 +133,11 @@
     "hazardous_count": 0,
     "closest_ld": 101.3
   },
-  "iss_pass": null,
+  "iss_pass": {
+    "rise": "2026-07-08T03:54:37+00:00",
+    "max_elevation": 10.0,
+    "duration_min": 4.6
+  },
   "alerts": [],
   "birds": {
     "detections_24h": 300,
@@ -202,6 +206,6 @@
   },
   "imagery": {
     "epic": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/05/png/epic_1b_20260705235908.png",
-    "sdo_aia171": "https://api.helioviewer.org/v2/downloadImage/?id=189749077&width=1024"
+    "sdo_aia171": "https://api.helioviewer.org/v2/downloadImage/?id=189751243&width=1024"
   }
 }
