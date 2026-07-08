@@ -1,53 +1,53 @@
 {
-  "updated": "2026-07-08T11:27:26Z",
+  "updated": "2026-07-08T11:57:53Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
-    "temp_c": 22.0,
+    "temp_c": 22.8,
     "humidity_pct": 89,
-    "wind_kmh": 1.8,
-    "wind_dir": 270,
+    "wind_kmh": 1.5,
+    "wind_dir": 284,
     "pressure_hpa": 1016.5,
     "cloud_pct": 0,
-    "feels_c": 25.6,
+    "feels_c": 27.0,
     "precip_mm": 0.0,
     "weather_code": 0,
-    "today_max": 31.4,
+    "today_max": 31.7,
     "today_min": 21.6,
     "sunrise": "2026-07-08T06:24",
     "sunset": "2026-07-08T20:52",
-    "precip_sum_mm": 8.2,
+    "precip_sum_mm": 6.0,
     "wind_hourly": [
       {
         "h": "07:00",
-        "w": 2.3,
-        "g": 6.5
-      },
-      {
-        "h": "08:00",
-        "w": 2.4,
+        "w": 4.0,
         "g": 7.6
       },
       {
+        "h": "08:00",
+        "w": 2.5,
+        "g": 10.1
+      },
+      {
         "h": "09:00",
-        "w": 5.8,
-        "g": 16.2
+        "w": 5.5,
+        "g": 16.9
       },
       {
         "h": "10:00",
-        "w": 8.3,
-        "g": 16.6
+        "w": 7.3,
+        "g": 15.1
       },
       {
         "h": "11:00",
-        "w": 8.9,
-        "g": 13.7
+        "w": 9.8,
+        "g": 14.4
       },
       {
         "h": "12:00",
-        "w": 10.6,
-        "g": 14.4
+        "w": 11.2,
+        "g": 15.1
       }
     ]
   },
@@ -59,9 +59,9 @@
     "no2": 5.3
   },
   "ionosphere": {
-    "tec": 13.449638203704076,
-    "hmf2_km": 302.4212106366813,
-    "anomaly": -3.996766925324593
+    "tec": 13.495173868046763,
+    "hmf2_km": 290.20100598119603,
+    "anomaly": -6.312903726352431
   },
   "magnetosphere": {
     "kp_now": 3.33,
@@ -70,26 +70,26 @@
     "kp_24h_mean": 1.8,
     "kp_time": "2026-07-08T06:00:00",
     "kp_1m": 3.0,
-    "dst_nt": -37.6,
+    "dst_nt": -36.2,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 7.55,
-    "bz_nt": 2.53,
-    "bz_gsm_nt": 2.24,
-    "time": "2026-07-07T11:26:00",
+    "bt_nt": 7.52,
+    "bz_nt": 2.32,
+    "bz_gsm_nt": 1.88,
+    "time": "2026-07-07T11:57:00",
     "bz_flag": "northward",
-    "speed_kms": 430.68,
-    "density": 3.35,
-    "temp_k": 72442.0
+    "speed_kms": 429.53,
+    "density": 3.73,
+    "temp_k": 65400.0
   },
   "sun": {
-    "xray_flux": 8.456e-07,
+    "xray_flux": 7.37e-07,
     "xray_peak": 4.04696e-05,
     "xray_class": "B",
     "xray_peak_class": "M",
-    "latest_flare": "B6.7\u2192C2.1",
-    "flare_time": "2026-07-08T11:23:00Z",
+    "latest_flare": "B7.1\u2192C1.0",
+    "flare_time": "2026-07-08T11:55:00Z",
     "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 144.0,
@@ -206,28 +206,28 @@
     "recent": [
       {
         "species": "Carolina Wren",
-        "confidence": 72.8,
-        "time": "07:12:13"
+        "confidence": 74.5,
+        "time": "07:42:25"
       },
       {
         "species": "Carolina Wren",
-        "confidence": 82.4,
-        "time": "07:15:10"
+        "confidence": 95.7,
+        "time": "07:42:28"
       },
       {
         "species": "Carolina Wren",
-        "confidence": 92.4,
-        "time": "07:15:16"
+        "confidence": 81.6,
+        "time": "07:42:31"
       },
       {
-        "species": "Northern Cardinal",
-        "confidence": 80.8,
-        "time": "07:18:25"
+        "species": "Carolina Wren",
+        "confidence": 75.8,
+        "time": "07:42:34"
       },
       {
-        "species": "Tufted Titmouse",
-        "confidence": 87.0,
-        "time": "07:27:07"
+        "species": "Carolina Wren",
+        "confidence": 89.1,
+        "time": "07:42:43"
       }
     ]
   },
