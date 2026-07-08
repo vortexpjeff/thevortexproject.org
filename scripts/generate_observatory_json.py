@@ -269,10 +269,6 @@ if glotec_idx and len(glotec_idx) > 0:
                 "tec": safe_float(p.get("tec")),
                 "hmf2_km": safe_float(p.get("hmF2")),
                 "anomaly": safe_float(p.get("anomaly")),
-                "quality_flag": p.get("quality_flag"),
-                "grid_lat": round(best["geometry"]["coordinates"][1], 2),
-                "grid_lon": round(best["geometry"]["coordinates"][0], 2),
-                "time": latest.get("time_tag"),
             }
 
 # ── 7. NASA NEO ───────────────────────────────────────────────────────
@@ -416,7 +412,7 @@ except Exception:
 # ── 13. Assemble ───────────────────────────────────────────────────────
 output = {
     "updated": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
-    "location": {"lat": LAT, "lon": LON, "name": "Observatory Station"},
+    "location": {"name": "Observatory Station"},
     "surface": surface,
     "air_quality": aqi_data,
     "ionosphere": ionosphere,

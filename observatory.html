@@ -230,7 +230,7 @@ function render(d) {
   ioHtml += mrow('TEC', io.tec != null ? `${io.tec.toFixed(1)} TECU` : null);
   ioHtml += mrow('hmF2', io.hmf2_km != null ? `${io.hmf2_km.toFixed(0)} km` : null);
   ioHtml += mrow('Anomaly', io.anomaly != null ? `${io.anomaly > 0 ? '+' : ''}${io.anomaly.toFixed(1)}` : null);
-  ioHtml += mrow('Grid point', io.grid_lat != null ? `${io.grid_lat}°N, ${io.grid_lon}°W` : null);
+
   ioHtml += mrow('Quality', io.quality_flag === 0 ? 'Measured' : io.quality_flag === 5 ? 'Interpolated' : io.quality_flag === 1 ? 'Modeled' : null);
   cards.push(`<div class="card io"><h2>📡 Ionosphere · 800 km</h2>${ioHtml}</div>`);
 
