@@ -1,67 +1,62 @@
 {
-  "updated": "2026-07-08T22:04:21Z",
+  "updated": "2026-07-08T23:06:17Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
-    "temp_c": 31.2,
+    "temp_c": 30.7,
     "humidity_pct": 48,
-    "wind_kmh": 10.5,
-    "wind_dir": 266,
-    "pressure_hpa": 1014.4,
-    "cloud_pct": 22,
-    "feels_c": 33.0,
+    "wind_kmh": 13.2,
+    "wind_dir": 259,
+    "pressure_hpa": 1014.5,
+    "cloud_pct": 3,
+    "feels_c": 31.9,
     "precip_mm": 0.0,
-    "weather_code": 1,
+    "weather_code": 0,
     "today_max": 31.8,
     "today_min": 21.7,
     "sunrise": "2026-07-08T06:24",
     "sunset": "2026-07-08T20:52",
-    "precip_sum_mm": 0.7,
+    "precip_sum_mm": 3.2,
     "wind_hourly": [
       {
-        "h": "18:00",
-        "w": 10.5,
-        "g": 15.5
-      },
-      {
         "h": "19:00",
-        "w": 13.4,
-        "g": 19.4
+        "w": 13.2,
+        "g": 19.8
       },
       {
         "h": "20:00",
-        "w": 10.5,
-        "g": 19.4
+        "w": 4.3,
+        "g": 15.5
       },
       {
         "h": "21:00",
-        "w": 5.9,
-        "g": 15.1
+        "w": 6.5,
+        "g": 16.6
       },
       {
         "h": "22:00",
-        "w": 10.3,
-        "g": 33.5
+        "w": 4.1,
+        "g": 13.3
       },
       {
         "h": "23:00",
-        "w": 5.3,
-        "g": 12.2
+        "w": 4.7,
+        "g": 11.5
       }
     ]
   },
   "air_quality": {
-    "us_aqi": 59,
-    "pm25": 5.1,
-    "pm10": 5.6,
-    "ozone": 114.0,
-    "no2": 1.4
+    "us_aqi": 65,
+    "pm25": 5.4,
+    "pm10": 5.8,
+    "ozone": 109.0,
+    "no2": 2.0
   },
   "ionosphere": {
-    "tec": 21.768910573624407,
-    "hmf2_km": 294.2869535482717,
-    "anomaly": -3.768466065608976
+    "tec": 20.375862008846727,
+    "hmf2_km": 294.4929465278197,
+    "anomaly": -7.13607488976767
   },
   "magnetosphere": {
     "kp_now": 2.67,
@@ -70,26 +65,26 @@
     "kp_24h_mean": 2.6,
     "kp_time": "2026-07-08T18:00:00",
     "kp_1m": 1.0,
-    "dst_nt": -27.5,
+    "dst_nt": -29.4,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 6.84,
-    "bz_nt": -4.81,
-    "bz_gsm_nt": -4.89,
-    "time": "2026-07-07T22:03:00",
+    "bt_nt": 5.85,
+    "bz_nt": -4.28,
+    "bz_gsm_nt": -4.14,
+    "time": "2026-07-07T23:06:00",
     "bz_flag": "mild southward",
-    "speed_kms": 418.94,
-    "density": 1.67,
-    "temp_k": 133448.0
+    "speed_kms": 410.83,
+    "density": 0.95,
+    "temp_k": 95759.0
   },
   "sun": {
-    "xray_flux": 6.067e-07,
+    "xray_flux": 6.599e-07,
     "xray_peak": 1.55569e-05,
     "xray_class": "B",
     "xray_peak_class": "M",
     "latest_flare": "B6.9\u2192M1.5",
-    "flare_time": "2026-07-08T22:01:00Z",
+    "flare_time": "2026-07-08T23:02:00Z",
     "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 144.0,
@@ -176,7 +171,7 @@
       },
       {
         "name": "American Goldfinch",
-        "count": 42
+        "count": 41
       },
       {
         "name": "Northern Cardinal",
@@ -199,35 +194,35 @@
         "count": 2
       },
       {
-        "name": "Blue Jay",
-        "count": 1
+        "name": "Yellow-throated Warbler",
+        "count": 2
       }
     ],
     "recent": [
       {
         "species": "American Goldfinch",
-        "confidence": 72.5,
-        "time": "17:37:18"
+        "confidence": 76.3,
+        "time": "17:39:21"
       },
       {
         "species": "American Goldfinch",
-        "confidence": 75.9,
-        "time": "17:37:21"
+        "confidence": 71.8,
+        "time": "18:34:55"
       },
       {
         "species": "American Goldfinch",
-        "confidence": 71.7,
-        "time": "17:37:27"
+        "confidence": 87.0,
+        "time": "18:35:31"
       },
       {
         "species": "American Goldfinch",
         "confidence": 74.5,
-        "time": "17:37:42"
+        "time": "18:38:16"
       },
       {
-        "species": "American Goldfinch",
-        "confidence": 76.3,
-        "time": "17:39:21"
+        "species": "Yellow-throated Warbler",
+        "confidence": 87.8,
+        "time": "18:47:22"
       }
     ]
   },
