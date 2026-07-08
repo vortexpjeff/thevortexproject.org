@@ -1,31 +1,26 @@
 {
-  "updated": "2026-07-07T23:45:32Z",
+  "updated": "2026-07-08T00:16:22Z",
   "location": {
     "lat": 35.86,
     "lon": -83.37,
     "name": "Pine Hollow, TN"
   },
   "surface": {
-    "temp_c": 28.8,
-    "humidity_pct": 64,
-    "wind_kmh": 6.7,
-    "wind_dir": 324,
+    "temp_c": 28.5,
+    "humidity_pct": 65,
+    "wind_kmh": 5.1,
+    "wind_dir": 309,
     "pressure_hpa": 1014.9,
-    "cloud_pct": 72,
-    "feels_c": 32.4,
+    "cloud_pct": 82,
+    "feels_c": 32.3,
     "precip_mm": 0.0,
-    "weather_code": 2,
+    "weather_code": 3,
     "today_max": 31.2,
     "today_min": 21.4,
     "sunrise": "2026-07-07T06:24",
     "sunset": "2026-07-07T20:52",
     "precip_sum_mm": 0.0,
     "wind_hourly": [
-      {
-        "h": "19:00",
-        "w": 9.8,
-        "g": 14.4
-      },
       {
         "h": "20:00",
         "w": 4.2,
@@ -50,68 +45,54 @@
   },
   "air_quality": {
     "us_aqi": 51,
-    "pm25": 2.5,
-    "pm10": 2.6,
-    "ozone": 103.0,
-    "no2": 1.4
+    "pm25": 3.0,
+    "pm10": 3.0,
+    "ozone": 95.0,
+    "no2": 2.9
   },
   "ionosphere": {
-    "tec": 24.91548261021217,
-    "hmf2_km": 295.3493990138648,
-    "anomaly": -2.9622729618300525,
+    "tec": 24.07007074188109,
+    "hmf2_km": 297.2764854980599,
+    "anomaly": -3.1546440228576387,
     "quality_flag": 5,
     "grid_lat": 36.25,
     "grid_lon": -82.5,
-    "time": "2026-07-07T23:15:00Z"
+    "time": "2026-07-07T23:45:00Z"
   },
   "magnetosphere": {
-    "kp_now": 1.33,
+    "kp_now": 2.0,
     "kp_24h_min": 0.3,
-    "kp_24h_max": 1.7,
+    "kp_24h_max": 2.0,
     "kp_24h_mean": 1.0,
-    "kp_time": "2026-07-07T18:00:00",
-    "kp_1m": 2.0,
-    "dst_nt": -12.8,
+    "kp_time": "2026-07-07T21:00:00",
+    "kp_1m": 0.0,
+    "dst_nt": -16.6,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 6.96,
-    "bz_nt": -0.17,
-    "bz_gsm_nt": 0.06,
-    "time": "2026-07-06T23:44:00",
-    "bz_flag": "mild southward",
-    "speed_kms": 420.2,
-    "density": 1.91,
-    "temp_k": 159337.0
+    "bt_nt": 6.99,
+    "bz_nt": 0.14,
+    "bz_gsm_nt": 0.34,
+    "time": "2026-07-07T00:14:00",
+    "bz_flag": "northward",
+    "speed_kms": 398.73,
+    "density": 0.18,
+    "temp_k": 23802.0
   },
   "sun": {
-    "xray_flux": 7.743e-07,
+    "xray_flux": 7.399e-07,
     "xray_peak": 4.04696e-05,
     "xray_class": "B",
     "xray_peak_class": "M",
     "latest_flare": "B7.8\u2192C1.8",
-    "flare_time": "2026-07-07T23:42:00Z",
-    "proton_flux_pfu": 0.4,
+    "flare_time": "2026-07-08T00:12:00Z",
+    "proton_flux_pfu": 0.3,
     "sep_warning": false,
-    "f107": 142.0,
+    "f107": 144.0,
     "active_regions": 0,
     "regions": []
   },
   "kp_forecast": [
-    {
-      "date": "07-08",
-      "bins": [
-        1.33,
-        1.33,
-        1.33,
-        1.67,
-        1.33,
-        1.33,
-        1.67,
-        1.67
-      ],
-      "max": 1.67
-    },
     {
       "date": "07-09",
       "bins": [
@@ -129,9 +110,23 @@
     {
       "date": "07-10",
       "bins": [
-        3.67
+        3.67,
+        2.67,
+        2.67,
+        2.67,
+        2.67,
+        2.67,
+        3.67,
+        2.67
       ],
       "max": 3.67
+    },
+    {
+      "date": "07-11",
+      "bins": [
+        3.0
+      ],
+      "max": 3.0
     }
   ],
   "neo": {
@@ -169,7 +164,7 @@
   "alerts": [],
   "birds": {
     "detections_24h": 300,
-    "species_count": 13,
+    "species_count": 14,
     "top_species": [
       {
         "name": "Carolina Wren",
@@ -181,7 +176,7 @@
       },
       {
         "name": "Scarlet Tanager",
-        "count": 29
+        "count": 28
       },
       {
         "name": "Red-shouldered Hawk",
@@ -206,11 +201,6 @@
     ],
     "recent": [
       {
-        "species": "American Goldfinch",
-        "confidence": 83.5,
-        "time": "17:26:33"
-      },
-      {
         "species": "Red-shouldered Hawk",
         "confidence": 70.8,
         "time": "17:28:27"
@@ -229,6 +219,11 @@
         "species": "American Goldfinch",
         "confidence": 78.3,
         "time": "18:19:40"
+      },
+      {
+        "species": "Blue Jay",
+        "confidence": 75.8,
+        "time": "20:09:26"
       }
     ]
   },
