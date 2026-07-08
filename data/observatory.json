@@ -1,67 +1,67 @@
 {
-  "updated": "2026-07-08T15:30:39Z",
+  "updated": "2026-07-08T17:00:39Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
-    "temp_c": 28.6,
-    "humidity_pct": 63,
-    "wind_kmh": 8.4,
-    "wind_dir": 263,
-    "pressure_hpa": 1016.9,
-    "cloud_pct": 29,
-    "feels_c": 32.9,
+    "temp_c": 30.2,
+    "humidity_pct": 54,
+    "wind_kmh": 11.3,
+    "wind_dir": 261,
+    "pressure_hpa": 1017.1,
+    "cloud_pct": 17,
+    "feels_c": 34.4,
     "precip_mm": 0.0,
-    "weather_code": 1,
-    "today_max": 31.8,
+    "weather_code": 0,
+    "today_max": 31.1,
     "today_min": 21.7,
     "sunrise": "2026-07-08T06:24",
     "sunset": "2026-07-08T20:52",
-    "precip_sum_mm": 0.1,
+    "precip_sum_mm": 10.5,
     "wind_hourly": [
       {
-        "h": "11:00",
-        "w": 8.4,
-        "g": 12.2
-      },
-      {
-        "h": "12:00",
-        "w": 9.7,
-        "g": 14.4
-      },
-      {
         "h": "13:00",
-        "w": 11.9,
-        "g": 16.2
-      },
-      {
-        "h": "14:00",
-        "w": 12.4,
+        "w": 11.3,
         "g": 16.6
       },
       {
+        "h": "14:00",
+        "w": 13.4,
+        "g": 18.0
+      },
+      {
         "h": "15:00",
-        "w": 10.8,
-        "g": 16.9
+        "w": 12.1,
+        "g": 16.6
       },
       {
         "h": "16:00",
-        "w": 11.8,
-        "g": 18.4
+        "w": 12.7,
+        "g": 19.4
+      },
+      {
+        "h": "17:00",
+        "w": 11.9,
+        "g": 20.2
+      },
+      {
+        "h": "18:00",
+        "w": 14.0,
+        "g": 22.3
       }
     ]
   },
   "air_quality": {
-    "us_aqi": 24,
-    "pm25": 9.7,
-    "pm10": 10.2,
-    "ozone": 107.0,
-    "no2": 1.1
+    "us_aqi": 27,
+    "pm25": 7.7,
+    "pm10": 8.2,
+    "ozone": 119.0,
+    "no2": 0.7
   },
   "ionosphere": {
-    "tec": 18.024239041887526,
-    "hmf2_km": 277.2987141773729,
-    "anomaly": -7.298656467964673
+    "tec": 18.59191819240918,
+    "hmf2_km": 280.2896411816114,
+    "anomaly": -8.102842605558592
   },
   "magnetosphere": {
     "kp_now": 2.33,
@@ -69,27 +69,27 @@
     "kp_24h_max": 3.3,
     "kp_24h_mean": 2.3,
     "kp_time": "2026-07-08T12:00:00",
-    "kp_1m": 0.0,
-    "dst_nt": -25.0,
+    "kp_1m": 1.0,
+    "dst_nt": -30.5,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 7.9,
-    "bz_nt": 0.07,
-    "bz_gsm_nt": -0.56,
-    "time": "2026-07-07T15:30:00",
+    "bt_nt": 8.11,
+    "bz_nt": 0.13,
+    "bz_gsm_nt": -0.41,
+    "time": "2026-07-07T16:59:00",
     "bz_flag": "northward",
-    "speed_kms": 410.77,
-    "density": 3.83,
-    "temp_k": 75535.0
+    "speed_kms": 406.38,
+    "density": 4.36,
+    "temp_k": 57631.0
   },
   "sun": {
-    "xray_flux": 8.224e-07,
+    "xray_flux": 7.794e-07,
     "xray_peak": 2.1802e-06,
     "xray_class": "B",
     "xray_peak_class": "C",
     "latest_flare": "B7.1\u2192C1.0",
-    "flare_time": "2026-07-08T15:27:00Z",
+    "flare_time": "2026-07-08T16:56:00Z",
     "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 144.0,
@@ -172,15 +172,15 @@
   "alerts": [],
   "birds": {
     "detections_24h": 300,
-    "species_count": 11,
+    "species_count": 12,
     "top_species": [
       {
         "name": "Carolina Wren",
-        "count": 241
+        "count": 233
       },
       {
         "name": "American Goldfinch",
-        "count": 33
+        "count": 35
       },
       {
         "name": "Red-shouldered Hawk",
@@ -188,7 +188,7 @@
       },
       {
         "name": "Northern Cardinal",
-        "count": 2
+        "count": 7
       },
       {
         "name": "Eastern Bluebird",
@@ -209,29 +209,29 @@
     ],
     "recent": [
       {
-        "species": "Carolina Wren",
-        "confidence": 76.2,
-        "time": "10:02:44"
-      },
-      {
-        "species": "Carolina Wren",
-        "confidence": 89.0,
-        "time": "10:02:53"
-      },
-      {
-        "species": "Belted Kingfisher",
+        "species": "Northern Cardinal",
         "confidence": 72.7,
-        "time": "10:21:00"
+        "time": "12:39:52"
       },
       {
-        "species": "Belted Kingfisher",
-        "confidence": 76.9,
-        "time": "10:26:15"
+        "species": "Northern Cardinal",
+        "confidence": 77.6,
+        "time": "12:40:13"
       },
       {
-        "species": "Red-eyed Vireo",
-        "confidence": 70.8,
-        "time": "11:27:27"
+        "species": "Northern Cardinal",
+        "confidence": 78.2,
+        "time": "12:40:19"
+      },
+      {
+        "species": "Northern Cardinal",
+        "confidence": 84.4,
+        "time": "12:40:28"
+      },
+      {
+        "species": "American Goldfinch",
+        "confidence": 73.9,
+        "time": "12:56:10"
       }
     ]
   },
