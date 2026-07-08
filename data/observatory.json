@@ -1,53 +1,53 @@
 {
-  "updated": "2026-07-08T09:25:47Z",
+  "updated": "2026-07-08T09:56:12Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
-    "temp_c": 21.6,
+    "temp_c": 21.5,
     "humidity_pct": 89,
-    "wind_kmh": 5.1,
-    "wind_dir": 321,
-    "pressure_hpa": 1016.4,
-    "cloud_pct": 3,
-    "feels_c": 24.6,
+    "wind_kmh": 5.2,
+    "wind_dir": 335,
+    "pressure_hpa": 1015.7,
+    "cloud_pct": 1,
+    "feels_c": 24.5,
     "precip_mm": 0.0,
     "weather_code": 0,
-    "today_max": 31.6,
+    "today_max": 31.3,
     "today_min": 21.3,
     "sunrise": "2026-07-08T06:24",
     "sunset": "2026-07-08T20:52",
-    "precip_sum_mm": 0.0,
+    "precip_sum_mm": 5.48,
     "wind_hourly": [
       {
         "h": "05:00",
         "w": 5.9,
-        "g": 7.6
-      },
-      {
-        "h": "06:00",
-        "w": 5.4,
-        "g": 9.7
-      },
-      {
-        "h": "07:00",
-        "w": 0.4,
-        "g": 6.1
-      },
-      {
-        "h": "08:00",
-        "w": 2.3,
         "g": 8.3
       },
       {
+        "h": "06:00",
+        "w": 4.7,
+        "g": 8.3
+      },
+      {
+        "h": "07:00",
+        "w": 2.2,
+        "g": 7.9
+      },
+      {
+        "h": "08:00",
+        "w": 2.1,
+        "g": 7.9
+      },
+      {
         "h": "09:00",
-        "w": 5.2,
-        "g": 16.2
+        "w": 5.6,
+        "g": 16.6
       },
       {
         "h": "10:00",
-        "w": 8.7,
-        "g": 15.8
+        "w": 7.7,
+        "g": 15.5
       }
     ]
   },
@@ -59,9 +59,9 @@
     "no2": 7.9
   },
   "ionosphere": {
-    "tec": 11.919155990898647,
-    "hmf2_km": 355.419459069115,
-    "anomaly": 0.30093466866303764
+    "tec": 13.928930017932633,
+    "hmf2_km": 341.7263916214394,
+    "anomaly": 2.413289479804533
   },
   "magnetosphere": {
     "kp_now": 3.33,
@@ -69,27 +69,27 @@
     "kp_24h_max": 3.3,
     "kp_24h_mean": 1.8,
     "kp_time": "2026-07-08T06:00:00",
-    "kp_1m": 1.0,
-    "dst_nt": -44.4,
+    "kp_1m": 2.0,
+    "dst_nt": -39.2,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 6.93,
-    "bz_nt": 3.19,
-    "bz_gsm_nt": 2.5,
-    "time": "2026-07-07T09:24:00",
+    "bt_nt": 6.01,
+    "bz_nt": 1.55,
+    "bz_gsm_nt": 1.57,
+    "time": "2026-07-07T09:55:00",
     "bz_flag": "northward",
-    "speed_kms": 459.23,
-    "density": 1.14,
-    "temp_k": 104752.0
+    "speed_kms": 453.16,
+    "density": 1.68,
+    "temp_k": 66238.0
   },
   "sun": {
-    "xray_flux": 6.935e-07,
+    "xray_flux": 1.8102e-06,
     "xray_peak": 4.04696e-05,
-    "xray_class": "B",
+    "xray_class": "C",
     "xray_peak_class": "M",
-    "latest_flare": "B6.4\u2192C1.2",
-    "flare_time": "2026-07-08T09:23:00Z",
+    "latest_flare": "B6.7\u2192None",
+    "flare_time": "2026-07-08T09:52:00Z",
     "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 144.0,
@@ -164,7 +164,11 @@
     "hazardous_count": 0,
     "closest_ld": 28.1
   },
-  "iss_pass": null,
+  "iss_pass": {
+    "rise": "2026-07-08T10:24:54+00:00",
+    "max_elevation": 12.0,
+    "duration_min": 4.7
+  },
   "alerts": [],
   "birds": {
     "detections_24h": 300,
@@ -172,19 +176,15 @@
     "top_species": [
       {
         "name": "Carolina Wren",
-        "count": 179
+        "count": 217
       },
       {
         "name": "American Goldfinch",
-        "count": 54
-      },
-      {
-        "name": "Scarlet Tanager",
-        "count": 27
+        "count": 39
       },
       {
         "name": "Red-shouldered Hawk",
-        "count": 15
+        "count": 17
       },
       {
         "name": "Indigo Bunting",
@@ -201,33 +201,37 @@
       {
         "name": "Louisiana Waterthrush",
         "count": 2
+      },
+      {
+        "name": "Downy Woodpecker",
+        "count": 2
       }
     ],
     "recent": [
       {
-        "species": "Red-shouldered Hawk",
-        "confidence": 89.8,
-        "time": "17:28:51"
-      },
-      {
-        "species": "American Goldfinch",
-        "confidence": 73.5,
-        "time": "17:41:36"
-      },
-      {
-        "species": "American Goldfinch",
-        "confidence": 78.3,
-        "time": "18:19:40"
-      },
-      {
-        "species": "Blue Jay",
-        "confidence": 75.8,
-        "time": "20:09:26"
+        "species": "Carolina Wren",
+        "confidence": 82.0,
+        "time": "05:55:48"
       },
       {
         "species": "Carolina Wren",
-        "confidence": 80.0,
-        "time": "20:43:47"
+        "confidence": 88.1,
+        "time": "05:55:51"
+      },
+      {
+        "species": "Carolina Wren",
+        "confidence": 91.7,
+        "time": "05:55:54"
+      },
+      {
+        "species": "Carolina Wren",
+        "confidence": 75.1,
+        "time": "05:56:03"
+      },
+      {
+        "species": "Carolina Wren",
+        "confidence": 88.5,
+        "time": "05:56:06"
       }
     ]
   },
