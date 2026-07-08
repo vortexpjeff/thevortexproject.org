@@ -1,16 +1,16 @@
 {
-  "updated": "2026-07-08T21:33:43Z",
+  "updated": "2026-07-08T22:04:21Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
     "temp_c": 31.2,
-    "humidity_pct": 42,
-    "wind_kmh": 11.4,
-    "wind_dir": 259,
-    "pressure_hpa": 1015.1,
-    "cloud_pct": 26,
-    "feels_c": 32.0,
+    "humidity_pct": 48,
+    "wind_kmh": 10.5,
+    "wind_dir": 266,
+    "pressure_hpa": 1014.4,
+    "cloud_pct": 22,
+    "feels_c": 33.0,
     "precip_mm": 0.0,
     "weather_code": 1,
     "today_max": 31.8,
@@ -19,11 +19,6 @@
     "sunset": "2026-07-08T20:52",
     "precip_sum_mm": 0.7,
     "wind_hourly": [
-      {
-        "h": "17:00",
-        "w": 13.2,
-        "g": 19.8
-      },
       {
         "h": "18:00",
         "w": 10.5,
@@ -48,20 +43,25 @@
         "h": "22:00",
         "w": 10.3,
         "g": 33.5
+      },
+      {
+        "h": "23:00",
+        "w": 5.3,
+        "g": 12.2
       }
     ]
   },
   "air_quality": {
-    "us_aqi": 49,
-    "pm25": 5.5,
-    "pm10": 6.0,
-    "ozone": 122.0,
-    "no2": 1.1
+    "us_aqi": 59,
+    "pm25": 5.1,
+    "pm10": 5.6,
+    "ozone": 114.0,
+    "no2": 1.4
   },
   "ionosphere": {
-    "tec": 20.83349057044806,
-    "hmf2_km": 293.1596491198523,
-    "anomaly": -4.662673340759149
+    "tec": 21.768910573624407,
+    "hmf2_km": 294.2869535482717,
+    "anomaly": -3.768466065608976
   },
   "magnetosphere": {
     "kp_now": 2.67,
@@ -69,27 +69,27 @@
     "kp_24h_max": 3.3,
     "kp_24h_mean": 2.6,
     "kp_time": "2026-07-08T18:00:00",
-    "kp_1m": 0.0,
-    "dst_nt": -29.5,
+    "kp_1m": 1.0,
+    "dst_nt": -27.5,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 7.38,
-    "bz_nt": -1.55,
-    "bz_gsm_nt": -1.26,
-    "time": "2026-07-07T21:33:00",
+    "bt_nt": 6.84,
+    "bz_nt": -4.81,
+    "bz_gsm_nt": -4.89,
+    "time": "2026-07-07T22:03:00",
     "bz_flag": "mild southward",
-    "speed_kms": 408.0,
-    "density": 2.39,
-    "temp_k": 108337.0
+    "speed_kms": 418.94,
+    "density": 1.67,
+    "temp_k": 133448.0
   },
   "sun": {
-    "xray_flux": 5.963e-07,
+    "xray_flux": 6.067e-07,
     "xray_peak": 1.55569e-05,
     "xray_class": "B",
     "xray_peak_class": "M",
     "latest_flare": "B6.9\u2192M1.5",
-    "flare_time": "2026-07-08T21:30:00Z",
+    "flare_time": "2026-07-08T22:01:00Z",
     "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 144.0,
@@ -164,11 +164,7 @@
     "hazardous_count": 0,
     "closest_ld": 28.1
   },
-  "iss_pass": {
-    "rise": "2026-07-08T23:53:49+00:00",
-    "max_elevation": 8.0,
-    "duration_min": 4.2
-  },
+  "iss_pass": null,
   "alerts": [],
   "birds": {
     "detections_24h": 300,
@@ -180,15 +176,15 @@
       },
       {
         "name": "American Goldfinch",
-        "count": 37
-      },
-      {
-        "name": "Red-shouldered Hawk",
-        "count": 9
+        "count": 42
       },
       {
         "name": "Northern Cardinal",
         "count": 8
+      },
+      {
+        "name": "Red-shouldered Hawk",
+        "count": 4
       },
       {
         "name": "Louisiana Waterthrush",
@@ -209,29 +205,29 @@
     ],
     "recent": [
       {
-        "species": "Carolina Wren",
-        "confidence": 71.6,
-        "time": "17:18:30"
+        "species": "American Goldfinch",
+        "confidence": 72.5,
+        "time": "17:37:18"
       },
       {
-        "species": "Carolina Wren",
-        "confidence": 83.2,
-        "time": "17:18:39"
+        "species": "American Goldfinch",
+        "confidence": 75.9,
+        "time": "17:37:21"
       },
       {
-        "species": "Carolina Wren",
-        "confidence": 91.6,
-        "time": "17:18:51"
+        "species": "American Goldfinch",
+        "confidence": 71.7,
+        "time": "17:37:27"
       },
       {
-        "species": "Carolina Wren",
-        "confidence": 76.4,
-        "time": "17:18:57"
+        "species": "American Goldfinch",
+        "confidence": 74.5,
+        "time": "17:37:42"
       },
       {
-        "species": "Northern Cardinal",
+        "species": "American Goldfinch",
         "confidence": 76.3,
-        "time": "17:25:57"
+        "time": "17:39:21"
       }
     ]
   },
