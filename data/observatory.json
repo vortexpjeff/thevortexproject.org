@@ -1,16 +1,16 @@
 {
-  "updated": "2026-07-08T10:57:10Z",
+  "updated": "2026-07-08T11:27:26Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
-    "temp_c": 21.4,
+    "temp_c": 22.0,
     "humidity_pct": 89,
-    "wind_kmh": 3.6,
-    "wind_dir": 307,
-    "pressure_hpa": 1015.9,
+    "wind_kmh": 1.8,
+    "wind_dir": 270,
+    "pressure_hpa": 1016.5,
     "cloud_pct": 0,
-    "feels_c": 24.6,
+    "feels_c": 25.6,
     "precip_mm": 0.0,
     "weather_code": 0,
     "today_max": 31.4,
@@ -19,11 +19,6 @@
     "sunset": "2026-07-08T20:52",
     "precip_sum_mm": 8.2,
     "wind_hourly": [
-      {
-        "h": "06:00",
-        "w": 4.6,
-        "g": 5.0
-      },
       {
         "h": "07:00",
         "w": 2.3,
@@ -48,20 +43,25 @@
         "h": "11:00",
         "w": 8.9,
         "g": 13.7
+      },
+      {
+        "h": "12:00",
+        "w": 10.6,
+        "g": 14.4
       }
     ]
   },
   "air_quality": {
-    "us_aqi": 18,
-    "pm25": 6.3,
-    "pm10": 6.4,
-    "ozone": 23.0,
-    "no2": 6.1
+    "us_aqi": 19,
+    "pm25": 6.6,
+    "pm10": 6.7,
+    "ozone": 22.0,
+    "no2": 5.3
   },
   "ionosphere": {
-    "tec": 13.248204027584038,
-    "hmf2_km": 320.45701922177415,
-    "anomaly": 0.5221714726581332
+    "tec": 13.449638203704076,
+    "hmf2_km": 302.4212106366813,
+    "anomaly": -3.996766925324593
   },
   "magnetosphere": {
     "kp_now": 3.33,
@@ -69,27 +69,27 @@
     "kp_24h_max": 3.3,
     "kp_24h_mean": 1.8,
     "kp_time": "2026-07-08T06:00:00",
-    "kp_1m": 2.0,
-    "dst_nt": -37.7,
+    "kp_1m": 3.0,
+    "dst_nt": -37.6,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 7.69,
-    "bz_nt": 2.89,
-    "bz_gsm_nt": 1.91,
-    "time": "2026-07-07T10:56:00",
+    "bt_nt": 7.55,
+    "bz_nt": 2.53,
+    "bz_gsm_nt": 2.24,
+    "time": "2026-07-07T11:26:00",
     "bz_flag": "northward",
-    "speed_kms": 440.5,
-    "density": 2.13,
-    "temp_k": 83907.0
+    "speed_kms": 430.68,
+    "density": 3.35,
+    "temp_k": 72442.0
   },
   "sun": {
-    "xray_flux": 9.931e-07,
+    "xray_flux": 8.456e-07,
     "xray_peak": 4.04696e-05,
     "xray_class": "B",
     "xray_peak_class": "M",
     "latest_flare": "B6.7\u2192C2.1",
-    "flare_time": "2026-07-08T10:53:00Z",
+    "flare_time": "2026-07-08T11:23:00Z",
     "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 144.0,
@@ -168,11 +168,11 @@
   "alerts": [],
   "birds": {
     "detections_24h": 300,
-    "species_count": 13,
+    "species_count": 14,
     "top_species": [
       {
         "name": "Carolina Wren",
-        "count": 234
+        "count": 232
       },
       {
         "name": "American Goldfinch",
@@ -180,11 +180,11 @@
       },
       {
         "name": "Red-shouldered Hawk",
-        "count": 17
+        "count": 16
       },
       {
         "name": "Tufted Titmouse",
-        "count": 3
+        "count": 4
       },
       {
         "name": "Louisiana Waterthrush",
@@ -199,35 +199,35 @@
         "count": 2
       },
       {
-        "name": "Eastern Bluebird",
+        "name": "Northern Cardinal",
         "count": 2
       }
     ],
     "recent": [
       {
         "species": "Carolina Wren",
-        "confidence": 84.0,
-        "time": "06:07:16"
+        "confidence": 72.8,
+        "time": "07:12:13"
       },
       {
         "species": "Carolina Wren",
-        "confidence": 90.7,
-        "time": "06:15:01"
+        "confidence": 82.4,
+        "time": "07:15:10"
       },
       {
         "species": "Carolina Wren",
-        "confidence": 72.0,
-        "time": "06:33:01"
+        "confidence": 92.4,
+        "time": "07:15:16"
       },
       {
-        "species": "Carolina Wren",
-        "confidence": 92.0,
-        "time": "06:38:25"
+        "species": "Northern Cardinal",
+        "confidence": 80.8,
+        "time": "07:18:25"
       },
       {
-        "species": "Carolina Wren",
-        "confidence": 76.7,
-        "time": "06:39:04"
+        "species": "Tufted Titmouse",
+        "confidence": 87.0,
+        "time": "07:27:07"
       }
     ]
   },
