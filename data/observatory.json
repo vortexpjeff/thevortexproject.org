@@ -1,48 +1,48 @@
 {
-  "updated": "2026-07-08T23:06:17Z",
+  "updated": "2026-07-08T23:36:41Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
-    "temp_c": 30.7,
-    "humidity_pct": 48,
-    "wind_kmh": 13.2,
-    "wind_dir": 259,
-    "pressure_hpa": 1014.5,
-    "cloud_pct": 3,
-    "feels_c": 31.9,
+    "temp_c": 29.8,
+    "humidity_pct": 52,
+    "wind_kmh": 10.9,
+    "wind_dir": 264,
+    "pressure_hpa": 1014.7,
+    "cloud_pct": 43,
+    "feels_c": 31.5,
     "precip_mm": 0.0,
-    "weather_code": 0,
+    "weather_code": 1,
     "today_max": 31.8,
     "today_min": 21.7,
     "sunrise": "2026-07-08T06:24",
     "sunset": "2026-07-08T20:52",
-    "precip_sum_mm": 3.2,
+    "precip_sum_mm": 0.0,
     "wind_hourly": [
       {
         "h": "19:00",
-        "w": 13.2,
-        "g": 19.8
+        "w": 11.4,
+        "g": 16.2
       },
       {
         "h": "20:00",
-        "w": 4.3,
-        "g": 15.5
+        "w": 9.2,
+        "g": 15.8
       },
       {
         "h": "21:00",
-        "w": 6.5,
-        "g": 16.6
+        "w": 4.0,
+        "g": 14.8
       },
       {
         "h": "22:00",
-        "w": 4.1,
-        "g": 13.3
+        "w": 3.1,
+        "g": 12.2
       },
       {
         "h": "23:00",
-        "w": 4.7,
-        "g": 11.5
+        "w": 3.1,
+        "g": 13.0
       }
     ]
   },
@@ -54,9 +54,9 @@
     "no2": 2.0
   },
   "ionosphere": {
-    "tec": 20.375862008846727,
-    "hmf2_km": 294.4929465278197,
-    "anomaly": -7.13607488976767
+    "tec": 19.64734490638605,
+    "hmf2_km": 294.71556599780314,
+    "anomaly": -8.205332314983004
   },
   "magnetosphere": {
     "kp_now": 2.67,
@@ -64,27 +64,27 @@
     "kp_24h_max": 3.3,
     "kp_24h_mean": 2.6,
     "kp_time": "2026-07-08T18:00:00",
-    "kp_1m": 1.0,
-    "dst_nt": -29.4,
+    "kp_1m": 2.0,
+    "dst_nt": -27.6,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 5.85,
-    "bz_nt": -4.28,
-    "bz_gsm_nt": -4.14,
-    "time": "2026-07-07T23:06:00",
+    "bt_nt": 6.32,
+    "bz_nt": -4.86,
+    "bz_gsm_nt": -5.08,
+    "time": "2026-07-07T23:36:00",
     "bz_flag": "mild southward",
-    "speed_kms": 410.83,
-    "density": 0.95,
-    "temp_k": 95759.0
+    "speed_kms": 394.15,
+    "density": 1.17,
+    "temp_k": 63897.0
   },
   "sun": {
-    "xray_flux": 6.599e-07,
+    "xray_flux": 6.33e-07,
     "xray_peak": 1.55569e-05,
     "xray_class": "B",
     "xray_peak_class": "M",
     "latest_flare": "B6.9\u2192M1.5",
-    "flare_time": "2026-07-08T23:02:00Z",
+    "flare_time": "2026-07-08T23:33:00Z",
     "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 144.0,
@@ -159,11 +159,15 @@
     "hazardous_count": 0,
     "closest_ld": 28.1
   },
-  "iss_pass": null,
+  "iss_pass": {
+    "rise": "2026-07-08T23:53:49+00:00",
+    "max_elevation": 8.0,
+    "duration_min": 4.2
+  },
   "alerts": [],
   "birds": {
     "detections_24h": 300,
-    "species_count": 13,
+    "species_count": 14,
     "top_species": [
       {
         "name": "Carolina Wren",
@@ -171,7 +175,7 @@
       },
       {
         "name": "American Goldfinch",
-        "count": 41
+        "count": 40
       },
       {
         "name": "Northern Cardinal",
@@ -201,11 +205,6 @@
     "recent": [
       {
         "species": "American Goldfinch",
-        "confidence": 76.3,
-        "time": "17:39:21"
-      },
-      {
-        "species": "American Goldfinch",
         "confidence": 71.8,
         "time": "18:34:55"
       },
@@ -223,6 +222,11 @@
         "species": "Yellow-throated Warbler",
         "confidence": 87.8,
         "time": "18:47:22"
+      },
+      {
+        "species": "Downy Woodpecker",
+        "confidence": 94.7,
+        "time": "19:21:46"
       }
     ]
   },
