@@ -1,16 +1,16 @@
 {
-  "updated": "2026-07-08T15:00:20Z",
+  "updated": "2026-07-08T15:29:31Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
-    "temp_c": 28.1,
-    "humidity_pct": 65,
+    "temp_c": 28.4,
+    "humidity_pct": 64,
     "wind_kmh": 9.4,
-    "wind_dir": 266,
-    "pressure_hpa": 1016.4,
-    "cloud_pct": 25,
-    "feels_c": 32.0,
+    "wind_dir": 270,
+    "pressure_hpa": 1016.6,
+    "cloud_pct": 28,
+    "feels_c": 32.5,
     "precip_mm": 0.0,
     "weather_code": 1,
     "today_max": 30.7,
@@ -59,37 +59,37 @@
     "no2": 1.1
   },
   "ionosphere": {
-    "tec": 18.674618654251237,
-    "hmf2_km": 274.5088262044256,
-    "anomaly": -5.311236788472911
+    "tec": 18.024239041887526,
+    "hmf2_km": 277.2987141773729,
+    "anomaly": -7.298656467964673
   },
   "magnetosphere": {
-    "kp_now": 3.0,
+    "kp_now": 2.33,
     "kp_24h_min": 0.3,
     "kp_24h_max": 3.3,
-    "kp_24h_mean": 2.1,
-    "kp_time": "2026-07-08T09:00:00",
-    "kp_1m": 2.0,
-    "dst_nt": -25.6,
+    "kp_24h_mean": 2.3,
+    "kp_time": "2026-07-08T12:00:00",
+    "kp_1m": 0.0,
+    "dst_nt": -25.3,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 7.57,
-    "bz_nt": -0.4,
-    "bz_gsm_nt": -1.08,
-    "time": "2026-07-07T15:00:00",
-    "bz_flag": "mild southward",
-    "speed_kms": 418.5,
-    "density": 4.47,
-    "temp_k": 89016.0
+    "bt_nt": 7.41,
+    "bz_nt": 1.84,
+    "bz_gsm_nt": 1.5,
+    "time": "2026-07-07T15:28:00",
+    "bz_flag": "northward",
+    "speed_kms": 408.45,
+    "density": 4.16,
+    "temp_k": 81335.0
   },
   "sun": {
-    "xray_flux": 8.214e-07,
+    "xray_flux": 8.273e-07,
     "xray_peak": 2.1802e-06,
     "xray_class": "B",
     "xray_peak_class": "C",
     "latest_flare": "B7.1\u2192C1.0",
-    "flare_time": "2026-07-08T14:56:00Z",
+    "flare_time": "2026-07-08T15:26:00Z",
     "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 144.0,
@@ -164,15 +164,19 @@
     "hazardous_count": 0,
     "closest_ld": 28.1
   },
-  "iss_pass": null,
+  "iss_pass": {
+    "rise": "2026-07-08T23:53:49+00:00",
+    "max_elevation": 8.0,
+    "duration_min": 4.2
+  },
   "alerts": [],
   "birds": {
     "detections_24h": 300,
-    "species_count": 10,
+    "species_count": 11,
     "top_species": [
       {
         "name": "Carolina Wren",
-        "count": 242
+        "count": 241
       },
       {
         "name": "American Goldfinch",
@@ -206,11 +210,6 @@
     "recent": [
       {
         "species": "Carolina Wren",
-        "confidence": 72.5,
-        "time": "10:02:38"
-      },
-      {
-        "species": "Carolina Wren",
         "confidence": 76.2,
         "time": "10:02:44"
       },
@@ -228,6 +227,11 @@
         "species": "Belted Kingfisher",
         "confidence": 76.9,
         "time": "10:26:15"
+      },
+      {
+        "species": "Red-eyed Vireo",
+        "confidence": 70.8,
+        "time": "11:27:27"
       }
     ]
   },
