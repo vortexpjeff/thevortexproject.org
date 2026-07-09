@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-09T14:04:13Z",
+  "updated": "2026-07-09T14:07:09Z",
   "location": {
     "name": "Observatory Station"
   },
@@ -70,26 +70,26 @@
     "kp_24h_mean": 2.4,
     "kp_time": "2026-07-09T09:00:00",
     "kp_1m": 2.0,
-    "dst_nt": -20.8,
+    "dst_nt": -19.9,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 8.74,
-    "bz_nt": -0.89,
-    "bz_gsm_nt": -2.76,
-    "time": "2026-07-08T14:03:00",
+    "bt_nt": 8.83,
+    "bz_nt": -1.05,
+    "bz_gsm_nt": -2.85,
+    "time": "2026-07-08T14:06:00",
     "bz_flag": "mild southward",
-    "speed_kms": 393.72,
-    "density": 2.33,
-    "temp_k": 80841.0
+    "speed_kms": 391.51,
+    "density": 2.57,
+    "temp_k": 97324.0
   },
   "sun": {
-    "xray_flux": 5.099e-07,
+    "xray_flux": 5.01e-07,
     "xray_peak": 1.55569e-05,
     "xray_class": "B",
     "xray_peak_class": "M",
     "latest_flare": "B5.3\u2192B7.3",
-    "flare_time": "2026-07-09T14:01:00Z",
+    "flare_time": "2026-07-09T14:03:00Z",
     "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 142.0,
@@ -227,6 +227,6 @@
   },
   "imagery": {
     "epic": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/07/png/epic_1b_20260707222538.png",
-    "sdo_aia171": "https://api.helioviewer.org/v2/downloadImage/?id=189840197&width=1024"
+    "sdo_aia171": "https://api.helioviewer.org/v2/downloadImage/?id=189840764&width=1024"
   }
 }
