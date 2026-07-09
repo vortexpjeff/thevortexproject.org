@@ -113,32 +113,78 @@ if aqi:
         "no2": ac.get("nitrogen_dioxide"),
     }
 
-# ── 2. SWPC — Solar Wind (RTSW 1-min JSON) ─────────────────────────────
+# ── 2. SWPC — Solar Wind ────────────────────────────────────────────────
 print("→ SWPC solar wind...")
 rtsw_mag = fetch("https://services.swpc.noaa.gov/json/rtsw/rtsw_mag_1m.json")
 rtsw_wind = fetch("https://services.swpc.noaa.gov/json/rtsw/rtsw_wind_1m.json")
+summary_mag = fetch("https://services.swpc.noaa.gov/products/summary/solar-wind-mag-field.json")
+summary_speed = fetch("https://services.swpc.noaa.gov/products/summary/solar-wind-speed.json")
+
+
+def record_time(record):
+    """Return a timezone-aware timestamp for a SWPC record, or None."""
+    value = (record or {}).get("time_tag")
+    if not value:
+        return None
+    try:
+        parsed = datetime.datetime.fromisoformat(value.replace("Z", "+00:00"))
+        return parsed if parsed.tzinfo else parsed.replace(tzinfo=datetime.timezone.utc)
+    except Exception:
+        return None
+
+
+def newest_active(records):
+    """Choose the newest record, preferring an active source at that time."""
+    if not records or not isinstance(records, list):
+        return None
+    usable = [r for r in records if isinstance(r, dict) and record_time(r)]
+    if not usable:
+        return None
+    return max(usable, key=lambda r: (record_time(r), bool(r.get("active"))))
+
+
+def fresh(record, max_age_hours=2):
+    stamp = record_time(record)
+    if not stamp:
+        return False
+    age = (datetime.datetime.now(datetime.timezone.utc) - stamp).total_seconds()
+    return 0 <= age <= max_age_hours * 3600
+
+mag_latest = newest_active(rtsw_mag)
+wind_latest = newest_active(rtsw_wind)
+summary_mag_latest = newest_active(summary_mag)
+summary_speed_latest = newest_active(summary_speed)
 
 solar_wind = {}
-if rtsw_mag and len(rtsw_mag) > 0:
-    latest = rtsw_mag[-1]
-    solar_wind["bt_nt"] = safe_float(latest.get("bt"))
-    solar_wind["bz_nt"] = safe_float(latest.get("bz_gse"))
-    solar_wind["bz_gsm_nt"] = safe_float(latest.get("bz_gsm"))
-    solar_wind["time"] = latest.get("time_tag")
-    # Direction
-    bz = solar_wind["bz_nt"] or 0
+mag_record = mag_latest if fresh(mag_latest) else summary_mag_latest
+if mag_record:
+    solar_wind["bt_nt"] = safe_float(mag_record.get("bt"))
+    solar_wind["bz_gsm_nt"] = safe_float(mag_record.get("bz_gsm"))
+    solar_wind["bz_nt"] = safe_float(mag_record.get("bz_gse"))
+    if solar_wind["bz_nt"] is None:
+        solar_wind["bz_nt"] = solar_wind["bz_gsm_nt"]
+    solar_wind["time"] = mag_record.get("time_tag")
+    solar_wind["source"] = mag_record.get("source", "RTSW") if fresh(mag_latest) else "SWPC summary"
+
+wind_record = wind_latest if fresh(wind_latest) else summary_speed_latest
+if wind_record:
+    solar_wind["speed_kms"] = safe_float(wind_record.get("proton_speed"))
+    if fresh(wind_latest):
+        solar_wind["density"] = safe_float(wind_record.get("proton_density"))
+        solar_wind["temp_k"] = safe_float(wind_record.get("proton_temperature"))
+    else:
+        solar_wind["speed_time"] = wind_record.get("time_tag")
+        solar_wind["speed_source"] = "SWPC summary"
+
+# Direction
+bz = solar_wind.get("bz_nt")
+if bz is not None:
     if bz < -5:
         solar_wind["bz_flag"] = "strongly southward"
     elif bz < 0:
         solar_wind["bz_flag"] = "mild southward"
     else:
         solar_wind["bz_flag"] = "northward"
-
-if rtsw_wind and len(rtsw_wind) > 0:
-    latest = rtsw_wind[-1]
-    solar_wind["speed_kms"] = safe_float(latest.get("proton_speed"))
-    solar_wind["density"] = safe_float(latest.get("proton_density"))
-    solar_wind["temp_k"] = safe_float(latest.get("proton_temperature"))
 
 # ── 3. SWPC — Kp + Dst ────────────────────────────────────────────────
 print("→ Kp + Dst...")
@@ -313,7 +359,7 @@ try:
             obs.lat = str(LAT)
             obs.lon = str(LON)
             obs.elevation = 324
-            obs.date = datetime.datetime.utcnow()
+            obs.date = datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None)
             try:
                 tr, azr, tt, mx_alt, azs, ts = obs.next_pass(iss)
                 if tr and tt and mx_alt is not None:
@@ -383,22 +429,31 @@ try:
     result = subprocess.run(
         ["ssh", "-o", "StrictHostKeyChecking=accept-new", "-o", "ConnectTimeout=8",
          "birdnetpi@192.168.1.223",
-         "tail -300 /home/birdnetpi/BirdNET-Pi/BirdDB.txt"],
+         "tail -20000 /home/birdnetpi/BirdNET-Pi/BirdDB.txt"],
         env=env, capture_output=True, text=True, timeout=15
     )
     if result.returncode == 0:
         lines = result.stdout.strip().split("\n")
         species_count = {}
         recent = []
+        cutoff = datetime.datetime.now() - datetime.timedelta(hours=24)
         for line in lines:
             parts = line.split(";")
             if len(parts) >= 5:
+                try:
+                    detected_at = datetime.datetime.strptime(
+                        f"{parts[0].strip()} {parts[1].strip()}", "%Y-%m-%d %H:%M:%S"
+                    )
+                except ValueError:
+                    continue
+                if detected_at < cutoff:
+                    continue
                 sp = parts[3].strip()
                 conf = safe_float(parts[4].strip())
-                if sp and conf:
+                if sp and conf is not None:
                     species_count[sp] = species_count.get(sp, 0) + 1
                     recent.append({"species": sp, "confidence": round(conf * 100, 1),
-                                   "time": parts[1] if len(parts) > 1 else ""})
+                                   "time": f"{parts[0]} {parts[1]}"})
         top = sorted(species_count.items(), key=lambda x: x[1], reverse=True)[:8]
         birds = {
             "detections_24h": sum(species_count.values()),
@@ -411,7 +466,7 @@ except Exception:
 
 # ── 13. Assemble ───────────────────────────────────────────────────────
 output = {
-    "updated": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+    "updated": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
     "location": {"name": "Observatory Station"},
     "surface": surface,
     "air_quality": aqi_data,
@@ -438,18 +493,34 @@ print(f"✓ Written {DATA_FILE} ({size} bytes)")
 
 # ── 14. Git push ───────────────────────────────────────────────────────
 print("→ git push...")
-subprocess.run(["git", "-C", REPO_DIR, "add", "data/observatory.json"], capture_output=True)
-result = subprocess.run(
-    ["git", "-C", REPO_DIR, "-c", "user.name=Vortex Observatory",
-     "-c", "user.email=observatory@thevortexproject.org",
-     "commit", "-m", f"observatory data {datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%MZ')}"],
+add_result = subprocess.run(
+    ["git", "-C", REPO_DIR, "add", "data/observatory.json"],
     capture_output=True, text=True
 )
-subprocess.run(
-    ["git", "-C", REPO_DIR, "-c",
-     "credential.helper=/mnt/c/Program Files/GitHub CLI/gh.exe auth git-credential",
-     "push", "origin", "main"],
-    capture_output=True
+if add_result.returncode != 0:
+    print(f"⚠ git add failed (rc={add_result.returncode}): {add_result.stderr.strip()[:200]}")
+    sys.exit(add_result.returncode)
+
+commit_result = subprocess.run(
+    ["git", "-C", REPO_DIR, "-c", "user.name=Vortex Observatory",
+     "-c", "user.email=observatory@thevortexproject.org",
+     "commit", "-m", f"observatory data {datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%MZ')}"],
+    capture_output=True, text=True
 )
-print("✓ Push complete")
+commit_output = f"{commit_result.stdout}\n{commit_result.stderr}".lower()
+if commit_result.returncode != 0 and "nothing to commit" not in commit_output:
+    print(f"⚠ git commit failed (rc={commit_result.returncode}): {commit_output.strip()[:200]}")
+    sys.exit(commit_result.returncode)
+
+push_result = subprocess.run(
+    ["git", "-C", REPO_DIR, "-c",
+     "credential.helper=store",
+     "push", "origin", "main"],
+    capture_output=True, text=True
+)
+if push_result.returncode != 0:
+    print(f"⚠ Push failed (rc={push_result.returncode}): {push_result.stderr.strip()[:200]}")
+    sys.exit(push_result.returncode)
+else:
+    print("✓ Push complete")
 print(json.dumps(output, indent=2)[:200] + "...")
