@@ -1,19 +1,19 @@
 {
-  "updated": "2026-07-09T18:07:59Z",
+  "updated": "2026-07-09T18:38:09Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
-    "temp_c": 28.8,
-    "humidity_pct": 55,
-    "wind_kmh": 15.4,
-    "wind_dir": 254,
-    "pressure_hpa": 1015.6,
+    "temp_c": 28.6,
+    "humidity_pct": 53,
+    "wind_kmh": 15.0,
+    "wind_dir": 260,
+    "pressure_hpa": 1016.0,
     "cloud_pct": 100,
-    "feels_c": 29.8,
+    "feels_c": 29.3,
     "precip_mm": 0.0,
     "weather_code": 3,
-    "today_max": 29.5,
+    "today_max": 29.6,
     "today_min": 22.6,
     "sunrise": "2026-07-09T06:25",
     "sunset": "2026-07-09T20:52",
@@ -21,33 +21,33 @@
     "wind_hourly": [
       {
         "h": "14:00",
-        "w": 15.4,
-        "g": 24.1
+        "w": 15.1,
+        "g": 23.4
       },
       {
         "h": "15:00",
-        "w": 16.2,
-        "g": 25.9
+        "w": 13.6,
+        "g": 23.8
       },
       {
         "h": "16:00",
-        "w": 13.9,
-        "g": 24.8
+        "w": 12.0,
+        "g": 25.9
       },
       {
         "h": "17:00",
-        "w": 12.6,
-        "g": 26.6
-      },
-      {
-        "h": "18:00",
-        "w": 13.5,
+        "w": 16.3,
         "g": 27.4
       },
       {
+        "h": "18:00",
+        "w": 12.6,
+        "g": 25.6
+      },
+      {
         "h": "19:00",
-        "w": 11.5,
-        "g": 22.0
+        "w": 14.6,
+        "g": 26.6
       }
     ]
   },
@@ -59,9 +59,9 @@
     "no2": 0.8
   },
   "ionosphere": {
-    "tec": 16.98647278028869,
-    "hmf2_km": 282.60162941931696,
-    "anomaly": -9.715278609136696
+    "tec": 15.91648799015735,
+    "hmf2_km": 283.9332326229384,
+    "anomaly": -10.030918418568504
   },
   "magnetosphere": {
     "kp_now": 3.33,
@@ -69,27 +69,27 @@
     "kp_24h_max": 4.3,
     "kp_24h_mean": 2.6,
     "kp_time": "2026-07-09T15:00:00",
-    "kp_1m": 0.0,
-    "dst_nt": -20.9,
+    "kp_1m": 1.0,
+    "dst_nt": -22.7,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 7.6,
-    "bz_nt": -6.54,
-    "bz_gsm_nt": -6.69,
-    "time": "2026-07-08T18:06:00",
-    "bz_flag": "strongly southward",
-    "speed_kms": 399.58,
-    "density": 1.46,
-    "temp_k": 119307.0
+    "bt_nt": 8.12,
+    "bz_nt": -1.62,
+    "bz_gsm_nt": -1.57,
+    "time": "2026-07-08T18:37:00",
+    "bz_flag": "mild southward",
+    "speed_kms": 355.2,
+    "density": 5.67,
+    "temp_k": 188234.0
   },
   "sun": {
-    "xray_flux": 4.939e-07,
+    "xray_flux": 4.371e-07,
     "xray_peak": 1.1742e-05,
     "xray_class": "B",
     "xray_peak_class": "M",
     "latest_flare": "B4.0\u2192B7.0",
-    "flare_time": "2026-07-09T18:04:00Z",
+    "flare_time": "2026-07-09T18:34:00Z",
     "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 142.0,
@@ -177,15 +177,15 @@
     "top_species": [
       {
         "name": "Carolina Wren",
-        "count": 223
+        "count": 213
       },
       {
         "name": "American Goldfinch",
-        "count": 44
+        "count": 52
       },
       {
         "name": "Northern Cardinal",
-        "count": 15
+        "count": 17
       },
       {
         "name": "Louisiana Waterthrush",
@@ -210,34 +210,34 @@
     ],
     "recent": [
       {
-        "species": "Carolina Wren",
-        "confidence": 89.8,
-        "time": "13:59:46"
+        "species": "American Goldfinch",
+        "confidence": 91.6,
+        "time": "14:33:34"
       },
       {
-        "species": "Carolina Wren",
-        "confidence": 96.1,
-        "time": "13:59:52"
+        "species": "American Goldfinch",
+        "confidence": 78.1,
+        "time": "14:33:40"
       },
       {
-        "species": "Carolina Wren",
-        "confidence": 78.8,
-        "time": "13:59:55"
+        "species": "American Goldfinch",
+        "confidence": 77.4,
+        "time": "14:33:43"
       },
       {
-        "species": "Carolina Wren",
-        "confidence": 81.9,
-        "time": "13:59:58"
+        "species": "American Goldfinch",
+        "confidence": 82.4,
+        "time": "14:33:46"
       },
       {
-        "species": "Carolina Wren",
-        "confidence": 89.9,
-        "time": "14:00:01"
+        "species": "American Goldfinch",
+        "confidence": 84.8,
+        "time": "14:33:52"
       }
     ]
   },
   "imagery": {
     "epic": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/07/png/epic_1b_20260707222538.png",
-    "sdo_aia171": "https://api.helioviewer.org/v2/downloadImage/?id=189851739&width=1024"
+    "sdo_aia171": "https://api.helioviewer.org/v2/downloadImage/?id=189856098&width=1024"
   }
 }
