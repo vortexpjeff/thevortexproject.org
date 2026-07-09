@@ -1,16 +1,16 @@
 {
-  "updated": "2026-07-09T02:41:40Z",
+  "updated": "2026-07-09T03:42:07Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
-    "temp_c": 25.8,
-    "humidity_pct": 74,
-    "wind_kmh": 2.3,
-    "wind_dir": 219,
-    "pressure_hpa": 1014.5,
+    "temp_c": 24.6,
+    "humidity_pct": 81,
+    "wind_kmh": 0.4,
+    "wind_dir": 90,
+    "pressure_hpa": 1014.7,
     "cloud_pct": 0,
-    "feels_c": 29.7,
+    "feels_c": 29.0,
     "precip_mm": 0.0,
     "weather_code": 0,
     "today_max": 31.8,
@@ -21,44 +21,44 @@
     "wind_hourly": null
   },
   "air_quality": {
-    "us_aqi": 56,
-    "pm25": 6.8,
-    "pm10": 7.1,
-    "ozone": 73.0,
-    "no2": 6.5
+    "us_aqi": 49,
+    "pm25": 7.2,
+    "pm10": 7.4,
+    "ozone": 63.0,
+    "no2": 7.6
   },
   "ionosphere": {
-    "tec": 14.38106520416022,
-    "hmf2_km": 330.49268963279775,
-    "anomaly": -7.374418754725243
+    "tec": 12.436485051753488,
+    "hmf2_km": 340.0392629941442,
+    "anomaly": -7.2666040937846805
   },
   "magnetosphere": {
-    "kp_now": 2.33,
+    "kp_now": 2.67,
     "kp_24h_min": 1.7,
     "kp_24h_max": 3.3,
     "kp_24h_mean": 2.7,
-    "kp_time": "2026-07-08T21:00:00",
-    "kp_1m": 2.0,
-    "dst_nt": -21.5,
+    "kp_time": "2026-07-09T00:00:00",
+    "kp_1m": 0.0,
+    "dst_nt": -16.1,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 9.0,
-    "bz_nt": -7.59,
-    "bz_gsm_nt": -7.61,
-    "time": "2026-07-08T02:41:00",
+    "bt_nt": 8.79,
+    "bz_nt": -6.25,
+    "bz_gsm_nt": -6.52,
+    "time": "2026-07-08T03:41:00",
     "bz_flag": "strongly southward",
-    "speed_kms": 427.47,
-    "density": 1.8,
-    "temp_k": 64147.0
+    "speed_kms": 441.41,
+    "density": 0.56,
+    "temp_k": 103350.0
   },
   "sun": {
-    "xray_flux": 2.2605e-06,
+    "xray_flux": 7.43e-07,
     "xray_peak": 1.55569e-05,
-    "xray_class": "C",
+    "xray_class": "B",
     "xray_peak_class": "M",
     "latest_flare": "B6.3\u2192M1.1",
-    "flare_time": "2026-07-09T02:38:00Z",
+    "flare_time": "2026-07-09T03:38:00Z",
     "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 142.0,
@@ -133,11 +133,7 @@
     "hazardous_count": 0,
     "closest_ld": 28.1
   },
-  "iss_pass": {
-    "rise": "2026-07-09T03:06:39+00:00",
-    "max_elevation": 13.0,
-    "duration_min": 4.9
-  },
+  "iss_pass": null,
   "alerts": [],
   "birds": {
     "detections_24h": 300,
