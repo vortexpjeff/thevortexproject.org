@@ -1,16 +1,16 @@
 {
-  "updated": "2026-07-09T15:35:37Z",
+  "updated": "2026-07-09T16:05:58Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
-    "temp_c": 28.5,
-    "humidity_pct": 58,
-    "wind_kmh": 15.3,
+    "temp_c": 29.0,
+    "humidity_pct": 55,
+    "wind_kmh": 16.4,
     "wind_dir": 261,
     "pressure_hpa": 1016.4,
-    "cloud_pct": 25,
-    "feels_c": 30.4,
+    "cloud_pct": 26,
+    "feels_c": 30.7,
     "precip_mm": 0.0,
     "weather_code": 1,
     "today_max": 30.2,
@@ -19,11 +19,6 @@
     "sunset": "2026-07-09T20:52",
     "precip_sum_mm": 0.0,
     "wind_hourly": [
-      {
-        "h": "11:00",
-        "w": 14.9,
-        "g": 24.5
-      },
       {
         "h": "12:00",
         "w": 16.4,
@@ -48,20 +43,25 @@
         "h": "16:00",
         "w": 13.6,
         "g": 27.7
+      },
+      {
+        "h": "17:00",
+        "w": 19.4,
+        "g": 35.3
       }
     ]
   },
   "air_quality": {
-    "us_aqi": 28,
-    "pm25": 6.5,
-    "pm10": 6.7,
-    "ozone": 104.0,
-    "no2": 1.1
+    "us_aqi": 31,
+    "pm25": 6.2,
+    "pm10": 6.4,
+    "ozone": 111.0,
+    "no2": 0.9
   },
   "ionosphere": {
-    "tec": 15.783339082627045,
-    "hmf2_km": 277.2446833583806,
-    "anomaly": -9.539556427225154
+    "tec": 15.597757477158021,
+    "hmf2_km": 278.6915091780892,
+    "anomaly": -9.619113102460636
   },
   "magnetosphere": {
     "kp_now": 2.33,
@@ -70,26 +70,26 @@
     "kp_24h_mean": 2.4,
     "kp_time": "2026-07-09T12:00:00",
     "kp_1m": 1.0,
-    "dst_nt": -21.6,
+    "dst_nt": -25.0,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 10.5,
-    "bz_nt": -5.08,
-    "bz_gsm_nt": -5.11,
-    "time": "2026-07-08T15:34:00",
+    "bt_nt": 10.9,
+    "bz_nt": -5.19,
+    "bz_gsm_nt": -5.22,
+    "time": "2026-07-08T16:04:00",
     "bz_flag": "strongly southward",
-    "speed_kms": 396.44,
-    "density": 3.75,
-    "temp_k": 140468.0
+    "speed_kms": 381.12,
+    "density": 2.74,
+    "temp_k": 86965.0
   },
   "sun": {
-    "xray_flux": 3.902e-07,
+    "xray_flux": 5.121e-07,
     "xray_peak": 1.55569e-05,
     "xray_class": "B",
     "xray_peak_class": "M",
-    "latest_flare": "B5.3\u2192B7.3",
-    "flare_time": "2026-07-09T15:32:00Z",
+    "latest_flare": "B4.0\u2192B7.0",
+    "flare_time": "2026-07-09T16:02:00Z",
     "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 142.0,
@@ -158,23 +158,34 @@
     "hazardous_count": 1,
     "closest_ld": 79.2
   },
-  "iss_pass": null,
-  "alerts": [],
+  "iss_pass": {
+    "rise": "2026-07-09T23:07:58+00:00",
+    "max_elevation": 3.0,
+    "duration_min": 2.9
+  },
+  "alerts": [
+    {
+      "event": "Flood Watch",
+      "severity": "Severe",
+      "headline": "Flood Watch issued July 9 at 11:44AM EDT until July 12 at 8:00PM EDT by NWS Morristown TN",
+      "expires": "2026-07-10T04:00:00-04:00"
+    }
+  ],
   "birds": {
     "detections_24h": 300,
     "species_count": 13,
     "top_species": [
       {
         "name": "Carolina Wren",
-        "count": 238
+        "count": 236
       },
       {
         "name": "American Goldfinch",
-        "count": 28
+        "count": 29
       },
       {
         "name": "Northern Cardinal",
-        "count": 15
+        "count": 16
       },
       {
         "name": "Louisiana Waterthrush",
@@ -200,33 +211,33 @@
     "recent": [
       {
         "species": "Carolina Wren",
-        "confidence": 79.3,
-        "time": "09:40:32"
+        "confidence": 71.6,
+        "time": "11:48:33"
       },
       {
         "species": "Carolina Wren",
-        "confidence": 84.7,
-        "time": "09:42:17"
+        "confidence": 83.2,
+        "time": "11:48:48"
       },
       {
         "species": "Carolina Wren",
-        "confidence": 70.6,
-        "time": "09:42:38"
+        "confidence": 80.8,
+        "time": "11:48:54"
       },
       {
-        "species": "Indigo Bunting",
-        "confidence": 77.0,
-        "time": "10:45:23"
+        "species": "Carolina Wren",
+        "confidence": 78.3,
+        "time": "11:49:00"
       },
       {
-        "species": "Indigo Bunting",
-        "confidence": 72.1,
-        "time": "10:45:57"
+        "species": "Carolina Wren",
+        "confidence": 71.9,
+        "time": "11:49:24"
       }
     ]
   },
   "imagery": {
     "epic": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/07/png/epic_1b_20260707222538.png",
-    "sdo_aia171": "https://api.helioviewer.org/v2/downloadImage/?id=189844622&width=1024"
+    "sdo_aia171": "https://api.helioviewer.org/v2/downloadImage/?id=189847619&width=1024"
   }
 }
