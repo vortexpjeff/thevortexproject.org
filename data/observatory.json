@@ -1,19 +1,19 @@
 {
-  "updated": "2026-07-09T20:09:09Z",
+  "updated": "2026-07-09T20:39:51Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
-    "temp_c": 29.9,
-    "humidity_pct": 55,
-    "wind_kmh": 13.0,
-    "wind_dir": 264,
-    "pressure_hpa": 1015.7,
+    "temp_c": 30.0,
+    "humidity_pct": 49,
+    "wind_kmh": 14.1,
+    "wind_dir": 251,
+    "pressure_hpa": 1015.3,
     "cloud_pct": 100,
-    "feels_c": 31.9,
+    "feels_c": 31.0,
     "precip_mm": 0.0,
     "weather_code": 3,
-    "today_max": 30.7,
+    "today_max": 31.0,
     "today_min": 22.6,
     "sunrise": "2026-07-09T06:25",
     "sunset": "2026-07-09T20:52",
@@ -21,33 +21,33 @@
     "wind_hourly": [
       {
         "h": "16:00",
-        "w": 13.0,
-        "g": 23.8
+        "w": 14.6,
+        "g": 24.1
       },
       {
         "h": "17:00",
-        "w": 14.8,
-        "g": 24.5
+        "w": 14.1,
+        "g": 27.7
       },
       {
         "h": "18:00",
-        "w": 15.1,
-        "g": 25.2
+        "w": 16.9,
+        "g": 26.6
       },
       {
         "h": "19:00",
-        "w": 13.7,
-        "g": 23.4
+        "w": 13.8,
+        "g": 22.0
       },
       {
         "h": "20:00",
-        "w": 12.5,
-        "g": 23.4
+        "w": 13.5,
+        "g": 23.0
       },
       {
         "h": "21:00",
-        "w": 6.3,
-        "g": 17.3
+        "w": 6.2,
+        "g": 18.7
       }
     ]
   },
@@ -59,9 +59,9 @@
     "no2": 1.0
   },
   "ionosphere": {
-    "tec": 20.990237026361665,
-    "hmf2_km": 288.3375009062245,
-    "anomaly": -4.951527586882516
+    "tec": 20.285644896600516,
+    "hmf2_km": 289.92364433815163,
+    "anomaly": -5.010736175772475
   },
   "magnetosphere": {
     "kp_now": 3.33,
@@ -70,27 +70,27 @@
     "kp_24h_mean": 2.6,
     "kp_time": "2026-07-09T15:00:00",
     "kp_1m": 3.0,
-    "dst_nt": -33.9,
+    "dst_nt": -37.4,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 11.16,
-    "bz_gsm_nt": 0.83,
-    "bz_nt": 0.85,
-    "time": "2026-07-09T20:05:00",
+    "bt_nt": 10.7,
+    "bz_gsm_nt": -2.48,
+    "bz_nt": -2.36,
+    "time": "2026-07-09T20:35:00",
     "source": "SOLAR1",
-    "speed_kms": 550.9,
-    "density": 6.98,
-    "temp_k": 440063.0,
-    "bz_flag": "northward"
+    "speed_kms": 552.5,
+    "density": 6.86,
+    "temp_k": 427266.0,
+    "bz_flag": "mild southward"
   },
   "sun": {
-    "xray_flux": 4.132e-07,
+    "xray_flux": 4.346e-07,
     "xray_peak": 1.1742e-05,
     "xray_class": "B",
     "xray_peak_class": "M",
     "latest_flare": "B4.0\u2192B7.0",
-    "flare_time": "2026-07-09T20:05:00Z",
+    "flare_time": "2026-07-09T20:35:00Z",
     "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 142.0,
@@ -173,72 +173,72 @@
     }
   ],
   "birds": {
-    "detections_24h": 300,
-    "species_count": 15,
+    "detections_24h": 225,
+    "species_count": 12,
     "top_species": [
       {
         "name": "Carolina Wren",
-        "count": 196
+        "count": 143
       },
       {
         "name": "American Goldfinch",
-        "count": 59
+        "count": 48
       },
       {
         "name": "Northern Cardinal",
-        "count": 17
+        "count": 12
       },
       {
         "name": "Great Crested Flycatcher",
-        "count": 6
-      },
-      {
-        "name": "Louisiana Waterthrush",
-        "count": 4
+        "count": 7
       },
       {
         "name": "American Crow",
-        "count": 4
+        "count": 5
       },
       {
         "name": "Indigo Bunting",
         "count": 3
       },
       {
-        "name": "Belted Kingfisher",
+        "name": "Yellow-throated Warbler",
         "count": 2
+      },
+      {
+        "name": "Downy Woodpecker",
+        "count": 1
       }
     ],
     "recent": [
       {
+        "species": "American Goldfinch",
+        "confidence": 75.2,
+        "time": "2026-07-09 16:19:29"
+      },
+      {
+        "species": "American Goldfinch",
+        "confidence": 74.1,
+        "time": "2026-07-09 16:25:11"
+      },
+      {
+        "species": "American Goldfinch",
+        "confidence": 76.0,
+        "time": "2026-07-09 16:28:53"
+      },
+      {
+        "species": "Great Crested Flycatcher",
+        "confidence": 77.3,
+        "time": "2026-07-09 16:32:56"
+      },
+      {
         "species": "American Crow",
-        "confidence": 75.9,
-        "time": "15:48:20"
-      },
-      {
-        "species": "American Goldfinch",
-        "confidence": 80.8,
-        "time": "15:50:44"
-      },
-      {
-        "species": "American Goldfinch",
-        "confidence": 88.2,
-        "time": "16:03:17"
-      },
-      {
-        "species": "American Goldfinch",
-        "confidence": 82.3,
-        "time": "16:03:44"
-      },
-      {
-        "species": "American Goldfinch",
-        "confidence": 77.5,
-        "time": "16:03:47"
+        "confidence": 76.2,
+        "time": "2026-07-09 16:36:23"
       }
     ]
   },
   "imagery": {
     "epic": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/07/png/epic_1b_20260707222538.png",
-    "sdo_aia171": "https://api.helioviewer.org/v2/downloadImage/?id=189861457&width=1024"
+    "sdo_aia171": "https://api.helioviewer.org/v2/downloadImage/?id=189864044&width=1024"
   }
 }
