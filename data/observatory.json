@@ -1,53 +1,53 @@
 {
-  "updated": "2026-07-09T11:27:49Z",
+  "updated": "2026-07-09T11:58:20Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
-    "temp_c": 23.1,
-    "humidity_pct": 80,
-    "wind_kmh": 2.6,
-    "wind_dir": 236,
-    "pressure_hpa": 1015.7,
-    "cloud_pct": 0,
-    "feels_c": 26.3,
+    "temp_c": 24.0,
+    "humidity_pct": 77,
+    "wind_kmh": 5.6,
+    "wind_dir": 255,
+    "pressure_hpa": 1015.8,
+    "cloud_pct": 1,
+    "feels_c": 27.0,
     "precip_mm": 0.0,
     "weather_code": 0,
-    "today_max": 31.5,
-    "today_min": 22.6,
+    "today_max": 30.4,
+    "today_min": 22.7,
     "sunrise": "2026-07-09T06:25",
     "sunset": "2026-07-09T20:52",
     "precip_sum_mm": 0.0,
     "wind_hourly": [
       {
         "h": "07:00",
-        "w": 3.2,
-        "g": 15.5
+        "w": 2.4,
+        "g": 11.5
       },
       {
         "h": "08:00",
-        "w": 8.8,
-        "g": 24.5
+        "w": 7.1,
+        "g": 24.8
       },
       {
         "h": "09:00",
-        "w": 14.8,
-        "g": 25.6
+        "w": 14.1,
+        "g": 24.5
       },
       {
         "h": "10:00",
         "w": 15.0,
-        "g": 25.2
+        "g": 27.0
       },
       {
         "h": "11:00",
-        "w": 16.0,
-        "g": 26.3
+        "w": 16.8,
+        "g": 27.7
       },
       {
         "h": "12:00",
-        "w": 15.8,
-        "g": 25.2
+        "w": 16.7,
+        "g": 25.6
       }
     ]
   },
@@ -59,9 +59,9 @@
     "no2": 3.3
   },
   "ionosphere": {
-    "tec": 11.958384998735731,
-    "hmf2_km": 302.0993553425671,
-    "anomaly": -5.488020130292938
+    "tec": 12.596943304758975,
+    "hmf2_km": 290.28144971718126,
+    "anomaly": -7.071920059692866
   },
   "magnetosphere": {
     "kp_now": 2.33,
@@ -70,26 +70,26 @@
     "kp_24h_mean": 2.2,
     "kp_time": "2026-07-09T06:00:00",
     "kp_1m": 4.0,
-    "dst_nt": -25.7,
+    "dst_nt": -23.7,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 8.91,
-    "bz_nt": -0.08,
-    "bz_gsm_nt": -2.84,
-    "time": "2026-07-08T11:27:00",
-    "bz_flag": "mild southward",
-    "speed_kms": 379.99,
-    "density": 0.97,
-    "temp_k": 22299.0
+    "bt_nt": 8.72,
+    "bz_nt": 0.84,
+    "bz_gsm_nt": -1.91,
+    "time": "2026-07-08T11:57:00",
+    "bz_flag": "northward",
+    "speed_kms": 422.42,
+    "density": 3.7,
+    "temp_k": 93233.0
   },
   "sun": {
-    "xray_flux": 5.35e-07,
+    "xray_flux": 4.863e-07,
     "xray_peak": 1.55569e-05,
     "xray_class": "B",
     "xray_peak_class": "M",
     "latest_flare": "B6.1\u2192C2.7",
-    "flare_time": "2026-07-09T11:24:00Z",
+    "flare_time": "2026-07-09T11:55:00Z",
     "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 142.0,
@@ -158,15 +158,19 @@
     "hazardous_count": 1,
     "closest_ld": 79.2
   },
-  "iss_pass": null,
+  "iss_pass": {
+    "rise": "2026-07-09T23:07:58+00:00",
+    "max_elevation": 3.0,
+    "duration_min": 2.9
+  },
   "alerts": [],
   "birds": {
     "detections_24h": 300,
-    "species_count": 12,
+    "species_count": 13,
     "top_species": [
       {
         "name": "Carolina Wren",
-        "count": 245
+        "count": 242
       },
       {
         "name": "American Goldfinch",
@@ -174,7 +178,7 @@
       },
       {
         "name": "Northern Cardinal",
-        "count": 12
+        "count": 14
       },
       {
         "name": "Louisiana Waterthrush",
@@ -199,29 +203,29 @@
     ],
     "recent": [
       {
-        "species": "Carolina Wren",
-        "confidence": 73.1,
-        "time": "07:13:52"
+        "species": "Northern Cardinal",
+        "confidence": 72.5,
+        "time": "07:34:04"
+      },
+      {
+        "species": "Northern Cardinal",
+        "confidence": 75.4,
+        "time": "07:36:40"
       },
       {
         "species": "Carolina Wren",
-        "confidence": 71.8,
-        "time": "07:14:01"
+        "confidence": 72.0,
+        "time": "07:36:55"
       },
       {
         "species": "Carolina Wren",
-        "confidence": 74.1,
-        "time": "07:15:13"
+        "confidence": 98.2,
+        "time": "07:42:22"
       },
       {
         "species": "Carolina Wren",
-        "confidence": 74.9,
-        "time": "07:16:37"
-      },
-      {
-        "species": "Carolina Wren",
-        "confidence": 76.8,
-        "time": "07:20:01"
+        "confidence": 98.2,
+        "time": "07:42:28"
       }
     ]
   },
