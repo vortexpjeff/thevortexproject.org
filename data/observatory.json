@@ -1,68 +1,64 @@
 {
-  "updated": "2026-07-09T12:58:42Z",
+  "updated": "2026-07-09T13:33:32Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
-    "temp_c": 25.3,
-    "humidity_pct": 74,
-    "wind_kmh": 9.7,
-    "wind_dir": 266,
-    "pressure_hpa": 1016.0,
-    "cloud_pct": 3,
-    "feels_c": 27.9,
+    "temp_c": 26.7,
+    "humidity_pct": 69,
+    "wind_kmh": 14.1,
+    "wind_dir": 255,
+    "pressure_hpa": 1016.5,
+    "cloud_pct": 10,
+    "feels_c": 28.8,
     "precip_mm": 0.0,
     "weather_code": 0,
-    "today_max": 30.9,
+    "today_max": 30.2,
     "today_min": 22.6,
     "sunrise": "2026-07-09T06:25",
     "sunset": "2026-07-09T20:52",
     "precip_sum_mm": 0.0,
     "wind_hourly": [
       {
-        "h": "08:00",
-        "w": 6.8,
-        "g": 25.2
-      },
-      {
         "h": "09:00",
-        "w": 9.9,
-        "g": 24.1
+        "w": 13.6,
+        "g": 27.7
       },
       {
         "h": "10:00",
-        "w": 14.0,
-        "g": 25.2
+        "w": 14.4,
+        "g": 23.0
       },
       {
         "h": "11:00",
-        "w": 17.4,
-        "g": 27.4
+        "w": 16.8,
+        "g": 24.8
       },
       {
         "h": "12:00",
-        "w": 17.7,
-        "g": 27.7
+        "w": 17.9,
+        "g": 27.4
       },
       {
         "h": "13:00",
-        "w": 17.8,
-        "g": 27.7
+        "w": 17.0,
+        "g": 28.4
+      },
+      {
+        "h": "14:00",
+        "w": 16.3,
+        "g": 27.4
       }
     ]
   },
   "air_quality": {
-    "us_aqi": 28,
-    "pm25": 5.6,
-    "pm10": 5.7,
-    "ozone": 57.0,
-    "no2": 2.8
+    "us_aqi": 27,
+    "pm25": 6.2,
+    "pm10": 6.4,
+    "ozone": 71.0,
+    "no2": 2.2
   },
-  "ionosphere": {
-    "tec": 14.690458380017652,
-    "hmf2_km": 275.0184937723398,
-    "anomaly": -5.7974285576264
-  },
+  "ionosphere": {},
   "magnetosphere": {
     "kp_now": 4.33,
     "kp_24h_min": 1.0,
@@ -70,26 +66,26 @@
     "kp_24h_mean": 2.4,
     "kp_time": "2026-07-09T09:00:00",
     "kp_1m": 2.0,
-    "dst_nt": -22.7,
+    "dst_nt": -25.4,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 8.96,
-    "bz_nt": 2.75,
-    "bz_gsm_nt": 0.18,
-    "time": "2026-07-08T12:57:00",
-    "bz_flag": "northward",
-    "speed_kms": 397.69,
-    "density": 1.93,
-    "temp_k": 70731.0
+    "bt_nt": 8.78,
+    "bz_nt": -2.2,
+    "bz_gsm_nt": -3.66,
+    "time": "2026-07-08T13:32:00",
+    "bz_flag": "mild southward",
+    "speed_kms": 396.4,
+    "density": 3.97,
+    "temp_k": 156067.0
   },
   "sun": {
-    "xray_flux": 3.946e-07,
+    "xray_flux": 4.076e-07,
     "xray_peak": 1.55569e-05,
     "xray_class": "B",
     "xray_peak_class": "M",
     "latest_flare": "B6.1\u2192C2.7",
-    "flare_time": "2026-07-09T12:55:00Z",
+    "flare_time": "2026-07-09T13:30:00Z",
     "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 142.0,
@@ -166,7 +162,7 @@
     "top_species": [
       {
         "name": "Carolina Wren",
-        "count": 241
+        "count": 240
       },
       {
         "name": "American Goldfinch",
@@ -174,7 +170,7 @@
       },
       {
         "name": "Northern Cardinal",
-        "count": 14
+        "count": 15
       },
       {
         "name": "Louisiana Waterthrush",
@@ -200,33 +196,33 @@
     "recent": [
       {
         "species": "Carolina Wren",
-        "confidence": 79.6,
-        "time": "08:55:50"
+        "confidence": 73.0,
+        "time": "09:02:35"
       },
       {
         "species": "Carolina Wren",
-        "confidence": 73.8,
-        "time": "08:55:56"
+        "confidence": 76.8,
+        "time": "09:07:35"
       },
       {
         "species": "Carolina Wren",
-        "confidence": 76.2,
-        "time": "08:56:41"
+        "confidence": 84.7,
+        "time": "09:08:44"
       },
       {
         "species": "Carolina Wren",
-        "confidence": 75.9,
-        "time": "08:56:56"
+        "confidence": 76.0,
+        "time": "09:09:53"
       },
       {
-        "species": "Carolina Wren",
-        "confidence": 73.1,
-        "time": "08:57:20"
+        "species": "Northern Cardinal",
+        "confidence": 85.5,
+        "time": "09:29:38"
       }
     ]
   },
   "imagery": {
     "epic": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/07/png/epic_1b_20260707222538.png",
-    "sdo_aia171": "https://api.helioviewer.org/v2/downloadImage/?id=189836636&width=1024"
+    "sdo_aia171": "https://api.helioviewer.org/v2/downloadImage/?id=189838184&width=1024"
   }
 }
