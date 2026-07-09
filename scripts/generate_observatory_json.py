@@ -133,6 +133,19 @@ def record_time(record):
         return None
 
 
+def utc_timestamp(value):
+    """Normalize a source timestamp to an explicit UTC ISO-8601 string."""
+    if not value:
+        return None
+    try:
+        parsed = datetime.datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=datetime.timezone.utc)
+        return parsed.astimezone(datetime.timezone.utc).isoformat().replace("+00:00", "Z")
+    except (TypeError, ValueError):
+        return value
+
+
 def newest_active(records):
     """Choose the newest record, preferring an active source at that time."""
     if not records or not isinstance(records, list):
@@ -164,7 +177,7 @@ if mag_record:
     solar_wind["bz_nt"] = solar_wind["bz_gsm_nt"]
     if solar_wind["bz_nt"] is None:
         solar_wind["bz_nt"] = solar_wind["bz_gse_nt"]
-    solar_wind["time"] = mag_record.get("time_tag")
+    solar_wind["time"] = utc_timestamp(mag_record.get("time_tag"))
     solar_wind["source"] = mag_record.get("source", "RTSW") if fresh(mag_latest) else "SWPC summary"
 
 wind_record = wind_latest if fresh(wind_latest) else summary_speed_latest
@@ -174,7 +187,7 @@ if wind_record:
         solar_wind["density"] = safe_float(wind_record.get("proton_density"))
         solar_wind["temp_k"] = safe_float(wind_record.get("proton_temperature"))
     else:
-        solar_wind["speed_time"] = wind_record.get("time_tag")
+        solar_wind["speed_time"] = utc_timestamp(wind_record.get("time_tag"))
         solar_wind["speed_source"] = "SWPC summary"
 
 # Direction
