@@ -1,64 +1,91 @@
 {
-  "updated": "2026-07-09T03:42:07Z",
+  "updated": "2026-07-09T04:14:44Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
-    "temp_c": 24.6,
-    "humidity_pct": 81,
-    "wind_kmh": 0.4,
-    "wind_dir": 90,
-    "pressure_hpa": 1014.7,
-    "cloud_pct": 0,
-    "feels_c": 29.0,
+    "temp_c": 24.4,
+    "humidity_pct": 80,
+    "wind_kmh": 3.0,
+    "wind_dir": 76,
+    "pressure_hpa": 1015.1,
+    "cloud_pct": 1,
+    "feels_c": 28.3,
     "precip_mm": 0.0,
     "weather_code": 0,
-    "today_max": 31.8,
-    "today_min": 21.7,
-    "sunrise": "2026-07-08T06:24",
-    "sunset": "2026-07-08T20:52",
+    "today_max": 31.5,
+    "today_min": 22.0,
+    "sunrise": "2026-07-09T06:25",
+    "sunset": "2026-07-09T20:52",
     "precip_sum_mm": 0.0,
-    "wind_hourly": null
+    "wind_hourly": [
+      {
+        "h": "00:00",
+        "w": 3.0,
+        "g": 12.2
+      },
+      {
+        "h": "01:00",
+        "w": 3.7,
+        "g": 9.0
+      },
+      {
+        "h": "02:00",
+        "w": 1.3,
+        "g": 8.6
+      },
+      {
+        "h": "03:00",
+        "w": 5.2,
+        "g": 15.8
+      },
+      {
+        "h": "04:00",
+        "w": 4.7,
+        "g": 15.8
+      },
+      {
+        "h": "05:00",
+        "w": 1.8,
+        "g": 15.1
+      }
+    ]
   },
   "air_quality": {
-    "us_aqi": 49,
-    "pm25": 7.2,
+    "us_aqi": 46,
+    "pm25": 7.1,
     "pm10": 7.4,
     "ozone": 63.0,
-    "no2": 7.6
+    "no2": 6.8
   },
-  "ionosphere": {
-    "tec": 12.436485051753488,
-    "hmf2_km": 340.0392629941442,
-    "anomaly": -7.2666040937846805
-  },
+  "ionosphere": {},
   "magnetosphere": {
     "kp_now": 2.67,
     "kp_24h_min": 1.7,
     "kp_24h_max": 3.3,
     "kp_24h_mean": 2.7,
     "kp_time": "2026-07-09T00:00:00",
-    "kp_1m": 0.0,
-    "dst_nt": -16.1,
+    "kp_1m": 1.0,
+    "dst_nt": -15.3,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 8.79,
-    "bz_nt": -6.25,
-    "bz_gsm_nt": -6.52,
-    "time": "2026-07-08T03:41:00",
+    "bt_nt": 8.31,
+    "bz_nt": -5.52,
+    "bz_gsm_nt": -5.99,
+    "time": "2026-07-08T04:14:00",
     "bz_flag": "strongly southward",
-    "speed_kms": 441.41,
-    "density": 0.56,
-    "temp_k": 103350.0
+    "speed_kms": 413.53,
+    "density": 3.14,
+    "temp_k": 54316.0
   },
   "sun": {
-    "xray_flux": 7.43e-07,
+    "xray_flux": 8.715e-07,
     "xray_peak": 1.55569e-05,
     "xray_class": "B",
     "xray_peak_class": "M",
     "latest_flare": "B6.3\u2192M1.1",
-    "flare_time": "2026-07-09T03:38:00Z",
+    "flare_time": "2026-07-09T04:11:00Z",
     "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 142.0,
@@ -103,35 +130,29 @@
     }
   ],
   "neo": {
-    "count": 4,
+    "count": 3,
     "objects": [
       {
-        "name": "(2019 AM12)",
-        "miss_ld": 28.1,
-        "diameter_m": 49.4,
+        "name": "250680 (2005 QC5)",
+        "miss_ld": 79.2,
+        "diameter_m": 704.8,
+        "hazardous": true
+      },
+      {
+        "name": "500136 (2012 CO46)",
+        "miss_ld": 181.3,
+        "diameter_m": 160.0,
         "hazardous": false
       },
       {
-        "name": "(2017 RO17)",
-        "miss_ld": 130.7,
-        "diameter_m": 35.8,
-        "hazardous": false
-      },
-      {
-        "name": "(2017 TH2)",
-        "miss_ld": 132.1,
-        "diameter_m": 10.3,
-        "hazardous": false
-      },
-      {
-        "name": "(2013 BU2)",
-        "miss_ld": 139.7,
-        "diameter_m": 171.4,
+        "name": "(2008 CL20)",
+        "miss_ld": 192.9,
+        "diameter_m": 51.8,
         "hazardous": false
       }
     ],
-    "hazardous_count": 0,
-    "closest_ld": 28.1
+    "hazardous_count": 1,
+    "closest_ld": 79.2
   },
   "iss_pass": null,
   "alerts": [],
