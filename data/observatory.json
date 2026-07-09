@@ -1,16 +1,16 @@
 {
-  "updated": "2026-07-09T06:48:05Z",
+  "updated": "2026-07-09T07:18:52Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
-    "temp_c": 23.3,
+    "temp_c": 22.9,
     "humidity_pct": 77,
-    "wind_kmh": 3.5,
-    "wind_dir": 246,
-    "pressure_hpa": 1014.5,
+    "wind_kmh": 4.0,
+    "wind_dir": 270,
+    "pressure_hpa": 1015.0,
     "cloud_pct": 0,
-    "feels_c": 26.2,
+    "feels_c": 25.6,
     "precip_mm": 0.0,
     "weather_code": 0,
     "today_max": 32.3,
@@ -19,11 +19,6 @@
     "sunset": "2026-07-09T20:52",
     "precip_sum_mm": 0.0,
     "wind_hourly": [
-      {
-        "h": "02:00",
-        "w": 3.7,
-        "g": 15.8
-      },
       {
         "h": "03:00",
         "w": 3.4,
@@ -48,17 +43,26 @@
         "h": "07:00",
         "w": 3.1,
         "g": 10.8
+      },
+      {
+        "h": "08:00",
+        "w": 4.9,
+        "g": 22.3
       }
     ]
   },
   "air_quality": {
-    "us_aqi": 39,
-    "pm25": 6.1,
+    "us_aqi": 37,
+    "pm25": 6.2,
     "pm10": 6.3,
-    "ozone": 72.0,
-    "no2": 3.8
+    "ozone": 68.0,
+    "no2": 3.5
   },
-  "ionosphere": {},
+  "ionosphere": {
+    "tec": 10.007214550931861,
+    "hmf2_km": 372.3915471460187,
+    "anomaly": -6.293316422144203
+  },
   "magnetosphere": {
     "kp_now": 1.0,
     "kp_24h_min": 1.0,
@@ -66,27 +70,27 @@
     "kp_24h_mean": 2.4,
     "kp_time": "2026-07-09T03:00:00",
     "kp_1m": 1.0,
-    "dst_nt": -17.9,
+    "dst_nt": -17.8,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 8.88,
-    "bz_nt": -0.64,
-    "bz_gsm_nt": -1.97,
-    "time": "2026-07-08T06:47:00",
+    "bt_nt": 8.78,
+    "bz_nt": -2.21,
+    "bz_gsm_nt": -3.44,
+    "time": "2026-07-08T07:18:00",
     "bz_flag": "mild southward",
-    "speed_kms": 388.22,
-    "density": 3.57,
-    "temp_k": 61087.0
+    "speed_kms": 370.97,
+    "density": 4.15,
+    "temp_k": 52828.0
   },
   "sun": {
-    "xray_flux": 5.683e-07,
+    "xray_flux": 2.6793e-06,
     "xray_peak": 1.55569e-05,
-    "xray_class": "B",
+    "xray_class": "C",
     "xray_peak_class": "M",
-    "latest_flare": "B5.8\u2192B6.6",
-    "flare_time": "2026-07-09T06:44:00Z",
-    "proton_flux_pfu": 0.3,
+    "latest_flare": "B6.1\u2192None",
+    "flare_time": "2026-07-09T07:15:00Z",
+    "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 142.0,
     "active_regions": 0,
