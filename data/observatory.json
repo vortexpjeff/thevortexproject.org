@@ -1,29 +1,24 @@
 {
-  "updated": "2026-07-09T14:34:36Z",
+  "updated": "2026-07-09T15:05:08Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
-    "temp_c": 27.8,
-    "humidity_pct": 60,
-    "wind_kmh": 15.0,
-    "wind_dir": 260,
-    "pressure_hpa": 1016.6,
-    "cloud_pct": 16,
-    "feels_c": 29.7,
+    "temp_c": 28.2,
+    "humidity_pct": 61,
+    "wind_kmh": 14.2,
+    "wind_dir": 261,
+    "pressure_hpa": 1016.0,
+    "cloud_pct": 28,
+    "feels_c": 30.7,
     "precip_mm": 0.0,
-    "weather_code": 0,
+    "weather_code": 1,
     "today_max": 30.4,
     "today_min": 22.6,
     "sunrise": "2026-07-09T06:25",
     "sunset": "2026-07-09T20:52",
     "precip_sum_mm": 0.0,
     "wind_hourly": [
-      {
-        "h": "10:00",
-        "w": 14.9,
-        "g": 23.0
-      },
       {
         "h": "11:00",
         "w": 14.2,
@@ -48,48 +43,53 @@
         "h": "15:00",
         "w": 17.1,
         "g": 28.8
+      },
+      {
+        "h": "16:00",
+        "w": 11.6,
+        "g": 25.6
       }
     ]
   },
   "air_quality": {
-    "us_aqi": 27,
-    "pm25": 6.7,
-    "pm10": 7.0,
-    "ozone": 89.0,
-    "no2": 1.6
+    "us_aqi": 28,
+    "pm25": 6.5,
+    "pm10": 6.7,
+    "ozone": 104.0,
+    "no2": 1.1
   },
   "ionosphere": {
-    "tec": 17.666326523339546,
-    "hmf2_km": 272.76791994427475,
-    "anomaly": -5.90265649939348
+    "tec": 15.924549657806043,
+    "hmf2_km": 275.8507692481055,
+    "anomaly": -8.408723482196617
   },
   "magnetosphere": {
-    "kp_now": 4.33,
+    "kp_now": 2.33,
     "kp_24h_min": 1.0,
     "kp_24h_max": 4.3,
     "kp_24h_mean": 2.4,
-    "kp_time": "2026-07-09T09:00:00",
+    "kp_time": "2026-07-09T12:00:00",
     "kp_1m": 2.0,
-    "dst_nt": -21.0,
+    "dst_nt": -16.3,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 9.35,
-    "bz_nt": -0.65,
-    "bz_gsm_nt": -2.45,
-    "time": "2026-07-08T14:33:00",
+    "bt_nt": 10.52,
+    "bz_nt": -4.92,
+    "bz_gsm_nt": -5.36,
+    "time": "2026-07-08T15:03:00",
     "bz_flag": "mild southward",
-    "speed_kms": 399.76,
-    "density": 2.11,
-    "temp_k": 138627.0
+    "speed_kms": 405.74,
+    "density": 3.47,
+    "temp_k": 163031.0
   },
   "sun": {
-    "xray_flux": 4.449e-07,
+    "xray_flux": 4.136e-07,
     "xray_peak": 1.55569e-05,
     "xray_class": "B",
     "xray_peak_class": "M",
     "latest_flare": "B5.3\u2192B7.3",
-    "flare_time": "2026-07-09T14:31:00Z",
+    "flare_time": "2026-07-09T15:00:00Z",
     "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 142.0,
@@ -166,7 +166,7 @@
     "top_species": [
       {
         "name": "Carolina Wren",
-        "count": 240
+        "count": 238
       },
       {
         "name": "American Goldfinch",
@@ -181,6 +181,10 @@
         "count": 4
       },
       {
+        "name": "Indigo Bunting",
+        "count": 3
+      },
+      {
         "name": "Tufted Titmouse",
         "count": 2
       },
@@ -191,23 +195,9 @@
       {
         "name": "Red-eyed Vireo",
         "count": 2
-      },
-      {
-        "name": "Yellow-throated Warbler",
-        "count": 2
       }
     ],
     "recent": [
-      {
-        "species": "Carolina Wren",
-        "confidence": 91.5,
-        "time": "09:37:26"
-      },
-      {
-        "species": "Carolina Wren",
-        "confidence": 78.3,
-        "time": "09:37:32"
-      },
       {
         "species": "Carolina Wren",
         "confidence": 79.3,
@@ -222,6 +212,16 @@
         "species": "Carolina Wren",
         "confidence": 70.6,
         "time": "09:42:38"
+      },
+      {
+        "species": "Indigo Bunting",
+        "confidence": 77.0,
+        "time": "10:45:23"
+      },
+      {
+        "species": "Indigo Bunting",
+        "confidence": 72.1,
+        "time": "10:45:57"
       }
     ]
   },
