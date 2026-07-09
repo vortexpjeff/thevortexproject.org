@@ -1,16 +1,16 @@
 {
-  "updated": "2026-07-09T13:33:32Z",
+  "updated": "2026-07-09T14:04:13Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
-    "temp_c": 26.7,
-    "humidity_pct": 69,
-    "wind_kmh": 14.1,
-    "wind_dir": 255,
-    "pressure_hpa": 1016.5,
-    "cloud_pct": 10,
-    "feels_c": 28.8,
+    "temp_c": 27.3,
+    "humidity_pct": 65,
+    "wind_kmh": 14.4,
+    "wind_dir": 257,
+    "pressure_hpa": 1017.0,
+    "cloud_pct": 16,
+    "feels_c": 29.4,
     "precip_mm": 0.0,
     "weather_code": 0,
     "today_max": 30.2,
@@ -19,11 +19,6 @@
     "sunset": "2026-07-09T20:52",
     "precip_sum_mm": 0.0,
     "wind_hourly": [
-      {
-        "h": "09:00",
-        "w": 13.6,
-        "g": 27.7
-      },
       {
         "h": "10:00",
         "w": 14.4,
@@ -48,17 +43,26 @@
         "h": "14:00",
         "w": 16.3,
         "g": 27.4
+      },
+      {
+        "h": "15:00",
+        "w": 18.2,
+        "g": 27.4
       }
     ]
   },
   "air_quality": {
     "us_aqi": 27,
-    "pm25": 6.2,
-    "pm10": 6.4,
-    "ozone": 71.0,
-    "no2": 2.2
+    "pm25": 6.7,
+    "pm10": 7.0,
+    "ozone": 89.0,
+    "no2": 1.6
   },
-  "ionosphere": {},
+  "ionosphere": {
+    "tec": 18.053514413935552,
+    "hmf2_km": 271.1212246964494,
+    "anomaly": -4.588649758651883
+  },
   "magnetosphere": {
     "kp_now": 4.33,
     "kp_24h_min": 1.0,
@@ -66,26 +70,26 @@
     "kp_24h_mean": 2.4,
     "kp_time": "2026-07-09T09:00:00",
     "kp_1m": 2.0,
-    "dst_nt": -25.4,
+    "dst_nt": -20.8,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 8.78,
-    "bz_nt": -2.2,
-    "bz_gsm_nt": -3.66,
-    "time": "2026-07-08T13:32:00",
+    "bt_nt": 8.74,
+    "bz_nt": -0.89,
+    "bz_gsm_nt": -2.76,
+    "time": "2026-07-08T14:03:00",
     "bz_flag": "mild southward",
-    "speed_kms": 396.4,
-    "density": 3.97,
-    "temp_k": 156067.0
+    "speed_kms": 393.72,
+    "density": 2.33,
+    "temp_k": 80841.0
   },
   "sun": {
-    "xray_flux": 4.076e-07,
+    "xray_flux": 5.099e-07,
     "xray_peak": 1.55569e-05,
     "xray_class": "B",
     "xray_peak_class": "M",
-    "latest_flare": "B6.1\u2192C2.7",
-    "flare_time": "2026-07-09T13:30:00Z",
+    "latest_flare": "B5.3\u2192B7.3",
+    "flare_time": "2026-07-09T14:01:00Z",
     "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 142.0,
@@ -196,33 +200,33 @@
     "recent": [
       {
         "species": "Carolina Wren",
-        "confidence": 73.0,
-        "time": "09:02:35"
+        "confidence": 91.5,
+        "time": "09:37:26"
       },
       {
         "species": "Carolina Wren",
-        "confidence": 76.8,
-        "time": "09:07:35"
+        "confidence": 78.3,
+        "time": "09:37:32"
+      },
+      {
+        "species": "Carolina Wren",
+        "confidence": 79.3,
+        "time": "09:40:32"
       },
       {
         "species": "Carolina Wren",
         "confidence": 84.7,
-        "time": "09:08:44"
+        "time": "09:42:17"
       },
       {
         "species": "Carolina Wren",
-        "confidence": 76.0,
-        "time": "09:09:53"
-      },
-      {
-        "species": "Northern Cardinal",
-        "confidence": 85.5,
-        "time": "09:29:38"
+        "confidence": 70.6,
+        "time": "09:42:38"
       }
     ]
   },
   "imagery": {
     "epic": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/07/png/epic_1b_20260707222538.png",
-    "sdo_aia171": "https://api.helioviewer.org/v2/downloadImage/?id=189838184&width=1024"
+    "sdo_aia171": "https://api.helioviewer.org/v2/downloadImage/?id=189840197&width=1024"
   }
 }
