@@ -1,95 +1,95 @@
 {
-  "updated": "2026-07-09T11:58:20Z",
+  "updated": "2026-07-09T12:58:42Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
-    "temp_c": 24.0,
-    "humidity_pct": 77,
-    "wind_kmh": 5.6,
-    "wind_dir": 255,
-    "pressure_hpa": 1015.8,
-    "cloud_pct": 1,
-    "feels_c": 27.0,
+    "temp_c": 25.3,
+    "humidity_pct": 74,
+    "wind_kmh": 9.7,
+    "wind_dir": 266,
+    "pressure_hpa": 1016.0,
+    "cloud_pct": 3,
+    "feels_c": 27.9,
     "precip_mm": 0.0,
     "weather_code": 0,
-    "today_max": 30.4,
-    "today_min": 22.7,
+    "today_max": 30.9,
+    "today_min": 22.6,
     "sunrise": "2026-07-09T06:25",
     "sunset": "2026-07-09T20:52",
     "precip_sum_mm": 0.0,
     "wind_hourly": [
       {
-        "h": "07:00",
-        "w": 2.4,
-        "g": 11.5
-      },
-      {
         "h": "08:00",
-        "w": 7.1,
-        "g": 24.8
+        "w": 6.8,
+        "g": 25.2
       },
       {
         "h": "09:00",
-        "w": 14.1,
-        "g": 24.5
+        "w": 9.9,
+        "g": 24.1
       },
       {
         "h": "10:00",
-        "w": 15.0,
-        "g": 27.0
+        "w": 14.0,
+        "g": 25.2
       },
       {
         "h": "11:00",
-        "w": 16.8,
-        "g": 27.7
+        "w": 17.4,
+        "g": 27.4
       },
       {
         "h": "12:00",
-        "w": 16.7,
-        "g": 25.6
+        "w": 17.7,
+        "g": 27.7
+      },
+      {
+        "h": "13:00",
+        "w": 17.8,
+        "g": 27.7
       }
     ]
   },
   "air_quality": {
-    "us_aqi": 30,
-    "pm25": 5.3,
-    "pm10": 5.4,
-    "ozone": 52.0,
-    "no2": 3.3
+    "us_aqi": 28,
+    "pm25": 5.6,
+    "pm10": 5.7,
+    "ozone": 57.0,
+    "no2": 2.8
   },
   "ionosphere": {
-    "tec": 12.596943304758975,
-    "hmf2_km": 290.28144971718126,
-    "anomaly": -7.071920059692866
+    "tec": 14.690458380017652,
+    "hmf2_km": 275.0184937723398,
+    "anomaly": -5.7974285576264
   },
   "magnetosphere": {
-    "kp_now": 2.33,
+    "kp_now": 4.33,
     "kp_24h_min": 1.0,
-    "kp_24h_max": 3.0,
-    "kp_24h_mean": 2.2,
-    "kp_time": "2026-07-09T06:00:00",
-    "kp_1m": 4.0,
-    "dst_nt": -23.7,
+    "kp_24h_max": 4.3,
+    "kp_24h_mean": 2.4,
+    "kp_time": "2026-07-09T09:00:00",
+    "kp_1m": 2.0,
+    "dst_nt": -22.7,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 8.72,
-    "bz_nt": 0.84,
-    "bz_gsm_nt": -1.91,
-    "time": "2026-07-08T11:57:00",
+    "bt_nt": 8.96,
+    "bz_nt": 2.75,
+    "bz_gsm_nt": 0.18,
+    "time": "2026-07-08T12:57:00",
     "bz_flag": "northward",
-    "speed_kms": 422.42,
-    "density": 3.7,
-    "temp_k": 93233.0
+    "speed_kms": 397.69,
+    "density": 1.93,
+    "temp_k": 70731.0
   },
   "sun": {
-    "xray_flux": 4.863e-07,
+    "xray_flux": 3.946e-07,
     "xray_peak": 1.55569e-05,
     "xray_class": "B",
     "xray_peak_class": "M",
     "latest_flare": "B6.1\u2192C2.7",
-    "flare_time": "2026-07-09T11:55:00Z",
+    "flare_time": "2026-07-09T12:55:00Z",
     "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 142.0,
@@ -158,11 +158,7 @@
     "hazardous_count": 1,
     "closest_ld": 79.2
   },
-  "iss_pass": {
-    "rise": "2026-07-09T23:07:58+00:00",
-    "max_elevation": 3.0,
-    "duration_min": 2.9
-  },
+  "iss_pass": null,
   "alerts": [],
   "birds": {
     "detections_24h": 300,
@@ -170,7 +166,7 @@
     "top_species": [
       {
         "name": "Carolina Wren",
-        "count": 242
+        "count": 241
       },
       {
         "name": "American Goldfinch",
@@ -193,44 +189,44 @@
         "count": 2
       },
       {
-        "name": "Yellow-throated Warbler",
+        "name": "Red-eyed Vireo",
         "count": 2
       },
       {
-        "name": "Carolina Chickadee",
-        "count": 1
+        "name": "Yellow-throated Warbler",
+        "count": 2
       }
     ],
     "recent": [
       {
-        "species": "Northern Cardinal",
-        "confidence": 72.5,
-        "time": "07:34:04"
-      },
-      {
-        "species": "Northern Cardinal",
-        "confidence": 75.4,
-        "time": "07:36:40"
+        "species": "Carolina Wren",
+        "confidence": 79.6,
+        "time": "08:55:50"
       },
       {
         "species": "Carolina Wren",
-        "confidence": 72.0,
-        "time": "07:36:55"
+        "confidence": 73.8,
+        "time": "08:55:56"
       },
       {
         "species": "Carolina Wren",
-        "confidence": 98.2,
-        "time": "07:42:22"
+        "confidence": 76.2,
+        "time": "08:56:41"
       },
       {
         "species": "Carolina Wren",
-        "confidence": 98.2,
-        "time": "07:42:28"
+        "confidence": 75.9,
+        "time": "08:56:56"
+      },
+      {
+        "species": "Carolina Wren",
+        "confidence": 73.1,
+        "time": "08:57:20"
       }
     ]
   },
   "imagery": {
-    "epic": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/07/png/epic_1b_20260707212012.png",
-    "sdo_aia171": "https://api.helioviewer.org/v2/downloadImage/?id=189830210&width=1024"
+    "epic": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/07/png/epic_1b_20260707222538.png",
+    "sdo_aia171": "https://api.helioviewer.org/v2/downloadImage/?id=189836636&width=1024"
   }
 }
