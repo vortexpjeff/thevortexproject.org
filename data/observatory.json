@@ -1,16 +1,16 @@
 {
-  "updated": "2026-07-09T20:51:38Z",
+  "updated": "2026-07-09T20:53:46Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
     "temp_c": 30.5,
-    "humidity_pct": 47,
+    "humidity_pct": 48,
     "wind_kmh": 13.8,
     "wind_dir": 250,
-    "pressure_hpa": 1015.3,
+    "pressure_hpa": 1014.7,
     "cloud_pct": 100,
-    "feels_c": 31.3,
+    "feels_c": 31.5,
     "precip_mm": 0.0,
     "weather_code": 3,
     "today_max": 31.0,
@@ -69,28 +69,29 @@
     "kp_24h_max": 4.3,
     "kp_24h_mean": 2.6,
     "kp_time": "2026-07-09T15:00:00",
-    "kp_1m": 2.0,
-    "dst_nt": -41.0,
+    "kp_1m": 3.0,
+    "dst_nt": -41.6,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 10.4,
-    "bz_gsm_nt": -1.96,
-    "bz_nt": -1.81,
-    "time": "2026-07-09T20:46:00",
+    "bt_nt": 10.21,
+    "bz_gse_nt": -0.49,
+    "bz_gsm_nt": -0.65,
+    "bz_nt": -0.65,
+    "time": "2026-07-09T20:48:00",
     "source": "SOLAR1",
-    "speed_kms": 565.0,
-    "density": 7.76,
-    "temp_k": 488832.0,
+    "speed_kms": 571.3,
+    "density": 7.53,
+    "temp_k": 449142.0,
     "bz_flag": "mild southward"
   },
   "sun": {
-    "xray_flux": 4.406e-07,
+    "xray_flux": 4.312e-07,
     "xray_peak": 1.1742e-05,
     "xray_class": "B",
     "xray_peak_class": "M",
     "latest_flare": "B4.0\u2192B7.0",
-    "flare_time": "2026-07-09T20:48:00Z",
+    "flare_time": "2026-07-09T20:50:00Z",
     "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 142.0,
@@ -99,7 +100,7 @@
   },
   "space_weather": {
     "scales": {
-      "issued": "2026-07-09T20:49:00",
+      "issued": "2026-07-09T20:52:00",
       "current": {
         "r": 0,
         "s": 0,
@@ -142,8 +143,8 @@
       }
     },
     "aurora": {
-      "observation": "2026-07-09T20:42:00Z",
-      "forecast": "2026-07-09T21:30:00Z",
+      "observation": "2026-07-09T20:47:00Z",
+      "forecast": "2026-07-09T21:35:00Z",
       "nh_max_probability": 38.0
     },
     "forecast": {
@@ -302,14 +303,6 @@
       ],
       "dst": [
         {
-          "time": "2026-07-09T20:57:00",
-          "value": -39.043301
-        },
-        {
-          "time": "2026-07-09T20:58:00",
-          "value": -38.147202
-        },
-        {
           "time": "2026-07-09T20:59:00",
           "value": -37.509602
         },
@@ -396,17 +389,17 @@
         {
           "time": "2026-07-09T21:20:00",
           "value": -41.044201
+        },
+        {
+          "time": "2026-07-09T21:21:00",
+          "value": -41.444401
+        },
+        {
+          "time": "2026-07-09T21:22:00",
+          "value": -41.609901
         }
       ],
       "xray": [
-        {
-          "time": "2026-07-09T20:25:00Z",
-          "value": 5.009931669519574e-07
-        },
-        {
-          "time": "2026-07-09T20:26:00Z",
-          "value": 5.0163572495876e-07
-        },
         {
           "time": "2026-07-09T20:27:00Z",
           "value": 5.02468822105584e-07
@@ -494,6 +487,14 @@
         {
           "time": "2026-07-09T20:48:00Z",
           "value": 4.4055221337657713e-07
+        },
+        {
+          "time": "2026-07-09T20:49:00Z",
+          "value": 4.3648500991366745e-07
+        },
+        {
+          "time": "2026-07-09T20:50:00Z",
+          "value": 4.3123122850374784e-07
         }
       ]
     }
@@ -574,7 +575,7 @@
     }
   ],
   "birds": {
-    "detections_24h": 223,
+    "detections_24h": 224,
     "species_count": 12,
     "top_species": [
       {
@@ -595,7 +596,7 @@
       },
       {
         "name": "American Crow",
-        "count": 5
+        "count": 6
       },
       {
         "name": "Indigo Bunting",
@@ -611,11 +612,6 @@
       }
     ],
     "recent": [
-      {
-        "species": "American Goldfinch",
-        "confidence": 75.2,
-        "time": "2026-07-09 16:19:29"
-      },
       {
         "species": "American Goldfinch",
         "confidence": 74.1,
@@ -635,6 +631,11 @@
         "species": "American Crow",
         "confidence": 76.2,
         "time": "2026-07-09 16:36:23"
+      },
+      {
+        "species": "American Crow",
+        "confidence": 71.7,
+        "time": "2026-07-09 16:52:15"
       }
     ]
   },
