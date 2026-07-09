@@ -1,19 +1,19 @@
 {
-  "updated": "2026-07-09T15:05:08Z",
+  "updated": "2026-07-09T15:35:37Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
-    "temp_c": 28.2,
-    "humidity_pct": 61,
-    "wind_kmh": 14.2,
+    "temp_c": 28.5,
+    "humidity_pct": 58,
+    "wind_kmh": 15.3,
     "wind_dir": 261,
-    "pressure_hpa": 1016.0,
-    "cloud_pct": 28,
-    "feels_c": 30.7,
+    "pressure_hpa": 1016.4,
+    "cloud_pct": 25,
+    "feels_c": 30.4,
     "precip_mm": 0.0,
     "weather_code": 1,
-    "today_max": 30.4,
+    "today_max": 30.2,
     "today_min": 22.6,
     "sunrise": "2026-07-09T06:25",
     "sunset": "2026-07-09T20:52",
@@ -21,33 +21,33 @@
     "wind_hourly": [
       {
         "h": "11:00",
-        "w": 14.2,
-        "g": 22.0
+        "w": 14.9,
+        "g": 24.5
       },
       {
         "h": "12:00",
-        "w": 17.1,
+        "w": 16.4,
         "g": 25.2
       },
       {
         "h": "13:00",
-        "w": 15.5,
-        "g": 24.5
+        "w": 17.8,
+        "g": 26.6
       },
       {
         "h": "14:00",
-        "w": 17.4,
-        "g": 27.0
+        "w": 15.0,
+        "g": 25.9
       },
       {
         "h": "15:00",
-        "w": 17.1,
+        "w": 17.7,
         "g": 28.8
       },
       {
         "h": "16:00",
-        "w": 11.6,
-        "g": 25.6
+        "w": 13.6,
+        "g": 27.7
       }
     ]
   },
@@ -59,9 +59,9 @@
     "no2": 1.1
   },
   "ionosphere": {
-    "tec": 15.924549657806043,
-    "hmf2_km": 275.8507692481055,
-    "anomaly": -8.408723482196617
+    "tec": 15.783339082627045,
+    "hmf2_km": 277.2446833583806,
+    "anomaly": -9.539556427225154
   },
   "magnetosphere": {
     "kp_now": 2.33,
@@ -69,27 +69,27 @@
     "kp_24h_max": 4.3,
     "kp_24h_mean": 2.4,
     "kp_time": "2026-07-09T12:00:00",
-    "kp_1m": 2.0,
-    "dst_nt": -16.3,
+    "kp_1m": 1.0,
+    "dst_nt": -21.6,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 10.52,
-    "bz_nt": -4.92,
-    "bz_gsm_nt": -5.36,
-    "time": "2026-07-08T15:03:00",
-    "bz_flag": "mild southward",
-    "speed_kms": 405.74,
-    "density": 3.47,
-    "temp_k": 163031.0
+    "bt_nt": 10.5,
+    "bz_nt": -5.08,
+    "bz_gsm_nt": -5.11,
+    "time": "2026-07-08T15:34:00",
+    "bz_flag": "strongly southward",
+    "speed_kms": 396.44,
+    "density": 3.75,
+    "temp_k": 140468.0
   },
   "sun": {
-    "xray_flux": 4.136e-07,
+    "xray_flux": 3.902e-07,
     "xray_peak": 1.55569e-05,
     "xray_class": "B",
     "xray_peak_class": "M",
     "latest_flare": "B5.3\u2192B7.3",
-    "flare_time": "2026-07-09T15:00:00Z",
+    "flare_time": "2026-07-09T15:32:00Z",
     "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 142.0,
@@ -227,6 +227,6 @@
   },
   "imagery": {
     "epic": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/07/png/epic_1b_20260707222538.png",
-    "sdo_aia171": "https://api.helioviewer.org/v2/downloadImage/?id=189840764&width=1024"
+    "sdo_aia171": "https://api.helioviewer.org/v2/downloadImage/?id=189844622&width=1024"
   }
 }
