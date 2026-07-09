@@ -159,10 +159,11 @@ solar_wind = {}
 mag_record = mag_latest if fresh(mag_latest) else summary_mag_latest
 if mag_record:
     solar_wind["bt_nt"] = safe_float(mag_record.get("bt"))
+    solar_wind["bz_gse_nt"] = safe_float(mag_record.get("bz_gse"))
     solar_wind["bz_gsm_nt"] = safe_float(mag_record.get("bz_gsm"))
-    solar_wind["bz_nt"] = safe_float(mag_record.get("bz_gse"))
+    solar_wind["bz_nt"] = solar_wind["bz_gsm_nt"]
     if solar_wind["bz_nt"] is None:
-        solar_wind["bz_nt"] = solar_wind["bz_gsm_nt"]
+        solar_wind["bz_nt"] = solar_wind["bz_gse_nt"]
     solar_wind["time"] = mag_record.get("time_tag")
     solar_wind["source"] = mag_record.get("source", "RTSW") if fresh(mag_latest) else "SWPC summary"
 
@@ -292,6 +293,86 @@ if regions:
             "class": r.get("spot_class", ""),
             "area": r.get("area"),
         })
+
+# ── 5b. Space-weather scales, aurora, forecast, and trends ─────────────
+print("→ Space-weather outlook...")
+scales_raw = fetch("https://services.swpc.noaa.gov/products/noaa-scales.json") or {}
+
+def scale_summary(row):
+    if not row:
+        return None
+    def scale_value(section, key="Scale"):
+        value = (row.get(section) or {}).get(key)
+        if value is None:
+            return None
+        try:
+            return int(value)
+        except (TypeError, ValueError):
+            return None
+    return {
+        "r": scale_value("R"),
+        "s": scale_value("S"),
+        "g": scale_value("G"),
+        "r_text": (row.get("R") or {}).get("Text"),
+        "s_text": (row.get("S") or {}).get("Text"),
+        "g_text": (row.get("G") or {}).get("Text"),
+        "minor_prob": safe_float((row.get("R") or {}).get("MinorProb")),
+        "major_prob": safe_float((row.get("R") or {}).get("MajorProb")),
+    }
+
+space_scales = {
+    "issued": scales_raw.get("0", {}).get("DateStamp") + "T" + scales_raw.get("0", {}).get("TimeStamp", "") if scales_raw.get("0") else None,
+    "current": scale_summary(scales_raw.get("0")),
+    "next_day": scale_summary(scales_raw.get("1")),
+    "day_two": scale_summary(scales_raw.get("2")),
+    "day_three": scale_summary(scales_raw.get("3")),
+}
+
+# Ovation is a global grid; publish only northern-hemisphere summary values.
+aurora_raw = fetch("https://services.swpc.noaa.gov/json/ovation_aurora_latest.json") or {}
+aurora_values = []
+for point in aurora_raw.get("coordinates", []):
+    if not isinstance(point, list) or len(point) < 3:
+        continue
+    latitude = safe_float(point[1])
+    probability = safe_float(point[2])
+    if latitude is not None and latitude >= 0 and probability is not None:
+        aurora_values.append(probability)
+aurora = {
+    "observation": aurora_raw.get("Observation Time"),
+    "forecast": aurora_raw.get("Forecast Time"),
+    "nh_max_probability": round(max(aurora_values), 1) if aurora_values else None,
+}
+
+forecast_raw = fetch("https://services.swpc.noaa.gov/json/45-day-forecast.json") or {}
+forecast_rows = forecast_raw.get("data", []) if isinstance(forecast_raw, dict) else []
+
+def forecast_series(metric, limit=14):
+    return [
+        {"time": row.get("time"), "value": row.get("value")}
+        for row in forecast_rows if row.get("metric") == metric
+    ][:limit]
+
+space_forecast = {
+    "issued": forecast_raw.get("issued"),
+    "ap": forecast_series("ap"),
+    "f107": forecast_series("f107"),
+}
+
+kp_history = [
+    {"time": row.get("time_tag"), "value": safe_float(row.get("Kp"))}
+    for row in (kp_3h or []) if isinstance(row, dict) and row.get("Kp") is not None
+][-8:]
+dst_history = [
+    {"time": row.get("time_tag"), "value": safe_float(row.get("dst"))}
+    for row in (dst or []) if isinstance(row, dict) and row.get("dst") is not None
+][-24:]
+xray_history = [
+    {"time": row.get("time_tag"), "value": safe_float(row.get("flux"))}
+    for row in (xrays or [])
+    if isinstance(row, dict) and row.get("energy") == "0.1-0.8nm" and row.get("flux") is not None
+][-24:]
+space_trends = {"kp": kp_history, "dst": dst_history, "xray": xray_history}
 
 # ── 6. GLOTEC TEC ─────────────────────────────────────────────────────
 print("→ GLOTEC TEC...")
@@ -474,6 +555,12 @@ output = {
     "magnetosphere": magnetosphere,
     "solar_wind": solar_wind,
     "sun": sun,
+    "space_weather": {
+        "scales": space_scales,
+        "aurora": aurora,
+        "forecast": space_forecast,
+        "trends": space_trends,
+    },
     "kp_forecast": kp_forecast,
     "neo": neo_data,
     "iss_pass": iss_pass,
