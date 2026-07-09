@@ -1,53 +1,53 @@
 {
-  "updated": "2026-07-09T05:15:57Z",
+  "updated": "2026-07-09T05:46:38Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
-    "temp_c": 24.0,
-    "humidity_pct": 78,
-    "wind_kmh": 2.5,
-    "wind_dir": 225,
+    "temp_c": 24.1,
+    "humidity_pct": 74,
+    "wind_kmh": 4.0,
+    "wind_dir": 175,
     "pressure_hpa": 1014.8,
-    "cloud_pct": 0,
-    "feels_c": 27.4,
+    "cloud_pct": 23,
+    "feels_c": 27.0,
     "precip_mm": 0.0,
-    "weather_code": 0,
-    "today_max": 31.6,
-    "today_min": 21.8,
+    "weather_code": 1,
+    "today_max": 32.0,
+    "today_min": 22.0,
     "sunrise": "2026-07-09T06:25",
     "sunset": "2026-07-09T20:52",
     "precip_sum_mm": 0.0,
     "wind_hourly": [
       {
         "h": "01:00",
-        "w": 3.1,
-        "g": 14.4
+        "w": 1.8,
+        "g": 13.7
       },
       {
         "h": "02:00",
-        "w": 2.9,
-        "g": 15.1
+        "w": 4.1,
+        "g": 19.1
       },
       {
         "h": "03:00",
-        "w": 4.7,
-        "g": 18.0
-      },
-      {
-        "h": "04:00",
-        "w": 4.6,
+        "w": 4.0,
         "g": 16.9
       },
       {
+        "h": "04:00",
+        "w": 4.5,
+        "g": 16.6
+      },
+      {
         "h": "05:00",
-        "w": 2.7,
-        "g": 15.5
+        "w": 3.9,
+        "g": 16.6
       },
       {
         "h": "06:00",
-        "w": 2.2,
-        "g": 15.5
+        "w": 4.9,
+        "g": 19.1
       }
     ]
   },
@@ -59,9 +59,9 @@
     "no2": 5.1
   },
   "ionosphere": {
-    "tec": 13.53240015496477,
-    "hmf2_km": 356.2440983060078,
-    "anomaly": -4.712716953761044
+    "tec": 13.083255368660005,
+    "hmf2_km": 360.613443525703,
+    "anomaly": -4.489956967925053
   },
   "magnetosphere": {
     "kp_now": 2.67,
@@ -70,26 +70,26 @@
     "kp_24h_mean": 2.7,
     "kp_time": "2026-07-09T00:00:00",
     "kp_1m": 1.0,
-    "dst_nt": -17.6,
+    "dst_nt": -14.5,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 8.67,
-    "bz_nt": -5.5,
-    "bz_gsm_nt": -5.72,
-    "time": "2026-07-08T05:14:00",
-    "bz_flag": "strongly southward",
-    "speed_kms": 390.1,
-    "density": 2.32,
-    "temp_k": 73743.0
+    "bt_nt": 8.72,
+    "bz_nt": -3.42,
+    "bz_gsm_nt": -4.42,
+    "time": "2026-07-08T05:45:00",
+    "bz_flag": "mild southward",
+    "speed_kms": 433.87,
+    "density": 1.22,
+    "temp_k": 115487.0
   },
   "sun": {
-    "xray_flux": 6.329e-07,
+    "xray_flux": 5.247e-07,
     "xray_peak": 1.55569e-05,
     "xray_class": "B",
     "xray_peak_class": "M",
-    "latest_flare": "B3.9\u2192B6.9",
-    "flare_time": "2026-07-09T05:12:00Z",
+    "latest_flare": "B5.8\u2192B6.6",
+    "flare_time": "2026-07-09T05:43:00Z",
     "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 142.0,
