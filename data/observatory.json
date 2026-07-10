@@ -1,53 +1,53 @@
 {
-  "updated": "2026-07-10T22:05:09Z",
+  "updated": "2026-07-10T22:35:37Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
-    "temp_c": 29.1,
-    "humidity_pct": 55,
-    "wind_kmh": 24.9,
-    "wind_dir": 248,
-    "pressure_hpa": 1014.6,
+    "temp_c": 28.6,
+    "humidity_pct": 56,
+    "wind_kmh": 20.8,
+    "wind_dir": 247,
+    "pressure_hpa": 1014.3,
     "cloud_pct": 100,
-    "feels_c": 28.9,
+    "feels_c": 29.0,
     "precip_mm": 0.0,
     "weather_code": 3,
     "today_max": 29.7,
     "today_min": 22.6,
     "sunrise": "2026-07-10T06:25",
     "sunset": "2026-07-10T20:52",
-    "precip_sum_mm": 1.2,
+    "precip_sum_mm": 0.2,
     "wind_hourly": [
       {
         "h": "18:00",
-        "w": 24.9,
-        "g": 43.2
+        "w": 20.2,
+        "g": 36.7
       },
       {
         "h": "19:00",
-        "w": 19.7,
-        "g": 34.9
+        "w": 18.9,
+        "g": 34.2
       },
       {
         "h": "20:00",
         "w": 16.0,
-        "g": 29.5
+        "g": 29.9
       },
       {
         "h": "21:00",
-        "w": 10.9,
-        "g": 25.9
+        "w": 11.0,
+        "g": 27.4
       },
       {
         "h": "22:00",
-        "w": 4.9,
-        "g": 20.2
+        "w": 8.3,
+        "g": 23.0
       },
       {
         "h": "23:00",
-        "w": 2.8,
-        "g": 14.0
+        "w": 2.3,
+        "g": 9.4
       }
     ]
   },
@@ -59,9 +59,9 @@
     "no2": 2.3
   },
   "ionosphere": {
-    "tec": 22.72248770267331,
-    "hmf2_km": 294.2906835814777,
-    "anomaly": -2.6283521308574898
+    "tec": 22.346853034868204,
+    "hmf2_km": 294.64551583669504,
+    "anomaly": -4.368562538473704
   },
   "magnetosphere": {
     "kp_now": 2.33,
@@ -70,29 +70,29 @@
     "kp_24h_mean": 2.7,
     "kp_time": "2026-07-10T18:00:00",
     "kp_1m": 2.0,
-    "dst_nt": -28.0,
+    "dst_nt": -27.1,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 4.61,
-    "bz_gse_nt": -1.79,
-    "bz_gsm_nt": -1.84,
-    "bz_nt": -1.84,
-    "time": "2026-07-10T21:59:00Z",
-    "source": "SOLAR1",
-    "speed_kms": 590.6,
-    "density": 2.33,
-    "temp_k": 216569.0,
+    "bt_nt": 3.93,
+    "bz_gse_nt": -2.19,
+    "bz_gsm_nt": -2.32,
+    "bz_nt": -2.32,
+    "time": "2026-07-10T22:30:00Z",
+    "source": "ACE",
+    "speed_kms": 617.5,
+    "density": 3.1,
+    "temp_k": 181940.0,
     "bz_flag": "mild southward"
   },
   "sun": {
-    "xray_flux": 5.52e-07,
+    "xray_flux": 5.328e-07,
     "xray_peak": 6.0109e-06,
     "xray_class": "B",
     "xray_peak_class": "C",
     "latest_flare": "B7.2\u2192C6.0",
-    "flare_time": "2026-07-10T22:01:00Z",
-    "proton_flux_pfu": 0.3,
+    "flare_time": "2026-07-10T22:31:00Z",
+    "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 143.0,
     "active_regions": 0,
@@ -100,7 +100,7 @@
   },
   "space_weather": {
     "scales": {
-      "issued": "2026-07-10T22:02:00",
+      "issued": "2026-07-10T22:34:00",
       "current": {
         "r": 0,
         "s": 0,
@@ -143,9 +143,9 @@
       }
     },
     "aurora": {
-      "observation": "2026-07-10T21:57:00Z",
-      "forecast": "2026-07-10T22:41:00Z",
-      "nh_max_probability": 20.0
+      "observation": "2026-07-10T22:28:00Z",
+      "forecast": "2026-07-10T23:11:00Z",
+      "nh_max_probability": 21.0
     },
     "forecast": {
       "issued": "2026-07-10T00:00:00Z",
@@ -303,198 +303,198 @@
       ],
       "dst": [
         {
-          "time": "2026-07-10T22:05:00",
-          "value": -28.503799
+          "time": "2026-07-10T22:35:00",
+          "value": -27.217699
         },
         {
-          "time": "2026-07-10T22:06:00",
-          "value": -27.8494
+          "time": "2026-07-10T22:36:00",
+          "value": -27.258101
         },
         {
-          "time": "2026-07-10T22:07:00",
-          "value": -27.750401
+          "time": "2026-07-10T22:37:00",
+          "value": -27.533199
         },
         {
-          "time": "2026-07-10T22:08:00",
-          "value": -27.958799
+          "time": "2026-07-10T22:38:00",
+          "value": -27.684299
         },
         {
-          "time": "2026-07-10T22:09:00",
-          "value": -28.0956
+          "time": "2026-07-10T22:39:00",
+          "value": -27.9076
         },
         {
-          "time": "2026-07-10T22:10:00",
-          "value": -27.6784
+          "time": "2026-07-10T22:40:00",
+          "value": -27.837999
         },
         {
-          "time": "2026-07-10T22:11:00",
-          "value": -27.490101
+          "time": "2026-07-10T22:41:00",
+          "value": -27.9907
         },
         {
-          "time": "2026-07-10T22:12:00",
-          "value": -27.616199
+          "time": "2026-07-10T22:42:00",
+          "value": -28.0723
         },
         {
-          "time": "2026-07-10T22:13:00",
-          "value": -27.9317
+          "time": "2026-07-10T22:43:00",
+          "value": -28.127399
         },
         {
-          "time": "2026-07-10T22:14:00",
-          "value": -28.014
+          "time": "2026-07-10T22:44:00",
+          "value": -28.3048
         },
         {
-          "time": "2026-07-10T22:15:00",
-          "value": -26.944
+          "time": "2026-07-10T22:45:00",
+          "value": -28.373301
         },
         {
-          "time": "2026-07-10T22:16:00",
-          "value": -27.082199
+          "time": "2026-07-10T22:46:00",
+          "value": -28.535601
         },
         {
-          "time": "2026-07-10T22:17:00",
-          "value": -28.4067
+          "time": "2026-07-10T22:47:00",
+          "value": -28.9874
         },
         {
-          "time": "2026-07-10T22:18:00",
-          "value": -28.5711
+          "time": "2026-07-10T22:48:00",
+          "value": -29.152
         },
         {
-          "time": "2026-07-10T22:19:00",
-          "value": -28.6998
+          "time": "2026-07-10T22:49:00",
+          "value": -28.8878
         },
         {
-          "time": "2026-07-10T22:20:00",
-          "value": -29.0481
+          "time": "2026-07-10T22:50:00",
+          "value": -29.6388
         },
         {
-          "time": "2026-07-10T22:21:00",
-          "value": -28.572001
+          "time": "2026-07-10T22:51:00",
+          "value": -29.7642
         },
         {
-          "time": "2026-07-10T22:22:00",
-          "value": -27.8027
+          "time": "2026-07-10T22:52:00",
+          "value": -29.7852
         },
         {
-          "time": "2026-07-10T22:23:00",
-          "value": -27.2409
+          "time": "2026-07-10T22:53:00",
+          "value": -29.0319
         },
         {
-          "time": "2026-07-10T22:24:00",
-          "value": -27.2146
+          "time": "2026-07-10T22:54:00",
+          "value": -28.2041
         },
         {
-          "time": "2026-07-10T22:25:00",
-          "value": -27.4928
+          "time": "2026-07-10T22:55:00",
+          "value": -28.0266
         },
         {
-          "time": "2026-07-10T22:26:00",
-          "value": -27.787701
+          "time": "2026-07-10T22:56:00",
+          "value": -28.080299
         },
         {
-          "time": "2026-07-10T22:27:00",
-          "value": -27.6542
+          "time": "2026-07-10T22:57:00",
+          "value": -27.557501
         },
         {
-          "time": "2026-07-10T22:28:00",
-          "value": -28.011
+          "time": "2026-07-10T22:58:00",
+          "value": -27.1497
         }
       ],
       "xray": [
         {
-          "time": "2026-07-10T21:38:00Z",
-          "value": 5.376711555982183e-07
+          "time": "2026-07-10T22:08:00Z",
+          "value": 5.517027261703333e-07
         },
         {
-          "time": "2026-07-10T21:39:00Z",
-          "value": 5.351102458917012e-07
+          "time": "2026-07-10T22:09:00Z",
+          "value": 5.455772225104738e-07
         },
         {
-          "time": "2026-07-10T21:40:00Z",
-          "value": 5.346207103684719e-07
+          "time": "2026-07-10T22:10:00Z",
+          "value": 5.372112923396344e-07
         },
         {
-          "time": "2026-07-10T21:41:00Z",
-          "value": 5.361283115234983e-07
+          "time": "2026-07-10T22:11:00Z",
+          "value": 5.302053978084587e-07
         },
         {
-          "time": "2026-07-10T21:42:00Z",
-          "value": 5.379177423492365e-07
+          "time": "2026-07-10T22:12:00Z",
+          "value": 5.29291298789758e-07
         },
         {
-          "time": "2026-07-10T21:43:00Z",
-          "value": 5.433484489003604e-07
+          "time": "2026-07-10T22:13:00Z",
+          "value": 5.267411893328244e-07
         },
         {
-          "time": "2026-07-10T21:44:00Z",
-          "value": 5.563156264543068e-07
+          "time": "2026-07-10T22:14:00Z",
+          "value": 5.247420062914898e-07
         },
         {
-          "time": "2026-07-10T21:45:00Z",
-          "value": 5.564447178585397e-07
+          "time": "2026-07-10T22:15:00Z",
+          "value": 5.189946818973112e-07
         },
         {
-          "time": "2026-07-10T21:46:00Z",
-          "value": 5.603814656751638e-07
+          "time": "2026-07-10T22:16:00Z",
+          "value": 5.158836984264781e-07
         },
         {
-          "time": "2026-07-10T21:47:00Z",
-          "value": 5.686284794137464e-07
+          "time": "2026-07-10T22:17:00Z",
+          "value": 5.101126134832157e-07
         },
         {
-          "time": "2026-07-10T21:48:00Z",
-          "value": 5.725876235374017e-07
+          "time": "2026-07-10T22:18:00Z",
+          "value": 5.087072736387199e-07
         },
         {
-          "time": "2026-07-10T21:49:00Z",
-          "value": 5.778533704869915e-07
+          "time": "2026-07-10T22:19:00Z",
+          "value": 5.054857297182025e-07
         },
         {
-          "time": "2026-07-10T21:50:00Z",
-          "value": 5.789233910036273e-07
+          "time": "2026-07-10T22:20:00Z",
+          "value": 5.015963324694894e-07
         },
         {
-          "time": "2026-07-10T21:51:00Z",
-          "value": 5.821351578561007e-07
+          "time": "2026-07-10T22:21:00Z",
+          "value": 5.010676886740839e-07
         },
         {
-          "time": "2026-07-10T21:52:00Z",
-          "value": 5.843855319653812e-07
+          "time": "2026-07-10T22:22:00Z",
+          "value": 5.016285626879835e-07
         },
         {
-          "time": "2026-07-10T21:53:00Z",
-          "value": 5.826371420880605e-07
+          "time": "2026-07-10T22:23:00Z",
+          "value": 4.974698413207079e-07
         },
         {
-          "time": "2026-07-10T21:54:00Z",
-          "value": 5.79746824769245e-07
+          "time": "2026-07-10T22:24:00Z",
+          "value": 5.000999294679787e-07
         },
         {
-          "time": "2026-07-10T21:55:00Z",
-          "value": 5.731903911510017e-07
+          "time": "2026-07-10T22:25:00Z",
+          "value": 5.004511649531196e-07
         },
         {
-          "time": "2026-07-10T21:56:00Z",
-          "value": 5.674963290402957e-07
+          "time": "2026-07-10T22:26:00Z",
+          "value": 5.065617187938187e-07
         },
         {
-          "time": "2026-07-10T21:57:00Z",
-          "value": 5.650343837260152e-07
+          "time": "2026-07-10T22:27:00Z",
+          "value": 5.176045760890702e-07
         },
         {
-          "time": "2026-07-10T21:58:00Z",
-          "value": 5.590007390310348e-07
+          "time": "2026-07-10T22:28:00Z",
+          "value": 5.18064894095005e-07
         },
         {
-          "time": "2026-07-10T21:59:00Z",
-          "value": 5.571998258346866e-07
+          "time": "2026-07-10T22:29:00Z",
+          "value": 5.13711142957618e-07
         },
         {
-          "time": "2026-07-10T22:00:00Z",
-          "value": 5.536987828236306e-07
+          "time": "2026-07-10T22:30:00Z",
+          "value": 5.262385229798383e-07
         },
         {
-          "time": "2026-07-10T22:01:00Z",
-          "value": 5.519704018297489e-07
+          "time": "2026-07-10T22:31:00Z",
+          "value": 5.328210477273387e-07
         }
       ]
     }
@@ -585,7 +585,11 @@
     "hazardous_count": 2,
     "closest_ld": 33.0
   },
-  "iss_pass": null,
+  "iss_pass": {
+    "rise": "2026-07-10T23:54:17+00:00",
+    "max_elevation": 27.0,
+    "duration_min": 5.3
+  },
   "alerts": [
     {
       "event": "Flood Watch",
@@ -595,7 +599,7 @@
     }
   ],
   "birds": {
-    "detections_24h": 238,
+    "detections_24h": 242,
     "species_count": 12,
     "top_species": [
       {
@@ -608,59 +612,167 @@
       },
       {
         "name": "American Goldfinch",
-        "count": 8
+        "count": 10
       },
       {
         "name": "American Crow",
         "count": 8
       },
       {
+        "name": "Eastern Bluebird",
+        "count": 3
+      },
+      {
         "name": "Chimney Swift",
         "count": 2
       },
       {
-        "name": "Eastern Bluebird",
+        "name": "Downy Woodpecker",
         "count": 2
       },
       {
         "name": "Indigo Bunting",
         "count": 1
-      },
-      {
-        "name": "Yellow-billed Cuckoo",
-        "count": 1
       }
     ],
     "recent": [
       {
-        "species": "American Goldfinch",
-        "confidence": 79.0,
-        "time": "2026-07-10 14:13:46"
-      },
-      {
-        "species": "American Goldfinch",
-        "confidence": 70.7,
-        "time": "2026-07-10 14:21:40"
-      },
-      {
-        "species": "Carolina Wren",
-        "confidence": 75.5,
-        "time": "2026-07-10 15:20:04"
-      },
-      {
-        "species": "American Crow",
-        "confidence": 82.7,
-        "time": "2026-07-10 17:08:47"
-      },
-      {
         "species": "American Crow",
         "confidence": 73.4,
         "time": "2026-07-10 17:09:17"
+      },
+      {
+        "species": "Downy Woodpecker",
+        "confidence": 73.5,
+        "time": "2026-07-10 18:06:39"
+      },
+      {
+        "species": "Eastern Bluebird",
+        "confidence": 84.1,
+        "time": "2026-07-10 18:10:21"
+      },
+      {
+        "species": "American Goldfinch",
+        "confidence": 74.8,
+        "time": "2026-07-10 18:11:27"
+      },
+      {
+        "species": "American Goldfinch",
+        "confidence": 84.4,
+        "time": "2026-07-10 18:17:57"
       }
     ]
   },
   "imagery": {
-    "epic": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/08/png/epic_1b_20260708231226.png",
-    "sdo_aia171": "https://api.helioviewer.org/v2/downloadImage/?id=189916565&width=1024"
+    "epic": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/08/jpg/epic_1b_20260708231226.jpg",
+    "sdo_aia171": "https://api.helioviewer.org/v2/downloadImage/?id=189916565&width=768",
+    "epic_sequence": [
+      {
+        "time": "2026-07-08T04:34:52Z",
+        "url": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/08/jpg/epic_1b_20260708043941.jpg"
+      },
+      {
+        "time": "2026-07-08T05:40:20Z",
+        "url": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/08/jpg/epic_1b_20260708054509.jpg"
+      },
+      {
+        "time": "2026-07-08T06:45:47Z",
+        "url": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/08/jpg/epic_1b_20260708065036.jpg"
+      },
+      {
+        "time": "2026-07-08T07:51:15Z",
+        "url": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/08/jpg/epic_1b_20260708075604.jpg"
+      },
+      {
+        "time": "2026-07-08T08:56:42Z",
+        "url": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/08/jpg/epic_1b_20260708090131.jpg"
+      },
+      {
+        "time": "2026-07-08T10:02:09Z",
+        "url": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/08/jpg/epic_1b_20260708100658.jpg"
+      },
+      {
+        "time": "2026-07-08T11:07:37Z",
+        "url": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/08/jpg/epic_1b_20260708111225.jpg"
+      },
+      {
+        "time": "2026-07-08T12:13:04Z",
+        "url": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/08/jpg/epic_1b_20260708121752.jpg"
+      },
+      {
+        "time": "2026-07-08T13:18:31Z",
+        "url": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/08/jpg/epic_1b_20260708132320.jpg"
+      },
+      {
+        "time": "2026-07-08T14:23:58Z",
+        "url": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/08/jpg/epic_1b_20260708142847.jpg"
+      },
+      {
+        "time": "2026-07-08T15:29:25Z",
+        "url": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/08/jpg/epic_1b_20260708153414.jpg"
+      },
+      {
+        "time": "2026-07-08T16:34:53Z",
+        "url": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/08/jpg/epic_1b_20260708163941.jpg"
+      },
+      {
+        "time": "2026-07-08T17:40:20Z",
+        "url": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/08/jpg/epic_1b_20260708174509.jpg"
+      },
+      {
+        "time": "2026-07-08T18:45:47Z",
+        "url": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/08/jpg/epic_1b_20260708185037.jpg"
+      },
+      {
+        "time": "2026-07-08T19:51:15Z",
+        "url": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/08/jpg/epic_1b_20260708195604.jpg"
+      },
+      {
+        "time": "2026-07-08T20:56:43Z",
+        "url": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/08/jpg/epic_1b_20260708210132.jpg"
+      },
+      {
+        "time": "2026-07-08T22:02:09Z",
+        "url": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/08/jpg/epic_1b_20260708220658.jpg"
+      },
+      {
+        "time": "2026-07-08T23:07:37Z",
+        "url": "https://epic.gsfc.nasa.gov/archive/natural/2026/07/08/jpg/epic_1b_20260708231226.jpg"
+      }
+    ],
+    "sdo_aia171_sequence": [
+      {
+        "time": "2026-07-10T06:49:33Z",
+        "url": "https://api.helioviewer.org/v2/downloadImage/?id=189898786&width=768"
+      },
+      {
+        "time": "2026-07-10T07:49:21Z",
+        "url": "https://api.helioviewer.org/v2/downloadImage/?id=189901753&width=768"
+      },
+      {
+        "time": "2026-07-10T08:49:21Z",
+        "url": "https://api.helioviewer.org/v2/downloadImage/?id=189904836&width=768"
+      },
+      {
+        "time": "2026-07-10T09:49:21Z",
+        "url": "https://api.helioviewer.org/v2/downloadImage/?id=189916977&width=768"
+      },
+      {
+        "time": "2026-07-10T10:49:21Z",
+        "url": "https://api.helioviewer.org/v2/downloadImage/?id=189916874&width=768"
+      },
+      {
+        "time": "2026-07-10T11:49:33Z",
+        "url": "https://api.helioviewer.org/v2/downloadImage/?id=189916771&width=768"
+      },
+      {
+        "time": "2026-07-10T12:49:33Z",
+        "url": "https://api.helioviewer.org/v2/downloadImage/?id=189916666&width=768"
+      },
+      {
+        "time": "2026-07-10T13:49:33Z",
+        "url": "https://api.helioviewer.org/v2/downloadImage/?id=189916565&width=768"
+      }
+    ]
   }
 }
