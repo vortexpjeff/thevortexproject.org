@@ -477,20 +477,61 @@ except ImportError:
 print("→ DSCOVR EPIC...")
 epic = fetch("https://epic.gsfc.nasa.gov/api/natural", timeout=10)
 epic_img = None
+epic_frames = []
 if epic and len(epic) > 0:
-    img = epic[-1]
-    d = img["date"].split()[0] if "date" in img else ""
-    epic_img = f"https://epic.gsfc.nasa.gov/archive/natural/{d[:4]}/{d[5:7]}/{d[8:10]}/png/{img['image']}.png"
+    # Publish only image URLs and observation times. EPIC's API response also
+    # contains coordinates and spacecraft vectors that do not belong in the
+    # public station payload.
+    sampled = epic[-18:]
+    for img in sampled:
+        d = img.get("date", "").split()[0]
+        if not d or not img.get("image"):
+            continue
+        epic_frames.append({
+            "time": img.get("date", "").replace(" ", "T") + "Z",
+            "url": f"https://epic.gsfc.nasa.gov/archive/natural/{d[:4]}/{d[5:7]}/{d[8:10]}/jpg/{img['image']}.jpg",
+        })
+    if epic_frames:
+        epic_img = epic_frames[-1]["url"]
 
 # ── 10. SDO AIA 171 via Helioviewer ────────────────────────────────────
 print("→ SDO image...")
-now_utc = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-sdo = fetch(f"https://api.helioviewer.org/v2/getClosestImage/?sourceId=10&date={now_utc}", timeout=8)
 sdo_img = None
-if sdo:
+sdo_frames = []
+seen_sdo_ids = set()
+now_dt = datetime.datetime.now(datetime.timezone.utc)
+# Anchor the sequence to Helioviewer's newest available frame. The archive can
+# lag wall-clock time by several hours, so sampling backward from "now" may
+# otherwise return the same closest image repeatedly.
+latest_sdo = fetch(
+    f"https://api.helioviewer.org/v2/getClosestImage/?sourceId=10&date={now_dt.strftime('%Y-%m-%dT%H:%M:%SZ')}",
+    timeout=8,
+)
+if latest_sdo and latest_sdo.get("date"):
+    try:
+        now_dt = datetime.datetime.fromisoformat(latest_sdo["date"].replace(" ", "T")).replace(tzinfo=datetime.timezone.utc)
+    except ValueError:
+        pass
+# Eight observations across the latest seven hours give the interface real
+# coronal motion without asking visitors to download a full-resolution movie.
+for hours_ago in range(7, -1, -1):
+    observation = (now_dt - datetime.timedelta(hours=hours_ago)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    sdo = fetch(f"https://api.helioviewer.org/v2/getClosestImage/?sourceId=10&date={observation}", timeout=8)
+    if not sdo:
+        continue
     img_id = sdo.get("id")
-    if img_id:
-        sdo_img = f"https://api.helioviewer.org/v2/downloadImage/?id={img_id}&width=1024"
+    if not img_id or img_id in seen_sdo_ids:
+        continue
+    seen_sdo_ids.add(img_id)
+    frame_time = sdo.get("date", observation).replace(" ", "T")
+    if not frame_time.endswith("Z"):
+        frame_time += "Z"
+    sdo_frames.append({
+        "time": frame_time,
+        "url": f"https://api.helioviewer.org/v2/downloadImage/?id={img_id}&width=768",
+    })
+if sdo_frames:
+    sdo_img = sdo_frames[-1]["url"]
 
 # ── 11. NWS Alerts ─────────────────────────────────────────────────────
 print("→ NWS alerts...")
@@ -582,6 +623,8 @@ output = {
     "imagery": {
         "epic": epic_img,
         "sdo_aia171": sdo_img,
+        "epic_sequence": epic_frames,
+        "sdo_aia171_sequence": sdo_frames,
     },
 }
 
@@ -592,6 +635,10 @@ size = os.path.getsize(DATA_FILE)
 print(f"✓ Written {DATA_FILE} ({size} bytes)")
 
 # ── 14. Git push ───────────────────────────────────────────────────────
+if os.environ.get("OBSERVATORY_NO_PUSH") == "1":
+    print("✓ Validation run complete; git commit/push skipped")
+    sys.exit(0)
+
 print("→ git push...")
 add_result = subprocess.run(
     ["git", "-C", REPO_DIR, "add", "data/observatory.json"],
