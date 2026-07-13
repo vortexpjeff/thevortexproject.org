@@ -18,11 +18,12 @@
 @media(max-width:430px){.brand-copy strong{letter-spacing:.12em}.head-nav b{display:none}.map-tools .tool:nth-child(2){display:none}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 </style>
+<link rel="stylesheet" href="/site-shell.css">
 </head>
 <body>
 <header class="site-head">
 <a class="brand" href="/" aria-label="The Vortex Project home"><span class="mark">◉</span><span class="brand-copy"><strong>THE VORTEX PROJECT</strong><small>cartographer</small></span></a>
-<nav class="head-nav" aria-label="Project views"><a href="/observatory.html">Observatory</a><b aria-current="page">Cartographer</b><a class="return" href="/" aria-label="Return to field" title="Return to field">↗</a></nav>
+<div class="head-cluster"><nav class="head-nav" aria-label="Project views"><a href="/">Field</a><a href="/observatory.html">Observatory</a><span aria-current="page">Cartographer</span></nav></div>
 </header>
 <main class="workspace">
 <aside class="brief" aria-label="Imagery and observatory context">
@@ -33,7 +34,7 @@
 <div class="datum-title"><span id="imageHeading">Image product</span><b id="imageDateSide">—</b></div>
 <div class="product">Corrected Reflectance · True Color</div>
 <p class="provenance">Observed · MODIS aboard Aqua · NASA GIBS · daily · 250 m nominal</p>
-<details class="reading-guide"><summary>How to read this image</summary><p>Corrected reflectance combines red, green, and blue channels to approximate daylight human vision. White areas are often cloud, snow, or bright surface. Cloud can hide the ground. Swath edges, seams, and missing areas come from orbital coverage and processing; they are not landscape boundaries.</p></details>
+<details class="reading-guide"><summary>How to read this image</summary><p>Corrected reflectance combines red, green, and blue channels to approximate daylight human vision. White areas are often cloud, snow, or bright surface. Cloud can hide the ground. Swath edges, seams, and missing areas come from orbital coverage and processing; they are not landscape boundaries. Today's layer refreshes as NASA publishes additional passes.</p></details>
 </section>
 <section class="datum" aria-labelledby="contextHeading">
 <div class="datum-title"><span id="contextHeading">Observatory context</span><b id="payloadTime">loading</b></div>
@@ -67,7 +68,7 @@
 <script src="https://cdn.jsdelivr.net/npm/ol@10.9.0/dist/ol.js" integrity="sha384-H9f6d9zpuIdeGwVsGIPSbRgWKZ8WRk2C1K7GxlC61fe5qjRCL/5Qvp2wUvUVDS8v" crossorigin="anonymous"></script>
 <script>
 const $=id=>document.getElementById(id),dateInput=$('imageDate'),previousDay=$('previousDay'),nextDay=$('nextDay'),latestDay=$('latestDay'),globalView=$('globalView'),toggleLabels=$('toggleLabels'),imageState=$('imageState'),imageDateSide=$('imageDateSide'),worldviewLink=$('worldviewLink');
-const DAY=86400000,MIN_DATE='2002-07-04',reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const MIN_DATE='2002-07-04',REFRESH_MS=300000,reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const utcToday=()=>new Date().toISOString().slice(0,10),validDate=value=>/^\d{4}-\d{2}-\d{2}$/.test(value)&&value>=MIN_DATE&&value<=utcToday(),formatLong=value=>new Intl.DateTimeFormat('en-US',{timeZone:'UTC',year:'numeric',month:'short',day:'numeric'}).format(new Date(value+'T12:00:00Z')),displayNumber=(value,digits=0,suffix='')=>Number.isFinite(Number(value))?`${Number(value).toFixed(digits)}${suffix}`:'—';
 const queryDate=new URLSearchParams(location.search).get('date'),initialDate=validDate(queryDate)?queryDate:utcToday();
 dateInput.max=utcToday();dateInput.value=initialDate;
@@ -75,7 +76,7 @@ let selectedDate=initialDate,map,dailySource,labelLayers=[],pendingTiles=0,loade
 function gibsDaily(date){return `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/MODIS_Aqua_CorrectedReflectance_TrueColor/default/${date}/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpeg`}
 function gibsStatic(layer){return `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/${layer}/default/GoogleMapsCompatible_Level9/{z}/{y}/{x}.png`}
 const BLANK_TILE='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
-function quietTileLoader(tile,src){const image=tile.getImage();fetch(src,{mode:'cors'}).then(r=>r.ok?r.blob():Promise.reject(new Error('tile outside coverage'))).then(blob=>{const objectUrl=URL.createObjectURL(blob);image.onload=()=>URL.revokeObjectURL(objectUrl);image.src=objectUrl}).catch(()=>{image.src=BLANK_TILE})}
+function quietTileLoader(tile,src){const image=tile.getImage();fetch(src,{mode:'cors'}).then(r=>r.ok?r.blob():Promise.reject(new Error('tile outside coverage'))).then(blob=>{const objectUrl=URL.createObjectURL(blob);image.addEventListener('load',()=>URL.revokeObjectURL(objectUrl),{once:true});image.src=objectUrl}).catch(()=>{image.src=BLANK_TILE})}
 function setImageState(title,detail){imageState.innerHTML=`<b>${title}</b><span>${detail}</span>`}
 function updateWorldview(){const layers='MODIS_Aqua_CorrectedReflectance_TrueColor,Reference_Features,Reference_Labels';worldviewLink.href=`https://worldview.earthdata.nasa.gov/?p=geographic&l=${layers}&t=${selectedDate}&v=-180,-90,180,90`}
 function dateShift(days){const d=new Date(selectedDate+'T12:00:00Z');d.setUTCDate(d.getUTCDate()+days);setDate(d.toISOString().slice(0,10))}
@@ -85,7 +86,8 @@ function queueSettled(){clearTimeout(settleTimer);settleTimer=setTimeout(()=>{co
 function initMap(){if(!window.ol){$('mapFallback').hidden=false;setImageState('Map unavailable','Open the scene in NASA Worldview from the companion panel.');return}dailySource=new ol.source.XYZ({url:gibsDaily(selectedDate),tileLoadFunction:quietTileLoader,crossOrigin:'anonymous',attributions:'Imagery: NASA EOSDIS GIBS · MODIS / Aqua',maxZoom:9,wrapX:true});wireTileState(dailySource);const imageLayer=new ol.layer.Tile({source:dailySource,extent:ol.proj.transformExtent([-180,-66,180,85],'EPSG:4326','EPSG:3857')});const features=new ol.layer.Tile({source:new ol.source.XYZ({url:gibsStatic('Reference_Features'),crossOrigin:'anonymous',attributions:'Reference: OpenStreetMap contributors via NASA GIBS',maxZoom:9,wrapX:true})});const labels=new ol.layer.Tile({source:new ol.source.XYZ({url:gibsStatic('Reference_Labels'),crossOrigin:'anonymous',maxZoom:9,wrapX:true})});labelLayers=[features,labels];map=new ol.Map({target:'map',layers:[imageLayer,features,labels],view:new ol.View({center:[0,0],zoom:2,minZoom:2,maxZoom:9,enableRotation:false})});map.addControl(new ol.control.ScaleLine({units:'metric',bar:false,steps:2,minWidth:90}));setDate(selectedDate)}
 previousDay.addEventListener('click',()=>dateShift(-1));nextDay.addEventListener('click',()=>dateShift(1));latestDay.addEventListener('click',()=>setDate(utcToday()));dateInput.addEventListener('change',()=>setDate(dateInput.value));globalView.addEventListener('click',()=>map?.getView().animate({center:[0,0],zoom:2,duration:reduced?0:450}));toggleLabels.addEventListener('click',()=>{const visible=toggleLabels.getAttribute('aria-pressed')!=='true';toggleLabels.setAttribute('aria-pressed',String(visible));labelLayers.forEach(layer=>layer.setVisible(visible))});
 async function loadStationContext(){try{const r=await fetch('/data/observatory.json',{cache:'no-cache'});if(!r.ok)throw new Error();const d=await r.json(),surface=d.surface||{},air=d.air_quality||{},birds=d.birds||{};$('payloadTime').textContent=d.updated?new Date(d.updated).toLocaleTimeString('en-US',{timeZone:'UTC',hour:'2-digit',minute:'2-digit',hour12:false})+' UTC':'available';$('stationContext').innerHTML=`<div class="reading"><span>Surface temperature</span><strong><a href="/observatory.html#atmosphere">${displayNumber(surface.temp_c,1,' °C')}</a></strong></div><div class="reading"><span>Cloud cover</span><strong>${displayNumber(surface.cloud_pct,0,'%')}</strong></div><div class="reading"><span>Modeled AQI</span><strong><a href="/observatory.html#atmosphere">${displayNumber(air.us_aqi)}</a></strong></div><div class="reading"><span>Acoustic events · 24h</span><strong><a href="/observatory.html#acoustic">${birds.detections_24h??'—'}</a></strong></div>`}catch(e){$('payloadTime').textContent='unavailable';$('stationContext').innerHTML='<div class="reading"><span>Latest station context</span><strong>unavailable</strong></div>'}}
-setDate(initialDate);initMap();loadStationContext();
+function refreshLiveData(){const today=utcToday();dateInput.max=today;nextDay.disabled=selectedDate>=today;latestDay.disabled=selectedDate===today;if(selectedDate===today&&dailySource){pendingTiles=loadedTiles=failedTiles=0;setImageState('Refreshing orbital passes',`${formatLong(today)} · checking NASA GIBS`);dailySource.refresh()}loadStationContext()}
+setDate(initialDate);initMap();loadStationContext();setInterval(refreshLiveData,REFRESH_MS);
 </script>
 </body>
 </html>

@@ -19,21 +19,23 @@ body{cursor:crosshair;touch-action:none}
 .band:nth-child(3){left:8%;bottom:-16%;background:radial-gradient(ellipse,rgba(248,215,123,.4),transparent 70%);animation-duration:29s;animation-delay:-13s}
 @keyframes swim{0%{transform:translate3d(-3%,0,0) rotate(-8deg) scale(1)}100%{transform:translate3d(6%,7%,0) rotate(11deg) scale(1.18)}}
 #vignette{z-index:3;background:radial-gradient(ellipse at center,transparent 35%,rgba(0,4,2,.42) 100%)}
-#obs-link{position:fixed;right:max(1rem,env(safe-area-inset-right));bottom:max(1rem,env(safe-area-inset-bottom));z-index:5;width:2.7rem;height:2.7rem;border:1px solid rgba(154,255,179,.28);border-radius:50%;display:grid;place-items:center;color:var(--green);font:1.15rem Georgia;text-decoration:none;background:rgba(2,12,8,.35);backdrop-filter:blur(8px);box-shadow:0 0 28px rgba(90,244,210,.12);transition:.3s}
-#obs-link:hover,#obs-link:focus-visible{transform:scale(1.1);border-color:var(--gold);color:var(--gold);outline:none}
 .ripple{position:fixed;z-index:6;border:1px solid rgba(248,215,123,.68);border-radius:50%;pointer-events:none;animation:ripple 1.5s ease-out forwards;box-shadow:0 0 36px rgba(248,215,123,.28)}
 .spark{position:fixed;z-index:6;width:4px;height:4px;border-radius:50%;pointer-events:none;animation:spark 1s ease-out forwards;box-shadow:0 0 16px currentColor}
 @keyframes ripple{0%{width:0;height:0;opacity:1;transform:translate(-50%,-50%)}100%{width:430px;height:430px;opacity:0;transform:translate(-50%,-50%)}}
 @keyframes spark{to{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.1)}}
-@media (prefers-reduced-motion:reduce){body{cursor:default}#aurora{animation:none;filter:none}#obs-link{transition:none}.ripple,.spark{animation:none;display:none}}
+@media (prefers-reduced-motion:reduce){body{cursor:default}#aurora{animation:none;filter:none}.ripple,.spark{animation:none;display:none}}
 </style>
+<link rel="stylesheet" href="/site-shell.css">
 </head>
 <body>
+<header class="site-head site-head--overlay">
+<a class="brand" href="/" aria-label="The Vortex Project home"><span class="mark">◉</span><span class="brand-copy"><strong>THE VORTEX PROJECT</strong><small>field</small></span></a>
+<div class="head-cluster"><nav class="head-nav" aria-label="Project views"><span aria-current="page">Field</span><a href="/observatory.html">Observatory</a><a href="/cartographer.html">Cartographer</a></nav></div>
+</header>
 <div id="deep" aria-hidden="true"></div>
 <canvas id="field" aria-hidden="true"></canvas>
 <div id="aurora" aria-hidden="true"><div class="band"></div><div class="band"></div><div class="band"></div></div>
 <div id="vignette" aria-hidden="true"></div>
-<a id="obs-link" href="/observatory.html" aria-label="Open Skyspace Chart" title="Skyspace Chart">◉</a>
 <script>
 const canvas=document.getElementById('field'),ctx=canvas.getContext('2d',{alpha:true}),root=document.documentElement;
 let W=innerWidth,H=innerHeight,DPR=1,last=performance.now(),elapsed=0,obs=null,nextFlare=0;
@@ -45,15 +47,15 @@ function resize(){DPR=Math.min(2,devicePixelRatio||1);W=innerWidth;H=innerHeight
 function seed(){motes.length=0;threads.length=0;const n=Math.min(260,Math.max(130,Math.floor(W*H/6500)));for(let i=0;i<n;i++)motes.push({x:rand(0,W),y:rand(0,H),vx:rand(-.16,.16),vy:rand(-.11,.11),r:rand(.5,2.1),h:rand(120,172),phase:rand(0,Math.PI*2)});for(let i=0;i<36;i++)threads.push({a:Math.floor(rand(0,n)),b:Math.floor(rand(0,n)),phase:rand(0,Math.PI*2),w:rand(.3,1)})}
 function burst(x,y,count){for(let i=0;i<count;i++){const s=document.createElement('i');s.className='spark';s.style.left=x+'px';s.style.top=y+'px';s.style.color=i%5===0?'var(--gold)':i%3===0?'var(--teal)':'var(--green)';const a=rand(0,Math.PI*2),d=rand(35,190);s.style.setProperty('--dx',Math.cos(a)*d+'px');s.style.setProperty('--dy',Math.sin(a)*d+'px');document.body.appendChild(s);setTimeout(()=>s.remove(),1050)}}
 function ripple(x,y){const r=document.createElement('i');r.className='ripple';r.style.left=x+'px';r.style.top=y+'px';document.body.appendChild(r);setTimeout(()=>r.remove(),1550)}
-addEventListener('resize',resize);addEventListener('pointermove',e=>{pointer.tx=e.clientX;pointer.ty=e.clientY;root.style.setProperty('--hotx',e.clientX+'px');root.style.setProperty('--hoty',e.clientY+'px')});addEventListener('pointerdown',e=>{if(e.target.closest('#obs-link'))return;ripple(e.clientX,e.clientY);burst(e.clientX,e.clientY,12);pointer.energy=clamp(pointer.energy+.45,.2,2.5)});
+addEventListener('resize',resize);addEventListener('pointermove',e=>{if(e.target.closest('.site-head'))return;pointer.tx=e.clientX;pointer.ty=e.clientY;root.style.setProperty('--hotx',e.clientX+'px');root.style.setProperty('--hoty',e.clientY+'px')});addEventListener('pointerdown',e=>{if(e.target.closest('.site-head,a,button'))return;ripple(e.clientX,e.clientY);burst(e.clientX,e.clientY,12);pointer.energy=clamp(pointer.energy+.45,.2,2.5)});
 function values(){const sw=obs?.solar_wind||{},mg=obs?.magnetosphere||{},sun=obs?.sun||{},sp=obs?.space_weather||{};return{kp:Number(mg.kp_now??mg.kp_1m??0),speed:Number(sw.speed_kms??400),density:Number(sw.density??2),bz:Number(sw.bz_gsm_nt??sw.bz_nt??0),dst:Number(mg.dst_nt??0),flare:sun.xray_class||'A',aurora:Number(sp.aurora?.nh_max_probability??0)}}
 function applyAtmosphere(){const v=values(),aurora=document.getElementById('aurora');aurora.style.opacity=String(clamp(.28+v.kp*.12+v.aurora*.003,.3,.95));const hue=v.bz<0?clamp(Math.abs(v.bz)*4,0,44):0;aurora.style.filter=`blur(${12+clamp(v.density,0,20)*.35}px) hue-rotate(${hue}deg)`;nextFlare=Math.min(nextFlare,elapsed+.5)}
 async function load(){try{const r=await fetch('/data/observatory.json',{cache:'no-cache'});if(r.ok){obs=await r.json();applyAtmosphere()}}catch(e){}}
 function draw(now){const dt=Math.min(40,now-last);last=now;elapsed+=dt*.001;pointer.x+=(pointer.tx-pointer.x)*.07;pointer.y+=(pointer.ty-pointer.y)*.07;pointer.energy=Math.max(.18,pointer.energy*.988);const v=values();ctx.clearRect(0,0,W,H);ctx.fillStyle='rgba(2,7,4,.42)';ctx.fillRect(0,0,W,H);ctx.globalCompositeOperation='lighter';const glow=ctx.createRadialGradient(pointer.x,pointer.y,0,pointer.x,pointer.y,Math.max(W,H)*.44);glow.addColorStop(0,`rgba(154,255,179,${.07+pointer.energy*.03})`);glow.addColorStop(.45,'rgba(90,244,210,.025)');glow.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=glow;ctx.fillRect(0,0,W,H);
-const velocity=clamp(.55+(v.speed-300)/500*1.25,.35,2.1),pull=clamp(-v.bz/12,0,1)*.003,threadTarget=Math.floor(12+clamp(v.kp,0,7)*7),flareRate={A:0,B:.014,C:.06,M:.22,X:.55}[v.flare]||0;
+const velocity=reduced?0:clamp(.55+(v.speed-300)/500*1.25,.35,2.1),pull=clamp(-v.bz/12,0,1)*.003,threadTarget=Math.floor(12+clamp(v.kp,0,7)*7),flareRate={A:0,B:.014,C:.06,M:.22,X:.55}[v.flare]||0;
 for(const m of motes){const dx=pointer.x-m.x,dy=pointer.y-m.y,dist=Math.hypot(dx,dy)||1,near=clamp(1-dist/220,0,1);m.vx-=dx/dist*near*(.009+pointer.energy*.008);m.vy-=dy/dist*near*(.009+pointer.energy*.008);m.vx+=(W*.5-m.x)*pull*.0004;m.vy+=(H*.5-m.y)*pull*.0004;m.vx+=Math.sin(elapsed*.7+m.phase)*.002;m.vy+=Math.cos(elapsed*.55+m.phase)*.0015;m.x+=m.vx*dt*velocity;m.y+=m.vy*dt*velocity;m.vx*=.987;m.vy*=.987;if(m.x<-28)m.x=W+28;if(m.x>W+28)m.x=-28;if(m.y<-28)m.y=H+28;if(m.y>H+28)m.y=-28}
-while(threads.length<threadTarget)threads.push({a:Math.floor(rand(0,motes.length)),b:Math.floor(rand(0,motes.length)),phase:rand(0,Math.PI*2),w:rand(.3,1)});while(threads.length>Math.max(12,threadTarget))threads.pop();for(const t of threads){const a=motes[t.a],b=motes[t.b],d=Math.hypot(a.x-b.x,a.y-b.y);if(!a||!b||d>215)continue;const alpha=(1-d/215)*(.065+pointer.energy*.014)*(v.bz<0?1.3:.78)*( .55+.45*Math.sin(elapsed*2+t.phase));ctx.strokeStyle=`hsla(${v.bz<0?145:128},100%,72%,${alpha})`;ctx.lineWidth=t.w;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke()}
-for(const m of motes){const pulse=.55+.45*Math.sin(elapsed*2.2+m.phase),near=clamp(1-Math.hypot(pointer.x-m.x,pointer.y-m.y)/180,0,1),r=m.r*(1+pulse*.8+near*2),alpha=.13+pulse*.2+near*.36;ctx.fillStyle=`hsla(${m.h+near*35},100%,70%,${alpha})`;ctx.beginPath();ctx.arc(m.x,m.y,r,0,Math.PI*2);ctx.fill()}
+const phaseTime=reduced?0:elapsed;while(threads.length<threadTarget)threads.push({a:Math.floor(rand(0,motes.length)),b:Math.floor(rand(0,motes.length)),phase:rand(0,Math.PI*2),w:rand(.3,1)});while(threads.length>Math.max(12,threadTarget))threads.pop();for(const t of threads){const a=motes[t.a],b=motes[t.b];if(!a||!b)continue;const d=Math.hypot(a.x-b.x,a.y-b.y);if(d>215)continue;const alpha=(1-d/215)*(.065+pointer.energy*.014)*(v.bz<0?1.3:.78)*(.55+.45*Math.sin(phaseTime*2+t.phase));ctx.strokeStyle=`hsla(${v.bz<0?145:128},100%,72%,${alpha})`;ctx.lineWidth=t.w;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke()}
+for(const m of motes){const pulse=.55+.45*Math.sin(phaseTime*2.2+m.phase),near=clamp(1-Math.hypot(pointer.x-m.x,pointer.y-m.y)/180,0,1),r=m.r*(1+pulse*.8+near*2),alpha=.13+pulse*.2+near*.36;ctx.fillStyle=`hsla(${m.h+near*35},100%,70%,${alpha})`;ctx.beginPath();ctx.arc(m.x,m.y,r,0,Math.PI*2);ctx.fill()}
 if(!reduced&&elapsed>nextFlare&&flareRate){burst(rand(W*.12,W*.88),rand(H*.04,H*.28),v.flare==='X'?20:v.flare==='M'?10:4);nextFlare=elapsed+clamp(18-20*flareRate,3,18)}requestAnimationFrame(draw)}
 resize();load();setInterval(load,300000);requestAnimationFrame(draw);
 </script>
