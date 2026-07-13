@@ -44,6 +44,19 @@ def safe_float(v, default=None):
     try: return float(v)
     except: return default
 
+
+def load_previous_output():
+    """Read the prior public payload so compact station history survives each run."""
+    try:
+        with open(DATA_FILE) as f:
+            previous = json.load(f)
+        return previous if isinstance(previous, dict) else {}
+    except (OSError, ValueError, TypeError):
+        return {}
+
+
+previous_output = load_previous_output()
+
 # ── 1. Open-Meteo (Surface + Boundary + Upper + AQI) ────────────────────
 print("→ Open-Meteo...")
 om = fetch(f"https://api.open-meteo.com/v1/forecast?latitude={LAT}&longitude={LON}"
@@ -81,22 +94,25 @@ if om:
         surface["precip_sum_mm"] = d.get("precipitation_sum", [None])[0]
     h = om.get("hourly", {})
     if h:
-        # Next 6h wind + gust
+        # Next 6h wind + gust, anchored to the provider's local current time.
         times = h.get("time", [])
         winds = h.get("wind_speed_10m", [])
         gusts = h.get("wind_gusts_10m", [])
-        now_hour = datetime.datetime.now().hour
         next_6 = []
-        for i, t in enumerate(times[:24]):
+        try:
+            current_local = datetime.datetime.fromisoformat(c.get("time"))
+        except (TypeError, ValueError):
+            current_local = datetime.datetime.now()
+        for i, stamp in enumerate(times):
             if len(next_6) >= 6:
                 break
             try:
-                hh = int(t.split("T")[1].split(":")[0]) if "T" in t else 0
-            except:
+                candidate = datetime.datetime.fromisoformat(stamp)
+            except (TypeError, ValueError):
                 continue
-            if hh >= now_hour and i < len(winds):
+            if candidate >= current_local and i < len(winds):
                 next_6.append({
-                    "h": t[-5:] if "T" in t else str(hh),
+                    "h": stamp[-5:] if "T" in stamp else str(candidate.hour),
                     "w": winds[i],
                     "g": gusts[i] if i < len(gusts) else None
                 })
@@ -539,9 +555,38 @@ try:
 except Exception:
     birds = None
 
-# ── 13. Assemble ───────────────────────────────────────────────────────
+# ── 13. Compact station history ────────────────────────────────────────
+# Preserve one snapshot per generator run (normally every 30 minutes), capped
+# at 48 samples / roughly 24 hours. This creates useful local trends without
+# additional upstream API requests or publishing any station coordinates.
+now_utc = datetime.datetime.now(datetime.timezone.utc)
+now_iso = now_utc.strftime("%Y-%m-%dT%H:%M:%SZ")
+station_history = previous_output.get("station_history", [])
+if not isinstance(station_history, list):
+    station_history = []
+station_history = [row for row in station_history if isinstance(row, dict) and row.get("time")]
+
+sample = {
+    "time": now_iso,
+    "wind_speed": solar_wind.get("speed_kms"),
+    "bz": solar_wind.get("bz_gsm_nt"),
+    "wind_density": solar_wind.get("density"),
+    "tec": ionosphere.get("tec"),
+    "hmf2": ionosphere.get("hmf2_km"),
+    "temp": surface.get("temp_c"),
+    "humidity": surface.get("humidity_pct"),
+    "aqi": aqi_data.get("us_aqi"),
+    "bird_detections": birds.get("detections_24h") if isinstance(birds, dict) else None,
+    "bird_species": birds.get("species_count") if isinstance(birds, dict) else None,
+}
+# Drop empty fields but retain time. Nulls should not flatten chart ranges.
+sample = {key: value for key, value in sample.items() if key == "time" or value is not None}
+station_history.append(sample)
+station_history = station_history[-48:]
+
+# ── 14. Assemble ───────────────────────────────────────────────────────
 output = {
-    "updated": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+    "updated": now_iso,
     "location": {"name": "Observatory Station"},
     "surface": surface,
     "air_quality": aqi_data,
@@ -560,6 +605,7 @@ output = {
     "iss_pass": iss_pass,
     "alerts": alerts,
     "birds": birds,
+    "station_history": station_history,
 }
 
 with open(DATA_FILE, "w") as f:
