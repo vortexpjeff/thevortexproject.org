@@ -1,17 +1,17 @@
 {
   "specVersion": "1.0",
   "host": {
-    "displayName": "The Vortex Project \u2014 Pine Hollow Research Station",
+    "displayName": "The Vortex Project — Research Station",
     "identifier": "did:web:thevortexproject.org",
     "documentationUrl": "https://www.thevortexproject.org"
   },
   "entries": [
     {
       "identifier": "urn:ai:thevortexproject.org:agent:solaris",
-      "displayName": "Solaris \u2014 Ground & Acoustic Agent",
+      "displayName": "Solaris — Ground & Acoustic Agent",
       "type": "application/x-ai-agent+json",
       "url": "https://a2a.thevortexproject.org/.well-known/agent-card.json",
-      "description": "Ground-truth agent for Pine Hollow. A2A endpoint: https://a2a.thevortexproject.org/a2a/solaris/rpc (bearer token required \u2014 email solaris.thevortexproject@gmail.com for access).Satellite vegetation analysis via Google Earth Engine: NDVI time series (Sentinel-2, 10m), above-ground biomass (ESA CCI + ML/GEDI), canopy cover (Hansen GFC), land cover classification (NLCD, Dynamic World), forest disturbance detection, terrain analysis (elevation/slope/aspect from 3DEP), surface water mapping (JRC), land surface temperature (MODIS), precipitation context (CHIRPS/PRISM), and canopy height (ETH Global). Retrieves bird species detection summaries from BirdNET-Pi (24-hour and historical). Tracks phenology events for key tree species. Monitors homestead infrastructure including pond recovery, swale restoration, and garden conditions. Can answer weather and climate questions as they relate to vegetation and land change. Contact: solaris.thevortexproject@gmail.com.",
+      "description": "Ground-truth agent for the observatory station. A2A endpoint: https://a2a.thevortexproject.org/a2a/solaris/rpc (bearer token required — email solaris.thevortexproject@gmail.com for access).Satellite vegetation analysis via Google Earth Engine: NDVI time series (Sentinel-2, 10m), above-ground biomass (ESA CCI + ML/GEDI), canopy cover (Hansen GFC), land cover classification (NLCD, Dynamic World), forest disturbance detection, terrain analysis (elevation/slope/aspect from 3DEP), surface water mapping (JRC), land surface temperature (MODIS), precipitation context (CHIRPS/PRISM), and canopy height (ETH Global). Retrieves bird species detection summaries from BirdNET-Pi (24-hour and historical). Tracks phenology events for key tree species. Monitors homestead infrastructure including pond recovery, swale restoration, and garden conditions. Can answer weather and climate questions as they relate to vegetation and land change. Contact: solaris.thevortexproject@gmail.com.",
       "tags": [
         "vegetation",
         "earth-engine",
@@ -75,7 +75,7 @@
         "InfrastructureMonitoring"
       ],
       "representativeQueries": [
-        "what was the NDVI trend at Pine Hollow this spring",
+        "what was the NDVI trend at the station this spring",
         "show me bird detections from last night",
         "when did the sugar maple leaf out this year",
         "how has the pond recovery progressed since 2016",
@@ -96,10 +96,10 @@
     },
     {
       "identifier": "urn:ai:thevortexproject.org:agent:observerbot",
-      "displayName": "ObserverBot \u2014 Sky & Atmospheric Agent",
+      "displayName": "ObserverBot — Sky & Atmospheric Agent",
       "type": "application/x-ai-agent+json",
       "url": "https://www.thevortexproject.org",
-      "description": "Dedicated sky monitoring agent with 20 integrated data endpoints organized into six layers. Solar: 10 NOAA SWPC endpoints (solar wind magnetic field and plasma, planetary K-index and 72h forecast, GOES proton flux, F10.7 solar cycle, OVATION aurora, sunspot regions, GLOTEC TEC) plus 4 NASA DONKI endpoints (CME, flares, geomagnetic storms) \u2014 key: dedicated NASA API key. Weather: 3 Open-Meteo endpoints (forecast, air quality, geocoding) plus 2 NWS endpoints (grid point lookup, zone alerts). Satellites: TLE API for ISS and Tiangong passes + local ephem library for orbital predictions. Planetary: local PyEphem library for planetary positions, alt/az/magnitude, rise/set, moon phase and illumination. Astronomy: 7 additional endpoints available on demand (NASA Exoplanet Archive TAP, JPL Horizons, USGS Earthquakes, Open Notify ISS position, Open Notify people in space, NASA APOD, arXiv API). All powered by a dedicated observatory-feeds skill on the Atlas profile. Contact for collaboration: solaris.thevortexproject@gmail.com.",
+      "description": "Dedicated sky monitoring agent with 20 integrated data endpoints organized into six layers. Solar: 10 NOAA SWPC endpoints (solar wind magnetic field and plasma, planetary K-index and 72h forecast, GOES proton flux, F10.7 solar cycle, OVATION aurora, sunspot regions, GLOTEC TEC) plus 4 NASA DONKI endpoints (CME, flares, geomagnetic storms) — key: dedicated NASA API key. Weather: 3 Open-Meteo endpoints (forecast, air quality, geocoding) plus 2 NWS endpoints (grid point lookup, zone alerts). Satellites: TLE API for ISS and Tiangong passes + local ephem library for orbital predictions. Planetary: local PyEphem library for planetary positions, alt/az/magnitude, rise/set, moon phase and illumination. Astronomy: 7 additional endpoints available on demand (NASA Exoplanet Archive TAP, JPL Horizons, USGS Earthquakes, Open Notify ISS position, Open Notify people in space, NASA APOD, arXiv API). All powered by a dedicated observatory-feeds skill on the Atlas profile. Contact for collaboration: solaris.thevortexproject@gmail.com.",
       "tags": [
         "solar",
         "space-weather",
@@ -148,8 +148,8 @@
       ],
       "representativeQueries": [
         "any solar flares today",
-        "what's the air quality like over Pine Hollow",
-        "when's the next ISS pass visible from Sevierville",
+        "what's the air quality like at the station",
+        "when's the next visible ISS pass",
         "is the aurora forecast active tonight",
         "what meteor showers are coming up this month",
         "what's the current solar wind speed",
@@ -165,7 +165,7 @@
     },
     {
       "identifier": "urn:ai:thevortexproject.org:agent:archivator",
-      "displayName": "Archivator \u2014 Research District Archivist",
+      "displayName": "Archivator — Research District Archivist",
       "type": "application/x-ai-agent+json",
       "url": "https://www.thevortexproject.org",
       "description": "Cross-reference and archiving agent. Correlates observations across ground and sky domains: bird activity with vegetation change, insect patterns with temperature, migration timing with canopy green-up. Maintains a searchable archive of research threads, observation summaries, and multi-domain correlation queries. Designed for longitudinal citizen-science analysis. Contact for collaboration: solaris.thevortexproject@gmail.com.",
