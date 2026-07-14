@@ -162,3 +162,143 @@ export function strongestGust(rows, now, hours = 24) {
   const peak = candidates.reduce((best, row) => Number(row.windGust) > Number(best.windGust) ? row : best);
   return {time: peak.time, value: Number(peak.windGust)};
 }
+
+const WATER_PARAMETERS = {
+  '00060': 'discharge',
+  '00065': 'gageHeight',
+};
+
+const roundTo = (value, digits = 3) => Number(Number(value).toFixed(digits));
+
+export function waterBoundingBox(latitude, longitude, radiusKm = 50) {
+  const lat = Number(latitude);
+  const lon = Number(longitude);
+  const radius = Math.max(1, Number(radiusKm) || 50);
+  if (!Number.isFinite(lat) || !Number.isFinite(lon)) return [];
+  const latDelta = radius / 111.32;
+  const longitudeScale = Math.max(0.05, Math.cos(lat * Math.PI / 180));
+  const lonDelta = radius / (111.32 * longitudeScale);
+  return [
+    roundTo(Math.max(-180, lon - lonDelta), 6),
+    roundTo(Math.max(-90, lat - latDelta), 6),
+    roundTo(Math.min(180, lon + lonDelta), 6),
+    roundTo(Math.min(90, lat + latDelta), 6),
+  ];
+}
+
+export function haversineKm(first, second) {
+  const lat1 = Number(first?.latitude);
+  const lon1 = Number(first?.longitude);
+  const lat2 = Number(second?.latitude);
+  const lon2 = Number(second?.longitude);
+  if (![lat1, lon1, lat2, lon2].every(Number.isFinite)) return Infinity;
+  if (lat1 === lat2 && lon1 === lon2) return 0;
+  const radians = (value) => value * Math.PI / 180;
+  const dLat = radians(lat2 - lat1);
+  const dLon = radians(lon2 - lon1);
+  const a = Math.sin(dLat / 2) ** 2
+    + Math.cos(radians(lat1)) * Math.cos(radians(lat2)) * Math.sin(dLon / 2) ** 2;
+  return 6371.0088 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+function waterValues(series) {
+  const noData = Number(series?.variable?.noDataValue);
+  const blocks = Array.isArray(series?.values) ? series.values : [];
+  return blocks.flatMap((block) => Array.isArray(block?.value) ? block.value : [])
+    .map((row) => ({
+      value: Number(row?.value),
+      time: row?.dateTime || '',
+      qualifiers: Array.isArray(row?.qualifiers) ? row.qualifiers.filter(Boolean) : [],
+    }))
+    .filter((row) => Number.isFinite(row.value)
+      && (!Number.isFinite(noData) || row.value !== noData)
+      && Number.isFinite(Date.parse(row.time)))
+    .sort((a, b) => Date.parse(a.time) - Date.parse(b.time));
+}
+
+export function normalizeWaterSeries(payload, selectedPlace) {
+  const seriesList = payload?.value?.timeSeries;
+  if (!Array.isArray(seriesList) || !seriesList.length) return null;
+  const stations = new Map();
+
+  for (const series of seriesList) {
+    const source = series?.sourceInfo || {};
+    const code = String(source?.siteCode?.[0]?.value || '').trim();
+    const parameterCode = String(series?.variable?.variableCode?.[0]?.value || '').trim();
+    const key = WATER_PARAMETERS[parameterCode];
+    const latitude = Number(source?.geoLocation?.geogLocation?.latitude);
+    const longitude = Number(source?.geoLocation?.geogLocation?.longitude);
+    const values = waterValues(series);
+    if (!code || !key || !values.length || !Number.isFinite(latitude) || !Number.isFinite(longitude)) continue;
+
+    if (!stations.has(code)) {
+      stations.set(code, {
+        siteCode: code,
+        name: String(source.siteName || `USGS station ${code}`).trim(),
+        latitude,
+        longitude,
+        measurements: {},
+        url: `https://waterdata.usgs.gov/monitoring-location/USGS-${encodeURIComponent(code)}/`,
+      });
+    }
+    const station = stations.get(code);
+    station.measurements[key] = {
+      parameterCode,
+      description: String(series?.variable?.variableDescription || '').trim(),
+      unit: String(series?.variable?.unit?.unitCode || '').trim(),
+      values,
+      latest: values.at(-1),
+    };
+  }
+
+  const candidates = [...stations.values()].map((station) => ({
+    ...station,
+    distanceKm: haversineKm(selectedPlace, station),
+  })).filter((station) => Number.isFinite(station.distanceKm));
+  candidates.sort((a, b) => a.distanceKm - b.distanceKm || a.siteCode.localeCompare(b.siteCode));
+  return candidates[0] || null;
+}
+
+export function waterTrend(values) {
+  const finite = (Array.isArray(values) ? values : [])
+    .map((row) => ({value: Number(row?.value), time: Date.parse(row?.time)}))
+    .filter((row) => Number.isFinite(row.value) && Number.isFinite(row.time))
+    .sort((a, b) => a.time - b.time);
+  if (finite.length < 2) return null;
+  const first = finite[0];
+  const last = finite.at(-1);
+  const hours = (last.time - first.time) / 3600000;
+  if (!(hours > 0)) return null;
+  const delta = last.value - first.value;
+  return {
+    direction: Math.abs(delta) < 1e-6 ? 'steady' : delta > 0 ? 'rising' : 'falling',
+    delta: roundTo(delta),
+    hours: roundTo(hours, 2),
+    ratePerHour: roundTo(delta / hours),
+  };
+}
+
+export function waterSparkline(values, width = 640, height = 140, padding = 8) {
+  const finite = (Array.isArray(values) ? values : [])
+    .map((row) => ({value: Number(row?.value), time: Date.parse(row?.time)}))
+    .filter((row) => Number.isFinite(row.value) && Number.isFinite(row.time))
+    .sort((a, b) => a.time - b.time);
+  if (!finite.length) return null;
+  const minValue = Math.min(...finite.map((row) => row.value));
+  const maxValue = Math.max(...finite.map((row) => row.value));
+  const minTime = finite[0].time;
+  const maxTime = finite.at(-1).time;
+  const innerWidth = Math.max(1, Number(width) - padding * 2);
+  const innerHeight = Math.max(1, Number(height) - padding * 2);
+  const points = finite.map((row, index) => {
+    const xRatio = maxTime === minTime ? (finite.length === 1 ? 0.5 : index / (finite.length - 1)) : (row.time - minTime) / (maxTime - minTime);
+    const yRatio = maxValue === minValue ? 0.5 : (row.value - minValue) / (maxValue - minValue);
+    return [roundTo(padding + xRatio * innerWidth, 2), roundTo(padding + (1 - yRatio) * innerHeight, 2)];
+  });
+  return {
+    points,
+    path: points.map(([x, y], index) => `${index ? 'L' : 'M'} ${x} ${y}`).join(' '),
+    min: minValue,
+    max: maxValue,
+  };
+}

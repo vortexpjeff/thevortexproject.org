@@ -5,8 +5,12 @@ import {
   geocodeFallbackQueries,
   isCurrentHourlyPeriod,
   normalizeHourly,
+  normalizeWaterSeries,
   precipitationAmountThreshold,
   strongestGust,
+  waterBoundingBox,
+  waterSparkline,
+  waterTrend,
   weatherCode,
   windCardinal,
 } from './weather-core.js';
@@ -15,6 +19,7 @@ const FORECAST_URL = 'https://api.open-meteo.com/v1/forecast';
 const GEOCODE_URL = 'https://geocoding-api.open-meteo.com/v1/search';
 const AIR_URL = 'https://air-quality-api.open-meteo.com/v1/air-quality';
 const NWS_ALERTS_URL = 'https://api.weather.gov/alerts/active';
+const USGS_WATER_URL = 'https://waterservices.usgs.gov/nwis/iv/';
 const RECENT_KEY = 'vortex-weather-recent-v1';
 const UNIT_KEY = 'vortex-weather-units-v1';
 const glyphs = {
@@ -32,6 +37,7 @@ const dom = {
   humidity: $('#currentHumidity'), dew: $('#currentDew'), wind: $('#currentWind'), gust: $('#currentGust'), pressure: $('#currentPressure'), cloud: $('#currentCloud'),
   timing: $('#timingGrid'), hourly: $('#hourlyRail'), daily: $('#dailyList'), timezone: $('#forecastTimezone'),
   air: $('#airContent'), airTime: $('#airTime'), requestStamp: $('#requestStamp'),
+  waterSection: $('#waterSection'), waterCoverage: $('#waterCoverage'), waterContent: $('#waterContent'),
 };
 
 const state = {
@@ -40,6 +46,7 @@ const state = {
   forecast: null,
   air: null,
   alerts: null,
+  water: null,
   searchResults: [],
   activeResult: -1,
   searchAbort: null,
@@ -129,6 +136,28 @@ function airRequest(place) {
     hourly: 'us_aqi,pm2_5,pm10,ozone,nitrogen_dioxide',
   });
   return `${AIR_URL}?${params}`;
+}
+
+function waterRequest(place) {
+  const bounds = waterBoundingBox(place.latitude, place.longitude, 50);
+  if (bounds.length !== 4) return null;
+  const params = new URLSearchParams({
+    format: 'json',
+    bBox: bounds.join(','),
+    parameterCd: '00060,00065',
+    period: 'P2D',
+    siteStatus: 'active',
+  });
+  return `${USGS_WATER_URL}?${params}`;
+}
+
+async function loadWater(place, signal) {
+  if (place.countryCode !== 'US') return {coverage: 'unsupported', station: null};
+  const url = waterRequest(place);
+  if (!url) return {coverage: 'unsupported', station: null};
+  const payload = await fetchJson(url, {signal});
+  const station = normalizeWaterSeries(payload, place);
+  return {coverage: station ? 'usgs' : 'empty', station};
 }
 
 async function loadAlerts(place, signal) {
@@ -443,12 +472,175 @@ function formatAlertTime(value) {
   return new Intl.DateTimeFormat(undefined, {timeZone: state.forecast?.timezone, month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short'}).format(date);
 }
 
+function waterUnitLabel(unit) {
+  return {'ft3/s': 'ft³/s', 'ft': 'ft'}[unit] || unit || '';
+}
+
+function formatWaterTime(value) {
+  const date = new Date(value);
+  if (!Number.isFinite(date.getTime())) return 'time unavailable';
+  return new Intl.DateTimeFormat(undefined, {
+    timeZone: state.forecast?.timezone,
+    month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short',
+  }).format(date);
+}
+
+function waterAge(value) {
+  const elapsed = Date.now() - Date.parse(value);
+  if (!Number.isFinite(elapsed)) return '';
+  const minutes = Math.max(0, Math.round(elapsed / 60000));
+  if (minutes < 60) return `${minutes} min ago`;
+  const hours = Math.round(minutes / 60);
+  return `${hours} hr ago`;
+}
+
+function renderWaterMessage(message, coverage) {
+  dom.waterSection.hidden = false;
+  dom.waterCoverage.textContent = coverage;
+  dom.waterContent.replaceChildren();
+  const paragraph = document.createElement('p');
+  paragraph.className = 'water-message';
+  paragraph.textContent = message;
+  dom.waterContent.append(paragraph);
+}
+
+function waterMetric(label, measurement) {
+  if (!measurement?.latest) return null;
+  const block = document.createElement('div');
+  block.className = 'water-metric';
+  const small = document.createElement('small');
+  const strong = document.createElement('strong');
+  const unit = document.createElement('em');
+  small.textContent = label;
+  strong.textContent = number(measurement.latest.value, measurement.parameterCode === '00065' ? 2 : 0);
+  unit.textContent = ` ${waterUnitLabel(measurement.unit)}`;
+  strong.append(unit);
+  block.append(small, strong);
+  return block;
+}
+
+function renderWater() {
+  const result = state.water;
+  if (!result || result.coverage === 'unsupported') {
+    dom.waterSection.hidden = true;
+    dom.waterContent.replaceChildren();
+    return;
+  }
+  if (result.coverage === 'failed') {
+    renderWaterMessage('USGS observations are temporarily unavailable. Forecast and alert data are unaffected.', 'Provider unavailable');
+    return;
+  }
+  if (result.coverage === 'empty' || !result.station) {
+    renderWaterMessage('No active USGS station reporting discharge or gage height was returned within about 50 km of this place.', 'No nearby reporting station');
+    return;
+  }
+
+  const station = result.station;
+  const measurements = station.measurements || {};
+  const latestRows = Object.values(measurements).map((item) => item?.latest).filter(Boolean);
+  const latest = latestRows.sort((a, b) => Date.parse(b.time) - Date.parse(a.time))[0];
+  const provisional = latestRows.some((row) => row.qualifiers?.includes('P'));
+  const distance = state.units === 'imperial'
+    ? `${number(station.distanceKm * 0.621371, 1)} mi`
+    : `${number(station.distanceKm, 1)} km`;
+  dom.waterSection.hidden = false;
+  dom.waterCoverage.textContent = `${distance} · ${latest ? waterAge(latest.time) : 'latest time unavailable'}${provisional ? ' · provisional' : ''}`;
+  dom.waterContent.replaceChildren();
+
+  const grid = document.createElement('div');
+  grid.className = 'water-grid';
+  const reading = document.createElement('div');
+  const link = document.createElement('a');
+  link.className = 'water-station';
+  link.href = station.url;
+  link.rel = 'external';
+  link.textContent = station.name;
+  const meta = document.createElement('p');
+  meta.className = 'water-station-meta';
+  meta.textContent = `USGS ${station.siteCode} · ${distance}${latest ? ` · observed ${formatWaterTime(latest.time)}` : ''}${provisional ? ' · provisional data' : ''}`;
+  const metricGrid = document.createElement('div');
+  metricGrid.className = 'water-metrics';
+  const dischargeMetric = waterMetric('Discharge', measurements.discharge);
+  const gageMetric = waterMetric('Gage height', measurements.gageHeight);
+  if (dischargeMetric) metricGrid.append(dischargeMetric);
+  if (gageMetric) metricGrid.append(gageMetric);
+  const chartMeasurement = measurements.discharge || measurements.gageHeight;
+  const trend = waterTrend(chartMeasurement?.values);
+  const trendText = document.createElement('p');
+  trendText.className = 'water-trend';
+  if (trend) {
+    const direction = document.createElement('b');
+    direction.textContent = trend.direction[0].toUpperCase() + trend.direction.slice(1);
+    const unit = waterUnitLabel(chartMeasurement.unit);
+    trendText.append(direction, ` by ${number(Math.abs(trend.delta), chartMeasurement.parameterCode === '00065' ? 2 : 0)} ${unit} over ${number(trend.hours, trend.hours < 10 ? 1 : 0)} hours.`);
+  } else {
+    trendText.textContent = 'Only one current sample was returned for this station.';
+  }
+  reading.append(link, meta, metricGrid, trendText);
+
+  const figure = document.createElement('figure');
+  figure.className = 'water-trace';
+  const caption = document.createElement('figcaption');
+  const captionLabel = document.createElement('span');
+  const captionState = document.createElement('span');
+  captionLabel.textContent = `48-hour ${measurements.discharge ? 'discharge' : 'gage-height'} trace`;
+  captionState.textContent = 'observed';
+  caption.append(captionLabel, captionState);
+  const chart = waterSparkline(chartMeasurement?.values, 640, 160, 8);
+  if (chart) {
+    const namespace = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(namespace, 'svg');
+    svg.classList.add('water-chart');
+    svg.setAttribute('viewBox', '0 0 640 160');
+    svg.setAttribute('preserveAspectRatio', 'none');
+    svg.setAttribute('aria-hidden', 'true');
+    [40, 80, 120].forEach((y) => {
+      const line = document.createElementNS(namespace, 'line');
+      line.classList.add('water-gridline');
+      line.setAttribute('x1', '8'); line.setAttribute('x2', '632');
+      line.setAttribute('y1', String(y)); line.setAttribute('y2', String(y));
+      svg.append(line);
+    });
+    const path = document.createElementNS(namespace, 'path');
+    path.classList.add('water-line');
+    path.setAttribute('d', chart.path);
+    svg.append(path);
+    if (chart.points.length > 1) {
+      const flow = document.createElementNS(namespace, 'path');
+      flow.classList.add('water-flow');
+      flow.setAttribute('d', chart.path);
+      flow.setAttribute('pathLength', '1');
+      const speed = Math.max(4, 8 - Math.min(4, Math.abs(trend?.ratePerHour || 0)));
+      flow.style.setProperty('animation-duration', `${speed}s`);
+      svg.append(flow);
+    }
+    const [lastX, lastY] = chart.points.at(-1);
+    const point = document.createElementNS(namespace, 'circle');
+    point.classList.add('water-latest');
+    point.setAttribute('cx', String(lastX)); point.setAttribute('cy', String(lastY)); point.setAttribute('r', '3.5');
+    svg.append(point);
+    const traceMeta = document.createElement('div');
+    traceMeta.className = 'water-trace-meta';
+    const unit = waterUnitLabel(chartMeasurement.unit);
+    traceMeta.textContent = `${number(chart.min, chartMeasurement.parameterCode === '00065' ? 2 : 0)}–${number(chart.max, chartMeasurement.parameterCode === '00065' ? 2 : 0)} ${unit}`;
+    const observed = document.createElement('span');
+    observed.textContent = latest ? formatWaterTime(latest.time) : '';
+    traceMeta.append(observed);
+    figure.append(caption, svg, traceMeta);
+  } else {
+    figure.append(caption);
+  }
+  grid.append(reading, figure);
+  dom.waterContent.append(grid);
+}
+
 function renderWeather() {
   const rows = normalizeHourly(state.forecast.hourly);
   dom.empty.hidden = true;
   dom.content.hidden = false;
   renderCurrent();
   renderAlerts();
+  renderWater();
   renderTiming(rows);
   renderHourly(rows);
   renderDaily();
@@ -468,13 +660,15 @@ async function loadWeather(place, {updateUrl = true} = {}) {
   const forecastPromise = fetchJson(forecastRequest(place), {signal: controller.signal});
   const airPromise = fetchJson(airRequest(place), {signal: controller.signal});
   const alertPromise = loadAlerts(place, controller.signal);
+  const waterPromise = loadWater(place, controller.signal);
   try {
-    const [forecastResult, airResult, alertResult] = await Promise.allSettled([forecastPromise, airPromise, alertPromise]);
+    const [forecastResult, airResult, alertResult, waterResult] = await Promise.allSettled([forecastPromise, airPromise, alertPromise, waterPromise]);
     if (loadId !== state.loadId) return;
     if (forecastResult.status !== 'fulfilled') throw forecastResult.reason;
     state.forecast = forecastResult.value;
     state.air = airResult.status === 'fulfilled' ? airResult.value : null;
     state.alerts = alertResult.status === 'fulfilled' ? alertResult.value : {coverage: 'failed', features: []};
+    state.water = waterResult.status === 'fulfilled' ? waterResult.value : {coverage: 'failed', station: null};
     if (place.source === 'search') {
       saveRecent(place);
       if (updateUrl) updateLocationUrl(place);

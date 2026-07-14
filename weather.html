@@ -80,6 +80,12 @@
 <p class="model-note">Current conditions are modeled for the selected forecast grid, not measured by a sensor at the selected address.</p>
 </section>
 
+<section id="waterSection" class="water-section" aria-labelledby="waterTitle" hidden>
+<div class="section-heading"><div><p class="eyebrow">USGS OBSERVATION</p><h2 id="waterTitle">Water nearby</h2></div><p id="waterCoverage" class="section-note"></p></div>
+<div id="waterContent" class="water-content"></div>
+<p class="model-note">Gage height is the water surface height relative to that station's local reference. It is not a flood-stage interpretation. Use the linked official station page for thresholds and notices.</p>
+</section>
+
 <section class="timing-section" aria-labelledby="timingTitle">
 <div class="section-heading"><div><p class="eyebrow">PRACTICAL TIMING</p><h2 id="timingTitle">What happens next</h2></div><p class="section-note">Derived from the hourly forecast</p></div>
 <div id="timingGrid" class="timing-grid"></div>
@@ -107,6 +113,7 @@
 <article><h3>Forecast</h3><p>Open-Meteo combines public numerical weather models and selects an appropriate model for the requested coordinates.</p><a href="https://open-meteo.com/" rel="external">Open-Meteo documentation</a></article>
 <article><h3>Air</h3><p>Open-Meteo Air Quality uses CAMS model products. Values describe a grid area rather than a local instrument.</p><a href="https://open-meteo.com/en/docs/air-quality-api" rel="external">Air-quality documentation</a></article>
 <article><h3>U.S. alerts</h3><p>Active watches, warnings, and advisories come directly from the National Weather Service. Always follow local authorities during dangerous weather.</p><a href="https://www.weather.gov/" rel="external">National Weather Service</a></article>
+<article><h3>Observed water</h3><p>Recent discharge and gage height come from the nearest active station returned by USGS Water Services within about 50 km of a searched U.S. place.</p><a href="https://waterservices.usgs.gov/" rel="external">USGS Water Services</a></article>
 </div>
 <p id="requestStamp" class="request-stamp"></p>
 </section>

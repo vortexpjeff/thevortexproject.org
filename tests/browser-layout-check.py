@@ -25,7 +25,7 @@ PAGES = {
 class BrowserPage:
     def __init__(self, path, width, height, mobile=False):
         request = urllib.request.Request(
-            DEVTOOLS + "/json/new?" + urllib.parse.quote(BASE + path, safe=":/?&=%"),
+            DEVTOOLS + "/json/new?" + urllib.parse.quote(BASE + path, safe=":/?=%"),
             method="PUT",
         )
         self.target = json.load(urllib.request.urlopen(request, timeout=10))
@@ -150,6 +150,66 @@ class VortexLayoutTest(unittest.TestCase):
             self.assertAlmostEqual(geometry["left"], 0, delta=0.1)
             self.assertAlmostEqual(geometry["right"], 390, delta=0.1)
             self.assertAlmostEqual(geometry["bottom"], 844, delta=0.1)
+        finally:
+            page.close()
+
+    def test_weather_water_observation_and_non_us_coverage(self):
+        page = BrowserPage(PAGES["weather"], 390, 844, mobile=True)
+        try:
+            deadline = time.time() + 45
+            ready = False
+            while time.time() < deadline:
+                ready = page.evaluate(
+                    "!document.querySelector('#weatherContent').hidden && !document.querySelector('#waterSection').hidden"
+                )
+                if ready:
+                    break
+                time.sleep(0.25)
+            self.assertTrue(ready, msg=page.evaluate("document.querySelector('#weatherStatus').textContent"))
+            water = page.evaluate("""(()=>({
+              link:document.querySelector('.water-station')?.href||'',
+              metricCount:document.querySelectorAll('.water-metric').length,
+              pathCount:document.querySelectorAll('.water-chart path').length,
+              overflow:Math.max(0,document.documentElement.scrollWidth-innerWidth)
+            }))()""")
+            self.assertTrue(water["link"].startswith("https://waterdata.usgs.gov/monitoring-location/USGS-"))
+            self.assertGreaterEqual(water["metricCount"], 1)
+            self.assertGreaterEqual(water["pathCount"], 1)
+            self.assertEqual(water["overflow"], 0)
+        finally:
+            page.close()
+
+        paris = BrowserPage(
+            "/weather.html?lat=48.8566&lon=2.3522&name=Paris&country=France&cc=FR&tz=Europe%2FParis",
+            390,
+            844,
+            mobile=True,
+        )
+        try:
+            deadline = time.time() + 30
+            while time.time() < deadline and paris.evaluate("document.querySelector('#weatherContent').hidden"):
+                time.sleep(0.25)
+            self.assertTrue(paris.evaluate("document.querySelector('#waterSection').hidden"))
+        finally:
+            paris.close()
+
+    def test_weather_survives_usgs_outage(self):
+        page = BrowserPage(PAGES["weather"], 390, 844, mobile=True)
+        try:
+            page.command("Network.setBlockedURLs", {"urls": ["*waterservices.usgs.gov*"]})
+            page.command("Page.reload", {"ignoreCache": True})
+            deadline = time.time() + 45
+            ready = False
+            while time.time() < deadline:
+                ready = page.evaluate(
+                    "!document.querySelector('#weatherContent').hidden && document.querySelector('#waterContent').textContent.includes('temporarily unavailable')"
+                )
+                if ready:
+                    break
+                time.sleep(0.25)
+            self.assertTrue(ready, msg=page.evaluate("document.querySelector('#weatherStatus').textContent"))
+            self.assertIn("Forecast loaded", page.evaluate("document.querySelector('#weatherStatus').textContent"))
+            self.assertFalse(page.evaluate("document.querySelector('#waterSection').hidden"))
         finally:
             page.close()
 

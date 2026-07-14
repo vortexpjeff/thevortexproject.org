@@ -8,10 +8,15 @@ import {
   geocodeFallbackQueries,
   isCurrentHourlyPeriod,
   normalizeHourly,
+  normalizeWaterSeries,
   precipitationAmountThreshold,
   strongestGust,
+  waterBoundingBox,
+  waterSparkline,
+  waterTrend,
   weatherCode,
   windCardinal,
+  haversineKm,
 } from '../weather-core.js';
 
 test('geocodeFallbackQueries preserves the full query before a bounded fallback', () => {
@@ -128,4 +133,121 @@ test('strongestGust finds the peak in the requested horizon', () => {
   const result = strongestGust(rows, 2000, 6);
   assert.equal(result.time, 11800);
   assert.equal(result.value, 24);
+});
+
+test('waterBoundingBox creates a bounded square and clamps the date-line edge', () => {
+  const ordinary = waterBoundingBox(35.5951, -82.5515, 50);
+  assert.equal(ordinary.length, 4);
+  assert.ok(ordinary[0] < -82.5515 && ordinary[2] > -82.5515);
+  assert.ok(ordinary[1] < 35.5951 && ordinary[3] > 35.5951);
+  const edge = waterBoundingBox(21.3, 179.9, 50);
+  assert.ok(edge[0] >= -180 && edge[2] <= 180);
+});
+
+test('haversineKm returns zero for one point and a plausible regional distance', () => {
+  assert.equal(haversineKm({latitude: 35, longitude: -82}, {latitude: 35, longitude: -82}), 0);
+  const distance = haversineKm(
+    {latitude: 35.5951, longitude: -82.5515},
+    {latitude: 35.6087, longitude: -82.5781},
+  );
+  assert.ok(distance > 2 && distance < 4);
+});
+
+const waterPayload = {
+  value: {
+    timeSeries: [
+      {
+        sourceInfo: {
+          siteName: 'FRENCH BROAD RIVER AT ASHEVILLE, NC',
+          siteCode: [{value: '03451500'}],
+          geoLocation: {geogLocation: {latitude: 35.6087, longitude: -82.5781}},
+        },
+        variable: {
+          variableCode: [{value: '00060'}],
+          variableDescription: 'Discharge, cubic feet per second',
+          unit: {unitCode: 'ft3/s'},
+          noDataValue: -999999,
+        },
+        values: [{value: [
+          {value: '900', qualifiers: ['P'], dateTime: '2026-07-13T12:00:00.000-04:00'},
+          {value: '1080', qualifiers: ['P'], dateTime: '2026-07-13T18:00:00.000-04:00'},
+        ]}],
+      },
+      {
+        sourceInfo: {
+          siteName: 'FRENCH BROAD RIVER AT ASHEVILLE, NC',
+          siteCode: [{value: '03451500'}],
+          geoLocation: {geogLocation: {latitude: 35.6087, longitude: -82.5781}},
+        },
+        variable: {
+          variableCode: [{value: '00065'}],
+          variableDescription: 'Gage height, feet',
+          unit: {unitCode: 'ft'},
+          noDataValue: -999999,
+        },
+        values: [{value: [
+          {value: '1.20', qualifiers: ['P'], dateTime: '2026-07-13T12:00:00.000-04:00'},
+          {value: '-999999', qualifiers: [], dateTime: '2026-07-13T17:00:00.000-04:00'},
+          {value: '1.35', qualifiers: ['P'], dateTime: '2026-07-13T18:00:00.000-04:00'},
+        ]}],
+      },
+      {
+        sourceInfo: {
+          siteName: 'SWANNANOA RIVER AT BILTMORE, NC',
+          siteCode: [{value: '03451000'}],
+          geoLocation: {geogLocation: {latitude: 35.596, longitude: -82.55}},
+        },
+        variable: {
+          variableCode: [{value: '00060'}],
+          variableDescription: 'Discharge, cubic feet per second',
+          unit: {unitCode: 'ft3/s'},
+          noDataValue: -999999,
+        },
+        values: [{value: [
+          {value: '34', qualifiers: ['P'], dateTime: '2026-07-13T18:00:00.000-04:00'},
+        ]}],
+      },
+    ],
+  },
+};
+
+test('normalizeWaterSeries regroups parameters, removes no-data values, and selects nearest station', () => {
+  const station = normalizeWaterSeries(waterPayload, {latitude: 35.5951, longitude: -82.5515});
+  assert.equal(station.siteCode, '03451000');
+  assert.equal(station.name, 'SWANNANOA RIVER AT BILTMORE, NC');
+  assert.ok(station.distanceKm < 4);
+  assert.equal(station.measurements.discharge.latest.value, 34);
+  assert.deepEqual(station.measurements.discharge.latest.qualifiers, ['P']);
+  assert.equal(station.measurements.discharge.unit, 'ft3/s');
+  assert.equal(station.url, 'https://waterdata.usgs.gov/monitoring-location/USGS-03451000/');
+
+  const frenchBroad = normalizeWaterSeries(waterPayload, {latitude: 35.6087, longitude: -82.5781});
+  assert.equal(frenchBroad.measurements.gageHeight.values.length, 2);
+  assert.equal(frenchBroad.measurements.gageHeight.latest.value, 1.35);
+});
+
+test('normalizeWaterSeries returns null for missing or malformed observations', () => {
+  assert.equal(normalizeWaterSeries({}, {latitude: 35, longitude: -82}), null);
+  assert.equal(normalizeWaterSeries({value: {timeSeries: []}}, {latitude: 35, longitude: -82}), null);
+});
+
+test('waterTrend describes finite change over elapsed time', () => {
+  const values = [
+    {value: 1.2, time: '2026-07-13T12:00:00Z'},
+    {value: 1.35, time: '2026-07-13T18:00:00Z'},
+  ];
+  assert.deepEqual(waterTrend(values), {direction: 'rising', delta: 0.15, hours: 6, ratePerHour: 0.025});
+  assert.equal(waterTrend([{value: 2, time: 'bad'}]), null);
+});
+
+test('waterSparkline maps finite values into a bounded SVG path', () => {
+  const chart = waterSparkline([
+    {value: 10, time: '2026-07-13T12:00:00Z'},
+    {value: 15, time: '2026-07-13T13:00:00Z'},
+    {value: 12, time: '2026-07-13T14:00:00Z'},
+  ], 100, 40);
+  assert.equal(chart.points.length, 3);
+  assert.match(chart.path, /^M /);
+  assert.ok(chart.points.every(([x, y]) => x >= 8 && x <= 92 && y >= 8 && y <= 32));
+  assert.equal(waterSparkline([], 100, 40), null);
 });
