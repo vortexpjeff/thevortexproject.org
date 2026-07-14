@@ -7,13 +7,33 @@ Designed to run as a cron no_agent script. Pushes directly to GitHub Pages repo.
 
 import json, os, sys, subprocess, datetime, time, urllib.request, urllib.error, re
 
+from gbif_context import enrich_top_species
+
 # ── Config ──────────────────────────────────────────────────────────────
-REPO_DIR = "/home/jvortex/vortex-site"
+REPO_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_FILE = f"{REPO_DIR}/data/observatory.json"
-LAT, LON = 35.86, -83.37  # Pine Hollow
-NWS_ZONE = "TNZ073"
-NASA_KEY = "f1Th3HNbz1PXDmqEKS8jpj5Hi8q936VS2eQXa5Q7"
-UA = "SkyspaceChart/1.0"
+GBIF_CACHE_FILE = f"{REPO_DIR}/.cache/gbif-species.json"
+OBSERVATORY_CONFIG_FILE = os.path.expanduser("~/.config/vortex/observatory.json")
+BIRDNET_PASSWORD_FILE = os.path.expanduser("~/.config/vortex/birdnet_password")
+try:
+    with open(OBSERVATORY_CONFIG_FILE) as f:
+        deployment = json.load(f)
+except (OSError, ValueError, TypeError):
+    deployment = {}
+
+def deployment_value(env_name, config_name):
+    value = os.environ.get(env_name, deployment.get(config_name))
+    if value is None or str(value).strip() == "":
+        raise RuntimeError(f"Missing Observatory deployment value: {env_name}")
+    return value
+
+LAT = float(deployment_value("OBSERVATORY_LAT", "station_latitude"))
+LON = float(deployment_value("OBSERVATORY_LON", "station_longitude"))
+NWS_ZONE = str(deployment_value("OBSERVATORY_NWS_ZONE", "nws_zone"))
+BIRDNET_HOST = str(deployment_value("BIRDNET_HOST", "birdnet_host"))
+BIRDNET_USER = str(deployment_value("BIRDNET_USER", "birdnet_user"))
+NASA_KEY = os.environ.get("NASA_API_KEY", "DEMO_KEY")
+UA = "VortexProjectObservatory/1.0"
 TIMEOUT = 8
 
 os.makedirs(os.path.dirname(DATA_FILE), exist_ok=True)
@@ -39,6 +59,18 @@ def fetch_text(url, timeout=TIMEOUT):
             return r.read().decode()
     except Exception:
         return None
+
+
+def load_local_secret(env_name, path):
+    value = os.environ.get(env_name)
+    if value:
+        return value.strip()
+    try:
+        with open(path) as f:
+            return f.read().strip()
+    except OSError:
+        return None
+
 
 def safe_float(v, default=None):
     try: return float(v)
@@ -507,25 +539,22 @@ if nws:
 print("→ BirdNET...")
 birds = None
 try:
-    # Use existing SSH access to BirdNET-Pi
-    askpass = "/tmp/askpass.sh"
-    with open(askpass, "w") as f:
-        f.write("#!/bin/sh\necho 'birdnetpi'\n")
-    os.chmod(askpass, 0o755)
+    password = load_local_secret("BIRDNET_PASSWORD", BIRDNET_PASSWORD_FILE)
+    if not password:
+        raise RuntimeError("BirdNET password is not configured")
     env = os.environ.copy()
-    env["DISPLAY"] = ":0"
-    env["SSH_ASKPASS"] = askpass
-    env["SSH_ASKPASS_REQUIRE"] = "force"
-    
+    env["SSHPASS"] = password
+
     result = subprocess.run(
-        ["ssh", "-o", "StrictHostKeyChecking=accept-new", "-o", "ConnectTimeout=8",
-         "birdnetpi@192.168.1.223",
-         "tail -20000 /home/birdnetpi/BirdNET-Pi/BirdDB.txt"],
+        ["sshpass", "-e", "ssh", "-o", "StrictHostKeyChecking=accept-new", "-o", "ConnectTimeout=8",
+         f"{BIRDNET_USER}@{BIRDNET_HOST}",
+         f"tail -20000 /home/{BIRDNET_USER}/BirdNET-Pi/BirdDB.txt"],
         env=env, capture_output=True, text=True, timeout=15
     )
     if result.returncode == 0:
         lines = result.stdout.strip().split("\n")
         species_count = {}
+        species_scientific_names = {}
         recent = []
         cutoff = datetime.datetime.now() - datetime.timedelta(hours=24)
         for line in lines:
@@ -540,16 +569,36 @@ try:
                 if detected_at < cutoff:
                     continue
                 sp = parts[3].strip()
+                scientific_name = parts[2].strip()
                 conf = safe_float(parts[4].strip())
                 if sp and conf is not None:
                     species_count[sp] = species_count.get(sp, 0) + 1
+                    if scientific_name:
+                        species_scientific_names[sp] = scientific_name
                     recent.append({"species": sp, "confidence": round(conf * 100, 1),
                                    "time": f"{parts[0]} {parts[1]}"})
         top = sorted(species_count.items(), key=lambda x: x[1], reverse=True)[:8]
+        top_species = [
+            {
+                "name": name,
+                "scientific_name": species_scientific_names.get(name),
+                "count": count,
+            }
+            for name, count in top
+        ]
+        try:
+            top_species = enrich_top_species(
+                top_species,
+                GBIF_CACHE_FILE,
+                lambda url: fetch(url, timeout=12, headers={"User-Agent": UA}),
+            )
+        except Exception:
+            # BirdNET remains useful if the optional cache cannot be read or written.
+            pass
         birds = {
             "detections_24h": sum(species_count.values()),
             "species_count": len(species_count),
-            "top_species": [{"name": n, "count": c} for n, c in top],
+            "top_species": top_species,
             "recent": recent[-5:],
         }
 except Exception:
