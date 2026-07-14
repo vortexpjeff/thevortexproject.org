@@ -114,6 +114,52 @@ class VortexLayoutTest(unittest.TestCase):
             finally:
                 page.close()
 
+    def test_cartographer_is_map_first_and_details_sheet_is_accessible_mobile(self):
+        page = BrowserPage("/cartographer.html?date=2026-07-12", 390, 844, mobile=True)
+        try:
+            baseline = page.evaluate("""(()=>{
+              const map=document.querySelector('.map-shell').getBoundingClientRect();
+              const workspace=document.querySelector('.workspace').getBoundingClientRect();
+              const controls=[...document.querySelectorAll('.toolbar button,.toolbar input')];
+              return {
+                noBrief:!document.querySelector('.brief'),
+                noStationCopy:!document.body.textContent.includes('Surface temperature') && !document.body.textContent.includes('Acoustic events'),
+                mapWidth:map.width,mapHeight:map.height,workspaceWidth:workspace.width,workspaceHeight:workspace.height,
+                panelHidden:document.querySelector('#mapPanel').getAttribute('aria-hidden'),
+                panelInert:document.querySelector('#mapPanel').inert,
+                minTarget:Math.min(...controls.map(control=>control.getBoundingClientRect().height)),
+                visibleControls:controls.every(control=>{const r=control.getBoundingClientRect();return r.width>0&&r.height>0}),
+                overflow:Math.max(0,document.documentElement.scrollWidth-innerWidth)
+              };
+            })()""")
+            self.assertTrue(baseline["noBrief"])
+            self.assertTrue(baseline["noStationCopy"])
+            self.assertAlmostEqual(baseline["mapWidth"], baseline["workspaceWidth"], delta=0.1)
+            self.assertAlmostEqual(baseline["mapHeight"], baseline["workspaceHeight"], delta=0.1)
+            self.assertEqual(baseline["panelHidden"], "true")
+            self.assertTrue(baseline["panelInert"])
+            self.assertGreaterEqual(baseline["minTarget"], 44)
+            self.assertTrue(baseline["visibleControls"])
+            self.assertEqual(baseline["overflow"], 0)
+
+            page.evaluate("document.querySelector('#panelToggle').click()")
+            time.sleep(0.3)
+            opened = page.evaluate("""(()=>{
+              const panel=document.querySelector('#mapPanel').getBoundingClientRect();
+              return {hidden:document.querySelector('#mapPanel').getAttribute('aria-hidden'),inert:document.querySelector('#mapPanel').inert,left:panel.left,right:panel.right,bottom:panel.bottom,focus:document.activeElement?.id};
+            })()""")
+            self.assertEqual(opened["hidden"], "false")
+            self.assertFalse(opened["inert"])
+            self.assertAlmostEqual(opened["left"], 0, delta=0.1)
+            self.assertAlmostEqual(opened["right"], 390, delta=0.1)
+            self.assertAlmostEqual(opened["bottom"], 844, delta=0.1)
+            self.assertEqual(opened["focus"], "panelClose")
+            page.evaluate("document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}))")
+            self.assertEqual(page.evaluate("document.activeElement?.id"), "panelToggle")
+            self.assertEqual(page.evaluate("document.querySelector('#mapPanel').getAttribute('aria-hidden')"), "true")
+        finally:
+            page.close()
+
     def test_primary_help_aligns_to_readout_desktop(self):
         page = BrowserPage(PAGES["observatory"], 1440, 900)
         try:
@@ -224,18 +270,20 @@ class VortexLayoutTest(unittest.TestCase):
               count:Number(document.querySelector('#eventCount').textContent.split(' ')[0]),
               quakes:Number(document.querySelector('.event-filter[data-category="earthquake"] b').textContent),
               fires:Number(document.querySelector('.event-filter[data-category="wildfires"] b').textContent),
+              categoryTotal:[...document.querySelectorAll('.event-filter b')].reduce((sum,node)=>sum+Number(node.textContent||0),0),
               fallback:!document.querySelector('#mapFallback').hidden,
               overflow:Math.max(0,document.documentElement.scrollWidth-innerWidth),
-              railOverflow:Math.max(0,document.querySelector('.brief').scrollWidth-document.querySelector('.brief').clientWidth)
+              panelOverflow:Math.max(0,document.querySelector('#mapPanel').scrollWidth-document.querySelector('#mapPanel').clientWidth)
             }))()""")
             self.assertEqual(result["date"], "2026-07-12")
             self.assertGreater(result["quakes"], 0)
             self.assertGreater(result["fires"], 0)
-            self.assertEqual(result["count"], result["quakes"] + result["fires"])
+            self.assertEqual(result["count"], result["categoryTotal"])
             self.assertFalse(result["fallback"])
             self.assertEqual(result["overflow"], 0)
-            self.assertEqual(result["railOverflow"], 0)
+            self.assertEqual(result["panelOverflow"], 0)
             directory = page.evaluate("""(()=>{
+              document.querySelector('#panelToggle').click();
               const details=document.querySelector('#eventDirectory');
               if(!details)return null;
               details.open=true;

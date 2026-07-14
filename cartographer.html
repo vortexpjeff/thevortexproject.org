@@ -4,19 +4,103 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#020806">
-<meta name="description" content="A visual satellite-imagery companion to The Vortex Project observatory, using NASA Global Imagery Browse Services.">
+<meta name="description" content="A map-first view of dated NASA satellite imagery and public Earth events.">
 <title>Cartographer · The Vortex Project</title>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@10.9.0/ol.css" integrity="sha384-Jpg1uvTciFJuHq+90Ly0/2SKRT9yS5OhbIN5FuFoFWji9fc44ok8xxO88CJi8Z5W" crossorigin="anonymous">
 <style>
-:root{--bg:#020806;--panel:#06100c;--panel-2:#091611;--text:#d8e8da;--muted:#789083;--green:#9affb3;--teal:#5af4d2;--gold:#f8d77b;--red:#ff8d78;--line:rgba(154,255,179,.15);--line-strong:rgba(154,255,179,.3);--mono:ui-monospace,SFMono-Regular,Consolas,monospace}
-*{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;background:var(--bg);color:var(--text);overflow:hidden}body{font:400 15px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,a{font:inherit}button,a{touch-action:manipulation}a{color:inherit}::selection{background:rgba(90,244,210,.22);color:#fff}
-
-.workspace{height:calc(100vh - 78px);display:grid;grid-template-columns:minmax(286px,330px) 1fr;min-height:0}.brief{min-width:0;background:linear-gradient(180deg,#07110d,#040b08);border-right:1px solid var(--line);padding:clamp(1.4rem,3vh,2.4rem) 1.35rem 1.2rem;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:rgba(154,255,179,.2) transparent;z-index:5}.eyebrow{color:var(--teal);font:600 .58rem/1.4 var(--mono);letter-spacing:.16em;text-transform:uppercase}.brief h1{margin:.55rem 0 .8rem;font-size:clamp(2.4rem,5vw,4.3rem);font-weight:260;line-height:.84;letter-spacing:-.065em;color:#edf8ea}.brief h1 span{display:block;color:var(--green)}.intro{margin:0 0 1.5rem;color:#9db0a5;font-size:.77rem;line-height:1.65;max-width:29rem}.datum{border-top:1px solid var(--line);padding:1rem 0}.datum-title{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:.7rem;color:#7c9386;font:500 .57rem/1.3 var(--mono);letter-spacing:.13em;text-transform:uppercase}.datum-title b{color:var(--gold);font-weight:500}.reading{display:grid;grid-template-columns:1fr auto;gap:.5rem .8rem;align-items:baseline;padding:.48rem 0;border-bottom:1px solid rgba(154,255,179,.08)}.reading:last-child{border-bottom:0}.reading span{color:#789083;font-size:.7rem}.reading strong{color:#dcebdd;font:500 .69rem/1 var(--mono);text-align:right}.reading a{color:var(--teal);text-decoration:none}.reading a:hover,.reading a:focus-visible{color:var(--gold);outline:none}.product{font:500 .8rem/1.4 var(--mono);color:var(--text)}.provenance{margin:.45rem 0 0;color:#63786d;font:400 .56rem/1.6 var(--mono);letter-spacing:.06em;text-transform:uppercase}.reading-guide{margin-top:.8rem}.reading-guide summary{cursor:pointer;color:var(--teal);font:500 .61rem/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;list-style:none}.reading-guide summary::-webkit-details-marker{display:none}.reading-guide summary:after{content:" +";color:var(--gold)}.reading-guide[open] summary:after{content:" −"}.reading-guide p{margin:.75rem 0 0;color:#9fb1a7;font-size:.7rem;line-height:1.62}.privacy-note{margin:1rem 0 0;padding:.75rem;border-left:1px solid var(--gold);background:rgba(248,215,123,.035);color:#a9a58a;font-size:.65rem;line-height:1.55}.source-links{display:grid;gap:.5rem;margin-top:1rem}.source-links a{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.65rem .75rem;border:1px solid var(--line);color:#9bb0a4;text-decoration:none;font:500 .59rem/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase}.source-links a:hover,.source-links a:focus-visible{outline:none;border-color:var(--green);color:var(--green)}
-.map-shell{position:relative;min-width:0;min-height:0;background:#07100c;overflow:hidden}.map{position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,#102219,#030806 72%)}.map:focus{outline:2px solid var(--gold);outline-offset:-2px}.map-fallback{position:absolute;inset:0;z-index:9;display:grid;place-items:center;padding:2rem;text-align:center;background:#07100c;color:#8da095;font:500 .68rem/1.7 var(--mono);letter-spacing:.06em}.map-fallback[hidden]{display:none}.toolbar{position:absolute;z-index:10;left:1rem;right:1rem;top:1rem;display:flex;align-items:stretch;justify-content:space-between;gap:.75rem;pointer-events:none}.date-tools,.map-tools{display:flex;align-items:stretch;gap:1px;box-shadow:0 14px 40px rgba(0,0,0,.28);pointer-events:auto}.tool,.date-input{min-height:2.5rem;border:1px solid var(--line-strong);background:rgba(2,10,7,.88);color:var(--text);backdrop-filter:blur(10px)}.tool{min-width:2.5rem;padding:0 .8rem;cursor:pointer;color:var(--teal);font:600 .61rem/1 var(--mono);letter-spacing:.07em;text-transform:uppercase}.tool:hover,.tool:focus-visible,.tool[aria-pressed="false"]{outline:none;border-color:var(--green);color:var(--green);background:rgba(8,24,17,.94)}.tool[disabled]{opacity:.35;cursor:not-allowed}.date-input{width:9.3rem;padding:0 .65rem;color:var(--gold);font:600 .66rem/1 var(--mono);color-scheme:dark}.date-input:focus-visible{outline:none;border-color:var(--gold)}.image-state{position:absolute;z-index:10;left:1rem;bottom:1rem;max-width:min(520px,calc(100% - 8rem));padding:.7rem .85rem;border-left:1px solid var(--gold);background:rgba(2,9,6,.88);box-shadow:0 10px 30px rgba(0,0,0,.25);backdrop-filter:blur(8px);pointer-events:none}.image-state b{display:block;color:var(--gold);font:600 .58rem/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase}.image-state span{display:block;margin-top:.2rem;color:#9aae9f;font-size:.65rem;line-height:1.45}.north{position:absolute;z-index:9;right:1.15rem;bottom:4.2rem;color:#d3e4d4;text-align:center;font:500 .62rem/1 var(--mono);text-shadow:0 1px 3px #000;pointer-events:none}.north i{display:block;width:1px;height:26px;margin:.35rem auto 0;background:linear-gradient(var(--gold),transparent);position:relative}.north i:before{content:"";position:absolute;top:-1px;left:-3px;border-left:3.5px solid transparent;border-right:3.5px solid transparent;border-bottom:7px solid var(--gold);transform:translateY(-6px)}
-.event-summary{display:grid;gap:.35rem;margin-bottom:.8rem;color:#73897c;font:500 .59rem/1.5 var(--mono)}.event-summary b{color:var(--text);font-weight:500}.event-filters{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}.event-filter{position:relative;min-height:2.45rem;padding:.45rem .5rem .45rem 1.35rem;border:0;background:#050d09;color:#9caf9f;cursor:pointer;text-align:left;font:500 .56rem/1.25 var(--mono);letter-spacing:.03em}.event-filter:before{content:"";position:absolute;left:.55rem;top:50%;width:.42rem;height:.42rem;border:1px solid var(--event-color,var(--green));border-radius:50%;transform:translateY(-50%);box-shadow:0 0 8px color-mix(in srgb,var(--event-color,var(--green)) 55%,transparent)}.event-filter:hover,.event-filter:focus-visible{outline:1px solid var(--event-color,var(--green));outline-offset:-1px;color:#fff}.event-filter[aria-pressed="false"]{color:#4f6257;background:#030806}.event-filter[aria-pressed="false"]:before{box-shadow:none;opacity:.4}.event-filter[data-category="earthquake"]{--event-color:#f8d77b}.event-filter[data-category="wildfires"]{--event-color:#ff8d78}.event-filter[data-category="volcanoes"]{--event-color:#d7a0ff}.event-filter[data-category="severeStorms"]{--event-color:#78bfff}.event-filter[data-category="landslides"]{--event-color:#d5aa6d}.event-filter[data-category="seaLakeIce"]{--event-color:#9deaf5}.event-directory{margin-top:.7rem;border-top:1px solid var(--line)}.event-directory summary{display:flex;align-items:center;justify-content:space-between;gap:.6rem;min-height:44px;cursor:pointer;color:var(--teal);font:500 .58rem/1.35 var(--mono);letter-spacing:.08em;text-transform:uppercase;list-style:none}.event-directory summary::-webkit-details-marker{display:none}.event-directory summary:after{content:"+";color:var(--gold)}.event-directory[open] summary:after{content:"−"}.event-directory ol{display:grid;gap:1px;max-height:42vh;margin:0;padding:1px;overflow:auto;background:var(--line);list-style:none}.event-directory li{display:grid;grid-template-columns:minmax(0,1fr) 44px;min-width:0;background:#050d09}.event-list-focus,.event-list-link{min-height:44px;border:0;background:#050d09;color:var(--text)}.event-list-focus{display:grid;gap:.17rem;min-width:0;padding:.5rem .55rem;cursor:pointer;text-align:left}.event-list-focus span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:500 .59rem/1.25 var(--mono)}.event-list-focus small{color:var(--muted);font:400 .52rem/1.25 var(--mono)}.event-list-link{display:grid;place-items:center;border-left:1px solid var(--line);color:var(--teal);text-decoration:none}.event-list-focus:hover,.event-list-focus:focus-visible,.event-list-link:hover,.event-list-link:focus-visible{outline:1px solid var(--green);outline-offset:-1px;color:var(--gold)}.event-popup{position:absolute;z-index:20;width:min(290px,calc(100vw - 2rem));padding:.85rem;border:1px solid var(--line-strong);background:rgba(3,12,8,.96);box-shadow:0 16px 45px rgba(0,0,0,.48);backdrop-filter:blur(10px)}.event-popup[hidden]{display:none}.event-popup-close{position:absolute;right:.45rem;top:.35rem;width:2rem;height:2rem;border:0;background:transparent;color:var(--muted);cursor:pointer}.event-popup-close:hover,.event-popup-close:focus-visible{outline:1px solid var(--green);color:var(--green)}.event-popup-provider{margin:0 2rem .45rem 0;color:var(--gold);font:600 .52rem/1.3 var(--mono);letter-spacing:.13em;text-transform:uppercase}.event-popup h2{margin:0;color:#e3efe4;font:500 .83rem/1.4 var(--mono)}.event-popup-detail{margin:.55rem 0;color:#8fa296;font-size:.68rem;line-height:1.55}.event-popup a{color:var(--teal);font:600 .57rem/1.4 var(--mono);text-decoration:none}.event-popup a:hover,.event-popup a:focus-visible{color:var(--gold);outline:none;text-decoration:underline}.ol-control{background:transparent!important}.ol-zoom{left:auto!important;right:1rem!important;top:auto!important;bottom:7.2rem!important;display:grid;gap:1px}.ol-zoom button{margin:0!important;width:2.45rem!important;height:2.45rem!important;border:1px solid var(--line-strong)!important;border-radius:0!important;background:rgba(2,10,7,.88)!important;color:var(--teal)!important;font-size:1.15rem!important}.ol-zoom button:hover,.ol-zoom button:focus{background:rgba(8,24,17,.94)!important;color:var(--green)!important;outline:none}.ol-rotate{display:none}.ol-attribution{right:.55rem!important;bottom:.35rem!important;background:rgba(2,8,6,.7)!important;color:#84998d!important;font-size:.62rem}.ol-attribution button{background:rgba(2,8,6,.85)!important;color:var(--teal)!important}.ol-attribution a{color:#9cb0a5!important}.ol-scale-line{left:1rem!important;bottom:5.05rem!important;background:rgba(2,8,6,.72)!important;border-radius:0!important;padding:.3rem .45rem!important}.ol-scale-line-inner{border-color:#e0e9df!important;color:#e0e9df!important;font:500 .58rem/1 var(--mono)!important}
-@media(max-width:800px){.workspace{height:calc(100vh - 68px);grid-template-columns:1fr;grid-template-rows:minmax(300px,1fr) minmax(220px,36vh)}.map-shell{grid-row:1}.brief{grid-row:2;border-right:0;border-top:1px solid var(--line);padding:1rem 1rem calc(1rem + env(safe-area-inset-bottom))}.brief h1{display:none}.intro{display:none}.eyebrow{margin-bottom:.5rem}.datum{padding:.75rem 0}.privacy-note,.source-links{display:none}.toolbar{left:.55rem;right:.55rem;top:.55rem;gap:.4rem}.date-tools{flex:1}.date-input{min-width:0;width:100%;height:44px;padding:0 .35rem}.tool{min-width:44px;min-height:44px;padding:0 .55rem}.tool.word{font-size:0}.tool.word:after{content:"NOW";font-size:.54rem}.map-tools .tool:first-child{display:none}.image-state{left:.55rem;bottom:.55rem;max-width:calc(100% - 4.5rem);padding:.55rem .65rem}.north{right:.8rem;bottom:3.8rem}.ol-zoom{right:.55rem!important;bottom:6.6rem!important}.ol-scale-line{left:.55rem!important;bottom:4.4rem!important}.ol-attribution{display:none}.reading{padding:.35rem 0}}
-@media(max-width:430px){.map-tools .tool:nth-child(2){display:none}}
+:root{
+  --bg:#020806;--panel:#06100c;--panel-2:#091611;--text:#d8e8da;--muted:#789083;
+  --green:#9affb3;--teal:#5af4d2;--gold:#f8d77b;--red:#ff8d78;
+  --line:rgba(154,255,179,.15);--line-strong:rgba(154,255,179,.28);
+  --mono:ui-monospace,SFMono-Regular,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{width:100%;height:100%;margin:0;background:var(--bg);color:var(--text);overflow:hidden}
+body{font:400 15px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,a{font:inherit}button,a{touch-action:manipulation}a{color:inherit}
+::selection{background:rgba(90,244,210,.22);color:#fff}
+.workspace{height:calc(100vh - 78px);min-height:0}
+.map-shell{position:relative;width:100%;height:100%;min-width:0;min-height:0;overflow:hidden;background:#07100c}
+.map{position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,#102219,#030806 72%)}
+.map:focus{outline:none}.map:focus-visible{outline:2px solid var(--gold);outline-offset:-2px}
+.map-fallback{position:absolute;inset:0;z-index:30;display:grid;place-items:center;padding:2rem;text-align:center;background:#07100c;color:#8da095;font:500 .68rem/1.7 var(--mono);letter-spacing:.06em}
+.map-fallback[hidden]{display:none}
+.toolbar{position:absolute;z-index:14;left:1rem;right:1rem;top:1rem;display:flex;align-items:stretch;justify-content:space-between;gap:.75rem;pointer-events:none}
+.date-tools,.map-tools{display:flex;align-items:stretch;overflow:hidden;border:1px solid var(--line-strong);background:rgba(2,10,7,.9);box-shadow:0 12px 32px rgba(0,0,0,.25);backdrop-filter:blur(12px);pointer-events:auto}
+.tool,.date-input{min-height:42px;border:0;background:transparent;color:var(--text)}
+.tool{min-width:42px;padding:0 .78rem;cursor:pointer;color:#a6b9ac;font:600 .59rem/1 var(--mono);letter-spacing:.07em;text-transform:uppercase;transition:background-color .16s ease,color .16s ease}
+.tool+.tool,.date-input+.tool,.tool+.date-input{border-left:1px solid var(--line)}
+.tool:hover{background:rgba(154,255,179,.08);color:#edf8ea}
+.tool:focus-visible,.date-input:focus-visible,.panel-close:focus-visible,.event-filter:focus-visible,.event-directory summary:focus-visible,.source-links a:focus-visible,.event-list-focus:focus-visible,.event-list-link:focus-visible,.event-popup-close:focus-visible,.event-popup a:focus-visible{outline:2px solid var(--gold);outline-offset:-2px}
+.tool[aria-pressed="true"]{background:rgba(90,244,210,.09);color:var(--teal)}
+.tool[disabled]{opacity:.36;cursor:not-allowed}
+.date-input{width:9.4rem;padding:0 .7rem;color:var(--gold);font:600 .66rem/1 var(--mono);color-scheme:dark}
+.details-tool{display:flex;align-items:center;gap:.55rem}
+.details-tool b{min-width:1.2rem;color:var(--teal);font-weight:500;text-align:right}
+.image-state{position:absolute;z-index:11;left:1rem;bottom:1rem;max-width:min(520px,calc(100% - 8rem));padding:.65rem .8rem;background:rgba(2,9,6,.88);box-shadow:0 10px 30px rgba(0,0,0,.24);backdrop-filter:blur(8px);pointer-events:none}
+.image-state:before{content:"";position:absolute;left:0;top:.7rem;bottom:.7rem;width:2px;background:var(--gold);opacity:.75}
+.image-state b{display:block;color:var(--gold);font:600 .57rem/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.image-state span{display:block;margin-top:.2rem;color:#9aae9f;font-size:.65rem;line-height:1.45}
+.north{position:absolute;z-index:9;right:1.15rem;bottom:4.2rem;color:#d3e4d4;text-align:center;font:600 .55rem/1 var(--mono)}
+.north i{display:block;width:1px;height:2.9rem;margin:.25rem auto 0;background:linear-gradient(var(--gold),rgba(248,215,123,.08));position:relative}
+.north i:before{content:"";position:absolute;top:-1px;left:-3px;border-left:3.5px solid transparent;border-right:3.5px solid transparent;border-bottom:7px solid var(--gold)}
+.ol-zoom{top:auto!important;left:auto!important;right:1rem!important;bottom:7.1rem!important;padding:0!important;background:none!important}
+.ol-zoom button{width:2.65rem!important;height:2.65rem!important;margin:0 0 1px!important;border:1px solid var(--line-strong)!important;border-radius:0!important;background:rgba(2,10,7,.9)!important;color:var(--teal)!important;font-size:1.2rem!important;box-shadow:none!important}
+.ol-zoom button:focus-visible{outline:2px solid var(--gold)!important;outline-offset:-2px}
+.ol-scale-line{left:1rem!important;bottom:5rem!important;padding:0!important;background:none!important}
+.ol-scale-line-inner{min-width:128px;border:1px solid #d8e8da!important;border-top:0!important;color:#d8e8da!important;font:500 .52rem/1.3 var(--mono)!important;text-align:center!important}
+.ol-attribution{right:.6rem!important;bottom:.45rem!important;background:transparent!important;font-size:.55rem!important}
+.ol-attribution button{background:transparent!important;color:var(--teal)!important}
+.map-panel{position:absolute;z-index:24;top:0;right:0;width:min(370px,100%);height:100%;display:flex;flex-direction:column;background:rgba(4,13,9,.97);border-left:1px solid var(--line-strong);box-shadow:-20px 0 50px rgba(0,0,0,.36);backdrop-filter:blur(18px);transform:translateX(0);transition:transform .22s ease,visibility 0s;overflow:hidden}
+.map-panel[aria-hidden="true"]{transform:translateX(100%);visibility:hidden;pointer-events:none;transition:transform .22s ease,visibility 0s .22s}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:64px;padding:.8rem 1rem;border-bottom:1px solid var(--line)}
+.panel-kicker{color:var(--teal);font:600 .58rem/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase}
+.panel-head h1{margin:.15rem 0 0;font-size:1.05rem;font-weight:450;letter-spacing:-.01em}
+.panel-close{width:44px;height:44px;border:0;background:transparent;color:#a8b9ae;cursor:pointer;font-size:1.35rem}
+.panel-close:hover{color:#fff;background:rgba(154,255,179,.06)}
+.panel-scroll{min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:0 1rem calc(1rem + env(safe-area-inset-bottom));scrollbar-width:thin;scrollbar-color:rgba(154,255,179,.22) transparent}
+.panel-section{padding:1rem 0;border-bottom:1px solid var(--line)}
+.panel-section:last-child{border-bottom:0}
+.panel-title{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:.7rem;color:#8ca095;font:600 .57rem/1.3 var(--mono);letter-spacing:.13em;text-transform:uppercase}
+.panel-title b{color:var(--gold);font-weight:500}
+.product{color:var(--text);font:500 .78rem/1.45 var(--mono)}
+.provenance{margin:.4rem 0 0;color:#6f8377;font:400 .56rem/1.6 var(--mono);letter-spacing:.055em;text-transform:uppercase}
+.reading-guide{margin-top:.8rem}
+.reading-guide summary{min-height:44px;display:flex;align-items:center;cursor:pointer;color:var(--teal);font:500 .6rem/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;list-style:none}
+.reading-guide summary::-webkit-details-marker{display:none}.reading-guide summary:after{content:"+";margin-left:auto;color:#8da095}.reading-guide[open] summary:after{content:"−"}
+.reading-guide p,.source-note{margin:.3rem 0 0;color:#8fa298;font-size:.68rem;line-height:1.65}
+.event-summary{display:grid;gap:.32rem;margin-bottom:.8rem;color:#7d9185;font:500 .59rem/1.5 var(--mono)}
+.event-window{margin:.7rem 0 0;padding:.65rem .7rem;background:rgba(154,255,179,.035);color:#87998f;font-size:.64rem;line-height:1.55}
+.event-filters{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+.event-filter{position:relative;min-height:44px;padding:.48rem .5rem .48rem 1.45rem;border:0;background:#050d09;color:#9caf9f;cursor:pointer;text-align:left;font:500 .57rem/1.25 var(--mono);letter-spacing:.02em}
+.event-filter:before{content:"";position:absolute;left:.62rem;top:50%;width:.42rem;height:.42rem;border:1px solid var(--event-color,var(--green));border-radius:50%;transform:translateY(-50%);background:color-mix(in srgb,var(--event-color,var(--green)) 65%,transparent)}
+.event-filter:hover{background:#09150f;color:#fff}.event-filter[aria-pressed="false"]{color:#506359;background:#030806}.event-filter[aria-pressed="false"]:before{background:transparent;opacity:.45}
+.event-filter[data-category="earthquake"]{--event-color:#f8d77b}.event-filter[data-category="wildfires"]{--event-color:#ff8d78}.event-filter[data-category="volcanoes"]{--event-color:#d7a0ff}.event-filter[data-category="severeStorms"]{--event-color:#78bfff}.event-filter[data-category="landslides"]{--event-color:#d5aa6d}.event-filter[data-category="seaLakeIce"]{--event-color:#9deaf5}
+.event-directory{margin-top:.7rem;border-top:1px solid var(--line)}
+.event-directory summary{display:flex;align-items:center;gap:.6rem;min-height:44px;cursor:pointer;color:var(--teal);font:500 .58rem/1.35 var(--mono);letter-spacing:.08em;text-transform:uppercase;list-style:none}
+.event-directory summary::-webkit-details-marker{display:none}.event-directory summary b{margin-left:auto;color:#9fb2a6;font-weight:500}.event-directory summary:after{content:"+";color:#8da095}.event-directory[open] summary:after{content:"−"}
+.event-directory ol{display:grid;gap:1px;max-height:36vh;margin:0;padding:1px;overflow:auto;background:var(--line);list-style:none}
+.event-directory li{display:grid;grid-template-columns:minmax(0,1fr) 44px;background:#050d09}
+.event-list-focus,.event-list-link{border:0;background:transparent;color:inherit;cursor:pointer}.event-list-focus{min-height:48px;padding:.5rem .6rem;text-align:left}.event-list-focus span{display:block;overflow:hidden;color:#cad8ce;font-size:.65rem;line-height:1.35;text-overflow:ellipsis;white-space:nowrap}.event-list-focus small{display:block;margin-top:.16rem;color:#708579;font:500 .54rem/1.3 var(--mono)}.event-list-link{display:grid;place-items:center;color:var(--teal);text-decoration:none;border-left:1px solid var(--line)}
+.source-links{display:grid;margin-top:.8rem;border-top:1px solid var(--line)}
+.source-links a{display:flex;align-items:center;justify-content:space-between;min-height:44px;color:#91a398;text-decoration:none;font:500 .59rem/1.3 var(--mono)}.source-links a:hover{color:var(--teal)}
+.event-popup{position:relative;width:min(310px,calc(100vw - 2rem));padding:.9rem 2.7rem .9rem .9rem;border:1px solid var(--line-strong);background:rgba(3,12,8,.97);box-shadow:0 18px 50px rgba(0,0,0,.44);color:var(--text)}
+.event-popup[hidden]{display:none}.event-popup-close{position:absolute;right:.2rem;top:.2rem;width:44px;height:44px;border:0;background:transparent;color:#9caf9f;cursor:pointer;font-size:1.2rem}.event-popup-provider{margin:0 0 .35rem;color:var(--teal);font:600 .55rem/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase}.event-popup h2{margin:0;font-size:.86rem;font-weight:550;line-height:1.35}.event-popup-detail{margin:.4rem 0;color:#8ea196;font-size:.66rem}.event-popup a{color:var(--gold);font:500 .59rem/1.4 var(--mono);text-decoration:none}
+@media(max-width:800px){
+  .workspace{height:calc(100vh - 68px)}
+  .toolbar{left:.55rem;right:.55rem;top:.55rem;display:grid;grid-template-columns:minmax(0,1fr);gap:.35rem}
+  .date-tools{width:100%;display:grid;grid-template-columns:44px minmax(0,1fr) 44px 64px}
+  .map-tools{width:100%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+  .tool,.date-input{min-width:0;min-height:44px}.date-input{width:100%;padding:0 .45rem}.tool{padding:0 .35rem;font-size:.55rem}
+  .details-tool{justify-content:center}.details-tool b{display:none}
+  .image-state{left:.55rem;bottom:.55rem;max-width:calc(100% - 4.5rem);padding:.55rem .65rem}
+  .north{right:.8rem;bottom:3.8rem}.ol-zoom{right:.55rem!important;bottom:6.6rem!important}.ol-scale-line{left:.55rem!important;bottom:4.4rem!important}.ol-attribution{display:none}
+  .map-panel{top:auto;bottom:0;width:100%;height:auto;max-height:min(62vh,560px);border-left:0;border-top:1px solid var(--line-strong);box-shadow:0 -20px 50px rgba(0,0,0,.42);transform:translateY(0)}
+  .map-panel[aria-hidden="true"]{transform:translateY(100%)}
+  .panel-head{min-height:58px;padding:.55rem .8rem}.panel-scroll{padding-left:.8rem;padding-right:.8rem}.event-directory ol{max-height:30vh}
+}
+@media(max-width:430px){.wide-label{display:none}.tool{letter-spacing:.035em}.date-tools{grid-template-columns:44px minmax(0,1fr) 44px 58px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 </style>
 <link rel="stylesheet" href="/site-shell.css">
@@ -27,72 +111,72 @@
 <div class="head-cluster"><nav class="head-nav" aria-label="Project views"><a href="/">Field</a><a href="/weather.html">Weather</a><a href="/observatory.html">Observatory</a><span aria-current="page">Cartographer</span></nav></div>
 </header>
 <main class="workspace">
-<aside class="brief" aria-label="Imagery and observatory context">
-<div class="eyebrow">Orbital context · visual companion</div>
-<h1>Earth,<span>observed.</span></h1>
-<p class="intro">A restrained view of the satellite record beside the observatory's numerical readings. Move through days and pan across the repeating globe while the same orbital record stays in view.</p>
-<section class="datum" aria-labelledby="imageHeading">
-<div class="datum-title"><span id="imageHeading">Image product</span><b id="imageDateSide">—</b></div>
-<div class="product">Corrected Reflectance · True Color</div>
-<p class="provenance">Observed · MODIS aboard Aqua · NASA GIBS · daily · 250 m nominal</p>
-<details class="reading-guide"><summary>How to read this image</summary><p>Corrected reflectance combines red, green, and blue channels to approximate daylight human vision. White areas are often cloud, snow, or bright surface. Cloud can hide the ground. Swath edges, seams, and missing areas come from orbital coverage and processing; they are not landscape boundaries. Today's layer refreshes as NASA publishes additional passes.</p></details>
-</section>
-<section class="datum" aria-labelledby="contextHeading">
-<div class="datum-title"><span id="contextHeading">Observatory context</span><b id="payloadTime">loading</b></div>
-<div id="stationContext" aria-live="polite"><div class="reading"><span>Station payload</span><strong>waiting…</strong></div></div>
-<p class="privacy-note">Station readings are companion context, not measurements of the current map view. The public map intentionally carries no station marker or location coordinates.</p>
-</section>
-<section class="datum" aria-labelledby="eventsHeading">
-<div class="datum-title"><span id="eventsHeading">Earth events</span><b id="eventCount">loading</b></div>
-<div class="event-summary" id="eventStatus" aria-live="polite">Connecting to USGS and NASA EONET…</div>
-<div class="event-filters" id="eventFilters" aria-label="Earth event categories">
-<button class="event-filter" type="button" data-category="earthquake" aria-pressed="true">Quakes <b>—</b></button>
-<button class="event-filter" type="button" data-category="wildfires" aria-pressed="true">Wildfires <b>—</b></button>
-<button class="event-filter" type="button" data-category="volcanoes" aria-pressed="true">Volcanoes <b>—</b></button>
-<button class="event-filter" type="button" data-category="severeStorms" aria-pressed="true">Storms <b>—</b></button>
-<button class="event-filter" type="button" data-category="landslides" aria-pressed="true">Landslides <b>—</b></button>
-<button class="event-filter" type="button" data-category="seaLakeIce" aria-pressed="true">Sea / lake ice <b>—</b></button>
-</div>
-<details class="event-directory" id="eventDirectory" hidden>
-<summary>Browse visible events <b id="eventListCount">0</b></summary>
-<ol id="eventList" aria-label="Visible Earth events"></ol>
-</details>
-</section>
-<div class="source-links">
-<a href="/observatory.html"><span>Open the observatory</span><b>→</b></a>
-<a href="https://earthquake.usgs.gov/earthquakes/search/" rel="external"><span>USGS earthquake catalog</span><b>↗</b></a>
-<a href="https://eonet.gsfc.nasa.gov/" rel="external"><span>NASA EONET</span><b>↗</b></a>
-</div>
-</aside>
 <section class="map-shell" aria-label="Satellite imagery map">
 <div id="map" class="map" tabindex="0" role="application" aria-label="Interactive global NASA satellite imagery map. Use pointer drag to pan and controls to zoom or change date."></div>
-<div id="mapFallback" class="map-fallback" hidden>Satellite map library unavailable. The Observatory remains available from the project navigation.</div>
+<div id="mapFallback" class="map-fallback" hidden>Satellite map library unavailable. The project navigation remains available above.</div>
 <div class="toolbar" aria-label="Map controls">
-<div class="date-tools">
-<button class="tool" id="previousDay" type="button" aria-label="Previous imagery day">←</button>
-<input class="date-input" id="imageDate" type="date" min="2002-07-04" aria-label="Imagery date">
-<button class="tool" id="nextDay" type="button" aria-label="Next imagery day">→</button>
-<button class="tool word" id="latestDay" type="button">Latest</button>
+  <div class="date-tools">
+    <button class="tool" id="previousDay" type="button" aria-label="Previous imagery day">←</button>
+    <input class="date-input" id="imageDate" type="date" min="2002-07-04" aria-label="Imagery date">
+    <button class="tool" id="nextDay" type="button" aria-label="Next imagery day">→</button>
+    <button class="tool" id="latestDay" type="button">Latest</button>
+  </div>
+  <div class="map-tools">
+    <button class="tool" id="globalView" type="button">Global</button>
+    <button class="tool" id="toggleLabels" type="button" aria-pressed="true">Labels</button>
+    <button class="tool" id="toggleEvents" type="button" aria-pressed="true"><span class="wide-label">Earth </span>Events</button>
+    <button class="tool details-tool" id="panelToggle" type="button" aria-expanded="false" aria-controls="mapPanel">Details <b id="eventCount">loading</b></button>
+  </div>
 </div>
-<div class="map-tools">
-<button class="tool" id="globalView" type="button">Global</button>
-<button class="tool" id="toggleLabels" type="button" aria-pressed="true">Labels</button>
-<button class="tool" id="toggleEvents" type="button" aria-pressed="true">Earth events</button>
-</div>
-</div>
+<aside class="map-panel" id="mapPanel" aria-label="Map details" aria-hidden="true" inert>
+  <header class="panel-head">
+    <div><div class="panel-kicker">Cartographer</div><h1>Map details</h1></div>
+    <button class="panel-close" id="panelClose" type="button" aria-label="Close map details">×</button>
+  </header>
+  <div class="panel-scroll">
+    <section class="panel-section" aria-labelledby="eventsHeading">
+      <div class="panel-title"><span id="eventsHeading">Earth events</span><b>USGS · NASA</b></div>
+      <div class="event-summary" id="eventStatus" aria-live="polite">Connecting to USGS and NASA EONET…</div>
+      <div class="event-filters" id="eventFilters" aria-label="Earth event categories">
+        <button class="event-filter" type="button" data-category="earthquake" aria-pressed="true">Quakes <b>—</b></button>
+        <button class="event-filter" type="button" data-category="wildfires" aria-pressed="true">Wildfires <b>—</b></button>
+        <button class="event-filter" type="button" data-category="volcanoes" aria-pressed="true">Volcanoes <b>—</b></button>
+        <button class="event-filter" type="button" data-category="severeStorms" aria-pressed="true">Storms <b>—</b></button>
+        <button class="event-filter" type="button" data-category="landslides" aria-pressed="true">Landslides <b>—</b></button>
+        <button class="event-filter" type="button" data-category="seaLakeIce" aria-pressed="true">Sea / lake ice <b>—</b></button>
+      </div>
+      <p class="event-window">Earthquakes match the selected UTC day. EONET categories include that day and the previous two days because NASA event reporting can lag imagery. Provider timestamps remain visible; prescribed burns are excluded.</p>
+      <details class="event-directory" id="eventDirectory" hidden>
+        <summary>Browse visible events <b id="eventListCount">0</b></summary>
+        <ol id="eventList" aria-label="Visible Earth events"></ol>
+      </details>
+    </section>
+    <section class="panel-section" aria-labelledby="imageHeading">
+      <div class="panel-title"><span id="imageHeading">Image product</span><b id="imageDateSide">—</b></div>
+      <div class="product">Corrected Reflectance · True Color</div>
+      <p class="provenance">MODIS aboard Aqua · NASA GIBS · daily · 250 m nominal</p>
+      <details class="reading-guide"><summary>How to read this image</summary><p>Corrected reflectance combines red, green, and blue channels to approximate daylight human vision. White areas are often cloud, snow, or bright surface. Cloud can hide the ground. Swath seams and missing areas come from orbital coverage and processing, not landscape boundaries. Today’s layer fills in as NASA publishes additional passes.</p></details>
+      <p class="source-note">This public map starts globally and intentionally carries no private station marker, property boundary, or Observatory coordinates.</p>
+      <div class="source-links">
+        <a href="https://earthdata.nasa.gov/eosdis/science-system-description/eosdis-components/gibs" rel="external"><span>NASA GIBS product</span><b>↗</b></a>
+        <a href="https://earthquake.usgs.gov/earthquakes/search/" rel="external"><span>USGS earthquake catalog</span><b>↗</b></a>
+        <a href="https://eonet.gsfc.nasa.gov/" rel="external"><span>NASA EONET</span><b>↗</b></a>
+      </div>
+    </section>
+  </div>
+</aside>
 <div class="north" aria-hidden="true">N<i></i></div>
 <article class="event-popup" id="eventPopup" hidden role="dialog" aria-labelledby="eventPopupTitle" aria-describedby="eventPopupDetail">
-<button class="event-popup-close" id="eventPopupClose" type="button" aria-label="Close event details">×</button>
-<p class="event-popup-provider" id="eventPopupProvider"></p>
-<h2 id="eventPopupTitle"></h2>
-<p class="event-popup-detail" id="eventPopupDetail"></p>
-<a id="eventPopupLink" href="#" rel="external">Open provider record ↗</a>
+  <button class="event-popup-close" id="eventPopupClose" type="button" aria-label="Close event details">×</button>
+  <p class="event-popup-provider" id="eventPopupProvider"></p>
+  <h2 id="eventPopupTitle"></h2>
+  <p class="event-popup-detail" id="eventPopupDetail"></p>
+  <a id="eventPopupLink" href="#" rel="external">Open provider record ↗</a>
 </article>
 <div class="image-state" id="imageState" aria-live="polite"><b>Preparing imagery</b><span>Connecting to NASA Global Imagery Browse Services…</span></div>
 </section>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/ol@10.9.0/dist/ol.js" integrity="sha384-H9f6d9zpuIdeGwVsGIPSbRgWKZ8WRk2C1K7GxlC61fe5qjRCL/5Qvp2wUvUVDS8v" crossorigin="anonymous"></script>
 <script type="module" src="/cartographer.js"></script>
-
 </body>
 </html>

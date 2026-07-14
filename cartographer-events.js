@@ -30,14 +30,16 @@ export function buildEarthquakeUrl(dateValue, minMagnitude = 2.5) {
   return `${EARTHQUAKE_URL}?${params}`;
 }
 
-export function buildEonetUrls(dateValue, limit = 200) {
+export function buildEonetUrls(dateValue, limit = 200, lookbackDays = 2) {
   const bounds = dayBounds(dateValue);
   if (!bounds) return {};
+  const safeLookback = Math.max(0, Math.min(7, Number.isFinite(Number(lookbackDays)) ? Math.trunc(Number(lookbackDays)) : 2));
+  const start = new Date(Date.parse(bounds.start) - safeLookback * 86400000).toISOString().slice(0, 10);
   return Object.fromEntries(EONET_CATEGORIES.map((category) => {
     const params = new URLSearchParams({
       category,
       status: 'all',
-      start: bounds.date,
+      start,
       end: bounds.date,
       limit: String(limit),
     });

@@ -25,6 +25,9 @@ const eventDirectory = $('eventDirectory');
 const eventList = $('eventList');
 const eventListCount = $('eventListCount');
 const eventPopup = $('eventPopup');
+const mapPanel = $('mapPanel');
+const panelToggle = $('panelToggle');
+const panelClose = $('panelClose');
 
 const MIN_DATE = '2002-07-04';
 const REFRESH_MS = 300000;
@@ -78,7 +81,6 @@ let eventLoadId = 0;
 let eventRecords = [];
 let eventProviderNote = '';
 let eventsVisible = true;
-let pulseFeatures = [];
 let eventPopupOpener = null;
 const eventCache = new Map();
 const enabledCategories = new Set(Object.keys(EVENT_COLORS));
@@ -260,45 +262,12 @@ function renderEventFeatures() {
   });
   eventSource.clear();
   eventSource.addFeatures(features);
-  pulseFeatures = features
-    .filter((feature) => {
-      const event = feature.get('event');
-      return (event.category === 'earthquake' && Number(event.magnitude) >= 4) ||
-        (event.category !== 'earthquake' && event.category !== 'wildfires');
-    })
-    .sort((a, b) => Number(b.get('event').magnitude || 0) - Number(a.get('event').magnitude || 0))
-    .slice(0, 24);
   eventLayer.setVisible(eventsVisible);
   eventCount.textContent = eventsVisible ? `${visible.length} visible` : `${visible.length} hidden`;
   eventStatus.textContent = eventRecords.length
-    ? `${counts.earthquake || 0} USGS quakes · ${eventRecords.length - (counts.earthquake || 0)} filtered EONET events${eventProviderNote}`
-    : `No qualifying events returned for this day${eventProviderNote}`;
+    ? `${counts.earthquake || 0} USGS quakes · ${eventRecords.length - (counts.earthquake || 0)} EONET events${eventProviderNote}`
+    : `No qualifying events returned for this date window${eventProviderNote}`;
   map?.render();
-}
-
-function animateEventPulses(renderEvent) {
-  if (reduced || !eventsVisible || !pulseFeatures.length) return;
-  const vectorContext = OL.render.getVectorContext(renderEvent);
-  const time = renderEvent.frameState.time;
-  for (const feature of pulseFeatures) {
-    const event = feature.get('event');
-    const magnitude = Number(event.magnitude);
-    const period = event.category === 'earthquake'
-      ? Math.max(1300, 3600 - (Number.isFinite(magnitude) ? magnitude : 4) * 350)
-      : 4200;
-    const phase = (time % period) / period;
-    const color = EVENT_COLORS[event.category] || '#9affb3';
-    const alpha = Math.max(0, 0.52 * (1 - phase));
-    vectorContext.setStyle(new OL.style.Style({
-      image: new OL.style.Circle({
-        radius: 5 + phase * 15,
-        fill: new OL.style.Fill({color: 'rgba(0,0,0,0)'}),
-        stroke: new OL.style.Stroke({color: `${color}${Math.round(alpha * 255).toString(16).padStart(2, '0')}`, width: 1.2}),
-      }),
-    }));
-    vectorContext.drawGeometry(feature.getGeometry());
-  }
-  map.render();
 }
 
 async function fetchJson(url, signal) {
@@ -432,7 +401,6 @@ function initMap() {
   labelLayers = [features, labels];
   eventSource = new OL.source.Vector({wrapX: true});
   eventLayer = new OL.layer.Vector({source: eventSource, style: eventStyle, zIndex: 30, declutter: true});
-  eventLayer.on('postrender', animateEventPulses);
   eventOverlay = new OL.Overlay({
     element: eventPopup,
     positioning: 'bottom-center',
@@ -496,30 +464,26 @@ eventList.addEventListener('click', (event) => {
   showEventPopup(feature, button);
 });
 $('eventPopupClose').addEventListener('click', () => closeEventPopup(true));
+
+function setPanelOpen(open, restoreFocus = false) {
+  mapPanel.setAttribute('aria-hidden', String(!open));
+  mapPanel.inert = !open;
+  panelToggle.setAttribute('aria-expanded', String(open));
+  if (open) panelClose.focus();
+  else if (restoreFocus) panelToggle.focus();
+}
+
+panelToggle.addEventListener('click', () => setPanelOpen(panelToggle.getAttribute('aria-expanded') !== 'true'));
+panelClose.addEventListener('click', () => setPanelOpen(false, true));
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape' && !eventPopup.hidden) {
     event.preventDefault();
     closeEventPopup(true);
+  } else if (event.key === 'Escape' && mapPanel.getAttribute('aria-hidden') === 'false') {
+    event.preventDefault();
+    setPanelOpen(false, true);
   }
 });
-
-async function loadStationContext() {
-  try {
-    const response = await fetch('/data/observatory.json', {cache: 'no-cache'});
-    if (!response.ok) throw new Error();
-    const data = await response.json();
-    const surface = data.surface || {};
-    const air = data.air_quality || {};
-    const birds = data.birds || {};
-    $('payloadTime').textContent = data.updated
-      ? `${new Date(data.updated).toLocaleTimeString('en-US', {timeZone: 'UTC', hour: '2-digit', minute: '2-digit', hour12: false})} UTC`
-      : 'available';
-    $('stationContext').innerHTML = `<div class="reading"><span>Surface temperature</span><strong><a href="/observatory.html#atmosphere">${displayNumber(surface.temp_c, 1, ' °C')}</a></strong></div><div class="reading"><span>Cloud cover</span><strong>${displayNumber(surface.cloud_pct, 0, '%')}</strong></div><div class="reading"><span>Modeled AQI</span><strong><a href="/observatory.html#atmosphere">${displayNumber(air.us_aqi)}</a></strong></div><div class="reading"><span>Acoustic events · 24h</span><strong><a href="/observatory.html#acoustic">${birds.detections_24h ?? '—'}</a></strong></div>`;
-  } catch {
-    $('payloadTime').textContent = 'unavailable';
-    $('stationContext').innerHTML = '<div class="reading"><span>Latest station context</span><strong>unavailable</strong></div>';
-  }
-}
 
 function refreshLiveData() {
   const today = utcToday();
@@ -537,10 +501,8 @@ function refreshLiveData() {
     eventCache.delete(today);
     loadEarthEvents(today);
   }
-  loadStationContext();
 }
 
 setDate(initialDate);
 initMap();
-loadStationContext();
 setInterval(refreshLiveData, REFRESH_MS);

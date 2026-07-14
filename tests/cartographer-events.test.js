@@ -34,7 +34,7 @@ test('provider URLs are date-bound and category-specific', () => {
     const url = new URL(value);
     assert.equal(url.origin, 'https://eonet.gsfc.nasa.gov');
     assert.equal(url.searchParams.get('category'), category);
-    assert.equal(url.searchParams.get('start'), '2026-07-13');
+    assert.equal(url.searchParams.get('start'), '2026-07-11');
     assert.equal(url.searchParams.get('end'), '2026-07-13');
   }
 });
