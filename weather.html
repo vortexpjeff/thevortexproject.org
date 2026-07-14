@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#030a08">
+<meta name="description" content="Worldwide weather, practical forecast timing, air quality, and official U.S. alerts from The Vortex Project.">
+<title>Weather · The Vortex Project</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/site-shell.css">
+<link rel="stylesheet" href="/weather.css">
+</head>
+<body class="weather-body">
+<div class="weather-atmosphere" aria-hidden="true"><div></div><div></div><div></div></div>
+<header class="site-head">
+<a class="brand" href="/" aria-label="The Vortex Project home"><span class="mark">◉</span><span class="brand-copy"><strong>THE VORTEX PROJECT</strong><small>weather</small></span></a>
+<div class="head-cluster"><nav class="head-nav" aria-label="Project views"><a href="/">Field</a><span aria-current="page">Weather</span><a href="/observatory.html">Observatory</a><a href="/cartographer.html">Cartographer</a></nav></div>
+</header>
+
+<main id="weatherMain">
+<section class="weather-intro" aria-labelledby="weatherTitle">
+<div class="intro-copy">
+<p class="eyebrow">PUBLIC WEATHER</p>
+<h1 id="weatherTitle">Weather</h1>
+<p>What the atmosphere is likely to do, and when. Search any city or postal code.</p>
+</div>
+<div class="search-area">
+<form id="placeForm" class="place-form" role="search" autocomplete="off">
+<label for="placeSearch">Find a place</label>
+<div class="search-line">
+<div class="combobox-wrap">
+<input id="placeSearch" name="place" type="search" placeholder="City or postal code" role="combobox" aria-autocomplete="list" aria-controls="placeResults" aria-expanded="false" aria-activedescendant="" spellcheck="false">
+<ul id="placeResults" class="place-results" role="listbox" hidden></ul>
+</div>
+<button class="primary-action" type="submit">Search</button>
+<button id="locateButton" class="quiet-action" type="button">Use my location</button>
+<button id="unitButton" class="unit-action" type="button" aria-label="Switch weather units">°F · mph</button>
+</div>
+</form>
+<div id="recentPlaces" class="recent-places" aria-label="Recent places"></div>
+</div>
+</section>
+
+<div id="weatherStatus" class="weather-status" role="status" aria-live="polite">Choose a place to begin.</div>
+
+<section id="weatherEmpty" class="weather-empty" aria-labelledby="emptyTitle">
+<div class="empty-orbit" aria-hidden="true"><i></i><i></i><i></i></div>
+<div><p class="eyebrow">WORLDWIDE FORECAST</p><h2 id="emptyTitle">One atmosphere, many local conditions.</h2><p>The page does not assume your location or request browser access until you choose it.</p></div>
+</section>
+
+<div id="weatherContent" hidden>
+<section id="alertSection" class="alert-section" aria-labelledby="alertTitle">
+<div class="section-heading"><div><p class="eyebrow">OFFICIAL COVERAGE</p><h2 id="alertTitle">Alerts</h2></div><p id="alertCoverage" class="section-note"></p></div>
+<div id="alertList" class="alert-list"></div>
+</section>
+
+<section id="currentSection" class="current-section" aria-labelledby="currentPlace">
+<div class="current-heading">
+<div>
+<p id="placeContext" class="eyebrow"></p>
+<h2 id="currentPlace">Selected place</h2>
+<p id="placeClock" class="place-clock"></p>
+</div>
+<div class="freshness"><span>Modeled at</span><b id="currentTime">—</b><small id="currentAge"></small></div>
+</div>
+<div class="current-grid">
+<div class="condition-primary">
+<div id="conditionOrb" class="condition-orb" data-condition="unknown" aria-hidden="true"><span></span></div>
+<div><div class="temperature"><span id="currentTemp">—</span><small id="temperatureUnit">°</small></div><p id="conditionLabel">Conditions unavailable</p><p id="feelsLike">Feels like —</p></div>
+</div>
+<dl class="current-details">
+<div><dt>Humidity</dt><dd id="currentHumidity">—</dd></div>
+<div><dt>Dew point</dt><dd id="currentDew">—</dd></div>
+<div><dt>Wind</dt><dd id="currentWind">—</dd></div>
+<div><dt>Gust</dt><dd id="currentGust">—</dd></div>
+<div><dt>Pressure</dt><dd id="currentPressure">—</dd></div>
+<div><dt>Cloud cover</dt><dd id="currentCloud">—</dd></div>
+</dl>
+</div>
+<p class="model-note">Current conditions are modeled for the selected forecast grid, not measured by a sensor at the selected address.</p>
+</section>
+
+<section class="timing-section" aria-labelledby="timingTitle">
+<div class="section-heading"><div><p class="eyebrow">PRACTICAL TIMING</p><h2 id="timingTitle">What happens next</h2></div><p class="section-note">Derived from the hourly forecast</p></div>
+<div id="timingGrid" class="timing-grid"></div>
+</section>
+
+<section class="hourly-section" aria-labelledby="hourlyTitle">
+<div class="section-heading"><div><p class="eyebrow">NEXT 24 HOURS</p><h2 id="hourlyTitle">Hour by hour</h2></div><p class="section-note">Scroll horizontally</p></div>
+<div id="hourlyRail" class="hourly-rail" tabindex="0" aria-label="Hourly weather forecast"></div>
+</section>
+
+<section class="daily-section" aria-labelledby="dailyTitle">
+<div class="section-heading"><div><p class="eyebrow">TEN-DAY OUTLOOK</p><h2 id="dailyTitle">The days ahead</h2></div><p id="forecastTimezone" class="section-note"></p></div>
+<div id="dailyList" class="daily-list"></div>
+</section>
+
+<section class="air-section" aria-labelledby="airTitle">
+<div class="section-heading"><div><p class="eyebrow">REGIONAL MODEL</p><h2 id="airTitle">Air quality</h2></div><p id="airTime" class="section-note"></p></div>
+<div id="airContent" class="air-content"></div>
+<p class="model-note">Air quality is modeled over a regional grid. It is not a neighborhood monitor and may miss local smoke or roadside conditions.</p>
+</section>
+
+<section class="source-section" aria-labelledby="sourceTitle">
+<div><p class="eyebrow">PROVENANCE</p><h2 id="sourceTitle">Sources and limits</h2></div>
+<div class="source-grid">
+<article><h3>Forecast</h3><p>Open-Meteo combines public numerical weather models and selects an appropriate model for the requested coordinates.</p><a href="https://open-meteo.com/" rel="external">Open-Meteo documentation</a></article>
+<article><h3>Air</h3><p>Open-Meteo Air Quality uses CAMS model products. Values describe a grid area rather than a local instrument.</p><a href="https://open-meteo.com/en/docs/air-quality-api" rel="external">Air-quality documentation</a></article>
+<article><h3>U.S. alerts</h3><p>Active watches, warnings, and advisories come directly from the National Weather Service. Always follow local authorities during dangerous weather.</p><a href="https://www.weather.gov/" rel="external">National Weather Service</a></article>
+</div>
+<p id="requestStamp" class="request-stamp"></p>
+</section>
+</div>
+</main>
+
+<noscript><p class="noscript">Weather needs JavaScript to request a forecast for the place you choose.</p></noscript>
+<script type="module" src="/weather.js"></script>
+</body>
+</html>

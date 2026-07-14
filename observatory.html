@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#020806">
 <title>Observatory · The Vortex Project</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <style>
 :root{--bg:#020806;--surface:#06140e;--surface-2:#081b13;--line:rgba(154,255,179,.16);--line-strong:rgba(154,255,179,.34);--muted:#829b8e;--text:#dcebd9;--green:#9affb3;--teal:#5af4d2;--gold:#f8d77b;--red:#ff8d78;--blue:#9ba7ff;--pad:clamp(1rem,4vw,4rem);--content:min(1120px,calc(100vw - var(--pad)*2))}
 *{box-sizing:border-box}html{scroll-behavior:smooth;background:var(--bg)}body{margin:0;min-width:320px;background:var(--bg);color:var(--text);font:400 15px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}a{color:inherit}button,a{touch-action:manipulation}::selection{background:rgba(90,244,210,.22);color:#fff}
@@ -29,7 +30,7 @@ footer{position:relative;z-index:3;width:var(--content);margin:auto;padding:2rem
 <canvas id="field" aria-hidden="true"></canvas><div class="veil" aria-hidden="true"></div>
 <header class="site-head">
 <a class="brand" href="/" aria-label="The Vortex Project home"><span class="mark">◉</span><span class="brand-copy"><strong>THE VORTEX PROJECT</strong><small>observatory</small></span></a>
-<div class="head-cluster"><div class="head-utility"><span class="utility-readout"><small>Payload</small><b id="headTime">loading</b></span><span class="utility-readout" data-utility-secondary><small>Layer</small><b id="headLayer">solar</b></span><button class="help-trigger guide" type="button" data-help="observatory" aria-label="How to read the observatory" aria-expanded="false">?</button></div><nav class="head-nav" aria-label="Project views"><a href="/">Field</a><span aria-current="page">Observatory</span><a id="cartographerLink" href="/cartographer.html">Cartographer</a></nav></div>
+<div class="head-cluster"><div class="head-utility"><span class="utility-readout"><small>Payload</small><b id="headTime">loading</b></span><span class="utility-readout" data-utility-secondary><small>Layer</small><b id="headLayer">solar</b></span><button class="help-trigger guide" type="button" data-help="observatory" aria-label="How to read the observatory" aria-expanded="false">?</button></div><nav class="head-nav" aria-label="Project views"><a href="/">Field</a><a href="/weather.html">Weather</a><span aria-current="page">Observatory</span><a id="cartographerLink" href="/cartographer.html">Cartographer</a></nav></div>
 </header>
 <nav class="depth" aria-label="Observatory layers">
 <a href="#solar" data-layer="solar" class="active" aria-label="Solar layer"><i></i><span>Solar</span></a><a href="#wind" data-layer="wind" aria-label="Solar wind layer"><i></i><span>Wind</span></a><a href="#magnetosphere" data-layer="magnetosphere" aria-label="Magnetosphere layer"><i></i><span>Magnetosphere</span></a><a href="#ionosphere" data-layer="ionosphere" aria-label="Ionosphere layer"><i></i><span>Ionosphere</span></a><a href="#atmosphere" data-layer="atmosphere" aria-label="Atmosphere layer"><i></i><span>Atmosphere</span></a><a href="#acoustic" data-layer="acoustic" aria-label="Acoustic layer"><i></i><span>Acoustic</span></a><a href="#horizon" data-layer="horizon" aria-label="Forecast horizon layer"><i></i><span>Horizon</span></a>
