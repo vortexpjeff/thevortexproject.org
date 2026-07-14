@@ -3,7 +3,9 @@ import {
   findDryWindow,
   findNextPrecipitation,
   geocodeFallbackQueries,
+  isCurrentHourlyPeriod,
   normalizeHourly,
+  precipitationAmountThreshold,
   strongestGust,
   weatherCode,
   windCardinal,
@@ -41,7 +43,9 @@ const state = {
   searchResults: [],
   activeResult: -1,
   searchAbort: null,
+  searchId: 0,
   loadAbort: null,
+  loadId: 0,
   searchTimer: null,
   clockTimer: null,
 };
@@ -222,8 +226,9 @@ function renderTiming(rows) {
   const now = Number(state.forecast.current?.time) || Math.floor(Date.now() / 1000);
   const timezone = state.forecast.timezone;
   const units = state.forecast.hourly_units || {};
-  const nextRain = findNextPrecipitation(rows, now);
-  const dry = findDryWindow(rows, now);
+  const amountThreshold = precipitationAmountThreshold(state.units);
+  const nextRain = findNextPrecipitation(rows, now, {amountThreshold});
+  const dry = findDryWindow(rows, now, {amountMaximum: amountThreshold});
   const gust = strongestGust(rows, now, 24);
   const light = nextLightEvent(now, state.forecast);
   dom.timing.replaceChildren();
@@ -245,15 +250,15 @@ function renderHourly(rows) {
   const forecast = state.forecast;
   const now = Number(forecast.current?.time) || Math.floor(Date.now() / 1000);
   const units = forecast.hourly_units || {};
-  const upcoming = rows.filter((row) => Number(row.time) >= now - 1800).slice(0, 24);
+  const upcoming = rows.filter((row) => Number(row.time) + 3600 > now).slice(0, 24);
   const fragment = document.createDocumentFragment();
-  upcoming.forEach((row, index) => {
+  upcoming.forEach((row) => {
     const condition = weatherCode(row.weatherCode);
     const article = document.createElement('article');
     article.className = 'hourly-card';
     const time = document.createElement('time');
     time.dateTime = new Date(Number(row.time) * 1000).toISOString();
-    time.textContent = index === 0 ? 'NOW' : formatTime(row.time, forecast.timezone);
+    time.textContent = isCurrentHourlyPeriod(row.time, now) ? 'NOW' : formatTime(row.time, forecast.timezone);
     const glyph = document.createElement('div');
     glyph.className = 'hourly-glyph';
     glyph.setAttribute('aria-hidden', 'true');
@@ -453,16 +458,19 @@ function renderWeather() {
 }
 
 async function loadWeather(place, {updateUrl = true} = {}) {
+  const loadId = ++state.loadId;
   state.loadAbort?.abort();
-  state.loadAbort = new AbortController();
+  const controller = new AbortController();
+  state.loadAbort = controller;
   state.place = place;
   setBusy(true);
   setStatus(`Loading weather for ${placeName(place)}…`, 'loading');
-  const forecastPromise = fetchJson(forecastRequest(place), {signal: state.loadAbort.signal});
-  const airPromise = fetchJson(airRequest(place), {signal: state.loadAbort.signal});
-  const alertPromise = loadAlerts(place, state.loadAbort.signal);
+  const forecastPromise = fetchJson(forecastRequest(place), {signal: controller.signal});
+  const airPromise = fetchJson(airRequest(place), {signal: controller.signal});
+  const alertPromise = loadAlerts(place, controller.signal);
   try {
     const [forecastResult, airResult, alertResult] = await Promise.allSettled([forecastPromise, airPromise, alertPromise]);
+    if (loadId !== state.loadId) return;
     if (forecastResult.status !== 'fulfilled') throw forecastResult.reason;
     state.forecast = forecastResult.value;
     state.air = airResult.status === 'fulfilled' ? airResult.value : null;
@@ -473,6 +481,7 @@ async function loadWeather(place, {updateUrl = true} = {}) {
     }
     renderWeather();
   } catch (error) {
+    if (loadId !== state.loadId) return;
     if (error.name !== 'AbortError') {
       setStatus(`Weather could not be loaded for ${placeName(place)}. Try again shortly.`, 'error');
       if (!state.forecast) {
@@ -482,7 +491,7 @@ async function loadWeather(place, {updateUrl = true} = {}) {
       console.error('Weather request failed', error);
     }
   } finally {
-    setBusy(false);
+    if (loadId === state.loadId) setBusy(false);
   }
 }
 
@@ -496,15 +505,12 @@ function renderSearchResults(results) {
     item.id = `place-option-${index}`;
     item.setAttribute('role', 'option');
     item.setAttribute('aria-selected', 'false');
-    const button = document.createElement('button');
-    button.type = 'button';
     const strong = document.createElement('strong');
     const small = document.createElement('small');
     strong.textContent = result.name;
     small.textContent = placeRegion(place) || result.timezone || 'Location result';
-    button.append(strong, small);
-    button.addEventListener('click', () => selectSearchResult(index));
-    item.append(button);
+    item.append(strong, small);
+    item.addEventListener('click', () => selectSearchResult(index));
     dom.results.append(item);
   });
   const expanded = results.length > 0;
@@ -527,6 +533,13 @@ function closeResults() {
   dom.input.setAttribute('aria-activedescendant', '');
 }
 
+function clearSearchResults() {
+  state.searchResults = [];
+  state.activeResult = -1;
+  dom.results.replaceChildren();
+  closeResults();
+}
+
 function selectSearchResult(index) {
   const result = state.searchResults[index];
   if (!result) return;
@@ -539,26 +552,31 @@ function selectSearchResult(index) {
 async function searchPlaces(query, {selectFirst = false} = {}) {
   const cleaned = query.trim();
   if (cleaned.length < 2) {
-    renderSearchResults([]);
+    clearSearchResults();
     return [];
   }
+  const searchId = ++state.searchId;
   state.searchAbort?.abort();
-  state.searchAbort = new AbortController();
+  const controller = new AbortController();
+  state.searchAbort = controller;
   try {
     let results = [];
     for (const candidate of geocodeFallbackQueries(cleaned)) {
       const params = new URLSearchParams({name: candidate, count: '8', language: navigator.language?.split('-')[0] || 'en', format: 'json'});
-      const data = await fetchJson(`${GEOCODE_URL}?${params}`, {signal: state.searchAbort.signal});
+      const data = await fetchJson(`${GEOCODE_URL}?${params}`, {signal: controller.signal});
+      if (searchId !== state.searchId) return [];
       results = Array.isArray(data.results) ? data.results : [];
       if (results.length) break;
     }
+    if (searchId !== state.searchId) return [];
     renderSearchResults(results);
     if (selectFirst && results.length) selectSearchResult(0);
     if (selectFirst && !results.length) setStatus(`No place matched “${cleaned}”.`, 'error');
     return results;
   } catch (error) {
+    if (searchId !== state.searchId) return [];
     if (error.name !== 'AbortError') {
-      renderSearchResults([]);
+      clearSearchResults();
       setStatus('Location search is temporarily unavailable.', 'error');
       console.error('Location search failed', error);
     }
@@ -632,12 +650,16 @@ function placeFromUrl() {
 
 dom.form.addEventListener('submit', (event) => {
   event.preventDefault();
+  clearTimeout(state.searchTimer);
   if (state.searchResults.length && !dom.results.hidden) selectSearchResult(Math.max(0, state.activeResult));
   else searchPlaces(dom.input.value, {selectFirst: true});
 });
 
 dom.input.addEventListener('input', () => {
   clearTimeout(state.searchTimer);
+  state.searchId += 1;
+  state.searchAbort?.abort();
+  clearSearchResults();
   state.searchTimer = setTimeout(() => searchPlaces(dom.input.value), 260);
 });
 

@@ -6,7 +6,9 @@ import {
   findDryWindow,
   findNextPrecipitation,
   geocodeFallbackQueries,
+  isCurrentHourlyPeriod,
   normalizeHourly,
+  precipitationAmountThreshold,
   strongestGust,
   weatherCode,
   windCardinal,
@@ -100,10 +102,25 @@ test('findNextPrecipitation returns the first meaningful signal after now', () =
   assert.equal(result.precipitationProbability, 55);
 });
 
+test('precipitation thresholds represent the same physical amount in either unit system', () => {
+  assert.equal(precipitationAmountThreshold('imperial'), 0.01);
+  assert.equal(precipitationAmountThreshold('metric'), 0.254);
+  const metricRows = [{time: 4600, precipitationProbability: 0, precipitation: 0.254}];
+  const imperialRows = [{time: 4600, precipitationProbability: 0, precipitation: 0.01}];
+  assert.equal(findNextPrecipitation(metricRows, 1000, {amountThreshold: precipitationAmountThreshold('metric')})?.time, 4600);
+  assert.equal(findNextPrecipitation(imperialRows, 1000, {amountThreshold: precipitationAmountThreshold('imperial')})?.time, 4600);
+});
+
+test('isCurrentHourlyPeriod never labels a future period as current', () => {
+  assert.equal(isCurrentHourlyPeriod(3600, 6300), true);
+  assert.equal(isCurrentHourlyPeriod(7200, 6300), false);
+  assert.equal(isCurrentHourlyPeriod(3600, 7200), false);
+});
+
 test('findDryWindow returns the first qualifying consecutive dry period', () => {
   const result = findDryWindow(rows, 11000, {minimumHours: 3, searchHours: 24});
   assert.equal(result.start, 19000);
-  assert.equal(result.end, 29800);
+  assert.equal(result.end, 33400);
   assert.equal(result.hours, 4);
 });
 

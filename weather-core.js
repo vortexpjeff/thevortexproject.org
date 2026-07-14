@@ -102,6 +102,16 @@ function inWindow(row, now, hours) {
   return Number(row.time) >= now && Number(row.time) <= limit;
 }
 
+export function precipitationAmountThreshold(units) {
+  return units === 'imperial' ? 0.01 : 0.254;
+}
+
+export function isCurrentHourlyPeriod(periodStart, currentTime, periodSeconds = 3600) {
+  const start = Number(periodStart);
+  const current = Number(currentTime);
+  return Number.isFinite(start) && Number.isFinite(current) && start <= current && current < start + periodSeconds;
+}
+
 export function findNextPrecipitation(rows, now, {searchHours = 48, probabilityThreshold = 35, amountThreshold = 0.01} = {}) {
   return rows.find((row) => {
     if (!inWindow(row, now, searchHours)) return false;
@@ -133,7 +143,10 @@ export function findDryWindow(rows, now, {minimumHours = 3, searchHours = 36, pr
           run.push(next);
           endIndex += 1;
         }
-        return {start: run[0].time, end: run.at(-1).time, hours: run.length};
+        const final = run.at(-1);
+        const prior = run.at(-2);
+        const interval = prior ? Math.max(1, Number(final.time) - Number(prior.time)) : 3600;
+        return {start: run[0].time, end: Number(final.time) + interval, hours: run.length};
       }
     } else {
       run = [];
