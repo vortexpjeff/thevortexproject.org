@@ -213,6 +213,140 @@ class VortexLayoutTest(unittest.TestCase):
         finally:
             page.close()
 
+    def test_cartographer_events_follow_date_filters_and_survive_provider_outage(self):
+        page = BrowserPage("/cartographer.html?date=2026-07-12", 390, 844, mobile=True)
+        try:
+            deadline = time.time() + 80
+            while time.time() < deadline and page.evaluate("document.querySelector('#eventCount').textContent==='loading'"):
+                time.sleep(0.25)
+            result = page.evaluate("""(()=>({
+              date:document.querySelector('#imageDate').value,
+              count:Number(document.querySelector('#eventCount').textContent.split(' ')[0]),
+              quakes:Number(document.querySelector('.event-filter[data-category="earthquake"] b').textContent),
+              fires:Number(document.querySelector('.event-filter[data-category="wildfires"] b').textContent),
+              fallback:!document.querySelector('#mapFallback').hidden,
+              overflow:Math.max(0,document.documentElement.scrollWidth-innerWidth),
+              railOverflow:Math.max(0,document.querySelector('.brief').scrollWidth-document.querySelector('.brief').clientWidth)
+            }))()""")
+            self.assertEqual(result["date"], "2026-07-12")
+            self.assertGreater(result["quakes"], 0)
+            self.assertGreater(result["fires"], 0)
+            self.assertEqual(result["count"], result["quakes"] + result["fires"])
+            self.assertFalse(result["fallback"])
+            self.assertEqual(result["overflow"], 0)
+            self.assertEqual(result["railOverflow"], 0)
+            directory = page.evaluate("""(()=>{
+              const details=document.querySelector('#eventDirectory');
+              if(!details)return null;
+              details.open=true;
+              const buttons=[...details.querySelectorAll('.event-list-focus')];
+              const links=[...details.querySelectorAll('.event-list-link')];
+              return {
+                items:details.querySelectorAll('li').length,
+                minTarget:Math.min(...buttons.map(button=>button.getBoundingClientRect().height)),
+                linksSafe:links.every(link=>link.href.startsWith('https://')),
+              };
+            })()""")
+            self.assertIsNotNone(directory)
+            self.assertEqual(directory["items"], result["count"])
+            self.assertGreaterEqual(directory["minTarget"], 44)
+            self.assertTrue(directory["linksSafe"])
+            popup = page.evaluate("""(()=>{
+              const button=document.querySelector('.event-list-focus');
+              button.click();
+              const dialog=document.querySelector('#eventPopup');
+              return {
+                role:dialog.getAttribute('role'),
+                labelledby:dialog.getAttribute('aria-labelledby'),
+                hidden:dialog.hidden,
+                focus:document.activeElement?.id,
+                opener:button.dataset.eventId,
+              };
+            })()""")
+            self.assertEqual(popup["role"], "dialog")
+            self.assertEqual(popup["labelledby"], "eventPopupTitle")
+            self.assertFalse(popup["hidden"])
+            self.assertEqual(popup["focus"], "eventPopupClose")
+            page.evaluate("document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}))")
+            closed = page.evaluate("""(()=>({
+              hidden:document.querySelector('#eventPopup').hidden,
+              restored:document.activeElement?.dataset?.eventId||''
+            }))()""")
+            self.assertTrue(closed["hidden"])
+            self.assertEqual(closed["restored"], popup["opener"])
+            page.evaluate("document.querySelector('.event-filter[data-category=\"wildfires\"]').click()")
+            filtered = page.evaluate("Number(document.querySelector('#eventCount').textContent.split(' ')[0])")
+            self.assertEqual(filtered, result["count"] - result["fires"])
+            page.evaluate("document.querySelector('.event-filter[data-category=\"wildfires\"]').click()")
+            page.command("Network.emulateNetworkConditions", {
+                "offline": False,
+                "latency": 1200,
+                "downloadThroughput": 1000000,
+                "uploadThroughput": 1000000,
+            })
+            page.evaluate("""(()=>{
+              const input=document.querySelector('#imageDate');
+              input.value='2026-07-11';
+              input.dispatchEvent(new Event('change',{bubbles:true}));
+              input.value='2026-07-12';
+              input.dispatchEvent(new Event('change',{bubbles:true}));
+            })()""")
+            time.sleep(2)
+            cached = page.evaluate("""(()=>({
+              date:document.querySelector('#imageDate').value,
+              count:Number(document.querySelector('#eventCount').textContent.split(' ')[0]),
+              fires:Number(document.querySelector('.event-filter[data-category="wildfires"] b').textContent)
+            }))()""")
+            self.assertEqual(cached["date"], "2026-07-12")
+            self.assertEqual(cached["count"], result["count"])
+            self.assertEqual(cached["fires"], result["fires"])
+        finally:
+            page.close()
+
+        outage = BrowserPage("/cartographer.html?date=2026-07-12", 390, 844, mobile=True)
+        try:
+            outage.command("Network.setBlockedURLs", {"urls": [
+                "*earthquake.usgs.gov*",
+                "*eonet.gsfc.nasa.gov*",
+            ]})
+            outage.command("Page.reload", {"ignoreCache": True})
+            deadline = time.time() + 45
+            ready = False
+            status = ""
+            while time.time() < deadline:
+                status = outage.evaluate("document.querySelector('#eventStatus').textContent")
+                ready = "providers unavailable" in status
+                if ready:
+                    break
+                time.sleep(0.25)
+            self.assertTrue(ready, msg=status)
+            self.assertFalse(outage.evaluate("!document.querySelector('#mapFallback').hidden"))
+            self.assertIn("No qualifying events", status)
+        finally:
+            outage.close()
+
+    def test_cartographer_does_not_report_blank_fallback_tiles_as_imagery(self):
+        page = BrowserPage("/cartographer.html?date=2026-07-12", 390, 844, mobile=True)
+        try:
+            page.command("Network.setBlockedURLs", {"urls": ["*gibs.earthdata.nasa.gov*"]})
+            page.command("Page.reload", {"ignoreCache": True})
+            deadline = time.time() + 45
+            state = {"title": "", "detail": "", "mapFallback": False}
+            while time.time() < deadline:
+                state = page.evaluate("""(()=>({
+                  title:document.querySelector('#imageState b')?.textContent||'',
+                  detail:document.querySelector('#imageState span')?.textContent||'',
+                  mapFallback:!document.querySelector('#mapFallback').hidden
+                }))()""")
+                if state["title"] in ("No imagery in this view", "Imagery ready"):
+                    break
+                time.sleep(0.25)
+            self.assertEqual(state["title"], "No imagery in this view")
+            self.assertIn("outside coverage", state["detail"])
+            self.assertFalse(state["mapFallback"])
+        finally:
+            page.close()
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
