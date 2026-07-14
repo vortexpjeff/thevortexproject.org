@@ -1,5 +1,6 @@
 const EARTHQUAKE_URL = 'https://earthquake.usgs.gov/fdsnws/event/1/query';
 const EONET_URL = 'https://eonet.gsfc.nasa.gov/api/v3/events';
+const EONET_LOOKBACK_DAYS = 2;
 
 export const EONET_CATEGORIES = Object.freeze([
   'wildfires',
@@ -30,10 +31,10 @@ export function buildEarthquakeUrl(dateValue, minMagnitude = 2.5) {
   return `${EARTHQUAKE_URL}?${params}`;
 }
 
-export function buildEonetUrls(dateValue, limit = 200, lookbackDays = 2) {
+export function buildEonetUrls(dateValue, limit = 200, lookbackDays = EONET_LOOKBACK_DAYS) {
   const bounds = dayBounds(dateValue);
   if (!bounds) return {};
-  const safeLookback = Math.max(0, Math.min(7, Number.isFinite(Number(lookbackDays)) ? Math.trunc(Number(lookbackDays)) : 2));
+  const safeLookback = Math.max(0, Math.min(7, Number.isFinite(Number(lookbackDays)) ? Math.trunc(Number(lookbackDays)) : EONET_LOOKBACK_DAYS));
   const start = new Date(Date.parse(bounds.start) - safeLookback * 86400000).toISOString().slice(0, 10);
   return Object.fromEntries(EONET_CATEGORIES.map((category) => {
     const params = new URLSearchParams({
@@ -163,12 +164,19 @@ export function normalizeEarthquakes(payload, dateValue = null) {
 }
 
 function eventGeometryForDate(event, dateValue) {
+  const bounds = dayBounds(dateValue);
+  if (!bounds) return null;
+  const windowStart = Date.parse(bounds.start) - EONET_LOOKBACK_DAYS * 86400000;
+  const windowEnd = Date.parse(bounds.end);
   const candidates = (Array.isArray(event?.geometry) ? event.geometry : []).flatMap((geometry) => {
     const point = representativePoint(geometry);
     if (!point) return [];
     const rawDate = geometry.date;
     const parsed = typeof rawDate === 'string' && rawDate.trim() ? new Date(rawDate) : null;
-    return [{geometry, point, time: parsed && Number.isFinite(parsed.getTime()) ? parsed : null}];
+    if (!parsed || !Number.isFinite(parsed.getTime())) return [];
+    const timestamp = parsed.getTime();
+    if (timestamp < windowStart || timestamp >= windowEnd) return [];
+    return [{geometry, point, time: parsed}];
   });
   if (!candidates.length) return null;
   const target = new Date(`${dateValue}T12:00:00.000Z`).getTime();
@@ -197,7 +205,7 @@ export function normalizeEonet(payload, dateValue, expectedCategory, maxEvents =
     const sourceUrl = (event?.sources || [])
       .map((source) => safeHttpsUrl(source?.url, null, null))
       .find(Boolean);
-    const time = chosen.time?.toISOString() || `${dateValue}T12:00:00.000Z`;
+    const time = chosen.time.toISOString();
     normalized.push({
       id: `eonet-${event.id || `${category}-${key}`}`,
       provider: 'NASA EONET',

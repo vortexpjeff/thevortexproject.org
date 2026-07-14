@@ -122,6 +122,23 @@ test('normalizeEonet filters prescribed burns, decodes titles, chooses date-near
   assert.equal(result[0].time, '2026-07-13T14:00:00.000Z');
 });
 
+test('normalizeEonet enforces the selected day plus two-day lookback window', () => {
+  const event = (id, date) => ({
+    id,
+    title: `Wildfire ${id}`,
+    categories: [{id: 'wildfires', title: 'Wildfires'}],
+    geometry: [{date, type: 'Point', coordinates: [-100, 40]}],
+  });
+  const result = normalizeEonet({events: [
+    event('before-window', '2026-07-10T23:59:59.999Z'),
+    event('window-start', '2026-07-11T00:00:00.000Z'),
+    event('selected-end', '2026-07-13T23:59:59.999Z'),
+    event('after-selected', '2026-07-14T00:00:00.000Z'),
+    event('missing-time', null),
+  ]}, '2026-07-13', 'wildfires');
+  assert.deepEqual(result.map((item) => item.id), ['eonet-window-start', 'eonet-selected-end']);
+});
+
 test('normalizeEonet caps one category and eventCategoryCounts summarizes the merged set', () => {
   const payload = {events: Array.from({length: 12}, (_, index) => ({
     id: `storm-${index}`,

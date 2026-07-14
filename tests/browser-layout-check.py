@@ -114,20 +114,36 @@ class VortexLayoutTest(unittest.TestCase):
             finally:
                 page.close()
 
+    def test_cartographer_visible_controls_meet_desktop_target_size(self):
+        page = BrowserPage("/cartographer.html?date=2026-07-12", 1440, 900)
+        try:
+            targets = page.evaluate("""(()=>{
+              const controls=[...document.querySelectorAll('.toolbar button,.toolbar input,.ol-zoom button,.ol-attribution button')]
+                .map(control=>({name:control.getAttribute('aria-label')||control.textContent.trim(),rect:control.getBoundingClientRect().toJSON()}))
+                .filter(control=>control.rect.width>0&&control.rect.height>0);
+              return {count:controls.length,minWidth:Math.min(...controls.map(control=>control.rect.width)),minHeight:Math.min(...controls.map(control=>control.rect.height)),controls};
+            })()""")
+            self.assertGreaterEqual(targets["count"], 11)
+            self.assertGreaterEqual(targets["minWidth"], 44, msg=targets["controls"])
+            self.assertGreaterEqual(targets["minHeight"], 44, msg=targets["controls"])
+        finally:
+            page.close()
+
     def test_cartographer_is_map_first_and_details_sheet_is_accessible_mobile(self):
         page = BrowserPage("/cartographer.html?date=2026-07-12", 390, 844, mobile=True)
         try:
             baseline = page.evaluate("""(()=>{
               const map=document.querySelector('.map-shell').getBoundingClientRect();
               const workspace=document.querySelector('.workspace').getBoundingClientRect();
-              const controls=[...document.querySelectorAll('.toolbar button,.toolbar input')];
+              const controls=[...document.querySelectorAll('.toolbar button,.toolbar input,.ol-zoom button')];
               return {
                 noBrief:!document.querySelector('.brief'),
                 noStationCopy:!document.body.textContent.includes('Surface temperature') && !document.body.textContent.includes('Acoustic events'),
                 mapWidth:map.width,mapHeight:map.height,workspaceWidth:workspace.width,workspaceHeight:workspace.height,
                 panelHidden:document.querySelector('#mapPanel').getAttribute('aria-hidden'),
                 panelInert:document.querySelector('#mapPanel').inert,
-                minTarget:Math.min(...controls.map(control=>control.getBoundingClientRect().height)),
+                minTargetHeight:Math.min(...controls.map(control=>control.getBoundingClientRect().height)),
+                minTargetWidth:Math.min(...controls.map(control=>control.getBoundingClientRect().width)),
                 visibleControls:controls.every(control=>{const r=control.getBoundingClientRect();return r.width>0&&r.height>0}),
                 overflow:Math.max(0,document.documentElement.scrollWidth-innerWidth)
               };
@@ -138,7 +154,8 @@ class VortexLayoutTest(unittest.TestCase):
             self.assertAlmostEqual(baseline["mapHeight"], baseline["workspaceHeight"], delta=0.1)
             self.assertEqual(baseline["panelHidden"], "true")
             self.assertTrue(baseline["panelInert"])
-            self.assertGreaterEqual(baseline["minTarget"], 44)
+            self.assertGreaterEqual(baseline["minTargetHeight"], 44)
+            self.assertGreaterEqual(baseline["minTargetWidth"], 44)
             self.assertTrue(baseline["visibleControls"])
             self.assertEqual(baseline["overflow"], 0)
 
