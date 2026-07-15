@@ -32,6 +32,9 @@ const panelClose = $('panelClose');
 const MIN_DATE = '2002-07-04';
 const REFRESH_MS = 300000;
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+// Keep Cartographer to one physical world. The map remains inspectable, but it
+// never repeats Earth east-to-west when a visitor pans or zooms out.
+const WORLD_EXTENT = OL?.proj.get('EPSG:3857').getExtent();
 const DAILY_ROOT = 'https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/MODIS_Aqua_CorrectedReflectance_TrueColor/default/';
 const BLANK_TILE = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
 const EVENT_COLORS = Object.freeze({
@@ -97,9 +100,8 @@ function gibsDailyTileFunction(date) {
     if (!tileCoord) return undefined;
     const [z, x, y] = tileCoord;
     const n = 2 ** z;
-    if (y < 0 || y >= southCoverageRow(z)) return undefined;
-    const wrappedX = ((x % n) + n) % n;
-    return `${DAILY_ROOT}${date}/GoogleMapsCompatible_Level9/${z}/${y}/${wrappedX}.jpeg`;
+    if (x < 0 || x >= n || y < 0 || y >= southCoverageRow(z)) return undefined;
+    return `${DAILY_ROOT}${date}/GoogleMapsCompatible_Level9/${z}/${y}/${x}.jpeg`;
   };
 }
 
@@ -377,7 +379,7 @@ function initMap() {
     crossOrigin: 'anonymous',
     attributions: 'Imagery: NASA EOSDIS GIBS · MODIS / Aqua',
     maxZoom: 9,
-    wrapX: true,
+    wrapX: false,
   });
   wireTileState(dailySource);
   const imageLayer = new OL.layer.Tile({source: dailySource});
@@ -387,7 +389,7 @@ function initMap() {
       crossOrigin: 'anonymous',
       attributions: 'Reference: OpenStreetMap contributors via NASA GIBS',
       maxZoom: 9,
-      wrapX: true,
+      wrapX: false,
     }),
   });
   const labels = new OL.layer.Tile({
@@ -395,11 +397,11 @@ function initMap() {
       url: gibsStatic('Reference_Labels'),
       crossOrigin: 'anonymous',
       maxZoom: 9,
-      wrapX: true,
+      wrapX: false,
     }),
   });
   labelLayers = [features, labels];
-  eventSource = new OL.source.Vector({wrapX: true});
+  eventSource = new OL.source.Vector({wrapX: false});
   eventLayer = new OL.layer.Vector({source: eventSource, style: eventStyle, zIndex: 30, declutter: true});
   eventOverlay = new OL.Overlay({
     element: eventPopup,
@@ -412,7 +414,16 @@ function initMap() {
     target: 'map',
     layers: [imageLayer, features, labels, eventLayer],
     overlays: [eventOverlay],
-    view: new OL.View({center: [0, 0], zoom: 2, minZoom: 2, maxZoom: 9, enableRotation: false, multiWorld: true}),
+    view: new OL.View({
+      center: [0, 0],
+      zoom: 2,
+      minZoom: 2,
+      maxZoom: 9,
+      extent: WORLD_EXTENT,
+      showFullExtent: true,
+      enableRotation: false,
+      multiWorld: false,
+    }),
   });
   map.addControl(new OL.control.ScaleLine({units: 'metric', bar: false, steps: 2, minWidth: 90}));
   map.on('singleclick', (pointerEvent) => {
