@@ -1,6 +1,7 @@
 const EARTHQUAKE_URL = 'https://earthquake.usgs.gov/fdsnws/event/1/query';
 const EONET_URL = 'https://eonet.gsfc.nasa.gov/api/v3/events';
-const EONET_LOOKBACK_DAYS = 2;
+const DEFAULT_EONET_LOOKBACK_DAYS = 2;
+const WILDFIRE_LOOKBACK_DAYS = 7;
 
 export const EONET_CATEGORIES = Object.freeze([
   'wildfires',
@@ -31,12 +32,17 @@ export function buildEarthquakeUrl(dateValue, minMagnitude = 2.5) {
   return `${EARTHQUAKE_URL}?${params}`;
 }
 
-export function buildEonetUrls(dateValue, limit = 200, lookbackDays = EONET_LOOKBACK_DAYS) {
+function eonetLookbackDays(category, override = null) {
+  const fallback = category === 'wildfires' ? WILDFIRE_LOOKBACK_DAYS : DEFAULT_EONET_LOOKBACK_DAYS;
+  const value = override === null ? fallback : override;
+  return Math.max(0, Math.min(7, Number.isFinite(Number(value)) ? Math.trunc(Number(value)) : fallback));
+}
+
+export function buildEonetUrls(dateValue, limit = 200, lookbackDays = null) {
   const bounds = dayBounds(dateValue);
   if (!bounds) return {};
-  const safeLookback = Math.max(0, Math.min(7, Number.isFinite(Number(lookbackDays)) ? Math.trunc(Number(lookbackDays)) : EONET_LOOKBACK_DAYS));
-  const start = new Date(Date.parse(bounds.start) - safeLookback * 86400000).toISOString().slice(0, 10);
   return Object.fromEntries(EONET_CATEGORIES.map((category) => {
+    const start = new Date(Date.parse(bounds.start) - eonetLookbackDays(category, lookbackDays) * 86400000).toISOString().slice(0, 10);
     const params = new URLSearchParams({
       category,
       status: 'all',
@@ -163,10 +169,10 @@ export function normalizeEarthquakes(payload, dateValue = null) {
   });
 }
 
-function eventGeometryForDate(event, dateValue) {
+function eventGeometryForDate(event, dateValue, category) {
   const bounds = dayBounds(dateValue);
   if (!bounds) return null;
-  const windowStart = Date.parse(bounds.start) - EONET_LOOKBACK_DAYS * 86400000;
+  const windowStart = Date.parse(bounds.start) - eonetLookbackDays(category) * 86400000;
   const windowEnd = Date.parse(bounds.end);
   const candidates = (Array.isArray(event?.geometry) ? event.geometry : []).flatMap((geometry) => {
     const point = representativePoint(geometry);
@@ -188,7 +194,7 @@ function eventGeometryForDate(event, dateValue) {
   return candidates[0];
 }
 
-export function normalizeEonet(payload, dateValue, expectedCategory, maxEvents = 80) {
+export function normalizeEonet(payload, dateValue, expectedCategory, maxEvents = Number.POSITIVE_INFINITY) {
   if (!dayBounds(dateValue)) return [];
   const seen = new Set();
   const normalized = [];
@@ -197,7 +203,7 @@ export function normalizeEonet(payload, dateValue, expectedCategory, maxEvents =
     if (!title || /\bprescribed\b|\brx\b/i.test(title)) continue;
     const category = event?.categories?.[0]?.id || expectedCategory;
     if (expectedCategory && category !== expectedCategory) continue;
-    const chosen = eventGeometryForDate(event, dateValue);
+    const chosen = eventGeometryForDate(event, dateValue, category);
     if (!chosen) continue;
     const key = duplicateKey(title);
     if (!key || seen.has(key)) continue;

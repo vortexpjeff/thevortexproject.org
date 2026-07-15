@@ -4,179 +4,126 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#020806">
-<meta name="description" content="A map-first view of dated NASA satellite imagery and public Earth events.">
+<meta name="description" content="A fixed global view of dated NASA true-color imagery and public Earth events.">
 <title>Cartographer · The Vortex Project</title>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@10.9.0/ol.css" integrity="sha384-Jpg1uvTciFJuHq+90Ly0/2SKRT9yS5OhbIN5FuFoFWji9fc44ok8xxO88CJi8Z5W" crossorigin="anonymous">
-<style>
-:root{
-  --bg:#020806;--panel:#06100c;--panel-2:#091611;--text:#d8e8da;--muted:#789083;
-  --green:#9affb3;--teal:#5af4d2;--gold:#f8d77b;--red:#ff8d78;
-  --line:rgba(154,255,179,.15);--line-strong:rgba(154,255,179,.28);
-  --mono:ui-monospace,SFMono-Regular,Consolas,monospace;
-}
-*{box-sizing:border-box}
-html,body{width:100%;height:100%;margin:0;background:var(--bg);color:var(--text);overflow:hidden}
-body{font:400 15px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-button,input,a{font:inherit}button,a{touch-action:manipulation}a{color:inherit}
-::selection{background:rgba(90,244,210,.22);color:#fff}
-.workspace{height:calc(100vh - 78px);min-height:0}
-.map-shell{position:relative;width:100%;height:100%;min-width:0;min-height:0;overflow:hidden;background:#07100c}
-.map{position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,#102219,#030806 72%)}
-.map:focus{outline:none}.map:focus-visible{outline:2px solid var(--gold);outline-offset:-2px}
-.map-fallback{position:absolute;inset:0;z-index:30;display:grid;place-items:center;padding:2rem;text-align:center;background:#07100c;color:#8da095;font:500 .68rem/1.7 var(--mono);letter-spacing:.06em}
-.map-fallback[hidden]{display:none}
-.toolbar{position:absolute;z-index:14;left:1rem;right:1rem;top:1rem;display:flex;align-items:stretch;justify-content:space-between;gap:.75rem;pointer-events:none}
-.date-tools,.map-tools{display:flex;align-items:stretch;overflow:hidden;border:1px solid var(--line-strong);background:rgba(2,10,7,.9);box-shadow:0 12px 32px rgba(0,0,0,.25);backdrop-filter:blur(12px);pointer-events:auto}
-.tool,.date-input{min-height:44px;border:0;background:transparent;color:var(--text)}
-.tool{min-width:44px;padding:0 .78rem;cursor:pointer;color:#a6b9ac;font:600 .59rem/1 var(--mono);letter-spacing:.07em;text-transform:uppercase;transition:background-color .16s ease,color .16s ease}
-.tool+.tool,.date-input+.tool,.tool+.date-input{border-left:1px solid var(--line)}
-.tool:hover{background:rgba(154,255,179,.08);color:#edf8ea}
-.tool:focus-visible,.date-input:focus-visible,.panel-close:focus-visible,.event-filter:focus-visible,.event-directory summary:focus-visible,.source-links a:focus-visible,.event-list-focus:focus-visible,.event-list-link:focus-visible,.event-popup-close:focus-visible,.event-popup a:focus-visible{outline:2px solid var(--gold);outline-offset:-2px}
-.tool[aria-pressed="true"]{background:rgba(90,244,210,.09);color:var(--teal)}
-.tool[disabled]{opacity:.36;cursor:not-allowed}
-.date-input{width:9.4rem;padding:0 .7rem;color:var(--gold);font:600 .66rem/1 var(--mono);color-scheme:dark}
-.details-tool{display:flex;align-items:center;gap:.55rem}
-.details-tool b{min-width:1.2rem;color:var(--teal);font-weight:500;text-align:right}
-.image-state{position:absolute;z-index:11;left:1rem;bottom:1rem;max-width:min(520px,calc(100% - 8rem));padding:.65rem .8rem;background:rgba(2,9,6,.88);box-shadow:0 10px 30px rgba(0,0,0,.24);backdrop-filter:blur(8px);pointer-events:none}
-.image-state:before{content:"";position:absolute;left:0;top:.7rem;bottom:.7rem;width:2px;background:var(--gold);opacity:.75}
-.image-state b{display:block;color:var(--gold);font:600 .57rem/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase}
-.image-state span{display:block;margin-top:.2rem;color:#9aae9f;font-size:.65rem;line-height:1.45}
-.north{position:absolute;z-index:9;right:1.15rem;bottom:4.2rem;color:#d3e4d4;text-align:center;font:600 .55rem/1 var(--mono)}
-.north i{display:block;width:1px;height:2.9rem;margin:.25rem auto 0;background:linear-gradient(var(--gold),rgba(248,215,123,.08));position:relative}
-.north i:before{content:"";position:absolute;top:-1px;left:-3px;border-left:3.5px solid transparent;border-right:3.5px solid transparent;border-bottom:7px solid var(--gold)}
-.ol-zoom{top:auto!important;left:auto!important;right:1rem!important;bottom:7.1rem!important;padding:0!important;background:none!important}
-.ol-zoom button{width:44px!important;height:44px!important;margin:0 0 1px!important;border:1px solid var(--line-strong)!important;border-radius:0!important;background:rgba(2,10,7,.9)!important;color:var(--teal)!important;font-size:1.2rem!important;box-shadow:none!important}
-.ol-zoom button:focus-visible{outline:2px solid var(--gold)!important;outline-offset:-2px}
-.ol-scale-line{left:1rem!important;bottom:5rem!important;padding:0!important;background:none!important}
-.ol-scale-line-inner{min-width:128px;border:1px solid #d8e8da!important;border-top:0!important;color:#d8e8da!important;font:500 .52rem/1.3 var(--mono)!important;text-align:center!important}
-.ol-attribution{right:.6rem!important;bottom:.45rem!important;background:transparent!important;font-size:.55rem!important}
-.ol-attribution button{min-width:44px!important;min-height:44px!important;background:transparent!important;color:var(--teal)!important}
-.map-panel{position:absolute;z-index:24;top:0;right:0;width:min(370px,100%);height:100%;display:flex;flex-direction:column;background:rgba(4,13,9,.97);border-left:1px solid var(--line-strong);box-shadow:-20px 0 50px rgba(0,0,0,.36);backdrop-filter:blur(18px);transform:translateX(0);transition:transform .22s ease,visibility 0s;overflow:hidden}
-.map-panel[aria-hidden="true"]{transform:translateX(100%);visibility:hidden;pointer-events:none;transition:transform .22s ease,visibility 0s .22s}
-.panel-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:64px;padding:.8rem 1rem;border-bottom:1px solid var(--line)}
-.panel-kicker{color:var(--teal);font:600 .58rem/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase}
-.panel-head h1{margin:.15rem 0 0;color:#edf7ea;font:300 1.05rem/1.05 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;letter-spacing:-.025em}
-.panel-close{width:44px;height:44px;border:0;background:transparent;color:#a8b9ae;cursor:pointer;font-size:1.35rem}
-.panel-close:hover{color:#fff;background:rgba(154,255,179,.06)}
-.panel-scroll{min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:0 1rem calc(1rem + env(safe-area-inset-bottom));scrollbar-width:thin;scrollbar-color:rgba(154,255,179,.22) transparent}
-.panel-section{padding:1rem 0;border-bottom:1px solid var(--line)}
-.panel-section:last-child{border-bottom:0}
-.panel-title{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:.7rem;color:#8ca095;font:600 .57rem/1.3 var(--mono);letter-spacing:.13em;text-transform:uppercase}
-.panel-title b{color:var(--gold);font-weight:500}
-.product{color:var(--text);font:500 .78rem/1.45 var(--mono)}
-.provenance{margin:.4rem 0 0;color:#6f8377;font:400 .56rem/1.6 var(--mono);letter-spacing:.055em;text-transform:uppercase}
-.reading-guide{margin-top:.8rem}
-.reading-guide summary{min-height:44px;display:flex;align-items:center;cursor:pointer;color:var(--teal);font:500 .6rem/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;list-style:none}
-.reading-guide summary::-webkit-details-marker{display:none}.reading-guide summary:after{content:"+";margin-left:auto;color:#8da095}.reading-guide[open] summary:after{content:"−"}
-.reading-guide p,.source-note{margin:.3rem 0 0;color:#8fa298;font-size:.68rem;line-height:1.65}
-.event-summary{display:grid;gap:.32rem;margin-bottom:.8rem;color:#7d9185;font:500 .59rem/1.5 var(--mono)}
-.event-window{margin:.7rem 0 0;padding:.65rem .7rem;background:rgba(154,255,179,.035);color:#87998f;font-size:.64rem;line-height:1.55}
-.event-filters{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
-.event-filter{position:relative;min-height:44px;padding:.48rem .5rem .48rem 1.45rem;border:0;background:#050d09;color:#9caf9f;cursor:pointer;text-align:left;font:500 .57rem/1.25 var(--mono);letter-spacing:.02em}
-.event-filter:before{content:"";position:absolute;left:.62rem;top:50%;width:.42rem;height:.42rem;border:1px solid var(--event-color,var(--green));border-radius:50%;transform:translateY(-50%);background:color-mix(in srgb,var(--event-color,var(--green)) 65%,transparent)}
-.event-filter:hover{background:#09150f;color:#fff}.event-filter[aria-pressed="false"]{color:#506359;background:#030806}.event-filter[aria-pressed="false"]:before{background:transparent;opacity:.45}
-.event-filter[data-category="earthquake"]{--event-color:#f8d77b}.event-filter[data-category="wildfires"]{--event-color:#ff8d78}.event-filter[data-category="volcanoes"]{--event-color:#d7a0ff}.event-filter[data-category="severeStorms"]{--event-color:#78bfff}.event-filter[data-category="landslides"]{--event-color:#d5aa6d}.event-filter[data-category="seaLakeIce"]{--event-color:#9deaf5}
-.event-directory{margin-top:.7rem;border-top:1px solid var(--line)}
-.event-directory summary{display:flex;align-items:center;gap:.6rem;min-height:44px;cursor:pointer;color:var(--teal);font:500 .58rem/1.35 var(--mono);letter-spacing:.08em;text-transform:uppercase;list-style:none}
-.event-directory summary::-webkit-details-marker{display:none}.event-directory summary b{margin-left:auto;color:#9fb2a6;font-weight:500}.event-directory summary:after{content:"+";color:#8da095}.event-directory[open] summary:after{content:"−"}
-.event-directory ol{display:grid;gap:1px;max-height:36vh;margin:0;padding:1px;overflow:auto;background:var(--line);list-style:none}
-.event-directory li{display:grid;grid-template-columns:minmax(0,1fr) 44px;background:#050d09}
-.event-list-focus,.event-list-link{border:0;background:transparent;color:inherit;cursor:pointer}.event-list-focus{min-height:48px;padding:.5rem .6rem;text-align:left}.event-list-focus span{display:block;overflow:hidden;color:#cad8ce;font-size:.65rem;line-height:1.35;text-overflow:ellipsis;white-space:nowrap}.event-list-focus small{display:block;margin-top:.16rem;color:#708579;font:500 .54rem/1.3 var(--mono)}.event-list-link{display:grid;place-items:center;color:var(--teal);text-decoration:none;border-left:1px solid var(--line)}
-.source-links{display:grid;margin-top:.8rem;border-top:1px solid var(--line)}
-.source-links a{display:flex;align-items:center;justify-content:space-between;min-height:44px;color:#91a398;text-decoration:none;font:500 .59rem/1.3 var(--mono)}.source-links a:hover{color:var(--teal)}
-.event-popup{position:relative;width:min(310px,calc(100vw - 2rem));padding:.9rem 2.7rem .9rem .9rem;border:1px solid var(--line-strong);background:rgba(3,12,8,.97);box-shadow:0 18px 50px rgba(0,0,0,.44);color:var(--text)}
-.event-popup[hidden]{display:none}.event-popup-close{position:absolute;right:.2rem;top:.2rem;width:44px;height:44px;border:0;background:transparent;color:#9caf9f;cursor:pointer;font-size:1.2rem}.event-popup-provider{margin:0 0 .35rem;color:var(--teal);font:600 .55rem/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase}.event-popup h2{margin:0;color:#edf7ea;font:300 1rem/1.18 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;letter-spacing:-.02em}.event-popup-detail{margin:.4rem 0;color:#8ea196;font-size:.66rem}.event-popup a{color:var(--gold);font:500 .59rem/1.4 var(--mono);text-decoration:none}
-@media(max-width:800px){
-  .workspace{height:calc(100vh - 68px)}
-  .toolbar{left:.55rem;right:.55rem;top:.55rem;display:grid;grid-template-columns:minmax(0,1fr);gap:.35rem}
-  .date-tools{width:100%;display:grid;grid-template-columns:44px minmax(0,1fr) 44px 64px}
-  .map-tools{width:100%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
-  .tool,.date-input{min-width:0;min-height:44px}.date-input{width:100%;padding:0 .45rem}.tool{padding:0 .35rem;font-size:.55rem}
-  .details-tool{justify-content:center}.details-tool b{display:none}
-  .image-state{left:.55rem;bottom:.55rem;max-width:calc(100% - 4.5rem);padding:.55rem .65rem}
-  .north{right:.8rem;bottom:3.8rem}.ol-zoom{right:.55rem!important;bottom:6.6rem!important}.ol-scale-line{left:.55rem!important;bottom:4.4rem!important}.ol-attribution{display:none}
-  .map-panel{top:auto;bottom:0;width:100%;height:auto;max-height:min(62vh,560px);border-left:0;border-top:1px solid var(--line-strong);box-shadow:0 -20px 50px rgba(0,0,0,.42);transform:translateY(0)}
-  .map-panel[aria-hidden="true"]{transform:translateY(100%)}
-  .panel-head{min-height:58px;padding:.55rem .8rem}.panel-scroll{padding-left:.8rem;padding-right:.8rem}.event-directory ol{max-height:30vh}
-}
-@media(max-width:430px){.wide-label{display:none}.tool{letter-spacing:.035em}.date-tools{grid-template-columns:44px minmax(0,1fr) 44px 58px}}
-@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
-</style>
 <link rel="stylesheet" href="/site-shell.css">
+<link rel="stylesheet" href="/instrument.css">
+<link rel="stylesheet" href="/cartographer.css">
 </head>
 <body>
 <header class="site-head">
 <a class="brand" href="/" aria-label="The Vortex Project home"><span class="mark">◉</span><span class="brand-copy"><strong>THE VORTEX PROJECT</strong><small>cartographer</small></span></a>
 <div class="head-cluster"><nav class="head-nav" aria-label="Project views"><a href="/">Field</a><a href="/weather.html">Weather</a><a href="/observatory.html">Observatory</a><span aria-current="page">Cartographer</span></nav></div>
 </header>
-<main class="workspace">
-<section class="map-shell" aria-label="Satellite imagery map">
-<div id="map" class="map" tabindex="0" role="application" aria-label="Interactive single-world NASA satellite imagery map. Use pointer drag to inspect the map within its edges, and controls to zoom or change date."></div>
-<div id="mapFallback" class="map-fallback" hidden>Satellite map library unavailable. The project navigation remains available above.</div>
-<div class="toolbar" aria-label="Map controls">
-  <div class="date-tools">
-    <button class="tool" id="previousDay" type="button" aria-label="Previous imagery day">←</button>
-    <input class="date-input" id="imageDate" type="date" min="2002-07-04" aria-label="Imagery date">
-    <button class="tool" id="nextDay" type="button" aria-label="Next imagery day">→</button>
-    <button class="tool" id="latestDay" type="button">Latest</button>
-  </div>
-  <div class="map-tools">
-    <button class="tool" id="globalView" type="button">Global</button>
-    <button class="tool" id="toggleLabels" type="button" aria-pressed="true">Labels</button>
-    <button class="tool" id="toggleEvents" type="button" aria-pressed="true"><span class="wide-label">Earth </span>Events</button>
-    <button class="tool details-tool" id="panelToggle" type="button" aria-expanded="false" aria-controls="mapPanel">Details <b id="eventCount">loading</b></button>
-  </div>
-</div>
-<aside class="map-panel" id="mapPanel" aria-label="Map details" aria-hidden="true" inert>
-  <header class="panel-head">
-    <div><div class="panel-kicker">Cartographer</div><h1>Map details</h1></div>
-    <button class="panel-close" id="panelClose" type="button" aria-label="Close map details">×</button>
-  </header>
-  <div class="panel-scroll">
-    <section class="panel-section" aria-labelledby="eventsHeading">
-      <div class="panel-title"><span id="eventsHeading">Earth events</span><b>USGS · NASA</b></div>
-      <div class="event-summary" id="eventStatus" aria-live="polite">Connecting to USGS and NASA EONET…</div>
-      <div class="event-filters" id="eventFilters" aria-label="Earth event categories">
-        <button class="event-filter" type="button" data-category="earthquake" aria-pressed="true">Quakes <b>—</b></button>
-        <button class="event-filter" type="button" data-category="wildfires" aria-pressed="true">Wildfires <b>—</b></button>
-        <button class="event-filter" type="button" data-category="volcanoes" aria-pressed="true">Volcanoes <b>—</b></button>
-        <button class="event-filter" type="button" data-category="severeStorms" aria-pressed="true">Storms <b>—</b></button>
-        <button class="event-filter" type="button" data-category="landslides" aria-pressed="true">Landslides <b>—</b></button>
-        <button class="event-filter" type="button" data-category="seaLakeIce" aria-pressed="true">Sea / lake ice <b>—</b></button>
+<main class="instrument-page cartographer-main">
+  <section class="cartographer-intro" aria-labelledby="pageTitle">
+    <div>
+      <p class="instrument-kicker">Orbital context · 04</p>
+      <h1 class="instrument-title" id="pageTitle">Daily <span>Earth</span></h1>
+      <p class="instrument-copy">A fixed NASA true-color frame with public Earth events and source evidence. The world stays still; the date changes.</p>
+    </div>
+    <div class="intro-brief">
+      <div class="intro-brief-label"><span>Current frame</span><b id="frameState">Connecting</b></div>
+      <p id="frameBrief">Requesting a single EPSG:4326 image from NASA Global Imagery Browse Services.</p>
+    </div>
+  </section>
+
+  <section class="instrument-section orbital-section" aria-labelledby="orbitalHeading">
+    <header class="instrument-section-head">
+      <div>
+        <span class="instrument-index">01</span>
+        <p class="instrument-kicker">Orbital frame</p>
+        <h2 id="orbitalHeading">One world, one dated pass</h2>
       </div>
-      <p class="event-window">Earthquakes match the selected UTC day. EONET categories include that day and the previous two days because NASA event reporting can lag imagery. Provider timestamps remain visible; prescribed burns are excluded.</p>
-      <details class="event-directory" id="eventDirectory" hidden>
-        <summary>Browse visible events <b id="eventListCount">0</b></summary>
-        <ol id="eventList" aria-label="Visible Earth events"></ol>
-      </details>
-    </section>
-    <section class="panel-section" aria-labelledby="imageHeading">
-      <div class="panel-title"><span id="imageHeading">Image product</span><b id="imageDateSide">—</b></div>
-      <div class="product">Corrected Reflectance · True Color</div>
-      <p class="provenance">MODIS aboard Aqua · NASA GIBS · daily · 250 m nominal</p>
-      <details class="reading-guide"><summary>How to read this image</summary><p>Corrected reflectance combines red, green, and blue channels to approximate daylight human vision. White areas are often cloud, snow, or bright surface. Cloud can hide the ground. Swath seams and missing areas come from orbital coverage and processing, not landscape boundaries. Today’s layer fills in as NASA publishes additional passes.</p></details>
-      <p class="source-note">This public map starts globally and intentionally carries no private station marker, property boundary, or Observatory coordinates.</p>
-      <div class="source-links">
-        <a href="https://earthdata.nasa.gov/eosdis/science-system-description/eosdis-components/gibs" rel="external"><span>NASA GIBS product</span><b>↗</b></a>
-        <a href="https://earthquake.usgs.gov/earthquakes/search/" rel="external"><span>USGS earthquake catalog</span><b>↗</b></a>
-        <a href="https://eonet.gsfc.nasa.gov/" rel="external"><span>NASA EONET</span><b>↗</b></a>
+      <div class="date-tools" aria-label="Imagery date controls">
+        <button class="instrument-control" id="previousDay" type="button" aria-label="Previous imagery day">←</button>
+        <input class="date-input" id="imageDate" type="date" min="2000-02-24" aria-label="Imagery date">
+        <button class="instrument-control" id="nextDay" type="button" aria-label="Next imagery day">→</button>
+        <button class="instrument-control" id="latestDay" type="button">Latest</button>
       </div>
-    </section>
-  </div>
-</aside>
-<div class="north" aria-hidden="true">N<i></i></div>
-<article class="event-popup" id="eventPopup" hidden role="dialog" aria-labelledby="eventPopupTitle" aria-describedby="eventPopupDetail">
-  <button class="event-popup-close" id="eventPopupClose" type="button" aria-label="Close event details">×</button>
-  <p class="event-popup-provider" id="eventPopupProvider"></p>
-  <h2 id="eventPopupTitle"></h2>
-  <p class="event-popup-detail" id="eventPopupDetail"></p>
-  <a id="eventPopupLink" href="#" rel="external">Open provider record ↗</a>
-</article>
-<div class="image-state" id="imageState" aria-live="polite"><b>Preparing imagery</b><span>Connecting to NASA Global Imagery Browse Services…</span></div>
-</section>
+    </header>
+
+    <figure class="world-figure">
+      <div class="orbital-frame" id="orbitalFrame">
+        <img class="orbital-image" id="orbitalImage" alt="NASA corrected-reflectance true-color world image for the selected date, cropped from 90 degrees north to 66 degrees south." decoding="async" fetchpriority="high">
+        <svg class="graticule" viewBox="0 0 360 156" preserveAspectRatio="none" aria-hidden="true">
+          <line x1="60" y1="0" x2="60" y2="156"></line><line x1="120" y1="0" x2="120" y2="156"></line>
+          <line class="prime" x1="180" y1="0" x2="180" y2="156"></line><line x1="240" y1="0" x2="240" y2="156"></line><line x1="300" y1="0" x2="300" y2="156"></line>
+          <line x1="0" y1="30" x2="360" y2="30"></line><line class="equator" x1="0" y1="90" x2="360" y2="90"></line><line x1="0" y1="120" x2="360" y2="120"></line><line x1="0" y1="150" x2="360" y2="150"></line>
+        </svg>
+        <div class="event-marker-layer" id="eventMarkerLayer" aria-label="Mapped Earth events"></div>
+        <div class="image-state" id="imageState" aria-live="polite"><b>Preparing imagery</b><span>Connecting to NASA GIBS…</span></div>
+      </div>
+      <figcaption class="image-caption" id="imageDescription">
+        <span><strong id="imageProduct">Corrected Reflectance · True Color</strong> · <span id="imageProvenance">NASA GIBS</span> · <span id="imageDateLong">—</span></span>
+        <a class="instrument-link" id="sourceImageLink" href="https://earthdata.nasa.gov/eosdis/science-system-description/eosdis-components/gibs" rel="external">Open source image ↗</a>
+      </figcaption>
+    </figure>
+
+    <div class="instrument-source-strip" aria-label="Image provenance">
+      <div class="instrument-source-cell"><small>Platform</small><strong id="imagePlatform">—</strong></div>
+      <div class="instrument-source-cell"><small>Instrument</small><strong id="imageInstrument">—</strong></div>
+      <div class="instrument-source-cell"><small>Resolution</small><strong id="imageResolution">—</strong></div>
+      <div class="instrument-source-cell"><small>Projection</small><strong>EPSG:4326</strong></div>
+      <div class="instrument-source-cell"><small>Coverage</small><strong>90°N–66°S</strong></div>
+      <div class="instrument-source-cell"><small>Frame state</small><strong id="coverageState">Loading</strong></div>
+    </div>
+  </section>
+
+  <section class="instrument-section event-section" aria-labelledby="eventsHeading">
+    <header class="instrument-section-head">
+      <div>
+        <span class="instrument-index">02</span>
+        <p class="instrument-kicker">Public event ledger</p>
+        <h2 id="eventsHeading">What is active in the frame</h2>
+      </div>
+      <div class="event-head-status"><strong id="eventCount">loading</strong><br><span id="eventStatus" aria-live="polite">Connecting to USGS and NASA EONET…</span></div>
+    </header>
+
+    <div class="event-filters" id="eventFilters" aria-label="Earth event categories">
+      <button class="event-filter" type="button" data-category="earthquake" aria-pressed="true">Quakes <b>—</b></button>
+      <button class="event-filter" type="button" data-category="wildfires" aria-pressed="true">Wildfires <b>—</b></button>
+      <button class="event-filter" type="button" data-category="volcanoes" aria-pressed="true">Volcanoes <b>—</b></button>
+      <button class="event-filter" type="button" data-category="severeStorms" aria-pressed="true">Storms <b>—</b></button>
+      <button class="event-filter" type="button" data-category="landslides" aria-pressed="true">Landslides <b>—</b></button>
+      <button class="event-filter" type="button" data-category="seaLakeIce" aria-pressed="true">Sea / lake ice <b>—</b></button>
+    </div>
+
+    <article class="event-inspector" id="eventInspector" hidden aria-live="polite">
+      <div class="event-inspector-label" id="eventInspectorLabel">Selected event</div>
+      <div class="event-inspector-body"><h3 id="eventInspectorTitle"></h3><p id="eventInspectorDetail"></p></div>
+      <div class="event-inspector-actions"><a class="instrument-link" id="eventInspectorLink" href="#" rel="external">Provider record ↗</a><button class="instrument-control event-inspector-close" id="eventInspectorClose" type="button" aria-label="Clear selected event">×</button></div>
+    </article>
+
+    <div class="event-layout">
+      <div>
+        <ol class="event-ledger" id="eventLedger" aria-label="Visible Earth events"><li class="event-ledger-empty">Loading public event records…</li></ol>
+        <button class="instrument-control event-ledger-more" id="eventLedgerMore" type="button" hidden>Show more events</button>
+      </div>
+      <aside class="event-context" aria-labelledby="eventMethodHeading">
+        <p class="instrument-kicker">Reading the ledger</p>
+        <h3 id="eventMethodHeading">Activity, not certainty</h3>
+        <p>USGS earthquakes match the selected UTC day. Wildfires use the selected day plus seven prior days because active fire records may not receive a new geometry every day. Other NASA EONET categories use two prior days. Every row retains its provider timestamp.</p>
+        <p>Prescribed and RX burns are excluded. To keep dense regions legible, the frame maps a bounded recent sample per category while the ledger retains every filtered record. Events south of 66°S remain in the ledger but fall outside the orbital image crop.</p>
+        <div class="source-links">
+          <a class="instrument-link" href="https://earthquake.usgs.gov/earthquakes/search/" rel="external"><span>USGS earthquake catalog</span><b>↗</b></a>
+          <a class="instrument-link" href="https://eonet.gsfc.nasa.gov/" rel="external"><span>NASA EONET</span><b>↗</b></a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="instrument-section method-section" aria-labelledby="methodHeading">
+    <header class="instrument-section-head">
+      <div><span class="instrument-index">03</span><p class="instrument-kicker">Method and boundary</p><h2 id="methodHeading">What this surface shows</h2></div>
+    </header>
+    <div class="method-grid">
+      <div><h3>Source-native observation</h3><p>Corrected reflectance combines visible channels to approximate daylight human vision. Cloud, snow, bright ground, orbital seams, and missing passes remain part of the evidence. A static NASA Blue Marble baseline appears only when the selected daily image cannot be decoded, and is labeled as timeless rather than current.</p></div>
+      <div><h3>Global context, no private marker</h3><p>This public surface contains no station marker, property boundary, Observatory coordinates, camera frame, or raw archive material. Cartographer reads global public providers; the project archive remains the reviewed evidence backbone for local layers elsewhere in the project.</p></div>
+    </div>
+  </section>
 </main>
-<script src="https://cdn.jsdelivr.net/npm/ol@10.9.0/dist/ol.js" integrity="sha384-H9f6d9zpuIdeGwVsGIPSbRgWKZ8WRk2C1K7GxlC61fe5qjRCL/5Qvp2wUvUVDS8v" crossorigin="anonymous"></script>
 <script type="module" src="/cartographer.js"></script>
 </body>
 </html>

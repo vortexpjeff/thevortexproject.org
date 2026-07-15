@@ -34,7 +34,7 @@ test('provider URLs are date-bound and category-specific', () => {
     const url = new URL(value);
     assert.equal(url.origin, 'https://eonet.gsfc.nasa.gov');
     assert.equal(url.searchParams.get('category'), category);
-    assert.equal(url.searchParams.get('start'), '2026-07-11');
+    assert.equal(url.searchParams.get('start'), category === 'wildfires' ? '2026-07-06' : '2026-07-11');
     assert.equal(url.searchParams.get('end'), '2026-07-13');
   }
 });
@@ -122,7 +122,7 @@ test('normalizeEonet filters prescribed burns, decodes titles, chooses date-near
   assert.equal(result[0].time, '2026-07-13T14:00:00.000Z');
 });
 
-test('normalizeEonet enforces the selected day plus two-day lookback window', () => {
+test('normalizeEonet gives wildfires seven prior days but keeps other categories to two', () => {
   const event = (id, date) => ({
     id,
     title: `Wildfire ${id}`,
@@ -130,13 +130,19 @@ test('normalizeEonet enforces the selected day plus two-day lookback window', ()
     geometry: [{date, type: 'Point', coordinates: [-100, 40]}],
   });
   const result = normalizeEonet({events: [
-    event('before-window', '2026-07-10T23:59:59.999Z'),
-    event('window-start', '2026-07-11T00:00:00.000Z'),
+    event('before-window', '2026-07-05T23:59:59.999Z'),
+    event('window-start', '2026-07-06T00:00:00.000Z'),
     event('selected-end', '2026-07-13T23:59:59.999Z'),
     event('after-selected', '2026-07-14T00:00:00.000Z'),
     event('missing-time', null),
   ]}, '2026-07-13', 'wildfires');
   assert.deepEqual(result.map((item) => item.id), ['eonet-window-start', 'eonet-selected-end']);
+
+  const storms = normalizeEonet({events: [
+    {...event('old-storm', '2026-07-10T23:59:59.999Z'), categories: [{id: 'severeStorms'}]},
+    {...event('recent-storm', '2026-07-11T00:00:00.000Z'), categories: [{id: 'severeStorms'}]},
+  ]}, '2026-07-13', 'severeStorms');
+  assert.deepEqual(storms.map((item) => item.id), ['eonet-recent-storm']);
 });
 
 test('normalizeEonet caps one category and eventCategoryCounts summarizes the merged set', () => {
@@ -149,4 +155,14 @@ test('normalizeEonet caps one category and eventCategoryCounts summarizes the me
   const storms = normalizeEonet(payload, '2026-07-13', 'severeStorms', 5);
   assert.equal(storms.length, 5);
   assert.deepEqual(eventCategoryCounts([...storms, {category: 'earthquake'}]), {earthquake: 1, severeStorms: 5});
+});
+
+test('normalizeEonet retains every qualifying provider record when no explicit cap is requested', () => {
+  const payload = {events: Array.from({length: 120}, (_, index) => ({
+    id: `fire-${index}`,
+    title: `Wildfire Record ${index}`,
+    categories: [{id: 'wildfires'}],
+    geometry: [{date: '2026-07-13T12:00:00Z', type: 'Point', coordinates: [-120 + index / 10, 35]}],
+  }))};
+  assert.equal(normalizeEonet(payload, '2026-07-13', 'wildfires').length, 120);
 });
