@@ -1,4 +1,14 @@
 :root{--shell-bg:#020806;--shell-text:#d8e8da;--shell-muted:#789083;--shell-green:#9affb3;--shell-teal:#5af4d2;--shell-gold:#f8d77b;--shell-line:rgba(154,255,179,.15);--shell-line-strong:rgba(154,255,179,.3);--shell-mono:ui-monospace,SFMono-Regular,Consolas,monospace}
+
+/* Shared Vortex scrollbar: the Observatory's long instrument should keep the
+   same dark-green / teal field language as its shell when viewed in a browser
+   or Hermes Desktop's Preview webview. */
+html{scrollbar-color:var(--shell-teal) var(--shell-bg);scrollbar-width:thin}
+html::-webkit-scrollbar{width:10px;height:10px}
+html::-webkit-scrollbar-track{background:var(--shell-bg);border-left:1px solid var(--shell-line)}
+html::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--shell-teal),var(--shell-green));border:2px solid var(--shell-bg);border-radius:999px;box-shadow:0 0 8px rgba(90,244,210,.28)}
+html::-webkit-scrollbar-thumb:hover{background:var(--shell-gold);box-shadow:0 0 10px rgba(248,215,123,.36)}
+html::-webkit-scrollbar-corner{background:var(--shell-bg)}
 .site-head{box-sizing:border-box;width:100%;height:78px;min-height:78px;margin:0;padding:0 clamp(1rem,3vw,2.5rem);display:flex;align-items:center;justify-content:space-between;gap:1rem;border-bottom:1px solid var(--shell-line);background:rgba(2,8,6,.96);position:relative;z-index:30;cursor:default}.site-head a{cursor:pointer}
 .site-head--overlay{position:fixed;inset:0 0 auto;background:linear-gradient(180deg,rgba(2,8,6,.9),rgba(2,8,6,.48));backdrop-filter:blur(8px);border-bottom-color:rgba(154,255,179,.1)}
 .site-head .brand{display:flex;align-items:center;gap:.75rem;min-width:0;min-height:44px;flex:0 1 auto;text-decoration:none}
