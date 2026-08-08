@@ -15,6 +15,8 @@ Both modes validate `institute-src/_data/editorial.json` before rendering. Produ
 
 ## Exact-revision promotion
 
+Candidate generation is automated separately from publication. Chat and scheduled triggers enqueue private records under `~/.hermes/vortex-institute/candidates/` through `scripts/dispatch-candidate-controller.mjs`; they cannot approve, release, commit, push, or deploy. Use `scripts/import-dispatch-candidate.sh --id=CANDIDATE_ID` only after an explicit instruction to move a candidate into nonpublic review. See `docs/institute-dispatch-automation.md` for the queue schema and trigger commands.
+
 Compute the current review-record hash with `publicationRevisionHash` or a bounded inspection script, then run:
 
 ```bash
@@ -43,11 +45,11 @@ Observatory and editorial publication share `$HOME/.cache/vortex-site/git.lock` 
 
 The Observatory transaction also requires a clean tracked working tree, fast-forwards from `origin/main`, generates the payload, stages only `data/observatory.json`, verifies that exact allowlist, commits, and pushes while still holding the lock. Git or network failures exit nonzero.
 
-- Future locked Observatory entry point: `scripts/publish-observatory.sh`
-- Active legacy wrapper before cutover: `~/.hermes/scripts/observatory_push.sh`
+- Active locked Observatory entry point: `scripts/publish-observatory.sh`
+- Active Hermes wrapper: `~/.hermes/scripts/observatory_push.sh`
 - Editorial validation/staging: `scripts/prepare-editorial-release.sh`
 
-Do not point the active Hermes job at the locked entry point until the repository commit containing that script is on `main` and the checkout is clean. Switch the wrapper to `exec /home/jvortex/vortex-site/scripts/publish-observatory.sh` as part of the deployment cutover, then run one bounded Observatory cycle and verify its single-path commit.
+The Hermes wrapper executes `/home/jvortex/vortex-site/scripts/publish-observatory.sh`. After changing either path, run one bounded Observatory cycle and verify its single-path commit or clean unchanged-payload exit.
 
 The editorial script stages only the structured catalog and Institute source directories. Commit and push remain deliberate operations.
 
