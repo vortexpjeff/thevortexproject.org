@@ -252,7 +252,20 @@
           "retrieved_at": "2026-08-08"
         }
       ],
-      "corrections": []
+      "corrections": [],
+      "review_assessment": {
+        "state": "checks-passed",
+        "checked_at": "2026-08-08T23:38:14Z",
+        "checked_by": [
+          "Hermes Athena"
+        ],
+        "claims_basis": "NASA Earthdata supports the Sentinel-1A SAR method, five-of-nine detection result, stronger detectability for tracks longer than 10 km and rated EF2 or higher, and non-detection of EF0 tracks. The Dispatch preserves the retrospective scope, bounded sample, limitations, NWS evidence boundary, and no-affiliation statement.",
+        "privacy_basis": "The public derivative contains no Pine Hollow coordinates, private paths or hosts, credentials, private IP addresses, personal information, raw media, or unpublished Pine Hollow evidence.",
+        "rights_basis": "The Dispatch uses original Vortex summary and section text, an attributed authoritative source link, and no copied NASA image, audio, video, logo, or long quotation.",
+        "sources": [
+          "https://www.earthdata.nasa.gov/news/tracing-tornados-path-destruction"
+        ]
+      }
     }
   ]
 }
