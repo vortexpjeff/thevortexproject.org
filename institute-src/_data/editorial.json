@@ -16,7 +16,9 @@
       "rights_state": "original-fixture-copy",
       "correction_state": "none",
       "accountable_editor": null,
-      "ai_assistance": ["Hermes Athena"],
+      "ai_assistance": [
+        "Hermes Athena"
+      ],
       "generated_at": "2026-08-08T00:00:00Z",
       "url": "https://www.thevortexproject.org/dispatches/one-acoustic-pass/",
       "sources": []
@@ -37,16 +39,32 @@
       "rights_state": "review",
       "correction_state": "none",
       "accountable_editor": null,
-      "ai_assistance": ["Hermes Athena"],
+      "ai_assistance": [
+        "Hermes Athena"
+      ],
       "generated_at": "2026-08-08T00:00:00Z",
       "url": "https://www.thevortexproject.org/dispatches/frognet-field-probe-release/",
       "sections": [
-        {"heading": "What was released", "body": "FrogNet field probe v0.1.0 is a conservative binary frog-present head for 1,536-dimensional Google Perch 2 embeddings. The release describes three non-overlapping five-second embeddings per 15-second recording and a checked JSON/NPZ runtime bundle."},
-        {"heading": "What the score means", "body": "The release defines its output as an uncalibrated case-control ranking score and names a conservative field threshold of 0.95. It does not turn a threshold crossing into a confirmed animal observation."},
-        {"heading": "What remains bounded", "body": "The public package excludes private field evidence. The release must be read with its smoke tests, provenance, limitations, and unsupported-use statements rather than as a general field-validity claim."}
+        {
+          "heading": "What was released",
+          "body": "FrogNet field probe v0.1.0 is a conservative binary frog-present head for 1,536-dimensional Google Perch 2 embeddings. The release describes three non-overlapping five-second embeddings per 15-second recording and a checked JSON/NPZ runtime bundle."
+        },
+        {
+          "heading": "What the score means",
+          "body": "The release defines its output as an uncalibrated case-control ranking score and names a conservative field threshold of 0.95. It does not turn a threshold crossing into a confirmed animal observation."
+        },
+        {
+          "heading": "What remains bounded",
+          "body": "The public package excludes private field evidence. The release must be read with its smoke tests, provenance, limitations, and unsupported-use statements rather than as a general field-validity claim."
+        }
       ],
       "sources": [
-        {"kind": "primary", "title": "FrogNet field probe v0.1.0 release", "url": "https://github.com/vortexpjeff/insectnet/releases/tag/frognet-field-probe-v0.1.0", "retrieved_at": "2026-08-08"}
+        {
+          "kind": "primary",
+          "title": "FrogNet field probe v0.1.0 release",
+          "url": "https://github.com/vortexpjeff/insectnet/releases/tag/frognet-field-probe-v0.1.0",
+          "retrieved_at": "2026-08-08"
+        }
       ],
       "corrections": []
     },
@@ -66,16 +84,32 @@
       "rights_state": "review",
       "correction_state": "none",
       "accountable_editor": null,
-      "ai_assistance": ["Hermes Athena"],
+      "ai_assistance": [
+        "Hermes Athena"
+      ],
       "generated_at": "2026-08-08T00:00:00Z",
       "url": "https://www.thevortexproject.org/dispatches/hls-field-to-pixel-scale/",
       "sections": [
-        {"heading": "What the project provides", "body": "NASA describes Harmonized Landsat and Sentinel-2 as global land-surface reflectance data produced every two to three days at 30-meter resolution."},
-        {"heading": "Why it is relevant here", "body": "That cadence and spatial grain can provide landscape context for field work, but a shared date does not make a local sensor and a satellite pixel equivalent measurements."},
-        {"heading": "What remains separate", "body": "No Pine Hollow observation, causal relationship, occupancy estimate, or cross-scale validation is asserted in this review record."}
+        {
+          "heading": "What the project provides",
+          "body": "NASA describes Harmonized Landsat and Sentinel-2 as global land-surface reflectance data produced every two to three days at 30-meter resolution."
+        },
+        {
+          "heading": "Why it is relevant here",
+          "body": "That cadence and spatial grain can provide landscape context for field work, but a shared date does not make a local sensor and a satellite pixel equivalent measurements."
+        },
+        {
+          "heading": "What remains separate",
+          "body": "No Pine Hollow observation, causal relationship, occupancy estimate, or cross-scale validation is asserted in this review record."
+        }
       ],
       "sources": [
-        {"kind": "primary", "title": "Harmonized Landsat and Sentinel-2 | NASA Earthdata", "url": "https://www.earthdata.nasa.gov/data/projects/hls", "retrieved_at": "2026-08-08"}
+        {
+          "kind": "primary",
+          "title": "Harmonized Landsat and Sentinel-2 | NASA Earthdata",
+          "url": "https://www.earthdata.nasa.gov/data/projects/hls",
+          "retrieved_at": "2026-08-08"
+        }
       ],
       "corrections": []
     },
@@ -95,16 +129,32 @@
       "rights_state": "review",
       "correction_state": "none",
       "accountable_editor": null,
-      "ai_assistance": ["Hermes Athena"],
+      "ai_assistance": [
+        "Hermes Athena"
+      ],
       "generated_at": "2026-08-08T00:00:00Z",
       "url": "https://www.thevortexproject.org/dispatches/birdnet-analyzer-open-build/",
       "sections": [
-        {"heading": "The upstream tool", "body": "The canonical BirdNET-Analyzer repository describes itself as an analyzer for scientific audio data processing and publishes its code under the MIT license."},
-        {"heading": "The field-system boundary", "body": "A serviceable build should distinguish upstream analysis software from local capture, scheduling, review, storage, and publication layers."},
-        {"heading": "The evidence boundary", "body": "BirdNET remains an independent evidence lane at Pine Hollow. Its output is not silently merged with specialist Vortex model assertions or human review decisions."}
+        {
+          "heading": "The upstream tool",
+          "body": "The canonical BirdNET-Analyzer repository describes itself as an analyzer for scientific audio data processing and publishes its code under the MIT license."
+        },
+        {
+          "heading": "The field-system boundary",
+          "body": "A serviceable build should distinguish upstream analysis software from local capture, scheduling, review, storage, and publication layers."
+        },
+        {
+          "heading": "The evidence boundary",
+          "body": "BirdNET remains an independent evidence lane at Pine Hollow. Its output is not silently merged with specialist Vortex model assertions or human review decisions."
+        }
       ],
       "sources": [
-        {"kind": "primary", "title": "BirdNET-Analyzer canonical repository", "url": "https://github.com/birdnet-team/BirdNET-Analyzer", "retrieved_at": "2026-08-08"}
+        {
+          "kind": "primary",
+          "title": "BirdNET-Analyzer canonical repository",
+          "url": "https://github.com/birdnet-team/BirdNET-Analyzer",
+          "retrieved_at": "2026-08-08"
+        }
       ],
       "corrections": []
     },
@@ -124,20 +174,85 @@
       "rights_state": "review",
       "correction_state": "corrected-in-review",
       "accountable_editor": null,
-      "ai_assistance": ["Hermes Athena"],
+      "ai_assistance": [
+        "Hermes Athena"
+      ],
       "generated_at": "2026-08-08T00:00:00Z",
       "url": "https://www.thevortexproject.org/dispatches/correction-record-demonstration/",
       "sections": [
-        {"heading": "Revision one", "body": "The demonstration initially described a source as updated daily."},
-        {"heading": "Revision two", "body": "The wording was replaced with source-timestamp language because update cadence must come from the source record rather than editorial shorthand."},
-        {"heading": "Why the prior wording remains visible", "body": "A correction is a new revision with a reason and timestamp, not a silent replacement of the historical record."}
+        {
+          "heading": "Revision one",
+          "body": "The demonstration initially described a source as updated daily."
+        },
+        {
+          "heading": "Revision two",
+          "body": "The wording was replaced with source-timestamp language because update cadence must come from the source record rather than editorial shorthand."
+        },
+        {
+          "heading": "Why the prior wording remains visible",
+          "body": "A correction is a new revision with a reason and timestamp, not a silent replacement of the historical record."
+        }
       ],
       "sources": [
-        {"kind": "primary", "title": "Vortex publication correction demonstration", "url": "https://www.thevortexproject.org/dispatches/correction-record-demonstration/", "retrieved_at": "2026-08-08"}
+        {
+          "kind": "primary",
+          "title": "Vortex publication correction demonstration",
+          "url": "https://www.thevortexproject.org/dispatches/correction-record-demonstration/",
+          "retrieved_at": "2026-08-08"
+        }
       ],
       "corrections": [
-        {"revision": 2, "corrected_at": "2026-08-08T00:00:00Z", "summary": "Replaced an unsupported daily-cadence phrase with source-timestamp language."}
+        {
+          "revision": 2,
+          "corrected_at": "2026-08-08T00:00:00Z",
+          "summary": "Replaced an unsupported daily-cadence phrase with source-timestamp language."
+        }
       ]
+    },
+    {
+      "id": "dispatch-20260808-sar-tornado-damage-track-mapping-5393ce4e31",
+      "revision": 1,
+      "editorial_state": "review",
+      "content_type": "Science Watch",
+      "stream": "Science Watch",
+      "slug": "sar-tornado-damage-track-mapping",
+      "title": "NASA-led study tests SAR mapping of tornado damage tracks",
+      "summary": "NASA Earthdata reported that a study led by NASA researchers used Sentinel-1A synthetic aperture radar coherence data to identify five of nine surveyed tornado tracks from Tennessee's March 2020 outbreak. The method supplemented comparison with National Weather Service radar data and ground damage surveys; it did not detect the study's EF0 tracks.",
+      "related_program": "Earth observation and conservation-oriented field systems",
+      "evidence_level": "Official NASA Earthdata report of a bounded remote-sensing study",
+      "evidence_state": "External research result reported by NASA Earthdata; candidate pending editorial claim, privacy, and rights review",
+      "privacy_state": "review",
+      "rights_state": "review",
+      "correction_state": "none",
+      "accountable_editor": null,
+      "ai_assistance": [
+        "Hermes Athena"
+      ],
+      "generated_at": "2026-08-08T22:27:44Z",
+      "url": "https://www.thevortexproject.org/dispatches/sar-tornado-damage-track-mapping/",
+      "sections": [
+        {
+          "heading": "What changed",
+          "body": "NASA Earthdata published an August 7, 2026 account of a study led by NASA researchers that paired before-and-after Sentinel-1A synthetic aperture radar observations and analyzed low-coherence linear features as possible tornado tracks. Five of nine well-surveyed Tennessee tracks were detectable in the SAR imagery; tracks longer than 10 kilometers and rated EF2 or higher were easiest to identify, while no EF0 tracks were detectable."
+        },
+        {
+          "heading": "Why it matters here",
+          "body": "The work is a concrete Earth-observation method for supplementing field assessment where terrain, weather, access, or event scale complicate ground surveys. It is relevant to Vortex work on multi-modal field systems because it shows how a satellite change-detection layer can be compared with established ground and radar evidence rather than treated as a stand-alone observation."
+        },
+        {
+          "heading": "What remains separate",
+          "body": "This was a retrospective study of nine tornado tracks from one Tennessee outbreak, not a Pine Hollow observation or a Vortex deployment. SAR did not identify every surveyed track, and the reported method supplements rather than replaces National Weather Service damage surveys. Use of this public NASA report and the referenced satellite data does not imply NASA affiliation, participation, funding, or partnership for the Vortex Project."
+        }
+      ],
+      "sources": [
+        {
+          "kind": "primary",
+          "title": "Tracing a Tornado’s Path of Destruction",
+          "url": "https://www.earthdata.nasa.gov/news/tracing-tornados-path-destruction",
+          "retrieved_at": "2026-08-08"
+        }
+      ],
+      "corrections": []
     }
   ]
 }
