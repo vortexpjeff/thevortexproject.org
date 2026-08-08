@@ -33,12 +33,15 @@ async function fixture() {
   return {root, repo, input};
 }
 
-test('assessment recording requires the lock wrapper and records checks without approval', async () => {
+test('assessment worker requires a live configured flock and records checks without approval', async () => {
   const {root, repo, input} = await fixture();
   const args = ['--id=dispatch-assessment', `--input=${input}`, `--checked-at=${timestamp}`];
-  const direct = spawnSync(process.execPath, [mutator, ...args], {encoding: 'utf8', env: {...process.env, VORTEX_SITE_REPO: repo}});
+  const direct = spawnSync(process.execPath, [mutator, '--internal-flock-worker', ...args], {
+    encoding: 'utf8',
+    env: {...process.env, VORTEX_SITE_REPO: repo, VORTEX_SITE_LOCK: join(root, 'site.lock'), VORTEX_SITE_LOCK_HELD: '1'},
+  });
   assert.notEqual(direct.status, 0);
-  assert.match(direct.stderr, /shared-lock wrapper/i);
+  assert.match(direct.stderr, /live flock parent|configured shared flock/i);
 
   const recorded = spawnSync('bash', [wrapper, ...args], {
     encoding: 'utf8',
