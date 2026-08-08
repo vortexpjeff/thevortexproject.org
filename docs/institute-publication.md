@@ -11,7 +11,7 @@ The public repository is a rendering and release surface. Fleet agents and priva
 - `npm test` runs the preview contract and repository unit suite.
 - `npm run test:production` builds and verifies the production contract.
 
-Both modes validate `institute-src/_data/editorial.json` before rendering. Production additionally compares the candidate catalog with the prior Git revision. A public record requires a named editor, HTTPS primary source, public privacy and rights clearance, and an exact `approved_sha256` calculated from canonical record content.
+Both modes validate `institute-src/_data/editorial.json` before rendering. Production additionally compares the candidate catalog with the prior Git revision. A public record requires an internal accountable editor, an HTTPS primary source, a passed claim/privacy/rights assessment, one explicit human publication approval, and an exact `approved_sha256` calculated from canonical record content. Internal assessment and approval identities are removed recursively from public pages and machine outputs.
 
 ## Exact-revision promotion
 
@@ -24,16 +24,19 @@ scripts/promote-publication.sh \
   --id=PUBLICATION_ID \
   --to=approved \
   --editor=Jeffrey \
-  --expected-sha256=CURRENT_REVIEW_HASH
+  --expected-sha256=CURRENT_REVIEW_HASH \
+  --approved-at=YYYY-MM-DDTHH:MM:SSZ
 ```
 
 Repeat with `--to=released` only after reviewing the approved record and production render. The expected hash prevents promoting a revision that changed after review. Release preserves the approving editor and stores the prior approved revision hash as `approval_sha256`. Promotion writes atomically and revalidates the complete catalog.
 
-Privacy and rights clearance must already be present in the exact record before promotion; the command never grants either clearance. Each clearance is a hashed decision object with a reviewer identity, UTC decision timestamp, and basis. Privacy and rights use separate reviewers, both distinct from the accountable editor. Released promotion also requires a real UTC RFC3339 `--published-at` value.
+Before approval, record a structured assessment with `scripts/record-publication-assessment.sh`. The assessment preserves who or what performed the checks, a UTC timestamp, source URLs, and separate claim, privacy, and rights bases while the record remains in `review`. Approval is the one explicit human publication decision: the promoter requires the passed assessment, records the internal accountable editor and approval timestamp, changes privacy and rights states to `public-cleared`, and binds the exact reviewed revision. It does not release the article. Released promotion separately requires a real UTC RFC3339 `--published-at` value.
+
+The public projection recursively removes `accountable_editor`, `publication_approval`, `review_assessment`, legacy clearance objects, and nested `editor` or `reviewer` fields. Public pages state that the revision was human-approved without naming the person. The internal catalog and Git history retain accountability.
 
 The Node mutator refuses direct execution. `scripts/promote-publication.sh` acquires the same `flock` used by Observatory and uses a PID-specific temporary file before atomic rename, preventing concurrent promotion overwrite.
 
-Corrections are new revisions. Every public correction state must preserve the original approval hash and the exact approved privacy and rights clearance evidence, plus a contiguous history containing each prior public record in full, its verified SHA-256, previous wording, replacement wording, reason, editor, and timestamp. The newest history entry must hash the immediately preceding Git revision. Do not silently rewrite released history.
+Corrections are new revisions. Every public correction state must preserve the original approval hash, review assessment, and publication approval evidence, plus a contiguous internal history containing each prior public record in full, its verified SHA-256, previous wording, replacement wording, reason, editor, and timestamp. Public projection removes internal identities recursively. The newest history entry must hash the immediately preceding Git revision. Do not silently rewrite released history.
 
 `scripts/validate-publication-transition.mjs` enforces repository history. New records may enter only as fixture, draft, or review; approval must preserve reviewed content; release must preserve approved content and editor; and correction states must increment the revision exactly once. The Pages workflow validates against the triggering commit's previous SHA, so directly editing a record into a released state fails the deployment.
 

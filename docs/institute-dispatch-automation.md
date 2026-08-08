@@ -31,7 +31,7 @@ The scheduled job must not:
 - inspect private Pine Hollow archives;
 - publish local model output as an observation;
 - import a candidate into the website repository;
-- grant privacy or rights clearance;
+- grant human publication approval;
 - approve or release a record;
 - commit or push Git;
 - expose credentials, paths, hosts, coordinates, or private media.
@@ -176,12 +176,14 @@ Import uses a recoverable `queued → importing → imported` journal. If execut
 After import:
 
 1. inspect the public-safe review record;
-2. run claim/source, privacy, and rights review;
-3. record distinct clearance decisions;
-4. compute the exact record hash;
-5. promote `review → approved`;
-6. commit that transition;
+2. run claim/source, privacy, and rights checks;
+3. record the structured assessment through `scripts/record-publication-assessment.sh` and commit it while the record remains `review`;
+4. ask for one explicit human publication decision;
+5. on approval, compute the exact review hash and promote `review → approved` with the internal accountable editor and UTC approval time;
+6. commit that nonpublic transition;
 7. separately promote `approved → released`;
 8. commit, deploy, and verify production.
+
+Internal assessment and approval identities remain in the catalog and Git history for accountability. They are recursively removed from public pages, feeds, APIs, and correction snapshots.
 
 See `docs/institute-publication.md` for those gates.

@@ -9,9 +9,12 @@ const review = () => ({
   id: 'dispatch-transition', revision: 1, editorial_state: 'review', title: 'Reviewed title',
   summary: 'Reviewed summary', content_type: 'Field Note', stream: 'Methods', generated_at: '2026-08-08T00:00:00Z',
   slug: 'transition', url: 'https://www.thevortexproject.org/dispatches/transition/',
-  privacy_state: 'public-cleared', rights_state: 'public-cleared', evidence_state: 'reviewed source', correction_state: 'none',
-  privacy_clearance: {state: 'public-cleared', reviewer: 'Privacy reviewer', decided_at: '2026-08-08T00:00:00Z', basis: 'Public derivative inspection'},
-  rights_clearance: {state: 'public-cleared', reviewer: 'Rights reviewer', decided_at: '2026-08-08T00:00:00Z', basis: 'Source and license inspection'},
+  privacy_state: 'review', rights_state: 'review', evidence_state: 'reviewed source', correction_state: 'none',
+  review_assessment: {
+    state: 'checks-passed', checked_at: '2026-08-08T00:00:00Z', checked_by: ['Hermes Athena'],
+    claims_basis: 'Primary-source comparison', privacy_basis: 'Public derivative scan', rights_basis: 'Source and usage review',
+    sources: ['https://example.org/record'],
+  },
   accountable_editor: null,
   sources: [{kind: 'primary', url: 'https://example.org/record', title: 'Primary record', retrieved_at: '2026-08-08'}],
 });
@@ -19,6 +22,9 @@ const approve = source => {
   const record = structuredClone(source);
   record.editorial_state = 'approved';
   record.accountable_editor = 'Jeffrey';
+  record.privacy_state = 'public-cleared';
+  record.rights_state = 'public-cleared';
+  record.publication_approval = {state: 'approved', editor: 'Jeffrey', decided_at: '2026-08-08T00:00:00Z', basis: 'Approved exact reviewed revision'};
   record.approved_sha256 = publicationRevisionHash(record);
   return record;
 };
@@ -47,6 +53,7 @@ test('catalog transition enforces review then exact approval then exact release'
 
   const changedEditor = release(approved);
   changedEditor.accountable_editor = 'Replacement editor';
+  changedEditor.publication_approval.editor = 'Replacement editor';
   changedEditor.approved_sha256 = publicationRevisionHash(changedEditor);
   assert.throws(() => validateCatalogTransition(catalog(approved), catalog(changedEditor)), /cannot replace the approving editor/i);
 });
@@ -86,13 +93,13 @@ test('correction transition embeds and hashes the immediate prior public revisio
   rewrittenHistoricalApproval.approved_sha256 = publicationRevisionHash(rewrittenHistoricalApproval);
   assert.throws(() => validateCatalogTransition(catalog(released), catalog(rewrittenHistoricalApproval)), /embed the hashed prior public revision/i);
 
-  const replacedClearance = structuredClone(corrected);
-  replacedClearance.privacy_clearance = {...replacedClearance.privacy_clearance, reviewer: 'Replacement privacy reviewer'};
-  replacedClearance.approved_sha256 = publicationRevisionHash(replacedClearance);
-  assert.throws(() => validateCatalogTransition(catalog(released), catalog(replacedClearance)), /retain the approved privacy and rights clearance evidence/i);
+  const replacedAssessment = structuredClone(corrected);
+  replacedAssessment.review_assessment = {...replacedAssessment.review_assessment, claims_basis: 'Replacement assessment'};
+  replacedAssessment.approved_sha256 = publicationRevisionHash(replacedAssessment);
+  assert.throws(() => validateCatalogTransition(catalog(released), catalog(replacedAssessment)), /retain the review assessment and publication approval evidence/i);
 
-  const injectedClearanceHash = structuredClone(corrected);
-  injectedClearanceHash.privacy_clearance.approved_sha256 = 'e'.repeat(64);
-  injectedClearanceHash.approved_sha256 = publicationRevisionHash(injectedClearanceHash);
-  assert.throws(() => validateCatalogTransition(catalog(released), catalog(injectedClearanceHash)), /unsupported privacy clearance field/i);
+  const injectedApprovalField = structuredClone(corrected);
+  injectedApprovalField.publication_approval.approved_sha256 = 'e'.repeat(64);
+  injectedApprovalField.approved_sha256 = publicationRevisionHash(injectedApprovalField);
+  assert.throws(() => validateCatalogTransition(catalog(released), catalog(injectedApprovalField)), /unsupported publication approval field/i);
 });

@@ -35,7 +35,7 @@ test('publication identifiers must be unique and revisions positive', () => {
   assert.throws(() => validateEditorialCatalog(badRevision), /revision/i);
 });
 
-test('approved records fail closed without editor, source, privacy, and rights clearance', () => {
+test('approved records require one human approval after recorded automated checks', () => {
   const approved = structuredClone(fixture);
   approved.publications[0].editorial_state = 'approved';
   assert.throws(() => validateEditorialCatalog(approved), /accountable editor/i);
@@ -48,13 +48,16 @@ test('approved records fail closed without editor, source, privacy, and rights c
   approved.publications[0].privacy_state = 'public-cleared';
   assert.throws(() => validateEditorialCatalog(approved), /rights state/i);
   approved.publications[0].rights_state = 'public-cleared';
-  assert.throws(() => validateEditorialCatalog(approved), /recorded privacy clearance/i);
-  approved.publications[0].privacy_clearance = {state: 'public-cleared', reviewer: 'Privacy reviewer', decided_at: '2026-08-08T00:00:00Z', basis: 'Public derivative inspection'};
-  assert.throws(() => validateEditorialCatalog(approved), /recorded rights clearance/i);
-  approved.publications[0].rights_clearance = {state: 'public-cleared', reviewer: 'Rights reviewer', decided_at: '2026-08-08T00:00:00Z', basis: 'Source and license inspection'};
-  approved.publications[0].privacy_clearance.reviewer = 'Jeffrey';
-  assert.throws(() => validateEditorialCatalog(approved), /independent from accountable editor/i);
-  approved.publications[0].privacy_clearance.reviewer = 'Privacy reviewer';
+  assert.throws(() => validateEditorialCatalog(approved), /passed review assessment/i);
+  approved.publications[0].review_assessment = {
+    state: 'checks-passed', checked_at: '2026-08-08T00:00:00Z', checked_by: ['Hermes Athena'],
+    claims_basis: 'Primary-source comparison', privacy_basis: 'Public derivative scan', rights_basis: 'Source and usage review',
+    sources: ['https://example.gov/record'],
+  };
+  assert.throws(() => validateEditorialCatalog(approved), /recorded publication approval/i);
+  approved.publications[0].publication_approval = {
+    state: 'approved', editor: 'Jeffrey', decided_at: '2026-08-08T00:00:00Z', basis: 'Approved exact reviewed revision',
+  };
   approved.publications[0].approved_sha256 = publicationRevisionHash(approved.publications[0]);
   assert.doesNotThrow(() => validateEditorialCatalog(approved));
 });
@@ -75,8 +78,12 @@ test('public machine outputs admit only fully gated public states', () => {
   gated.sources = [{kind: 'primary', url: 'https://example.org/record', title: 'Primary record', retrieved_at: '2026-08-08'}];
   gated.privacy_state = 'public-cleared';
   gated.rights_state = 'public-cleared';
-  gated.privacy_clearance = {state: 'public-cleared', reviewer: 'Privacy reviewer', decided_at: '2026-08-08T00:00:00Z', basis: 'Public derivative inspection'};
-  gated.rights_clearance = {state: 'public-cleared', reviewer: 'Rights reviewer', decided_at: '2026-08-08T00:00:00Z', basis: 'Source and license inspection'};
+  gated.review_assessment = {
+    state: 'checks-passed', checked_at: '2026-08-08T00:00:00Z', checked_by: ['Hermes Athena'],
+    claims_basis: 'Primary-source comparison', privacy_basis: 'Public derivative scan', rights_basis: 'Source and usage review',
+    sources: ['https://example.org/record'],
+  };
+  gated.publication_approval = {state: 'approved', editor: 'Test editor', decided_at: '2026-08-08T00:00:00Z', basis: 'Approved exact reviewed revision'};
   gated.evidence_state = 'reviewed source record';
   gated.correction_state = 'none';
 
@@ -109,10 +116,13 @@ test('public machine outputs admit only fully gated public states', () => {
     });
 
   validateEditorialCatalog(catalog);
+  const publicRecords = publicationsForPublicOutput(catalog);
   assert.deepEqual(
-    publicationsForPublicOutput(catalog).map(record => record.editorial_state),
+    publicRecords.map(record => record.editorial_state),
     ['released', 'corrected', 'superseded', 'retracted'],
   );
+  assert.equal(JSON.stringify(publicRecords).includes('Test editor'), false);
+  assert.ok(publicRecords.every(record => !('accountable_editor' in record) && !('publication_approval' in record) && !('review_assessment' in record)));
 });
 
 test('corrected, superseded, and retracted records retain release gates', () => {

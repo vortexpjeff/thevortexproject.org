@@ -11,7 +11,7 @@ const args = Object.fromEntries(process.argv.slice(2).map(value => {
   return [key, rest.join('=')];
 }));
 if (!args.id || !['approved', 'released'].includes(args.to) || !args.editor || !/^[a-f0-9]{64}$/.test(args['expected-sha256'] || '')) {
-  throw new Error('usage: promote-publication.mjs --id=ID --to=approved|released --editor=NAME --expected-sha256=HASH');
+  throw new Error('usage: promote-publication.mjs --id=ID --to=approved|released --editor=NAME --expected-sha256=HASH [--approved-at=UTC_RFC3339]');
 }
 const path = new URL('../institute-src/_data/editorial.json', import.meta.url);
 const catalog = JSON.parse(await readFile(path, 'utf8'));
@@ -19,9 +19,6 @@ const record = catalog.publications.find(item => item.id === args.id);
 if (!record) throw new Error(`publication not found: ${args.id}`);
 const requiredFrom = args.to === 'approved' ? 'review' : 'approved';
 if (record.editorial_state !== requiredFrom) throw new Error(`${record.id} must be ${requiredFrom} before promotion to ${args.to}`);
-if (record.privacy_state !== 'public-cleared' || record.rights_state !== 'public-cleared') {
-  throw new Error(`${record.id} requires independent privacy and rights clearance before promotion`);
-}
 const currentHash = publicationRevisionHash(record);
 if (currentHash !== args['expected-sha256']) throw new Error(`stale publication revision: expected ${args['expected-sha256']} got ${currentHash}`);
 if (args.to === 'released' && record.accountable_editor !== args.editor) {
@@ -29,7 +26,19 @@ if (args.to === 'released' && record.accountable_editor !== args.editor) {
 }
 const approvalHash = record.approved_sha256;
 record.editorial_state = args.to;
-if (args.to === 'approved') record.accountable_editor = args.editor;
+if (args.to === 'approved') {
+  if (record.review_assessment?.state !== 'checks-passed') throw new Error(`${record.id} requires a passed review assessment before approval`);
+  if (!isUtcTimestamp(args['approved-at'])) throw new Error('approved promotion requires --approved-at=UTC_RFC3339_TIMESTAMP');
+  record.accountable_editor = args.editor;
+  record.privacy_state = 'public-cleared';
+  record.rights_state = 'public-cleared';
+  record.publication_approval = {
+    state: 'approved',
+    editor: args.editor,
+    decided_at: args['approved-at'],
+    basis: 'Accountable human approved the exact reviewed revision after recorded claim, privacy, and rights checks.',
+  };
+}
 if (args.to === 'released') {
   if (!isUtcTimestamp(args['published-at'])) throw new Error('released promotion requires --published-at=UTC_RFC3339_TIMESTAMP');
   record.published_at = args['published-at'];

@@ -74,6 +74,7 @@ test('build generates the Institute, Dispatches, feeds, and public publication c
   assert.match(article, /One acoustic pass, three listening heads/);
   assert.match(article, /What remains unknown/);
   assert.match(article, /Correction history/);
+  assert.doesNotMatch(article, /Editor:/);
   assert.match(rss, /<rss version="2\.0"/);
   assert.doesNotMatch(rss, /<item>/);
   assert.equal(jsonFeed.version, 'https://jsonfeed.org/version/1.1');

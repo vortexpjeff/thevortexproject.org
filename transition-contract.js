@@ -8,7 +8,7 @@ const TRANSITIONS = new Set([
 ]);
 const LIFECYCLE_KEYS = new Set([
   'editorial_state', 'accountable_editor', 'approved_sha256', 'approval_sha256',
-  'published_at', 'corrections',
+  'published_at', 'corrections', 'privacy_state', 'rights_state', 'publication_approval',
 ]);
 
 function contentView(record) {
@@ -73,9 +73,9 @@ export function validateCatalogTransition(beforeCatalog, afterCatalog) {
       }
       if (record.privacy_state !== previous.privacy_state
           || record.rights_state !== previous.rights_state
-          || completeEvidenceHash(record.privacy_clearance) !== completeEvidenceHash(previous.privacy_clearance)
-          || completeEvidenceHash(record.rights_clearance) !== completeEvidenceHash(previous.rights_clearance)) {
-        throw new Error(`${record.id} correction must retain the approved privacy and rights clearance evidence`);
+          || completeEvidenceHash(record.review_assessment) !== completeEvidenceHash(previous.review_assessment)
+          || completeEvidenceHash(record.publication_approval) !== completeEvidenceHash(previous.publication_approval)) {
+        throw new Error(`${record.id} correction must retain the review assessment and publication approval evidence`);
       }
       const priorHistory = previous.corrections || [];
       const retainedHistory = (record.corrections || []).slice(0, -1);

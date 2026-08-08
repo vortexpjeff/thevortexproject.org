@@ -47,19 +47,40 @@ function isCalendarDate(value) {
   return /^\d{4}-\d{2}-\d{2}$/.test(value || '') && isUtcTimestamp(`${value}T00:00:00Z`);
 }
 
-function validateClearance(record, key, label) {
-  const clearance = record[key];
-  if (!clearance || clearance.state !== 'public-cleared') throw new Error(`${record.id} requires recorded ${label} clearance`);
-  const allowed = new Set(['state', 'reviewer', 'decided_at', 'basis']);
-  const unsupported = Object.keys(clearance).find(field => !allowed.has(field));
-  if (unsupported) throw new Error(`${record.id} has unsupported ${label} clearance field: ${unsupported}`);
-  requireText(clearance, 'reviewer', `${label} clearance reviewer`);
-  requireText(clearance, 'basis', `${label} clearance basis`);
-  if (!isUtcTimestamp(clearance.decided_at)) throw new Error(`${record.id} requires valid ${label} clearance timestamp`);
-  if (clearance.reviewer.trim().toLowerCase() === record.accountable_editor.trim().toLowerCase()) {
-    throw new Error(`${record.id} ${label} clearance reviewer must be independent from accountable editor`);
+function validateReviewAssessment(record) {
+  const assessment = record.review_assessment;
+  if (!assessment || assessment.state !== 'checks-passed') throw new Error(`${record.id} requires a passed review assessment`);
+  const allowed = new Set(['state', 'checked_at', 'checked_by', 'claims_basis', 'privacy_basis', 'rights_basis', 'sources']);
+  const unsupported = Object.keys(assessment).find(field => !allowed.has(field));
+  if (unsupported) throw new Error(`${record.id} has unsupported review assessment field: ${unsupported}`);
+  if (!isUtcTimestamp(assessment.checked_at)) throw new Error(`${record.id} requires a valid review assessment timestamp`);
+  if (!Array.isArray(assessment.checked_by) || assessment.checked_by.length === 0
+      || assessment.checked_by.some(value => typeof value !== 'string' || !value.trim())) {
+    throw new Error(`${record.id} review assessment requires checked_by identities`);
   }
-  return clearance;
+  for (const field of ['claims_basis', 'privacy_basis', 'rights_basis']) requireText(assessment, field, field.replace('_', ' '));
+  if (!Array.isArray(assessment.sources) || assessment.sources.length === 0
+      || assessment.sources.some(url => typeof url !== 'string' || !/^https:\/\//.test(url))) {
+    throw new Error(`${record.id} review assessment requires HTTPS sources`);
+  }
+  const publicationSources = new Set((record.sources || []).map(source => source?.url));
+  if (assessment.sources.some(url => !publicationSources.has(url))) {
+    throw new Error(`${record.id} review assessment source must be present in publication sources`);
+  }
+  return assessment;
+}
+
+function validatePublicationApproval(record) {
+  const approval = record.publication_approval;
+  if (!approval || approval.state !== 'approved') throw new Error(`${record.id} requires recorded publication approval`);
+  const allowed = new Set(['state', 'editor', 'decided_at', 'basis']);
+  const unsupported = Object.keys(approval).find(field => !allowed.has(field));
+  if (unsupported) throw new Error(`${record.id} has unsupported publication approval field: ${unsupported}`);
+  requireText(approval, 'editor', 'publication approval editor');
+  requireText(approval, 'basis', 'publication approval basis');
+  if (!isUtcTimestamp(approval.decided_at)) throw new Error(`${record.id} requires valid publication approval timestamp`);
+  if (approval.editor !== record.accountable_editor) throw new Error(`${record.id} publication approval editor must match accountable editor`);
+  return approval;
 }
 
 function checkPrivateKeys(value, trail = 'catalog') {
@@ -106,6 +127,7 @@ export function validateEditorialCatalog(catalog) {
       throw new Error(`${record.id} requires a canonical public URL`);
     }
     if (!Array.isArray(record.sources)) throw new Error(`${record.id} sources must be an array`);
+    if (record.review_assessment !== undefined) validateReviewAssessment(record);
 
     if (GATED_STATES.has(record.editorial_state)) {
       requireText(record, 'accountable_editor', 'accountable editor');
@@ -126,11 +148,8 @@ export function validateEditorialCatalog(catalog) {
       if (record.rights_state !== 'public-cleared') {
         throw new Error(`${record.id} rights state must be public-cleared`);
       }
-      const privacyClearance = validateClearance(record, 'privacy_clearance', 'privacy');
-      const rightsClearance = validateClearance(record, 'rights_clearance', 'rights');
-      if (privacyClearance.reviewer.trim().toLowerCase() === rightsClearance.reviewer.trim().toLowerCase()) {
-        throw new Error(`${record.id} privacy and rights clearances require separate reviewers`);
-      }
+      validateReviewAssessment(record);
+      validatePublicationApproval(record);
       if (!/^[a-f0-9]{64}$/.test(record.approved_sha256 || '') || record.approved_sha256 !== publicationRevisionHash(record)) {
         throw new Error(`${record.id} approved revision hash does not match content`);
       }
@@ -178,5 +197,16 @@ export function validateEditorialCatalog(catalog) {
 }
 
 export function publicationsForPublicOutput(catalog) {
-  return catalog.publications.filter(record => PUBLIC_STATES.has(record.editorial_state));
+  const internalKeys = new Set([
+    'accountable_editor', 'publication_approval', 'review_assessment',
+    'privacy_clearance', 'rights_clearance', 'editor', 'reviewer',
+  ]);
+  const redact = value => {
+    if (Array.isArray(value)) return value.map(redact);
+    if (!value || typeof value !== 'object') return value;
+    return Object.fromEntries(Object.entries(value)
+      .filter(([key]) => !internalKeys.has(key))
+      .map(([key, child]) => [key, redact(child)]));
+  };
+  return catalog.publications.filter(record => PUBLIC_STATES.has(record.editorial_state)).map(redact);
 }
