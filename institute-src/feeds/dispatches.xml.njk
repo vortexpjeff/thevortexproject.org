@@ -1,0 +1,6 @@
+---
+permalink: feeds/dispatches.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel><title>The Vortex Project Dispatches</title><link>https://www.thevortexproject.org/dispatches/</link><description>Released publications from the Vortex Institute.</description><language>en-us</language>{% for item in editorial | publicPublications %}<item><guid isPermaLink="false">{{ item.id }}:{{ item.revision }}</guid><title>{{ item.title }}</title><link>{{ item.url }}</link><description>{{ item.summary }}</description></item>{% endfor %}</channel></rss>

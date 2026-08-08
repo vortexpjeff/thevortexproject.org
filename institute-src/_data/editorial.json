@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "publications": [
+    {
+      "id": "dispatch-2026-08-08-three-head-fixture",
+      "revision": 1,
+      "editorial_state": "fixture",
+      "content_type": "Field Note",
+      "stream": "From Pine Hollow",
+      "slug": "one-acoustic-pass",
+      "title": "One acoustic pass, three listening heads",
+      "summary": "A design fixture showing how a shared field inference path can be explained without turning model candidates into observations.",
+      "related_program": "Bioacoustics / Edge AI",
+      "evidence_level": "Architecture and operational record",
+      "privacy_state": "fixture-only",
+      "rights_state": "original-fixture-copy",
+      "correction_state": "none",
+      "accountable_editor": null,
+      "ai_assistance": ["Hermes Athena"],
+      "generated_at": "2026-08-08T00:00:00Z",
+      "url": "https://www.thevortexproject.org/dispatches/one-acoustic-pass/",
+      "sources": []
+    },
+    {
+      "id": "dispatch-2026-08-08-frognet-field-probe",
+      "revision": 1,
+      "editorial_state": "review",
+      "content_type": "Model Release",
+      "stream": "Releases",
+      "slug": "frognet-field-probe-release",
+      "title": "FrogNet field probe publishes a bounded research contract",
+      "summary": "The public prerelease documents a conservative frog-present ranking head, its checked runtime format, field threshold, provenance, and unsupported uses.",
+      "related_program": "FrogNet / Bioacoustics",
+      "evidence_level": "Public software and model release",
+      "evidence_state": "released artifact; no field-validity claim",
+      "privacy_state": "review",
+      "rights_state": "review",
+      "correction_state": "none",
+      "accountable_editor": null,
+      "ai_assistance": ["Hermes Athena"],
+      "generated_at": "2026-08-08T00:00:00Z",
+      "url": "https://www.thevortexproject.org/dispatches/frognet-field-probe-release/",
+      "sections": [
+        {"heading": "What was released", "body": "FrogNet field probe v0.1.0 is a conservative binary frog-present head for 1,536-dimensional Google Perch 2 embeddings. The release describes three non-overlapping five-second embeddings per 15-second recording and a checked JSON/NPZ runtime bundle."},
+        {"heading": "What the score means", "body": "The release defines its output as an uncalibrated case-control ranking score and names a conservative field threshold of 0.95. It does not turn a threshold crossing into a confirmed animal observation."},
+        {"heading": "What remains bounded", "body": "The public package excludes private field evidence. The release must be read with its smoke tests, provenance, limitations, and unsupported-use statements rather than as a general field-validity claim."}
+      ],
+      "sources": [
+        {"kind": "primary", "title": "FrogNet field probe v0.1.0 release", "url": "https://github.com/vortexpjeff/insectnet/releases/tag/frognet-field-probe-v0.1.0", "retrieved_at": "2026-08-08"}
+      ],
+      "corrections": []
+    },
+    {
+      "id": "dispatch-2026-08-08-hls-scale",
+      "revision": 1,
+      "editorial_state": "review",
+      "content_type": "Science Watch",
+      "stream": "Science Watch",
+      "slug": "hls-field-to-pixel-scale",
+      "title": "Harmonized Landsat and Sentinel-2 makes scale explicit",
+      "summary": "NASA's HLS project provides global land-surface reflectance at 30-meter resolution every two to three days, useful context only when a field comparison preserves the difference in scale and measured quantity.",
+      "related_program": "EarthNet / Cartographer",
+      "evidence_level": "Authoritative external project documentation",
+      "evidence_state": "external dataset context; no local comparison result",
+      "privacy_state": "review",
+      "rights_state": "review",
+      "correction_state": "none",
+      "accountable_editor": null,
+      "ai_assistance": ["Hermes Athena"],
+      "generated_at": "2026-08-08T00:00:00Z",
+      "url": "https://www.thevortexproject.org/dispatches/hls-field-to-pixel-scale/",
+      "sections": [
+        {"heading": "What the project provides", "body": "NASA describes Harmonized Landsat and Sentinel-2 as global land-surface reflectance data produced every two to three days at 30-meter resolution."},
+        {"heading": "Why it is relevant here", "body": "That cadence and spatial grain can provide landscape context for field work, but a shared date does not make a local sensor and a satellite pixel equivalent measurements."},
+        {"heading": "What remains separate", "body": "No Pine Hollow observation, causal relationship, occupancy estimate, or cross-scale validation is asserted in this review record."}
+      ],
+      "sources": [
+        {"kind": "primary", "title": "Harmonized Landsat and Sentinel-2 | NASA Earthdata", "url": "https://www.earthdata.nasa.gov/data/projects/hls", "retrieved_at": "2026-08-08"}
+      ],
+      "corrections": []
+    },
+    {
+      "id": "dispatch-2026-08-08-birdnet-analyzer",
+      "revision": 1,
+      "editorial_state": "review",
+      "content_type": "Open Build",
+      "stream": "Open Builds",
+      "slug": "birdnet-analyzer-open-build",
+      "title": "An open acoustic build should preserve the tool boundary",
+      "summary": "BirdNET-Analyzer is an MIT-licensed open repository for scientific audio processing; a field build should name the upstream tool, local wrapper, evidence boundary, and failure behavior separately.",
+      "related_program": "BirdNET / Field systems",
+      "evidence_level": "Official open-source repository metadata",
+      "evidence_state": "software context; not a Pine Hollow detection claim",
+      "privacy_state": "review",
+      "rights_state": "review",
+      "correction_state": "none",
+      "accountable_editor": null,
+      "ai_assistance": ["Hermes Athena"],
+      "generated_at": "2026-08-08T00:00:00Z",
+      "url": "https://www.thevortexproject.org/dispatches/birdnet-analyzer-open-build/",
+      "sections": [
+        {"heading": "The upstream tool", "body": "The canonical BirdNET-Analyzer repository describes itself as an analyzer for scientific audio data processing and publishes its code under the MIT license."},
+        {"heading": "The field-system boundary", "body": "A serviceable build should distinguish upstream analysis software from local capture, scheduling, review, storage, and publication layers."},
+        {"heading": "The evidence boundary", "body": "BirdNET remains an independent evidence lane at Pine Hollow. Its output is not silently merged with specialist Vortex model assertions or human review decisions."}
+      ],
+      "sources": [
+        {"kind": "primary", "title": "BirdNET-Analyzer canonical repository", "url": "https://github.com/birdnet-team/BirdNET-Analyzer", "retrieved_at": "2026-08-08"}
+      ],
+      "corrections": []
+    },
+    {
+      "id": "dispatch-2026-08-08-correction-demonstration",
+      "revision": 2,
+      "editorial_state": "review",
+      "content_type": "Correction",
+      "stream": "Methods",
+      "slug": "correction-record-demonstration",
+      "title": "Correction records preserve the wording that changed",
+      "summary": "A review-only demonstration of append-only correction metadata; it does not describe an external factual error or released Vortex claim.",
+      "related_program": "Institute publication methods",
+      "evidence_level": "Publication-system demonstration",
+      "evidence_state": "synthetic correction exercise",
+      "privacy_state": "review",
+      "rights_state": "review",
+      "correction_state": "corrected-in-review",
+      "accountable_editor": null,
+      "ai_assistance": ["Hermes Athena"],
+      "generated_at": "2026-08-08T00:00:00Z",
+      "url": "https://www.thevortexproject.org/dispatches/correction-record-demonstration/",
+      "sections": [
+        {"heading": "Revision one", "body": "The demonstration initially described a source as updated daily."},
+        {"heading": "Revision two", "body": "The wording was replaced with source-timestamp language because update cadence must come from the source record rather than editorial shorthand."},
+        {"heading": "Why the prior wording remains visible", "body": "A correction is a new revision with a reason and timestamp, not a silent replacement of the historical record."}
+      ],
+      "sources": [
+        {"kind": "primary", "title": "Vortex publication correction demonstration", "url": "https://www.thevortexproject.org/dispatches/correction-record-demonstration/", "retrieved_at": "2026-08-08"}
+      ],
+      "corrections": [
+        {"revision": 2, "corrected_at": "2026-08-08T00:00:00Z", "summary": "Replaced an unsupported daily-cadence phrase with source-timestamp language."}
+      ]
+    }
+  ]
+}

@@ -3,6 +3,15 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test"
+    "build": "npm run build:preview",
+    "build:preview": "VORTEX_BUILD_MODE=preview eleventy && VORTEX_BUILD_MODE=preview node scripts/build-manifest.mjs",
+    "build:production": "node scripts/validate-publication-transition.mjs && VORTEX_BUILD_MODE=production eleventy && VORTEX_BUILD_MODE=production node scripts/build-manifest.mjs",
+    "test": "npm run build:preview && node --test",
+    "test:production": "npm run build:production && VORTEX_BUILD_MODE=production node --test tests/production-build.test.js",
+    "test:unit": "node --test tests/cartographer-events.test.js tests/cartographer-view.test.js tests/cartographer-world.test.js tests/weather-core.test.js"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "3.1.6",
+    "nunjucks": "^3.2.4"
   }
 }

@@ -5,6 +5,7 @@ Requires the local site on :8765 and Chrome remote debugging on :9228.
 """
 
 import json
+import os
 import time
 import unittest
 import urllib.parse
@@ -12,8 +13,8 @@ import urllib.request
 
 import websocket
 
-BASE = "http://127.0.0.1:8765"
-DEVTOOLS = "http://127.0.0.1:9228"
+BASE = os.environ.get("VORTEX_LAYOUT_BASE", "http://127.0.0.1:8765")
+DEVTOOLS = os.environ.get("VORTEX_LAYOUT_DEVTOOLS", "http://127.0.0.1:9228")
 PAGES = {
     "field": "/",
     "weather": "/weather.html?lat=35.5951&lon=-82.5515&name=Asheville&admin=North%20Carolina&country=United%20States&cc=US&tz=America%2FNew_York",
