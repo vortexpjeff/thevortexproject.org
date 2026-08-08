@@ -94,3 +94,11 @@ test('build excludes development internals and obvious private-boundary strings'
     assert.doesNotMatch(text, /(?:\/home\/|\/mnt\/|127\.0\.0\.1|localhost|\.git-credentials|birdnet_password)/i, path);
   }
 });
+
+test('Pages artifact archive preserves required public dotfiles', async () => {
+  const workflow = await readFile(new URL('.github/workflows/deploy-pages.yml', ROOT), 'utf8');
+  assert.match(workflow, /Archive Pages artifact including required dotfiles/);
+  assert.match(workflow, /--directory _site/);
+  assert.match(workflow, /name: github-pages/);
+  assert.doesNotMatch(workflow, /actions\/upload-pages-artifact/);
+});
