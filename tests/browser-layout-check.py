@@ -427,6 +427,7 @@ class VortexLayoutTest(unittest.TestCase):
         page = BrowserPage("/cartographer.html?date=2026-07-12", 390, 844, mobile=True)
         try:
             page.command("Network.setBlockedURLs", {"urls": ["*LAYERS=VIIRS_NOAA20_CorrectedReflectance_TrueColor*"]})
+            page.command("Network.clearBrowserCache")
             page.command("Page.reload", {"ignoreCache": True})
             deadline = time.time() + 45
             metadata = {}
