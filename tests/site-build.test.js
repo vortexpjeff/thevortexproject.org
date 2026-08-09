@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile, readdir} from 'node:fs/promises';
 import {join, relative} from 'node:path';
+import {publicationsForPublicOutput} from '../publication-contract.js';
 
 const ROOT = new URL('../', import.meta.url);
 const OUTPUT = new URL('../_site/', import.meta.url);
@@ -66,6 +67,8 @@ test('build generates the Institute, Dispatches, feeds, and public publication c
   const rss = await readFile(new URL('feeds/dispatches.xml', OUTPUT), 'utf8');
   const jsonFeed = JSON.parse(await readFile(new URL('feeds/dispatches.json', OUTPUT), 'utf8'));
   const catalog = JSON.parse(await readFile(new URL('api/publications.json', OUTPUT), 'utf8'));
+  const sourceCatalog = JSON.parse(await readFile(new URL('../institute-src/_data/editorial.json', import.meta.url), 'utf8'));
+  const expectedPublications = publicationsForPublicOutput(sourceCatalog);
 
   assert.match(institute, /<title>Institute · The Vortex Project<\/title>/);
   assert.match(institute, /aria-current="page">Institute<\/span>/);
@@ -76,11 +79,14 @@ test('build generates the Institute, Dispatches, feeds, and public publication c
   assert.match(article, /Correction history/);
   assert.doesNotMatch(article, /Editor:/);
   assert.match(rss, /<rss version="2\.0"/);
-  assert.doesNotMatch(rss, /<item>/);
   assert.equal(jsonFeed.version, 'https://jsonfeed.org/version/1.1');
-  assert.deepEqual(jsonFeed.items, []);
   assert.equal(catalog.schema_version, 1);
-  assert.deepEqual(catalog.publications, []);
+  assert.deepEqual(catalog.publications, expectedPublications);
+  assert.equal(jsonFeed.items.length, expectedPublications.length);
+  for (const record of expectedPublications) {
+    assert.ok(rss.includes(record.url), record.url);
+    assert.ok(jsonFeed.items.some(item => item.url === record.url), record.url);
+  }
 });
 
 test('build excludes development internals and obvious private-boundary strings', async () => {
