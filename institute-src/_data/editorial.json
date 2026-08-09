@@ -212,7 +212,7 @@
     {
       "id": "dispatch-20260808-sar-tornado-damage-track-mapping-5393ce4e31",
       "revision": 1,
-      "editorial_state": "review",
+      "editorial_state": "approved",
       "content_type": "Science Watch",
       "stream": "Science Watch",
       "slug": "sar-tornado-damage-track-mapping",
@@ -221,10 +221,10 @@
       "related_program": "Earth observation and conservation-oriented field systems",
       "evidence_level": "Official NASA Earthdata report of a bounded remote-sensing study",
       "evidence_state": "External research result reported by NASA Earthdata; candidate pending editorial claim, privacy, and rights review",
-      "privacy_state": "review",
-      "rights_state": "review",
+      "privacy_state": "public-cleared",
+      "rights_state": "public-cleared",
       "correction_state": "none",
-      "accountable_editor": null,
+      "accountable_editor": "Jeffrey",
       "ai_assistance": [
         "Hermes Athena"
       ],
@@ -265,7 +265,14 @@
         "sources": [
           "https://www.earthdata.nasa.gov/news/tracing-tornados-path-destruction"
         ]
-      }
+      },
+      "publication_approval": {
+        "state": "approved",
+        "editor": "Jeffrey",
+        "decided_at": "2026-08-09T00:01:33Z",
+        "basis": "Accountable human approved the exact reviewed revision after recorded claim, privacy, and rights checks."
+      },
+      "approved_sha256": "66ead8ea6b335afa31d0d17cd1f950f7f3d13acceddfd25a58507b58ac1045af"
     }
   ]
 }
