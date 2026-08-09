@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {access, readFile} from 'node:fs/promises';
+import {publicationsForPublicOutput} from '../publication-contract.js';
 
 const OUTPUT = new URL('../_site/', import.meta.url);
 const productionTest = process.env.VORTEX_BUILD_MODE === 'production' ? test : test.skip;
@@ -20,12 +21,21 @@ productionTest('production build excludes preview state and fixture article', as
   assert.equal(await missing('dispatches/one-acoustic-pass/index.html'), true);
 });
 
-productionTest('production build emits empty public machines and deployment records', async () => {
+productionTest('production build emits the exact public catalog, feeds, sitemap, and deployment records', async () => {
   const catalog = JSON.parse(await text('api/publications.json'));
   const feed = JSON.parse(await text('feeds/dispatches.json'));
-  assert.deepEqual(catalog.publications, []);
-  assert.deepEqual(feed.items, []);
-  assert.match(await text('sitemap.xml'), /<loc>https:\/\/www\.thevortexproject\.org\/institute\/<\/loc>/);
+  const source = JSON.parse(await readFile(new URL('../institute-src/_data/editorial.json', import.meta.url), 'utf8'));
+  const expected = publicationsForPublicOutput(source);
+  assert.deepEqual(catalog.publications, expected);
+  assert.equal(feed.items.length, expected.length);
+  const sitemap = await text('sitemap.xml');
+  assert.match(sitemap, /<loc>https:\/\/www\.thevortexproject\.org\/institute\/<\/loc>/);
+  for (const record of expected) {
+    assert.equal(await missing(`dispatches/${record.slug}/index.html`), false, record.slug);
+    assert.ok(feed.items.some(item => item.url === record.url), record.url);
+    assert.ok(sitemap.includes(record.url), record.url);
+  }
+  assert.doesNotMatch(JSON.stringify(catalog), /accountable_editor|publication_approval|review_assessment|privacy_clearance|rights_clearance|"editor"|"reviewer"/);
   const manifest = JSON.parse(await text('build-manifest.json'));
   assert.equal(manifest.schema_version, 1);
   assert.equal(manifest.build_mode, 'production');

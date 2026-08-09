@@ -123,6 +123,7 @@ test('public machine outputs admit only fully gated public states', () => {
   );
   assert.equal(JSON.stringify(publicRecords).includes('Test editor'), false);
   assert.ok(publicRecords.every(record => !('accountable_editor' in record) && !('publication_approval' in record) && !('review_assessment' in record)));
+  assert.ok(publicRecords.every(record => record.evidence_state === 'Claim, privacy, and rights checks passed; human-approved for publication.'));
 });
 
 test('corrected, superseded, and retracted records retain release gates', () => {
