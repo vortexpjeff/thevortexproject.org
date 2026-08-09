@@ -26,6 +26,7 @@ html::-webkit-scrollbar-corner{background:var(--shell-bg)}
 .head-nav::-webkit-scrollbar{display:none}
 .head-nav a,.head-nav [aria-current="page"]{box-sizing:border-box;display:flex!important;align-items:center;justify-content:center;height:44px;min-width:max-content;padding:0 .78rem;border:1px solid var(--shell-line);border-radius:0;color:var(--shell-muted);text-decoration:none;font:inherit;font-weight:500;white-space:nowrap}
 .head-nav a:hover,.head-nav a:focus-visible{outline:none;border-color:var(--shell-green);color:var(--shell-green);background:rgba(154,255,179,.035)}
+.head-nav a[href="/institute/"],.head-nav a[href="/institute"],.head-nav a[href^="/dispatches/"]{display:none!important}
 .head-nav [aria-current="page"]{border-color:rgba(248,215,123,.78);color:var(--shell-gold);background:rgba(248,215,123,.025)}
 .depth a{min-height:44px}.help-trigger:not(.guide){min-width:24px;min-height:24px}.brief .reading a{display:inline-flex;align-items:center;justify-content:flex-end;min-width:24px;min-height:24px}.ol-attribution button{min-width:44px!important;min-height:44px!important}
 @media(max-width:960px){.utility-readout[data-utility-secondary]{display:none}}

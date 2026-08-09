@@ -13,6 +13,11 @@ test('Cartographer is a fixed geographic instrument without a slippy-map runtime
   assert.match(cartographerHtml, /id="eventMarkerLayer"/);
   assert.match(cartographerHtml, /id="eventLedger"/);
   assert.match(cartographerHtml, /id="eventInspector"/);
+  const provenanceStrip = cartographerHtml.indexOf('class="instrument-source-strip"');
+  const orbitalFrame = cartographerHtml.indexOf('id="orbitalFrame"');
+  const eventSection = cartographerHtml.indexOf('class="instrument-section event-section"');
+  assert.ok(provenanceStrip < orbitalFrame, 'imagery provenance should precede the map');
+  assert.ok(orbitalFrame < eventSection, 'the activity ledger should directly follow the map');
   assert.doesNotMatch(cartographer, /new OL\.|window\.ol|EPSG:3857|animate\(/);
   assert.match(cartographer, /buildGibsImageUrl/);
   assert.match(cartographer, /projectToOrbitalFrame/);
