@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-05T01:45:44Z",
+  "updated": "2026-09-05T01:49:40Z",
   "location": {
     "name": "Observatory Station"
   },
@@ -70,28 +70,28 @@
     "kp_24h_mean": 1.0,
     "kp_time": "2026-09-04T21:00:00",
     "kp_1m": 1.0,
-    "dst_nt": -6.6,
+    "dst_nt": -6.7,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 5.25,
-    "bz_gse_nt": -0.31,
-    "bz_gsm_nt": 0.22,
-    "bz_nt": 0.22,
-    "time": "2026-09-05T01:40:00Z",
+    "bt_nt": 5.09,
+    "bz_gse_nt": -0.77,
+    "bz_gsm_nt": -0.23,
+    "bz_nt": -0.23,
+    "time": "2026-09-05T01:44:00Z",
     "source": "SOLAR1",
-    "speed_kms": 331.2,
-    "density": 2.82,
-    "temp_k": 83602.0,
-    "bz_flag": "northward"
+    "speed_kms": 327.9,
+    "density": 2.78,
+    "temp_k": 76173.0,
+    "bz_flag": "mild southward"
   },
   "sun": {
-    "xray_flux": 4.461e-07,
+    "xray_flux": 5.156e-07,
     "xray_peak": 1.23777e-05,
     "xray_class": "B",
     "xray_peak_class": "M",
     "latest_flare": "B5.6\u2192B9.5",
-    "flare_time": "2026-09-05T01:42:00Z",
+    "flare_time": "2026-09-05T01:45:00Z",
     "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 147.0,
@@ -100,7 +100,7 @@
   },
   "space_weather": {
     "scales": {
-      "issued": "2026-09-05T01:44:00",
+      "issued": "2026-09-05T01:47:00",
       "current": {
         "r": 0,
         "s": 0,
@@ -143,9 +143,9 @@
       }
     },
     "aurora": {
-      "observation": "2026-09-05T01:36:00Z",
-      "forecast": "2026-09-05T02:53:00Z",
-      "nh_max_probability": 22.0
+      "observation": "2026-09-05T01:40:00Z",
+      "forecast": "2026-09-05T02:59:00Z",
+      "nh_max_probability": 21.0
     },
     "forecast": {
       "issued": "2026-09-05T00:00:00Z",
@@ -303,10 +303,6 @@
       ],
       "dst": [
         {
-          "time": "2026-09-05T02:14:00",
-          "value": -7.1656399
-        },
-        {
           "time": "2026-09-05T02:15:00",
           "value": -7.2300701
         },
@@ -397,29 +393,13 @@
         {
           "time": "2026-09-05T02:37:00",
           "value": -6.6079102
+        },
+        {
+          "time": "2026-09-05T02:38:00",
+          "value": -6.72017
         }
       ],
       "xray": [
-        {
-          "time": "2026-09-05T01:17:00Z",
-          "value": 4.48477322834151e-07
-        },
-        {
-          "time": "2026-09-05T01:18:00Z",
-          "value": 4.4701238266497967e-07
-        },
-        {
-          "time": "2026-09-05T01:19:00Z",
-          "value": 4.463631171347515e-07
-        },
-        {
-          "time": "2026-09-05T01:20:00Z",
-          "value": 4.449404968909221e-07
-        },
-        {
-          "time": "2026-09-05T01:21:00Z",
-          "value": 4.4626824546867283e-07
-        },
         {
           "time": "2026-09-05T01:22:00Z",
           "value": 4.4706450808007503e-07
@@ -495,6 +475,26 @@
         {
           "time": "2026-09-05T01:40:00Z",
           "value": 4.4610607119466295e-07
+        },
+        {
+          "time": "2026-09-05T01:41:00Z",
+          "value": 4.4175186530992505e-07
+        },
+        {
+          "time": "2026-09-05T01:42:00Z",
+          "value": 4.3954855755146127e-07
+        },
+        {
+          "time": "2026-09-05T01:43:00Z",
+          "value": 4.42047962678771e-07
+        },
+        {
+          "time": "2026-09-05T01:44:00Z",
+          "value": 4.616761657416646e-07
+        },
+        {
+          "time": "2026-09-05T01:45:00Z",
+          "value": 5.155811777513009e-07
         }
       ]
     }
@@ -579,16 +579,7 @@
         "scientific_name": "Thryothorus ludovicianus",
         "count": 37,
         "gbif": {
-          "taxonomy": {
-            "key": 2493801,
-            "accepted_scientific_name": "Thryothorus ludovicianus (Latham, 1790)",
-            "canonical_name": "Thryothorus ludovicianus",
-            "family": "Troglodytidae",
-            "order": "Passeriformes",
-            "url": "https://www.gbif.org/species/2493801"
-          },
           "seasonal": {
-            "total_records": 476096,
             "months": [
               37743,
               42501,
@@ -603,7 +594,16 @@
               32011,
               35745
             ],
-            "scope": "Tennessee, United States"
+            "scope": "Tennessee, United States",
+            "total_records": 476096
+          },
+          "taxonomy": {
+            "accepted_scientific_name": "Thryothorus ludovicianus (Latham, 1790)",
+            "canonical_name": "Thryothorus ludovicianus",
+            "family": "Troglodytidae",
+            "key": 2493801,
+            "order": "Passeriformes",
+            "url": "https://www.gbif.org/species/2493801"
           }
         }
       },
@@ -612,16 +612,7 @@
         "scientific_name": "Corvus brachyrhynchos",
         "count": 16,
         "gbif": {
-          "taxonomy": {
-            "key": 2482507,
-            "accepted_scientific_name": "Corvus brachyrhynchos C.L.Brehm, 1822",
-            "canonical_name": "Corvus brachyrhynchos",
-            "family": "Corvidae",
-            "order": "Passeriformes",
-            "url": "https://www.gbif.org/species/2482507"
-          },
           "seasonal": {
-            "total_records": 456615,
             "months": [
               38864,
               44814,
@@ -636,7 +627,16 @@
               34156,
               35792
             ],
-            "scope": "Tennessee, United States"
+            "scope": "Tennessee, United States",
+            "total_records": 456615
+          },
+          "taxonomy": {
+            "accepted_scientific_name": "Corvus brachyrhynchos C.L.Brehm, 1822",
+            "canonical_name": "Corvus brachyrhynchos",
+            "family": "Corvidae",
+            "key": 2482507,
+            "order": "Passeriformes",
+            "url": "https://www.gbif.org/species/2482507"
           }
         }
       },
@@ -645,16 +645,7 @@
         "scientific_name": "Poecile carolinensis",
         "count": 4,
         "gbif": {
-          "taxonomy": {
-            "key": 2487844,
-            "accepted_scientific_name": "Poecile carolinensis (Audubon, 1834)",
-            "canonical_name": "Poecile carolinensis",
-            "family": "Paridae",
-            "order": "Passeriformes",
-            "url": "https://www.gbif.org/species/2487844"
-          },
           "seasonal": {
-            "total_records": 468589,
             "months": [
               41625,
               50389,
@@ -669,7 +660,16 @@
               33972,
               38154
             ],
-            "scope": "Tennessee, United States"
+            "scope": "Tennessee, United States",
+            "total_records": 468589
+          },
+          "taxonomy": {
+            "accepted_scientific_name": "Poecile carolinensis (Audubon, 1834)",
+            "canonical_name": "Poecile carolinensis",
+            "family": "Paridae",
+            "key": 2487844,
+            "order": "Passeriformes",
+            "url": "https://www.gbif.org/species/2487844"
           }
         }
       },
@@ -678,16 +678,7 @@
         "scientific_name": "Sitta carolinensis",
         "count": 2,
         "gbif": {
-          "taxonomy": {
-            "key": 2484892,
-            "accepted_scientific_name": "Sitta carolinensis Latham, 1790",
-            "canonical_name": "Sitta carolinensis",
-            "family": "Sittidae",
-            "order": "Passeriformes",
-            "url": "https://www.gbif.org/species/2484892"
-          },
           "seasonal": {
-            "total_records": 224658,
             "months": [
               19706,
               23744,
@@ -702,7 +693,16 @@
               16606,
               19393
             ],
-            "scope": "Tennessee, United States"
+            "scope": "Tennessee, United States",
+            "total_records": 224658
+          },
+          "taxonomy": {
+            "accepted_scientific_name": "Sitta carolinensis Latham, 1790",
+            "canonical_name": "Sitta carolinensis",
+            "family": "Sittidae",
+            "key": 2484892,
+            "order": "Passeriformes",
+            "url": "https://www.gbif.org/species/2484892"
           }
         }
       },
@@ -711,16 +711,7 @@
         "scientific_name": "Dryobates pubescens",
         "count": 2,
         "gbif": {
-          "taxonomy": {
-            "key": 9149595,
-            "accepted_scientific_name": "Dryobates pubescens (Linnaeus, 1766)",
-            "canonical_name": "Dryobates pubescens",
-            "family": "Picidae",
-            "order": "Piciformes",
-            "url": "https://www.gbif.org/species/9149595"
-          },
           "seasonal": {
-            "total_records": 327453,
             "months": [
               29849,
               36248,
@@ -735,7 +726,16 @@
               22596,
               27605
             ],
-            "scope": "Tennessee, United States"
+            "scope": "Tennessee, United States",
+            "total_records": 327453
+          },
+          "taxonomy": {
+            "accepted_scientific_name": "Dryobates pubescens (Linnaeus, 1766)",
+            "canonical_name": "Dryobates pubescens",
+            "family": "Picidae",
+            "key": 9149595,
+            "order": "Piciformes",
+            "url": "https://www.gbif.org/species/9149595"
           }
         }
       },
@@ -744,16 +744,7 @@
         "scientific_name": "Cyanocitta cristata",
         "count": 1,
         "gbif": {
-          "taxonomy": {
-            "key": 2482593,
-            "accepted_scientific_name": "Cyanocitta cristata (Linnaeus, 1758)",
-            "canonical_name": "Cyanocitta cristata",
-            "family": "Corvidae",
-            "order": "Passeriformes",
-            "url": "https://www.gbif.org/species/2482593"
-          },
           "seasonal": {
-            "total_records": 448000,
             "months": [
               35694,
               42662,
@@ -768,7 +759,16 @@
               31203,
               32753
             ],
-            "scope": "Tennessee, United States"
+            "scope": "Tennessee, United States",
+            "total_records": 448000
+          },
+          "taxonomy": {
+            "accepted_scientific_name": "Cyanocitta cristata (Linnaeus, 1758)",
+            "canonical_name": "Cyanocitta cristata",
+            "family": "Corvidae",
+            "key": 2482593,
+            "order": "Passeriformes",
+            "url": "https://www.gbif.org/species/2482593"
           }
         }
       },
@@ -807,19 +807,6 @@
     ]
   },
   "station_history": [
-    {
-      "time": "2026-08-08T00:33:45Z",
-      "wind_speed": 261.27,
-      "bz": -0.56,
-      "wind_density": 21.68,
-      "tec": 24.42572612979447,
-      "hmf2": 301.8514681811413,
-      "temp": 26.6,
-      "humidity": 65,
-      "aqi": 48,
-      "bird_detections": 93,
-      "bird_species": 10
-    },
     {
       "time": "2026-08-08T01:04:47Z",
       "wind_speed": 273.85,
@@ -1413,6 +1400,19 @@
       "wind_speed": 331.2,
       "bz": 0.22,
       "wind_density": 2.82,
+      "tec": 21.858547080918214,
+      "hmf2": 316.8261535026038,
+      "temp": 28.5,
+      "humidity": 69,
+      "aqi": 68,
+      "bird_detections": 63,
+      "bird_species": 7
+    },
+    {
+      "time": "2026-09-05T01:49:40Z",
+      "wind_speed": 327.9,
+      "bz": -0.23,
+      "wind_density": 2.78,
       "tec": 21.858547080918214,
       "hmf2": 316.8261535026038,
       "temp": 28.5,
