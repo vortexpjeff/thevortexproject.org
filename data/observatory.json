@@ -1,53 +1,53 @@
 {
-  "updated": "2026-09-10T21:02:54Z",
+  "updated": "2026-09-10T21:33:32Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
     "temp_c": 31.6,
-    "humidity_pct": 42,
-    "wind_kmh": 7.0,
-    "wind_dir": 258,
-    "pressure_hpa": 1015.5,
-    "cloud_pct": 13,
-    "feels_c": 33.2,
+    "humidity_pct": 40,
+    "wind_kmh": 7.3,
+    "wind_dir": 250,
+    "pressure_hpa": 1015.3,
+    "cloud_pct": 7,
+    "feels_c": 32.7,
     "precip_mm": 0.0,
     "weather_code": 0,
-    "today_max": 31.6,
+    "today_max": 31.7,
     "today_min": 19.6,
     "sunrise": "2026-09-10T07:12",
     "sunset": "2026-09-10T19:47",
     "precip_sum_mm": 0.0,
     "wind_hourly": [
       {
-        "h": "17:00",
-        "w": 7.0,
-        "g": 9.4
-      },
-      {
         "h": "18:00",
-        "w": 6.8,
-        "g": 9.4
+        "w": 6.7,
+        "g": 9.0
       },
       {
         "h": "19:00",
-        "w": 5.7,
-        "g": 9.4
+        "w": 5.6,
+        "g": 7.9
       },
       {
         "h": "20:00",
-        "w": 6.6,
-        "g": 7.2
+        "w": 1.1,
+        "g": 4.0
       },
       {
         "h": "21:00",
-        "w": 6.4,
-        "g": 7.6
+        "w": 5.8,
+        "g": 6.8
       },
       {
         "h": "22:00",
-        "w": 4.0,
-        "g": 5.8
+        "w": 3.0,
+        "g": 7.9
+      },
+      {
+        "h": "23:00",
+        "w": 8.2,
+        "g": 9.0
       }
     ]
   },
@@ -69,7 +69,7 @@
     "kp_24h_max": 2.7,
     "kp_24h_mean": 2.1,
     "kp_time": "2026-09-10T18:00:00",
-    "kp_1m": 1.0,
+    "kp_1m": 0.0,
     "dst_nt": -7.5,
     "dst_flag": "quiet"
   },
@@ -544,7 +544,7 @@
   "iss_pass": null,
   "alerts": [],
   "birds": {
-    "detections_24h": 212,
+    "detections_24h": 215,
     "species_count": 10,
     "top_species": [
       {
@@ -583,7 +583,7 @@
       {
         "name": "American Crow",
         "scientific_name": "Corvus brachyrhynchos",
-        "count": 47,
+        "count": 52,
         "gbif": {
           "seasonal": {
             "months": [
@@ -713,11 +713,6 @@
         }
       },
       {
-        "name": "Hairy Woodpecker",
-        "scientific_name": "Dryobates villosus",
-        "count": 4
-      },
-      {
         "name": "American Goldfinch",
         "scientific_name": "Spinus tristis",
         "count": 3,
@@ -749,6 +744,11 @@
             "url": "https://www.gbif.org/species/5231640"
           }
         }
+      },
+      {
+        "name": "Hairy Woodpecker",
+        "scientific_name": "Dryobates villosus",
+        "count": 2
       },
       {
         "name": "Eastern Bluebird",
@@ -786,46 +786,33 @@
     ],
     "recent": [
       {
-        "species": "American Goldfinch",
-        "confidence": 93.7,
-        "time": "2026-09-10 15:17:01"
+        "species": "American Crow",
+        "confidence": 77.3,
+        "time": "2026-09-10 17:13:35"
       },
       {
         "species": "American Crow",
-        "confidence": 91.6,
-        "time": "2026-09-10 16:57:02"
+        "confidence": 77.0,
+        "time": "2026-09-10 17:13:38"
       },
       {
         "species": "American Crow",
-        "confidence": 79.4,
-        "time": "2026-09-10 16:57:11"
+        "confidence": 88.9,
+        "time": "2026-09-10 17:13:47"
       },
       {
         "species": "American Crow",
-        "confidence": 86.4,
-        "time": "2026-09-10 16:57:14"
+        "confidence": 72.2,
+        "time": "2026-09-10 17:20:08"
       },
       {
         "species": "American Crow",
-        "confidence": 71.7,
-        "time": "2026-09-10 16:57:41"
+        "confidence": 75.4,
+        "time": "2026-09-10 17:26:50"
       }
     ]
   },
   "station_history": [
-    {
-      "time": "2026-09-08T20:20:25Z",
-      "wind_speed": 464.91,
-      "bz": -4.37,
-      "wind_density": 1.83,
-      "tec": 15.962165458318697,
-      "hmf2": 275.57707052971585,
-      "temp": 31.0,
-      "humidity": 44,
-      "aqi": 40,
-      "bird_detections": 194,
-      "bird_species": 9
-    },
     {
       "time": "2026-09-08T20:51:12Z",
       "wind_speed": 439.5,
@@ -1427,6 +1414,19 @@
       "humidity": 42,
       "aqi": 49,
       "bird_detections": 212,
+      "bird_species": 10
+    },
+    {
+      "time": "2026-09-10T21:33:32Z",
+      "wind_speed": 432.3,
+      "bz": -0.44,
+      "wind_density": 3.14,
+      "tec": 24.394320033280472,
+      "hmf2": 275.7651422844254,
+      "temp": 31.6,
+      "humidity": 40,
+      "aqi": 49,
+      "bird_detections": 215,
       "bird_species": 10
     }
   ]
