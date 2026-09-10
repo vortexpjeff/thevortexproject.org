@@ -1,16 +1,16 @@
 {
-  "updated": "2026-09-10T21:33:32Z",
+  "updated": "2026-09-10T22:03:51Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
-    "temp_c": 31.6,
-    "humidity_pct": 40,
-    "wind_kmh": 7.3,
-    "wind_dir": 250,
-    "pressure_hpa": 1015.3,
-    "cloud_pct": 7,
-    "feels_c": 32.7,
+    "temp_c": 31.5,
+    "humidity_pct": 41,
+    "wind_kmh": 6.7,
+    "wind_dir": 234,
+    "pressure_hpa": 1015.1,
+    "cloud_pct": 4,
+    "feels_c": 32.8,
     "precip_mm": 0.0,
     "weather_code": 0,
     "today_max": 31.7,
@@ -52,11 +52,11 @@
     ]
   },
   "air_quality": {
-    "us_aqi": 49,
-    "pm25": 7.3,
-    "pm10": 9.1,
-    "ozone": 118.0,
-    "no2": 1.0
+    "us_aqi": 58,
+    "pm25": 7.2,
+    "pm10": 8.9,
+    "ozone": 114.0,
+    "no2": 1.6
   },
   "ionosphere": {
     "tec": 24.394320033280472,
@@ -69,8 +69,8 @@
     "kp_24h_max": 2.7,
     "kp_24h_mean": 2.1,
     "kp_time": "2026-09-10T18:00:00",
-    "kp_1m": 0.0,
-    "dst_nt": -7.5,
+    "kp_1m": 3.0,
+    "dst_nt": -6.3,
     "dst_flag": "quiet"
   },
   "solar_wind": {
@@ -303,34 +303,6 @@
       ],
       "dst": [
         {
-          "time": "2026-09-10T20:58:00",
-          "value": -8.0215702
-        },
-        {
-          "time": "2026-09-10T20:59:00",
-          "value": -8.07899
-        },
-        {
-          "time": "2026-09-10T21:00:00",
-          "value": -8.1511698
-        },
-        {
-          "time": "2026-09-10T21:01:00",
-          "value": -8.2364101
-        },
-        {
-          "time": "2026-09-10T21:02:00",
-          "value": -8.3558598
-        },
-        {
-          "time": "2026-09-10T21:03:00",
-          "value": -8.5669003
-        },
-        {
-          "time": "2026-09-10T21:04:00",
-          "value": -9.5800695
-        },
-        {
           "time": "2026-09-10T21:05:00",
           "value": -10.0227
         },
@@ -397,6 +369,34 @@
         {
           "time": "2026-09-10T21:21:00",
           "value": -7.5194302
+        },
+        {
+          "time": "2026-09-10T21:22:00",
+          "value": -7.37148
+        },
+        {
+          "time": "2026-09-10T21:23:00",
+          "value": -7.2172399
+        },
+        {
+          "time": "2026-09-10T21:24:00",
+          "value": -7.1770701
+        },
+        {
+          "time": "2026-09-10T21:25:00",
+          "value": -7.0833402
+        },
+        {
+          "time": "2026-09-10T21:26:00",
+          "value": -6.8815799
+        },
+        {
+          "time": "2026-09-10T21:27:00",
+          "value": -6.52281
+        },
+        {
+          "time": "2026-09-10T21:28:00",
+          "value": -6.3399801
         }
       ],
       "xray": [
@@ -544,13 +544,13 @@
   "iss_pass": null,
   "alerts": [],
   "birds": {
-    "detections_24h": 215,
+    "detections_24h": 205,
     "species_count": 10,
     "top_species": [
       {
         "name": "Carolina Wren",
         "scientific_name": "Thryothorus ludovicianus",
-        "count": 80,
+        "count": 76,
         "gbif": {
           "seasonal": {
             "months": [
@@ -583,7 +583,7 @@
       {
         "name": "American Crow",
         "scientific_name": "Corvus brachyrhynchos",
-        "count": 52,
+        "count": 46,
         "gbif": {
           "seasonal": {
             "months": [
@@ -813,19 +813,6 @@
     ]
   },
   "station_history": [
-    {
-      "time": "2026-09-08T20:51:12Z",
-      "wind_speed": 439.5,
-      "bz": -3.13,
-      "wind_density": 5.16,
-      "tec": 15.755513256654108,
-      "hmf2": 276.1518378278835,
-      "temp": 30.6,
-      "humidity": 46,
-      "aqi": 40,
-      "bird_detections": 205,
-      "bird_species": 9
-    },
     {
       "time": "2026-09-08T21:22:06Z",
       "wind_speed": 416.53,
@@ -1427,6 +1414,19 @@
       "humidity": 40,
       "aqi": 49,
       "bird_detections": 215,
+      "bird_species": 10
+    },
+    {
+      "time": "2026-09-10T22:03:51Z",
+      "wind_speed": 432.3,
+      "bz": -0.44,
+      "wind_density": 3.14,
+      "tec": 24.394320033280472,
+      "hmf2": 275.7651422844254,
+      "temp": 31.5,
+      "humidity": 41,
+      "aqi": 58,
+      "bird_detections": 205,
       "bird_species": 10
     }
   ]
