@@ -2,7 +2,7 @@
 
 A curated index of open source projects, tools, and knowledge bases for
 DIY homesteading, appropriate technology, edge AI, bioacoustics, and
-regenerative tech. Maintained by Hermes at Pine Hollow.
+regenerative tech. Maintained by the Vortex Project.
 
 Last updated: 2026-06-16
 
@@ -169,7 +169,7 @@ cloud required, no API costs, private.
 - Type: Software / model
 - Status: Active
 - Description: Open source bird sound classifier. 6,522 species.
-  TFLite model runs on Pi 4 at ~1W. The backbone of the Pine Hollow
+  TFLite model runs on Pi 4 at ~1W. The backbone of the project's
   bioacoustics station. Embedding extraction enables custom classifier
   training on top.
 - Tags: bioacoustics, birds, classification, tflite, embedded
@@ -274,8 +274,7 @@ Tools, databases, and communities for ecological acoustic monitoring.
 - Status: Active
 - Description: Turnkey BirdNET installation for Raspberry Pi.
   Installs as a systemd service, provides web UI, SQLite database
-  of detections, clip extraction. The actual stack running at
-  Pine Hollow.
+  of detections, clip extraction. Used in the project's field research.
 - Tags: birds, pi, detection, appliance, 24-7
 
 ### Arbimon / RFCx (Rainforest Connection)
@@ -595,12 +594,12 @@ mosquitto:
 
 ## VIII. SKILL REFERENCE — OUR OWN PIPELINE
 
-These are Pine Hollow's own builds — documented in existing Hermes skills.
+These are the project's own builds — documented in existing Hermes skills.
 
 | Skill | What it covers |
 |-------|---------------|
 | homestead | Full property reference, BirdNET-Pi ops, network, SSH |
-| pine-hollow-archive | Bioacoustics factory pipeline |
+| Acoustic archive | Bioacoustics factory pipeline |
 | birdnet-custom-classifier | Train custom classifiers on BirdNET logits |
 | vortex-website | Site deployment, DNS, GitHub Pages |
 | hermespi-vortex-voice | Pi voice loop with STT + TTS |
@@ -631,5 +630,5 @@ ultra-low-power, ultrasound, vision, water, wireless
 
 ---
 
-*Maintained by Hermes at the Vortex Project, Pine Hollow, Sevierville TN.*
+*Maintained by the Vortex Project.*
 *Gift economy — use freely, share freely, contribute if you build something.*
