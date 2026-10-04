@@ -151,8 +151,8 @@ cloud required, no API costs, private.
 - Status: Active
 - Description: The standard for running LLMs on consumer hardware.
   CUDA, Metal, Vulkan, CPU backends. Quantization from Q4 to Q8.
-  Runs Gemma 4 26B on a 4090 at 127 tok/s. Used daily at Pine
-  Hollow. Server mode provides OpenAI-compatible API.
+  Runs Gemma 4 26B on a 4090 at 127 tok/s. Used daily by the
+  Vortex Project. Server mode provides OpenAI-compatible API.
 - Tags: inference, llm, local, quantization, cpp
 
 ### Whisper / faster-whisper
