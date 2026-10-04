@@ -91,7 +91,10 @@ test('tracked public text has no forbidden localities or obvious coordinate lite
     if (label !== path) findings.push('tracked path: forbidden locality');
     const bytes = await readFile(join(root, path));
     if (bytes.includes(0)) continue;
-    const text = bytes.toString('utf8');
+    // Encoded binary media can accidentally resemble coordinate text. Its
+    // visual content/metadata requires separate review, just like binary files.
+    const text = bytes.toString('utf8').replace(
+      /data:(?:image|video|audio)\/[a-z0-9.+-]+;base64,[a-z0-9+/=]+/gi, '');
     const report = (offsets, kind) => {
       for (const offset of offsets) {
         const line = text.slice(0, offset).split('\n').length;
