@@ -1,0 +1,293 @@
+{
+ "report_date": "2026-10-20",
+ "status": "preliminary; not peer reviewed; one site, one season",
+ "field": {
+  "recordings": 308461,
+  "hours_audio": 1285,
+  "period": "2026-07-15 to 2026-10-20",
+  "days_with_data": 93,
+  "chickennet_windows": 925383,
+  "insectnet_recordings": 268833,
+  "insectnet_windows": 806499,
+  "frognet_recordings": 232684,
+  "frognet_windows": 698052,
+  "source": "read-only counts on the field listener ledger, 2026-10-20"
+ },
+ "relay": {
+  "producer_drops": 0,
+  "sequence_gaps": 0,
+  "realtime_factor": 14.06,
+  "seconds_per_recording": 1.067,
+  "source": "field listener validation report 2026-07-15"
+ },
+ "archive": {
+  "events": 12018,
+  "retained_audio_hours": 37.1,
+  "scored_windows": 73563,
+  "crossings": {
+   "insect": 5828,
+   "frog": 2970,
+   "chicken": 2876
+  },
+  "source": "read-only query of the private evidence archive"
+ },
+ "review": {
+  "decisions": 2552,
+  "review_days": 25,
+  "median_seconds_between_saves": 18.4,
+  "iqr_seconds": [
+   13.0,
+   33.1
+  ],
+  "blinded_median_seconds": 23.9,
+  "blinded_packet": {
+   "insect_model_positives_confirmed": "4/4",
+   "chicken_model_positives_confirmed": "2/5"
+  },
+  "source": "archive decision and validation tables"
+ },
+ "annotation": {
+  "clips": 101,
+  "field_clips": 100,
+  "annotations": 4452,
+  "call_boxes": 3761,
+  "call_types": 30,
+  "call_boxes_by_group": {
+   "chicken": 1641,
+   "insect": 1300,
+   "frog": 455,
+   "wild_bird": 149,
+   "mammal": 125,
+   "duck": 91
+  },
+  "source": "per-clip datasheets (schema 0.3)"
+ },
+ "heads": [
+  {
+   "name": "InsectNet 0.3.0",
+   "output": "insect_present",
+   "train_windows": 6097,
+   "test_ap": 0.969,
+   "test_f1": 0.919,
+   "research_thr": 0.85,
+   "field_thr": 0.9995
+  },
+  {
+   "name": "ChickenNet 0.2.0",
+   "output": "chicken_vocalization_present",
+   "train_windows": 5492,
+   "test_ap": 0.985,
+   "test_f1": 0.947,
+   "research_thr": 0.47,
+   "field_thr": 0.9999
+  },
+  {
+   "name": "FrogNet 0.1.0",
+   "output": "frog_present",
+   "train_windows": 7505,
+   "test_ap": 0.965,
+   "test_f1": 0.911,
+   "research_thr": 0.55,
+   "field_thr": 0.95
+  }
+ ],
+ "localiser_test": {
+  "clips": 22,
+  "nights": 3,
+  "best_f1": 0.7,
+  "precision_at_best": 0.79,
+  "recall_at_best": 0.62,
+  "sensitive_recall": 0.86,
+  "sensitive_precision": 0.4,
+  "recall_at_precision_0_70": {
+   "previous model (by-clip split)*": {
+    "frog": 0.89,
+    "insect": 0.59,
+    "chicken": 0.65
+   },
+   "public bioacoustic pretraining": {
+    "frog": 0.93,
+    "insect": 0.46,
+    "chicken": 0.68
+   },
+   "v3 clean \u2014 COCO start (released)": {
+    "frog": 0.92,
+    "insect": 0.66,
+    "chicken": 0.67
+   },
+   "v3 + faint synthetic calls": {
+    "frog": 0.91,
+    "insect": 0.53,
+    "chicken": 0.74
+   },
+   "non-commercial pretraining (diagnostic)": {
+    "frog": 0.93,
+    "insect": 0.52,
+    "chicken": 0.68
+   },
+   "larger model (YOLO26m)": {
+    "frog": 0.88,
+    "insect": 0.48,
+    "chicken": 0.65
+   }
+  }
+ },
+ "localiser_unseen_nights_conf_0_15": {
+  "chicken": {
+   "n_clear": 230,
+   "n_faint": 73,
+   "before": [
+    0.82,
+    0.52
+   ],
+   "after": [
+    0.95,
+    0.81
+   ]
+  },
+  "frog": {
+   "n_clear": 97,
+   "n_faint": 21,
+   "before": [
+    0.21,
+    0.0
+   ],
+   "after": [
+    0.72,
+    0.14
+   ]
+  },
+  "insect": {
+   "n_clear": 232,
+   "n_faint": 39,
+   "before": [
+    0.54,
+    0.26
+   ],
+   "after": [
+    0.8,
+    0.49
+   ]
+  }
+ },
+ "pr_fair_clips": {
+  "previous": [
+   [
+    0.68,
+    0.68
+   ],
+   [
+    0.74,
+    0.63
+   ],
+   [
+    0.77,
+    0.6
+   ],
+   [
+    0.81,
+    0.55
+   ],
+   [
+    0.84,
+    0.52
+   ],
+   [
+    0.86,
+    0.49
+   ],
+   [
+    0.87,
+    0.46
+   ],
+   [
+    0.89,
+    0.41
+   ],
+   [
+    0.94,
+    0.38
+   ]
+  ],
+  "v3": [
+   [
+    0.4,
+    0.86
+   ],
+   [
+    0.48,
+    0.83
+   ],
+   [
+    0.52,
+    0.8
+   ],
+   [
+    0.6,
+    0.75
+   ],
+   [
+    0.66,
+    0.71
+   ],
+   [
+    0.75,
+    0.66
+   ],
+   [
+    0.77,
+    0.58
+   ],
+   [
+    0.79,
+    0.48
+   ],
+   [
+    0.83,
+    0.38
+   ]
+  ]
+ },
+ "tags": [
+  [
+   "faint",
+   365
+  ],
+  [
+   "static",
+   308
+  ],
+  [
+   "rain",
+   170
+  ],
+  [
+   "machine hum",
+   132
+  ],
+  [
+   "clear",
+   142
+  ],
+  [
+   "heavy rain",
+   72
+  ],
+  [
+   "human speech",
+   54
+  ],
+  [
+   "alarm",
+   26
+  ],
+  [
+   "rooster crow",
+   26
+  ],
+  [
+   "egg song",
+   8
+  ]
+ ]
+}
