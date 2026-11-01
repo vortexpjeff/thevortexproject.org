@@ -1,16 +1,16 @@
 {
-  "updated": "2026-11-01T02:37:06Z",
+  "updated": "2026-11-01T03:08:17Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
-    "temp_c": 16.7,
-    "humidity_pct": 27,
-    "wind_kmh": 8.0,
-    "wind_dir": 107,
-    "pressure_hpa": 1025.6,
+    "temp_c": 16.4,
+    "humidity_pct": 26,
+    "wind_kmh": 9.3,
+    "wind_dir": 85,
+    "pressure_hpa": 1025.2,
     "cloud_pct": 100,
-    "feels_c": 13.1,
+    "feels_c": 12.5,
     "precip_mm": 0.0,
     "weather_code": 3,
     "today_max": 25.3,
@@ -52,37 +52,37 @@
     ]
   },
   "air_quality": {
-    "us_aqi": 37,
-    "pm25": 4.8,
-    "pm10": 5.6,
-    "ozone": 45.0,
-    "no2": 7.4
+    "us_aqi": 34,
+    "pm25": 5.0,
+    "pm10": 5.7,
+    "ozone": 40.0,
+    "no2": 7.3
   },
   "ionosphere": {
-    "tec": 13.271459163918868,
-    "hmf2_km": 329.99939203262295,
-    "anomaly": 0.7163334086223738
+    "tec": 9.352931563006695,
+    "hmf2_km": 336.61292879580753,
+    "anomaly": -2.896591193531277
   },
   "magnetosphere": {
-    "kp_now": 3.67,
+    "kp_now": 4.67,
     "kp_24h_min": 2.7,
     "kp_24h_max": 6.0,
-    "kp_24h_mean": 3.5,
-    "kp_time": "2026-10-31T21:00:00",
-    "kp_1m": 5.0,
+    "kp_24h_mean": 3.7,
+    "kp_time": "2026-11-01T00:00:00",
+    "kp_1m": 0.0,
     "dst_nt": -65.5,
     "dst_flag": "moderate storm"
   },
   "solar_wind": {
-    "bt_nt": 4.65,
-    "bz_gse_nt": 0.39,
-    "bz_gsm_nt": -0.25,
-    "bz_nt": -0.25,
-    "time": "2026-11-01T02:33:00Z",
+    "bt_nt": 4.5,
+    "bz_gse_nt": -4.07,
+    "bz_gsm_nt": -4.34,
+    "bz_nt": -4.34,
+    "time": "2026-11-01T03:03:00Z",
     "source": "IMAP",
-    "speed_kms": 509.61,
-    "density": 2.78,
-    "temp_k": 150682.0,
+    "speed_kms": 564.89,
+    "density": 1.95,
+    "temp_k": 185824.0,
     "bz_flag": "mild southward"
   },
   "sun": {
@@ -91,7 +91,7 @@
     "xray_class": "A",
     "xray_peak_class": "B",
     "latest_flare": "B3.4\u2192B4.0",
-    "flare_time": "2026-11-01T02:32:00Z",
+    "flare_time": "2026-11-01T03:04:00Z",
     "proton_flux_pfu": 0.2,
     "sep_warning": false,
     "f107": 104.0,
@@ -100,14 +100,14 @@
   },
   "space_weather": {
     "scales": {
-      "issued": "2026-11-01T02:35:00",
+      "issued": "2026-11-01T03:06:00",
       "current": {
         "r": 0,
         "s": null,
-        "g": 1,
+        "g": 0,
         "r_text": "none",
         "s_text": null,
-        "g_text": "minor",
+        "g_text": "none",
         "minor_prob": null,
         "major_prob": null
       },
@@ -143,9 +143,9 @@
       }
     },
     "aurora": {
-      "observation": "2026-11-01T02:27:00Z",
-      "forecast": "2026-11-01T03:22:00Z",
-      "nh_max_probability": 55.0
+      "observation": "2026-11-01T02:59:00Z",
+      "forecast": "2026-11-01T03:50:00Z",
+      "nh_max_probability": 49.0
     },
     "forecast": {
       "issued": "2026-11-01T00:00:00Z",
@@ -269,10 +269,6 @@
     "trends": {
       "kp": [
         {
-          "time": "2026-10-31T00:00:00",
-          "value": 3.0
-        },
-        {
           "time": "2026-10-31T03:00:00",
           "value": 3.0
         },
@@ -299,6 +295,10 @@
         {
           "time": "2026-10-31T21:00:00",
           "value": 3.67
+        },
+        {
+          "time": "2026-11-01T00:00:00",
+          "value": 4.67
         }
       ],
       "dst": [
@@ -309,99 +309,99 @@
       ],
       "xray": [
         {
-          "time": "2026-11-01T02:09:00Z",
+          "time": "2026-11-01T02:40:00Z",
           "value": 0.0
         },
         {
-          "time": "2026-11-01T02:10:00Z",
+          "time": "2026-11-01T02:41:00Z",
           "value": 0.0
         },
         {
-          "time": "2026-11-01T02:11:00Z",
+          "time": "2026-11-01T02:42:00Z",
           "value": 0.0
         },
         {
-          "time": "2026-11-01T02:12:00Z",
+          "time": "2026-11-01T02:43:00Z",
           "value": 0.0
         },
         {
-          "time": "2026-11-01T02:13:00Z",
+          "time": "2026-11-01T02:44:00Z",
           "value": 0.0
         },
         {
-          "time": "2026-11-01T02:14:00Z",
+          "time": "2026-11-01T02:45:00Z",
           "value": 0.0
         },
         {
-          "time": "2026-11-01T02:15:00Z",
+          "time": "2026-11-01T02:46:00Z",
           "value": 0.0
         },
         {
-          "time": "2026-11-01T02:16:00Z",
+          "time": "2026-11-01T02:47:00Z",
           "value": 0.0
         },
         {
-          "time": "2026-11-01T02:17:00Z",
+          "time": "2026-11-01T02:48:00Z",
           "value": 0.0
         },
         {
-          "time": "2026-11-01T02:18:00Z",
+          "time": "2026-11-01T02:49:00Z",
           "value": 0.0
         },
         {
-          "time": "2026-11-01T02:19:00Z",
+          "time": "2026-11-01T02:50:00Z",
           "value": 0.0
         },
         {
-          "time": "2026-11-01T02:20:00Z",
+          "time": "2026-11-01T02:51:00Z",
           "value": 0.0
         },
         {
-          "time": "2026-11-01T02:21:00Z",
+          "time": "2026-11-01T02:52:00Z",
           "value": 0.0
         },
         {
-          "time": "2026-11-01T02:22:00Z",
+          "time": "2026-11-01T02:53:00Z",
           "value": 0.0
         },
         {
-          "time": "2026-11-01T02:23:00Z",
+          "time": "2026-11-01T02:54:00Z",
           "value": 0.0
         },
         {
-          "time": "2026-11-01T02:24:00Z",
+          "time": "2026-11-01T02:55:00Z",
           "value": 0.0
         },
         {
-          "time": "2026-11-01T02:25:00Z",
+          "time": "2026-11-01T02:56:00Z",
           "value": 0.0
         },
         {
-          "time": "2026-11-01T02:26:00Z",
+          "time": "2026-11-01T02:57:00Z",
           "value": 0.0
         },
         {
-          "time": "2026-11-01T02:27:00Z",
+          "time": "2026-11-01T02:58:00Z",
           "value": 0.0
         },
         {
-          "time": "2026-11-01T02:28:00Z",
+          "time": "2026-11-01T02:59:00Z",
           "value": 0.0
         },
         {
-          "time": "2026-11-01T02:29:00Z",
+          "time": "2026-11-01T03:00:00Z",
           "value": 0.0
         },
         {
-          "time": "2026-11-01T02:30:00Z",
+          "time": "2026-11-01T03:01:00Z",
           "value": 0.0
         },
         {
-          "time": "2026-11-01T02:31:00Z",
+          "time": "2026-11-01T03:02:00Z",
           "value": 0.0
         },
         {
-          "time": "2026-11-01T02:32:00Z",
+          "time": "2026-11-01T03:03:00Z",
           "value": 0.0
         }
       ]
@@ -749,19 +749,6 @@
     ]
   },
   "station_history": [
-    {
-      "time": "2026-10-31T02:26:11Z",
-      "wind_speed": 343.88,
-      "bz": -2.88,
-      "wind_density": 17.22,
-      "tec": 13.664995594861699,
-      "hmf2": 327.63371075848585,
-      "temp": 17.3,
-      "humidity": 52,
-      "aqi": 58,
-      "bird_detections": 2340,
-      "bird_species": 19
-    },
     {
       "time": "2026-10-31T02:56:32Z",
       "wind_speed": 336.8,
@@ -1348,6 +1335,19 @@
       "temp": 16.7,
       "humidity": 27,
       "aqi": 37,
+      "bird_detections": 1989,
+      "bird_species": 14
+    },
+    {
+      "time": "2026-11-01T03:08:17Z",
+      "wind_speed": 564.89,
+      "bz": -4.34,
+      "wind_density": 1.95,
+      "tec": 9.352931563006695,
+      "hmf2": 336.61292879580753,
+      "temp": 16.4,
+      "humidity": 26,
+      "aqi": 34,
       "bird_detections": 1989,
       "bird_species": 14
     }
