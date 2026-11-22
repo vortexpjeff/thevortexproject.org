@@ -1,98 +1,98 @@
 {
-  "updated": "2026-11-22T07:22:18Z",
+  "updated": "2026-11-22T17:07:42Z",
   "location": {
     "name": "Observatory Station"
   },
   "surface": {
-    "temp_c": 12.2,
-    "humidity_pct": 72,
-    "wind_kmh": 1.8,
-    "wind_dir": 290,
-    "pressure_hpa": 1014.2,
-    "cloud_pct": 19,
-    "feels_c": 11.2,
+    "temp_c": 16.8,
+    "humidity_pct": 81,
+    "wind_kmh": 7.6,
+    "wind_dir": 99,
+    "pressure_hpa": 1013.9,
+    "cloud_pct": 88,
+    "feels_c": 16.8,
     "precip_mm": 0.0,
-    "weather_code": 0,
-    "today_max": 18.2,
-    "today_min": 10.7,
+    "weather_code": 3,
+    "today_max": 19.4,
+    "today_min": 11.4,
     "sunrise": "2026-11-22T07:16",
     "sunset": "2026-11-22T17:22",
-    "precip_sum_mm": 0.0,
+    "precip_sum_mm": 0.2,
     "wind_hourly": [
       {
-        "h": "03:00",
-        "w": 5.1,
-        "g": 5.0
+        "h": "12:00",
+        "w": 7.6,
+        "g": 14.8
       },
       {
-        "h": "04:00",
+        "h": "13:00",
+        "w": 5.6,
+        "g": 13.0
+      },
+      {
+        "h": "14:00",
+        "w": 1.4,
+        "g": 5.8
+      },
+      {
+        "h": "15:00",
+        "w": 3.8,
+        "g": 5.4
+      },
+      {
+        "h": "16:00",
+        "w": 5.4,
+        "g": 8.3
+      },
+      {
+        "h": "17:00",
         "w": 3.1,
-        "g": 3.2
-      },
-      {
-        "h": "05:00",
-        "w": 3.3,
-        "g": 5.0
-      },
-      {
-        "h": "06:00",
-        "w": 1.1,
-        "g": 3.2
-      },
-      {
-        "h": "07:00",
-        "w": 3.6,
-        "g": 3.6
-      },
-      {
-        "h": "08:00",
-        "w": 2.0,
-        "g": 3.2
+        "g": 4.0
       }
     ]
   },
   "air_quality": {
-    "us_aqi": 33,
-    "pm25": 6.1,
-    "pm10": 7.6,
-    "ozone": 51.0,
-    "no2": 4.1
+    "us_aqi": 31,
+    "pm25": 3.6,
+    "pm10": 4.4,
+    "ozone": 65.0,
+    "no2": 3.0
   },
   "ionosphere": {
-    "tec": 10.398908458855406,
-    "hmf2_km": 348.53696087669067,
-    "anomaly": -0.5438081772247649
+    "tec": 20.831318814973372,
+    "hmf2_km": 253.65089168971332,
+    "anomaly": -5.357437696196968
   },
   "magnetosphere": {
-    "kp_now": 1.0,
-    "kp_24h_min": 0.7,
-    "kp_24h_max": 2.0,
-    "kp_24h_mean": 1.3,
-    "kp_time": "2026-11-22T03:00:00",
-    "kp_1m": 0.0,
-    "dst_nt": -2.7,
+    "kp_now": 0.0,
+    "kp_24h_min": 0.0,
+    "kp_24h_max": 2.3,
+    "kp_24h_mean": 1.1,
+    "kp_time": "2026-11-22T12:00:00",
+    "kp_1m": 1.0,
+    "dst_nt": -2.5,
     "dst_flag": "quiet"
   },
   "solar_wind": {
-    "bt_nt": 7.57,
-    "bz_gse_nt": -0.27,
-    "bz_gsm_nt": 1.92,
-    "bz_nt": 1.92,
-    "time": "2026-11-22T07:18:00Z",
+    "bt_nt": 1.55,
+    "bz_gse_nt": 0.92,
+    "bz_gsm_nt": 1.1,
+    "bz_nt": 1.1,
+    "time": "2026-11-22T17:03:00Z",
     "source": "SOLAR1",
-    "speed_kms": 397.78,
-    "density": 1.6,
-    "temp_k": 76227.0,
+    "speed_kms": 353.9,
+    "density": 0.62,
+    "temp_k": 26846.0,
     "bz_flag": "northward"
   },
   "sun": {
-    "xray_flux": 2.809e-07,
-    "xray_peak": 5.179e-07,
+    "xray_flux": 2.346e-07,
+    "xray_peak": 4.717e-07,
     "xray_class": "B",
     "xray_peak_class": "B",
     "latest_flare": "B3.0\u2192B4.7",
-    "flare_time": "2026-11-22T07:18:00Z",
-    "proton_flux_pfu": 0.2,
+    "flare_time": "2026-11-22T17:04:00Z",
+    "proton_flux_pfu": 0.3,
     "sep_warning": false,
     "f107": 122.0,
     "active_regions": 0,
@@ -100,7 +100,7 @@
   },
   "space_weather": {
     "scales": {
-      "issued": "2026-11-22T07:20:00",
+      "issued": "2026-11-22T17:05:00",
       "current": {
         "r": 0,
         "s": 0,
@@ -143,9 +143,9 @@
       }
     },
     "aurora": {
-      "observation": "2026-11-22T07:17:00Z",
-      "forecast": "2026-11-22T08:27:00Z",
-      "nh_max_probability": 15.0
+      "observation": "2026-11-22T16:58:00Z",
+      "forecast": "2026-11-22T18:09:00Z",
+      "nh_max_probability": 12.0
     },
     "forecast": {
       "issued": "2026-11-22T00:00:00Z",
@@ -269,18 +269,6 @@
     "trends": {
       "kp": [
         {
-          "time": "2026-11-21T06:00:00",
-          "value": 1.33
-        },
-        {
-          "time": "2026-11-21T09:00:00",
-          "value": 2.0
-        },
-        {
-          "time": "2026-11-21T12:00:00",
-          "value": 1.0
-        },
-        {
           "time": "2026-11-21T15:00:00",
           "value": 1.67
         },
@@ -299,202 +287,214 @@
         {
           "time": "2026-11-22T03:00:00",
           "value": 1.0
+        },
+        {
+          "time": "2026-11-22T06:00:00",
+          "value": 2.33
+        },
+        {
+          "time": "2026-11-22T09:00:00",
+          "value": 0.33
+        },
+        {
+          "time": "2026-11-22T12:00:00",
+          "value": 0.0
         }
       ],
       "dst": [
         {
-          "time": "2026-11-22T07:45:00",
-          "value": 0.29203001
+          "time": "2026-11-22T17:31:00",
+          "value": -3.0337801
         },
         {
-          "time": "2026-11-22T07:46:00",
-          "value": -0.38521001
+          "time": "2026-11-22T17:32:00",
+          "value": -3.04318
         },
         {
-          "time": "2026-11-22T07:47:00",
-          "value": -1.69102
+          "time": "2026-11-22T17:33:00",
+          "value": -3.0374401
         },
         {
-          "time": "2026-11-22T07:48:00",
-          "value": -3.15466
+          "time": "2026-11-22T17:34:00",
+          "value": -3.0313599
         },
         {
-          "time": "2026-11-22T07:49:00",
-          "value": -3.4240999
+          "time": "2026-11-22T17:35:00",
+          "value": -3.1612999
         },
         {
-          "time": "2026-11-22T07:50:00",
-          "value": -3.5117099
+          "time": "2026-11-22T17:36:00",
+          "value": -3.25456
         },
         {
-          "time": "2026-11-22T07:51:00",
-          "value": -3.80269
+          "time": "2026-11-22T17:37:00",
+          "value": -3.2715299
         },
         {
-          "time": "2026-11-22T07:52:00",
-          "value": -4.17417
+          "time": "2026-11-22T17:38:00",
+          "value": -3.25402
         },
         {
-          "time": "2026-11-22T07:53:00",
-          "value": -4.2700601
+          "time": "2026-11-22T17:39:00",
+          "value": -3.1680601
         },
         {
-          "time": "2026-11-22T07:54:00",
-          "value": -4.27988
+          "time": "2026-11-22T17:40:00",
+          "value": -3.02864
         },
         {
-          "time": "2026-11-22T07:55:00",
-          "value": -4.3714399
+          "time": "2026-11-22T17:41:00",
+          "value": -3.05621
         },
         {
-          "time": "2026-11-22T07:56:00",
-          "value": -4.5100498
+          "time": "2026-11-22T17:42:00",
+          "value": -3.1319101
         },
         {
-          "time": "2026-11-22T07:57:00",
-          "value": -4.5827498
+          "time": "2026-11-22T17:43:00",
+          "value": -3.2219
         },
         {
-          "time": "2026-11-22T07:58:00",
-          "value": -4.57336
+          "time": "2026-11-22T17:44:00",
+          "value": -3.2105999
         },
         {
-          "time": "2026-11-22T07:59:00",
-          "value": -4.5316401
+          "time": "2026-11-22T17:45:00",
+          "value": -3.17219
         },
         {
-          "time": "2026-11-22T08:00:00",
-          "value": -4.4723701
+          "time": "2026-11-22T17:46:00",
+          "value": -3.11759
         },
         {
-          "time": "2026-11-22T08:01:00",
-          "value": -4.4295802
+          "time": "2026-11-22T17:47:00",
+          "value": -3.0436001
         },
         {
-          "time": "2026-11-22T08:02:00",
-          "value": -4.3141999
+          "time": "2026-11-22T17:48:00",
+          "value": -2.9844
         },
         {
-          "time": "2026-11-22T08:03:00",
-          "value": -4.0513501
+          "time": "2026-11-22T17:49:00",
+          "value": -2.93941
         },
         {
-          "time": "2026-11-22T08:04:00",
-          "value": -3.6564901
+          "time": "2026-11-22T17:50:00",
+          "value": -2.90956
         },
         {
-          "time": "2026-11-22T08:05:00",
-          "value": -3.2779901
+          "time": "2026-11-22T17:51:00",
+          "value": -2.82568
         },
         {
-          "time": "2026-11-22T08:06:00",
-          "value": -3.0162799
+          "time": "2026-11-22T17:52:00",
+          "value": -2.72491
         },
         {
-          "time": "2026-11-22T08:07:00",
-          "value": -2.8190501
+          "time": "2026-11-22T17:53:00",
+          "value": -2.60127
         },
         {
-          "time": "2026-11-22T08:08:00",
-          "value": -2.65786
+          "time": "2026-11-22T17:54:00",
+          "value": -2.4638801
         }
       ],
       "xray": [
         {
-          "time": "2026-11-22T06:56:00Z",
-          "value": 2.950891371256148e-07
+          "time": "2026-11-22T16:40:00Z",
+          "value": 2.7540178848539654e-07
         },
         {
-          "time": "2026-11-22T06:57:00Z",
-          "value": 2.9375428312050644e-07
+          "time": "2026-11-22T16:41:00Z",
+          "value": 2.728844492594362e-07
         },
         {
-          "time": "2026-11-22T06:58:00Z",
-          "value": 2.9154685421417526e-07
+          "time": "2026-11-22T16:42:00Z",
+          "value": 2.701818004879897e-07
         },
         {
-          "time": "2026-11-22T06:59:00Z",
-          "value": 2.9370417564678064e-07
+          "time": "2026-11-22T16:43:00Z",
+          "value": 2.655825142028334e-07
         },
         {
-          "time": "2026-11-22T07:00:00Z",
-          "value": 2.9510508170460525e-07
+          "time": "2026-11-22T16:44:00Z",
+          "value": 2.6426783961142064e-07
         },
         {
-          "time": "2026-11-22T07:01:00Z",
-          "value": 2.912580612246529e-07
+          "time": "2026-11-22T16:45:00Z",
+          "value": 2.631719553392031e-07
         },
         {
-          "time": "2026-11-22T07:02:00Z",
-          "value": 2.884578407247318e-07
+          "time": "2026-11-22T16:46:00Z",
+          "value": 2.587308074453176e-07
         },
         {
-          "time": "2026-11-22T07:03:00Z",
-          "value": 2.8623904313462845e-07
+          "time": "2026-11-22T16:47:00Z",
+          "value": 2.571667891970719e-07
         },
         {
-          "time": "2026-11-22T07:04:00Z",
-          "value": 2.893555404170911e-07
+          "time": "2026-11-22T16:48:00Z",
+          "value": 2.5432260031266196e-07
         },
         {
-          "time": "2026-11-22T07:05:00Z",
-          "value": 2.880016438666644e-07
+          "time": "2026-11-22T16:49:00Z",
+          "value": 2.5140982984339644e-07
         },
         {
-          "time": "2026-11-22T07:06:00Z",
-          "value": 2.8514270411506004e-07
+          "time": "2026-11-22T16:50:00Z",
+          "value": 2.5235644329768547e-07
         },
         {
-          "time": "2026-11-22T07:07:00Z",
-          "value": 2.859058554349758e-07
+          "time": "2026-11-22T16:51:00Z",
+          "value": 2.4891485850275785e-07
         },
         {
-          "time": "2026-11-22T07:08:00Z",
-          "value": 2.8284097197683877e-07
+          "time": "2026-11-22T16:52:00Z",
+          "value": 2.495426372206566e-07
         },
         {
-          "time": "2026-11-22T07:09:00Z",
-          "value": 2.8314494215919694e-07
+          "time": "2026-11-22T16:53:00Z",
+          "value": 2.500794664683781e-07
         },
         {
-          "time": "2026-11-22T07:10:00Z",
-          "value": 2.8413003860805475e-07
+          "time": "2026-11-22T16:54:00Z",
+          "value": 2.501467690763093e-07
         },
         {
-          "time": "2026-11-22T07:11:00Z",
-          "value": 2.841157140665018e-07
+          "time": "2026-11-22T16:55:00Z",
+          "value": 2.450901490647084e-07
         },
         {
-          "time": "2026-11-22T07:12:00Z",
-          "value": 2.873718756291055e-07
+          "time": "2026-11-22T16:56:00Z",
+          "value": 2.4636685225232213e-07
         },
         {
-          "time": "2026-11-22T07:13:00Z",
-          "value": 2.8795599860131915e-07
+          "time": "2026-11-22T16:57:00Z",
+          "value": 2.4497356321262487e-07
         },
         {
-          "time": "2026-11-22T07:14:00Z",
-          "value": 2.895429531690752e-07
+          "time": "2026-11-22T16:58:00Z",
+          "value": 2.4207864157688164e-07
         },
         {
-          "time": "2026-11-22T07:15:00Z",
-          "value": 2.9308617399692594e-07
+          "time": "2026-11-22T16:59:00Z",
+          "value": 2.402362042630557e-07
         },
         {
-          "time": "2026-11-22T07:16:00Z",
-          "value": 2.8994938361392997e-07
+          "time": "2026-11-22T17:00:00Z",
+          "value": 2.3752045308356173e-07
         },
         {
-          "time": "2026-11-22T07:17:00Z",
-          "value": 2.899887761032005e-07
+          "time": "2026-11-22T17:01:00Z",
+          "value": 2.3738900267744611e-07
         },
         {
-          "time": "2026-11-22T07:18:00Z",
-          "value": 2.8614894631573407e-07
+          "time": "2026-11-22T17:02:00Z",
+          "value": 2.360297770565012e-07
         },
         {
-          "time": "2026-11-22T07:19:00Z",
-          "value": 2.8089732495573116e-07
+          "time": "2026-11-22T17:03:00Z",
+          "value": 2.3462152398678882e-07
         }
       ]
     }
@@ -558,46 +558,13 @@
   "iss_pass": null,
   "alerts": [],
   "birds": {
-    "detections_24h": 376,
-    "species_count": 21,
+    "detections_24h": 193,
+    "species_count": 12,
     "top_species": [
-      {
-        "name": "Eastern Phoebe",
-        "scientific_name": "Sayornis phoebe",
-        "count": 112,
-        "gbif": {
-          "seasonal": {
-            "months": [
-              9198,
-              9114,
-              19071,
-              24858,
-              21672,
-              13518,
-              8187,
-              7467,
-              14907,
-              20376,
-              11434,
-              9563
-            ],
-            "scope": "Tennessee, United States",
-            "total_records": 169446
-          },
-          "taxonomy": {
-            "accepted_scientific_name": "Sayornis phoebe (Latham, 1790)",
-            "canonical_name": "Sayornis phoebe",
-            "family": "Tyrannidae",
-            "key": 2483606,
-            "order": "Passeriformes",
-            "url": "https://www.gbif.org/species/2483606"
-          }
-        }
-      },
       {
         "name": "American Crow",
         "scientific_name": "Corvus brachyrhynchos",
-        "count": 108,
+        "count": 61,
         "gbif": {
           "seasonal": {
             "months": [
@@ -628,9 +595,42 @@
         }
       },
       {
+        "name": "Eastern Phoebe",
+        "scientific_name": "Sayornis phoebe",
+        "count": 53,
+        "gbif": {
+          "seasonal": {
+            "months": [
+              9198,
+              9114,
+              19071,
+              24858,
+              21672,
+              13518,
+              8187,
+              7467,
+              14907,
+              20376,
+              11434,
+              9563
+            ],
+            "scope": "Tennessee, United States",
+            "total_records": 169446
+          },
+          "taxonomy": {
+            "accepted_scientific_name": "Sayornis phoebe (Latham, 1790)",
+            "canonical_name": "Sayornis phoebe",
+            "family": "Tyrannidae",
+            "key": 2483606,
+            "order": "Passeriformes",
+            "url": "https://www.gbif.org/species/2483606"
+          }
+        }
+      },
+      {
         "name": "Carolina Wren",
         "scientific_name": "Thryothorus ludovicianus",
-        "count": 32,
+        "count": 43,
         "gbif": {
           "seasonal": {
             "months": [
@@ -661,80 +661,75 @@
         }
       },
       {
-        "name": "Hairy Woodpecker",
-        "scientific_name": "Dryobates villosus",
-        "count": 24
-      },
-      {
-        "name": "Hermit Thrush",
-        "scientific_name": "Catharus guttatus",
-        "count": 23,
+        "name": "Golden-crowned Kinglet",
+        "scientific_name": "Regulus satrapa",
+        "count": 12,
         "gbif": {
-          "seasonal": {
-            "months": [
-              7701,
-              5761,
-              4942,
-              4062,
-              143,
-              129,
-              89,
-              24,
-              39,
-              2829,
-              8350,
-              8271
-            ],
-            "scope": "Tennessee, United States",
-            "total_records": 42368
-          },
           "taxonomy": {
-            "accepted_scientific_name": "Catharus guttatus (Pallas, 1811)",
-            "canonical_name": "Catharus guttatus",
-            "family": "Turdidae",
-            "key": 2490810,
+            "key": 2484591,
+            "accepted_scientific_name": "Regulus satrapa Lichtenstein, 1823",
+            "canonical_name": "Regulus satrapa",
+            "family": "Regulidae",
             "order": "Passeriformes",
-            "url": "https://www.gbif.org/species/2490810"
+            "url": "https://www.gbif.org/species/2484591"
+          },
+          "seasonal": {
+            "total_records": 56168,
+            "months": [
+              9154,
+              7023,
+              7285,
+              2019,
+              368,
+              401,
+              235,
+              154,
+              368,
+              6985,
+              11297,
+              10831
+            ],
+            "scope": "Tennessee, United States"
           }
         }
       },
       {
-        "name": "Winter Wren",
-        "scientific_name": "Troglodytes hiemalis",
-        "count": 21,
+        "name": "Eastern Bluebird",
+        "scientific_name": "Sialia sialis",
+        "count": 6,
         "gbif": {
           "seasonal": {
             "months": [
-              4546,
-              2844,
-              2806,
-              1154,
-              369,
-              403,
-              257,
-              56,
-              96,
-              2423,
-              5610,
-              5934
+              26743,
+              34482,
+              34247,
+              41985,
+              39719,
+              23139,
+              20114,
+              17992,
+              20935,
+              25787,
+              22719,
+              23687
             ],
             "scope": "Tennessee, United States",
-            "total_records": 26498
+            "total_records": 331582
           },
           "taxonomy": {
-            "accepted_scientific_name": "Troglodytes hiemalis Vieillot, 1819",
-            "canonical_name": "Troglodytes hiemalis",
-            "family": "Troglodytidae",
-            "key": 7340825,
+            "accepted_scientific_name": "Sialia sialis (Linnaeus, 1758)",
+            "canonical_name": "Sialia sialis",
+            "family": "Turdidae",
+            "key": 2490941,
             "order": "Passeriformes",
-            "url": "https://www.gbif.org/species/7340825"
+            "url": "https://www.gbif.org/species/2490941"
           }
         }
       },
       {
         "name": "Carolina Chickadee",
         "scientific_name": "Poecile carolinensis",
-        "count": 10,
+        "count": 6,
         "gbif": {
           "seasonal": {
             "months": [
@@ -765,81 +760,101 @@
         }
       },
       {
-        "name": "Blue Jay",
-        "scientific_name": "Cyanocitta cristata",
-        "count": 8,
+        "name": "Winter Wren",
+        "scientific_name": "Troglodytes hiemalis",
+        "count": 5,
         "gbif": {
           "seasonal": {
             "months": [
-              36054,
-              42631,
-              37549,
-              57707,
-              49649,
-              27301,
-              23585,
-              25721,
-              43819,
-              47024,
-              31590,
-              32056
+              4546,
+              2844,
+              2806,
+              1154,
+              369,
+              403,
+              257,
+              56,
+              96,
+              2423,
+              5610,
+              5934
             ],
             "scope": "Tennessee, United States",
-            "total_records": 454730
+            "total_records": 26498
           },
           "taxonomy": {
-            "accepted_scientific_name": "Cyanocitta cristata (Linnaeus, 1758)",
-            "canonical_name": "Cyanocitta cristata",
-            "family": "Corvidae",
-            "key": 2482593,
+            "accepted_scientific_name": "Troglodytes hiemalis Vieillot, 1819",
+            "canonical_name": "Troglodytes hiemalis",
+            "family": "Troglodytidae",
+            "key": 7340825,
             "order": "Passeriformes",
-            "url": "https://www.gbif.org/species/2482593"
+            "url": "https://www.gbif.org/species/7340825"
+          }
+        }
+      },
+      {
+        "name": "American Goldfinch",
+        "scientific_name": "Spinus tristis",
+        "count": 2,
+        "gbif": {
+          "seasonal": {
+            "months": [
+              24708,
+              30066,
+              20031,
+              41857,
+              33257,
+              19867,
+              23100,
+              25878,
+              23430,
+              14087,
+              19515,
+              21573
+            ],
+            "scope": "Tennessee, United States",
+            "total_records": 297401
+          },
+          "taxonomy": {
+            "accepted_scientific_name": "Spinus tristis (Linnaeus, 1758)",
+            "canonical_name": "Spinus tristis",
+            "family": "Fringillidae",
+            "key": 5231640,
+            "order": "Passeriformes",
+            "url": "https://www.gbif.org/species/5231640"
           }
         }
       }
     ],
     "recent": [
       {
-        "species": "Carolina Chickadee",
-        "confidence": 70.3,
-        "time": "2026-11-21 16:12:56"
-      },
-      {
-        "species": "Carolina Chickadee",
-        "confidence": 75.8,
-        "time": "2026-11-21 16:15:53"
-      },
-      {
-        "species": "Carolina Chickadee",
-        "confidence": 80.3,
-        "time": "2026-11-21 16:16:20"
+        "species": "American Crow",
+        "confidence": 88.3,
+        "time": "2026-11-22 11:53:57"
       },
       {
         "species": "American Crow",
-        "confidence": 73.3,
-        "time": "2026-11-21 16:33:20"
+        "confidence": 78.2,
+        "time": "2026-11-22 11:54:45"
       },
       {
-        "species": "Snow Goose",
-        "confidence": 75.0,
-        "time": "2026-11-22 00:39:27"
+        "species": "American Crow",
+        "confidence": 71.3,
+        "time": "2026-11-22 11:56:09"
+      },
+      {
+        "species": "American Crow",
+        "confidence": 71.7,
+        "time": "2026-11-22 12:05:27"
+      },
+      {
+        "species": "American Crow",
+        "confidence": 77.4,
+        "time": "2026-11-22 12:06:45"
       }
     ]
   },
   "station_history": [
-    {
-      "time": "2026-11-21T07:16:28Z",
-      "wind_speed": 343.0,
-      "bz": -1.74,
-      "wind_density": 1.46,
-      "tec": 9.48673241693962,
-      "hmf2": 349.63477618735817,
-      "temp": 9.7,
-      "humidity": 31,
-      "aqi": 28,
-      "bird_detections": 491,
-      "bird_species": 17
-    },
     {
       "time": "2026-11-21T07:46:55Z",
       "wind_speed": 351.4,
@@ -1440,6 +1455,19 @@
       "aqi": 33,
       "bird_detections": 376,
       "bird_species": 21
+    },
+    {
+      "time": "2026-11-22T17:07:42Z",
+      "wind_speed": 353.9,
+      "bz": 1.1,
+      "wind_density": 0.62,
+      "tec": 20.831318814973372,
+      "hmf2": 253.65089168971332,
+      "temp": 16.8,
+      "humidity": 81,
+      "aqi": 31,
+      "bird_detections": 193,
+      "bird_species": 12
     }
   ]
 }
